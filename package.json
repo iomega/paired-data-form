@@ -15,7 +15,8 @@
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "deploy": ""
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "@types/jest": "^23.3.9",
@@ -24,6 +25,7 @@
     "@types/react-bootstrap": "^0.32.14",
     "@types/react-dom": "^16.0.9",
     "@types/react-jsonschema-form": "^1.0.11",
+    "gh-pages": "^2.0.1",
     "typescript": "^3.1.6"
   },
   "homepage": "https://iomega.github.io/paired-data-form"
