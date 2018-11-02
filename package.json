@@ -1,0 +1,29 @@
+{
+  "name": "paired-data-form",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "3",
+    "react": "^16.6.0",
+    "react-bootstrap": "^0.32.4",
+    "react-dom": "^16.6.0",
+    "react-jsonschema-form": "^1.0.5",
+    "react-scripts-ts": "3.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject",
+    "deploy": ""
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.9",
+    "@types/node": "^10.12.2",
+    "@types/react": "^16.4.18",
+    "@types/react-dom": "^16.0.9",
+    "@types/react-jsonschema-form": "^1.0.11",
+    "typescript": "^3.1.6"
+  },
+  "homepage": "https://iomega.github.io/paired-data-form"
+}
