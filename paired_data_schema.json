@@ -1,0 +1,395 @@
+{
+  "title": "iOMEGA paired data platform schema JuNo",
+  "description": "This is the JSON schema for paired genomic / metabolomic data.",
+  "type": "object",
+  "required": ["version", "personal", "Data to Link"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "readonly": true,
+      "default": "1"
+    },
+    "personal": {
+      "type": "object",
+      "title": "Personal data",
+      "properties": {
+        "submitter_name": {
+          "type": "string",
+          "title": "Name of contact for correspondence",
+          "description": "This person will be the point of contact for any communication related to this entry."
+        },
+        "submitter_institution": {
+          "type": "string",
+          "title": "Academic institution or company name",
+          "description": "Please use the full, official name of your institute in English. E.g., 'Harvard University'."
+        },
+        "submitter_email": {
+          "type": "string",
+          "title": "Submitter contact e-mail address",
+          "format": "email"
+        },
+        "PI_name": {
+          "type": "string",
+          "title": "Name of the principal investigator of the submitter",
+          "description": "This person is contacted in case the submitter has moved institution"
+        },
+        "PI_institution": {
+          "type": "string",
+          "title": "Academic institution or company name",
+          "description": "Please use the full, official name of your institute in English. E.g., 'Harvard University'."
+        },
+        "PI_email": {
+          "type": "string",
+          "title": "PI contact e-mail address",
+          "format": "email"
+        }
+      }
+    },
+    "Data to Link": {
+      "type": "object",
+      "title": "Parameters on experiment/sample level: metagenome/genome assemblies + metabolomics datasets",
+      "properties": {
+        "metagenome_genome sequence_assemblies": {
+          "type": "array",
+          "title": "Metagenome/genome details",
+          "description": "Please provide basic information on all publicly available metagenomes/genomes for which paired data is available",
+          "items": {
+            "type": "object",
+            "properties": {
+              "genome_type": {
+                "type": "string",
+                "title": "Please select genome, metagenome, or metagenome-assembled genome",
+                "enum": ["genome", "metagenome", "metagenome-assembled genome"]
+              },
+              "GenBank_accession": {
+                "type": "string",
+                "title": "GenBank accession number",
+                "description": "If the publicly available genome got a GenBank accession number assigned, e.g., AL645882, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records.",
+                "default": "None, there is a RefSeq ID"
+              },
+              "RefSeq_accession": {
+                "type": "string",
+                "title": "RefSeq accession number",
+                "description": "If the publicly available genome got a RefSeq accession number assigned, e.g., NC_003888.3, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records.",
+                "default": "None, there is a GenBank ID"
+              },
+              "ENA_NCBI_accession": {
+                "type": "string",
+                "title": "ENA/NCBI accession number",
+                "description": "If the publicly available metagenome got a ENA/NCBI accession number assigned, e.g., GCA_900283375, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify (and an accession number must be received) before this form can be filled out.",
+                "default": "None, there is a MGnify ID"
+              },
+              "MGnify_accession": {
+                "type": "string",
+                "title": "MGnify accession number",
+                "description": "If the publicly available metagenome got a ENA/NCBI accession number assigned, e.g., MGYA00067671, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify (and an accession number must be received) before this form can be filled out.",
+                "default": "None, there is a ENA/NCBI ID"
+              },
+              "BioSample_accession": {
+                "type": "string",
+                "title": "BioSample accession number",
+                "description": "If publicly available metadata is available at BioSamples, please provide the BioSample accession number, e.g. SAMEA3648350, here. We encourage depositing metadata following a standardized ontology to enable proper reuse of the data.",
+                "default": "None"
+              },
+              "publications": {
+                "type": "string",
+                "pattern": "[0-9]{1,}",
+                "title": "Key publications associated with this genome or metagenome",
+                "description": "Publications describing the genome or metagenome. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')"
+              }
+            }
+          }
+        },
+        "Metabolomics_details": {
+          "type": "object",
+          "title": "Metabolomics project details",
+          "description": "Please provide basic information on the publicly available metabolomics project from which paired data is available. Currently, we allow for links to mass spectrometry data deposited in GNPS-MaSSIVE.",
+          "properties": {
+            "mass_spec_experiment_GNPSMaSSIVE_ID": {
+              "type": "string",
+              "title": "GNPS-massIVE identifier",
+              "description": "Please provide the GNPS-massIVE identifier of your metabolomics data set, e.g., MSV000078839.",
+              "pattern": "(^MSV)[0-9]{9}"
+            },
+            "MaSSIVE_upload_URL": {
+              "type": "string",
+              "title": "Link to massIVE upload",
+              "description": "Please provide the link to the massIVE upload, e.g., https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view.",
+              "format": "uri"
+            },
+            "publications": {
+              "type": "string",
+              "pattern": "[0-9]{1,}",
+              "title": "Key publications associated with this metabolomics data set",
+              "description": "Publications describing the metabolomics experiment and samples. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')"
+            },
+            "MolecularNetwork": {
+              "type": "string",
+              "pattern": "[0-9a-z]{32}",
+              "title": "Molecular Network Task ID",
+              "description": "If run, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, i.e., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9."
+            }
+          }
+        },
+        "Experimental_details": {
+          "type": "object",
+          "title": "Metabolomics experimental details",
+          "description": "Please provide basic information about the Sample Preparation, Extraction Details, and Instrumental Methods used. Give each Assay a number that you will use to link with genomic and metabolomic data.",
+          "properties": {
+            "Sample_Preparation": {
+              "type": "array",
+              "title": "Sample Preparation details for strain growth or metagenomic source.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "Sample Preparation Number": {
+                    "type": "number",
+                    "title": "Sample Preparation Number",
+                    "description": "Please assign a Sample Preparation Number for this set of sample details. If different sample preparations were used, enter them under a new Sample Preparation Number for each set of sample preparation parameters."
+                  },
+                  "Growth conditions": {
+                    "type": "string",
+                    "title": "Growth medium",
+                    "description": "Please select a growth medium used in the experiment. If it is not present, please select Other and add it in the Other growth conditions section at the end. For strains grown in culture, please fill in the first five sections. For metagenomic samples, only metagenomic source is necessary.",
+                    "enum": [
+                      "Luria Broth (LB)",
+                      "Tryptic-Soy Broth (TSB)",
+                      "R2YE medium",
+                      "Yeast extract-malt extract (YEME) medium",
+                      "ISP4 medium",
+                      "Oatmeal agar",
+                      "Maltose Yeast Malt media (MYM)",
+                      "R2 medium",
+                      "R5 medium",
+                      "Difco nutrient agar or broth (DNA or DNB)",
+                      "Supplemented minimal medium (SMM)",
+                      "Minimal medium (MM)",
+                      "Mannitol soy flour medium (MS)",
+                      "Other"
+                    ]
+                  },
+                  "Medium type": {
+                    "type": "string",
+                    "title": "Medium type",
+                    "description": "Please select liquid or solid medium.",
+                    "enum": ["liquid", "solid"]
+                  },
+                  "Growing time": {
+                    "type": "number",
+                    "title": "Growth time",
+                    "description": "Please enter the length of growth time in hours.",
+                    "pattern": "[0-9]{1,}"
+                  },
+                  "Growth temperature": {
+                    "type": "number",
+                    "title": "Growth temperature",
+                    "description": "Please enter the temperature of growth in degrees Celcius.",
+                    "pattern": "[0-9]{1,}"
+                  },
+                  "Aeration": {
+                    "type": "string",
+                    "title": "Aeration",
+                    "description": "Please select shaking or not shaking.",
+                    "enum": ["shaking", "not shaking"]
+                  },
+                  "Other growth conditions": {
+                    "type": "string",
+                    "title": "Other growth conditions",
+                    "description": "Please describe any other relevant growth conditions e.g. light 12h, dark 12h. If you selected Other for growth medium, please write your growth medium here."
+                  },
+                  "Metagenomic host or environment": {
+                    "type": "string",
+                    "title": "Metagenome host or isolation source",
+                    "description": "For metagenomic samples, please select the source host or isolation source. If it is not available, please list it in the metagenomic sample description below.",
+                    "enum": [
+                      "Human",
+                      "Other mammal",
+                      "Invertebrate",
+                      "Insect",
+                      "Plant",
+                      "Soil",
+                      "Sediment",
+                      "Ocean",
+                      "Air",
+                      "Other"
+                    ]
+                  },
+                  "Metagenomic sample description": {
+                    "type": "string",
+                    "title": "Metagenomic sample description",
+                    "description": "Please describe your metagenomic sample preparation prior to extraction. If you answered Other is the question above, please enter the host/isolation source here."
+                  }
+                }
+              }
+            },
+            "Extraction Methods": {
+              "type": "array",
+              "title": "Extraction Methods",
+              "description": "Please provide basic details about the extraction solvents and procedures used.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "Extraction_Methods_Number": {
+                    "type": "number",
+                    "title": "Extraction Method Number",
+                    "description": "Please assign an Extraction Method Number for this set of extraction details. If more than one method of extration was used, please create a new Extraction Method Number for each set of details."
+                  },
+                  "Extraction solvent(s)": {
+                    "type": "string",
+                    "title": "Extraction solvent(s)",
+                    "description": "Please select the organic solvent used to extract the sample. If your sovent is not listed or you used multiple solvents, please select other and enter them.",
+                    "enum": [
+                      "Methanol",
+                      "Methylene Chloride / Dichloromethane",
+                      "Ethyl acetate",
+                      "Chloroform",
+                      "Acetone",
+                      "Isopropanol",
+                      "Butanol",
+                      "Acetonitrile",
+                      "Ethanol",
+                      "Diethyl ether",
+                      "Other"
+                    ]
+                  },
+                  "Other extraction parameters": {
+                    "type": "string",
+                    "title": "Other extraction details",
+                    "description": "Please describe any other relevant extraction methods, e.g. partitioned against water or fractionated with 20% acetonitrile. If you selected Other above, please write the extraction solvent here."
+                  }
+                }
+              }
+            },
+            "Instrumentation Methods": {
+              "type": "array",
+              "title": "Instrumentation Methods",
+              "description": "Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "Instrumentation_Method": {
+                    "type": "number",
+                    "title": "Instrumentation Method Number",
+                    "description": "Please assign an Instrumentation Method Number for this set of instrumentation details. If more than one LCMS method was used, please create a new Instrumentation Method Number for each condition."
+                  },
+                  "instrument_type": {
+                    "type": "string",
+                    "title": "Instrument type",
+                    "description": "Please select the type of LCMS instrumentation used. If your instrument type is not listed, please select Other and write it in the Other instrumentation information section below.",
+                    "enum": [
+                      "Quadrupole",
+                      "Time-of-flight (TOF)",
+                      "Ion trap",
+                      "Quadrupol-TOF",
+                      "Orbitrap",
+                      "Other"
+                    ]
+                  },
+                  "Column parameters": {
+                    "type": "string",
+                    "title": "Column details",
+                    "description": "Please select reverse or normal phase. You can add additional column details in the Other Instrumentation Information section below.",
+                    "enum": ["Referse Phase", "Normal Phase"]
+                  },
+                  "LCMS mode": {
+                    "type": "string",
+                    "title": "Instrument mode",
+                    "description": "Please select positive or negative mode.",
+                    "enum": ["Positive", "Negative"]
+                  },
+                  "Other LCMS parameters": {
+                    "type": "string",
+                    "title": "Other instrumentation information",
+                    "description": "Please enter any other relevant instrument details, e.g. collision energy. If you answered Other above, please provide instrumente type here."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Genome_Metabolome_links": {
+      "type": "array",
+      "title": "Links between genomes and metabolomics data",
+      "description": "Please provide the genome/metagenome accession number as earlier provided and subsequently sample names of and links to one or more metabolomics data files beloning to that genome.",
+      "items": {
+        "type": "object",
+        "required": ["Genome_Metagenome_ID"],
+        "properties": {
+          "Genome_Metagenome_ID": {
+            "type": "string",
+            "title": "Linked Genome/Metagenome Accession ID",
+            "description": "Please fill out the Genome/Metagenome accession number to be linked to one or more metabolomics data files."
+          },
+          "Metabolomics_data": {
+            "type": "array",
+            "title": "Metabolomics data file or files to be linked. Currently we support links to GNPS-massIVE.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "Metabolomics_File_Names": {
+                  "type": "string",
+                  "title": "File name of metabolomics data file to be linked",
+                  "description": "Please provide the metabolomics data file name to be linked without any extensions, i.e., for CNB091_R5_M.mzXML this would be CNB091_R5_M."
+                },
+                "Metabolomics_Data_Files": {
+                  "type": "uri",
+                  "title": "Location of metabolomics data file",
+                  "description": "Please provide a direct link to the metabolomics data file location, e.g., ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML, that provides access to CNB091_R5_M.mzXML."
+                }
+              }
+            }
+          }
+        }
+      },
+      "Sample Preparation Number": {
+        "type": "number",
+        "title": "Sample Preparation Number",
+        "description": "Please provide the Sample Preparation Number for this linked dataset."
+      },
+      "Extraction Method Number": {
+        "type": "number",
+        "title": "Extraction Method Number",
+        "description": "Please provide the Extraction Method Number for this linked dataset"
+      },
+      "Instrumentation Method Number": {
+        "type": "number",
+        "title": "Instrumentation Method Number",
+        "description": "Please provide the Instrumentation Method Number for this linked dataset"
+      }
+    }
+  },
+  "gene_cluster_ms2_spectra_links": {
+    "type": "object",
+    "title": "Linked gene clusters and MS2 spectra.",
+    "properties": {
+      "Known_links": {
+        "type": "string",
+        "title": "Known linked gene cluster and molecule",
+        "description": "If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide a brief description here including the name of the molecule(s)."
+      },
+      "BGC_ID": {
+        "type": "string",
+        "title": "Biosynthetic gene cluster file",
+        "description": "Please provide the MIBiG cluster number or URL for antiSMASH cluster output."
+      },
+      "MS2_GNPS_number": {
+        "type": "string",
+        "title": "GNPS cluster index",
+        "description": "Please provide the GNPS cluster index number or URL to the corresponding MS2. If you provide a URL, please indicate a scan number below."
+      },
+      "MS2_scan_number": {
+        "type": "string",
+        "title": "MS2 scan number",
+        "description": "Please provide the scan number for the MS2 to link,"
+      },
+      "verification": {
+        "type": "string",
+        "title": "Link verification",
+        "description": "Please indicate if verification of the link between BGC and MS2 is experimentally validated or bioinformatically inferred.",
+        "enum": ["Experimentally validated", "Bioinformatically inferred"]
+      }
+    }
+  }
+}
