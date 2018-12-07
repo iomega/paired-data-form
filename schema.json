@@ -1,5 +1,5 @@
 {
-    "title": "Just a test A list of tasks",
+    "title": "A list of tasks",
     "type": "object",
     "required": [
       "title"
