@@ -8,22 +8,26 @@ import "./App.css";
 
 interface IState {
   schema: JSONSchema6;
+  uiSchema: object;
 }
 
 class App extends React.Component<{}, IState> {
-  public state = { schema: {} };
+  public state = { schema: {}, uiSchema: {} };
 
   public componentDidMount() {
     fetch("schema.json")
       .then(r => r.json())
       .then(schema => this.setState({ schema }));
+    fetch("uischema.json")
+      .then(r => r.json())
+      .then(uiSchema => this.setState({ uiSchema }));
   }
 
   public render() {
     return (
       <div className="App">
         {this.state.schema ? (
-          <Form schema={this.state.schema}>
+          <Form schema={this.state.schema} uiSchema={this.state.uiSchema}>
             <ButtonGroup>
               <Button><Glyphicon glyph="upload" /> Upload</Button>
               <Button><Glyphicon glyph="download" /> Download</Button>
