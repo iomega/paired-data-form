@@ -1,2 +1,65 @@
 {
+    "version": {
+        "ui:widget": "hidden"
+    },
+    "personal": {
+        "ui:field": "collapsible",
+        "collapse": {
+            "field": "ObjectField",
+            "collapsed": false
+        }
+    },
+    "Genome_Metabolome_links": {
+        "ui:field": "table",
+        "table": {
+            "tableCols": [
+                {
+                    "dataField": "Metabolomics_data",
+                    "_comment": "TODO flatten Metabolomics_data"
+                },
+                {
+                    "dataField": "Genome_Metagenome_ID",
+                    "editable": {
+                        "type": "select",
+                        "options": {
+                            "values": []
+                        }
+                    }
+                },
+                {
+                    "dataField": "Sample_preparation_label",
+                    "editable": {
+                        "type": "select",
+                        "options": {
+                            "values": []
+                        }
+                    }
+                },
+                {
+                    "dataField": "Extraction_method_label",
+                    "editable": {
+                        "type": "select",
+                        "options": {
+                            "values": []
+                        }
+                    }
+                },
+                {
+                    "dataField": "Instrumentation_method_label",
+                    "editable": {
+                        "type": "select",
+                        "options": {
+                            "values": []
+                        }
+                    }
+                }
+            ],
+            "insertRow": true,
+            "deleteRow": true,
+            "selectRow": {
+                "mode": "checkbox"
+            },
+            "keyField": "Metabolomics_data"
+        }
+    }
 }
