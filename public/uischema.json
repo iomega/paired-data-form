@@ -8,5 +8,41 @@
             "field": "ObjectField",
             "collapsed": false
         }
+    },
+    "Genome_Metabolome_links": {
+        "items": {
+            "Genome_Metagenome_ID": {
+                "ui:field": "asyncTypeahead",
+                "asyncTypeahead": {
+                    "url": "Genome_Metagenome_ID",
+                    "minLength": 0,
+                    "isLoading": false
+                }
+            },
+            "Sample_preparation_label": {
+                "ui:field": "asyncTypeahead",
+                "asyncTypeahead": {
+                    "url": "Sample_preparation_Method",
+                    "minLength": 0,
+                    "isLoading": false
+                }
+            },
+            "Extraction_method_label": {
+                "ui:field": "asyncTypeahead",
+                "asyncTypeahead": {
+                    "url": "Extraction_method_label",
+                    "minLength": 0,
+                    "isLoading": false
+                }
+            },
+            "Instrumentation_method_label": {
+                "ui:field": "asyncTypeahead",
+                "asyncTypeahead": {
+                    "url": "Instrumentation_method_label",
+                    "minLength": 0,
+                    "isLoading": false
+                }
+            }
+        }
     }
 }
