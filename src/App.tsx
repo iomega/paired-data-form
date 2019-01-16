@@ -4,7 +4,6 @@ import { JSONSchema6 } from "json-schema";
 import { Button, ButtonGroup, Glyphicon } from 'react-bootstrap';
 import Form, { ISubmitEvent } from "react-jsonschema-form";
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField";
-import TableField from "react-jsonschema-form-extras/lib/table";
 
 
 import "./App.css";
@@ -16,18 +15,11 @@ interface IState {
 }
 
 const formFields = {
-  collapsible: CollapsibleField,
-  table: TableField
+  collapsible: CollapsibleField
 };
 
 class App extends React.Component<{}, IState> {
   public state: IState = { schema: {}, uiSchema: {}, formData: {} };
-  public labels = {
-    genome: [],
-    sample: [],
-    extraction: [],
-    instrumentation: []
-  }
 
   public componentDidMount() {
     fetch("schema.json")
@@ -44,56 +36,6 @@ class App extends React.Component<{}, IState> {
     this.setState({ formData });
   }
 
-  public onChange = (data: any) => {
-    const newLabels = this.fetchForeignKeys(data.formData);
-    if (this.labelsChanged(newLabels)) {
-      this.labels = newLabels;
-      this.updateForeignKeys();
-    }
-  }
-
-  public labelsChanged(newLabels: any): any {
-    return JSON.stringify(this.labels) !== JSON.stringify(newLabels);
-  }
-
-  public fetchForeignKeys(formData: any) {
-    if (Object.keys(formData.data_to_link).length === 0) {
-      return;
-    }
-
-    const labels: any = {};
-    if (formData.data_to_link['metagenome_genome sequence_assemblies']) {
-      labels.genome = formData.data_to_link['metagenome_genome sequence_assemblies'].map((r: any) => r.GenBank_accession || r.RefSeq_accession || r.ENA_NCBI_accession || r.MGnify_accession);
-    }
-
-    if (formData.data_to_link.Experimental_details) {
-      if (formData.data_to_link.Experimental_details.Sample_Preparation) {
-        labels.sample = formData.data_to_link.Experimental_details.Sample_Preparation.map((r: any) => r.Sample_preparation_Method);
-      }
-      if (formData.data_to_link.Experimental_details['Extraction Methods']) {
-        labels.extraction = formData.data_to_link.Experimental_details['Extraction Methods'].map((r: any) => r.Extraction_Method);
-      }
-
-      if (formData.data_to_link.Experimental_details['Instrumentation Methods']) {
-        labels.instrumentation = formData.data_to_link.Experimental_details['Instrumentation Methods'].map((r: any) => r.Instrumentation_Method);
-      }
-    }
-    return labels;
-  }
-
-  public updateForeignKeys = () => {
-    const uiSchema = this.state.uiSchema;
-    if (Object.keys(uiSchema).length === 0) {
-      return;
-    }
-
-    uiSchema.Genome_Metabolome_links.table.tableCols[1].editable.options.values = this.labels.genome;
-    uiSchema.Genome_Metabolome_links.table.tableCols[2].editable.options.values = this.labels.sample;
-    uiSchema.Genome_Metabolome_links.table.tableCols[3].editable.options.values = this.labels.extraction;
-    uiSchema.Genome_Metabolome_links.table.tableCols[4].editable.options.values = this.labels.instrumentation;
-    this.setState({ uiSchema });
-  }
-
   public render() {
     return (
       <div className="App">
@@ -105,7 +47,6 @@ class App extends React.Component<{}, IState> {
             formData={this.state.formData}
             onSubmit={this.onSubmit}
             liveValidate={true}
-            onChange={this.onChange}
           >
             <ButtonGroup>
               <Button><Glyphicon glyph="upload" /> Upload</Button>
