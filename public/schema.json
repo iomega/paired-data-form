@@ -278,43 +278,84 @@
 										"title": "Extraction solvent",
 										"description": "Please select the organic solvent used to extract the sample. If your sovent is not listed, please select Other and specify the solvent in the Other extraction parameters section below. If you used multiple solvents, please select and order them and indicate the ratio in the Solvent ratio section below.",
 										"items": {
-											"type": "string",
-											"enum": [
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17790",
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15767",
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:27750",
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35255",
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15347",
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17824",
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:28885",
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:38472",
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:16236",
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35702",
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:29021",
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15377",
-												"https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787"
-											],
-											"enumNames": [
-												"Methanol",
-												"Methylene Chloride / Dichloromethane",
-												"Ethyl acetate",
-												"Chloroform",
-												"Acetone",
-												"Isopropanol",
-												"Butanol",
-												"Acetonitrile",
-												"Ethanol",
-												"Diethyl ether",
-												"Hexane",
-												"Water",
-												"Other solvent"
-											]
+                      "type": "object",
+                      "required": ["solvent", "ratio"],
+                      "properties": {
+                        "solvent": {
+                          "type": "string",
+                          "enum": [
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17790",
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15767",
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:27750",
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35255",
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15347",
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17824",
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:28885",
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:38472",
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:16236",
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35702",
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:29021",
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15377",
+                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787"
+                          ],
+                          "enumNames": [
+                            "Methanol",
+                            "Methylene Chloride / Dichloromethane",
+                            "Ethyl acetate",
+                            "Chloroform",
+                            "Acetone",
+                            "Isopropanol",
+                            "Butanol",
+                            "Acetonitrile",
+                            "Ethanol",
+                            "Diethyl ether",
+                            "Hexane",
+                            "Water",
+                            "Other solvent"
+                          ]
+                        },
+                        "ratio": {
+                          "type": "number",
+                          "title": "Ratio",
+                          "default": 1
+                        }
+                      },
+                      "dependencies": {
+                        "solvent": {
+                          "oneOf": [{
+                            "properties": {
+                              "solvent": {
+                                "enum": [
+                                  "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17790",
+                                  "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15767",
+                                  "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:27750",
+                                  "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35255",
+                                  "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15347",
+                                  "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17824",
+                                  "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:28885",
+                                  "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:38472",
+                                  "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:16236",
+                                  "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35702",
+                                  "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:29021",
+                                  "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15377"
+                                ]
+                              }
+                            }
+                          }, {
+                            "properties": {
+                              "solvent": {
+                                "enum": ["https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787"]
+                              },
+                              "Other_solvent": {
+                                "type": "string",
+                                "title": "Name of other solvent"
+                              }
+                            },
+                            "required": ["Other_solvent"]
+                          }]
+                        }
+                      }
 										}
-									},
-									"Solvent ratio": {
-										"type": "string",
-										"title": "Solvent ratio",
-										"description": "If multiple solvents were selected above, please write the ratio here following the order as specified above."
 									},
 									"Other extraction parameters": {
 										"type": "string",
