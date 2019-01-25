@@ -1,6 +1,6 @@
 {  
    "title":"iOMEGA Paired Data Platform",
-   "description":"This is the JSON schema for paired genomic / metabolomic data.",
+   "description":"This is the JSON schema for paired genomic / metabolomic data",
    "type":"object",
    "required":[  
       "version",
@@ -55,7 +55,7 @@
          "properties":{  
             "Metabolomics_details":{  
                "type":"object",
-               "title":"Metabolomics project details",
+               "title":"Overall metabolomics project details",
                "description":"Please provide basic information on the publicly available metabolomics project from which paired data is available. Currently, we allow for links to mass spectrometry data deposited in GNPS-MaSSIVE.",
                "properties":{  
                   "mass_spec_experiment_GNPSMassIVE_ID":{  

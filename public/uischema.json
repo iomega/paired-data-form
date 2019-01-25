@@ -10,8 +10,19 @@
       }
    },
    "data_to_link":{  
+      "ui:field":"collapsible",
+      "collapse":{  
+         "field":"ObjectField",
+         "collapsed":false
+      },
       "metagenome_genome sequence_assemblies":{  
+         "ui:options":{  
+            "orderable":false
+         },
          "items":{  
+            "genome_type":{  
+               "ui:widget":"radio"
+            },
             "GenBank_accession":{  
                "ui:placeholder":"None, there is a RefSeq ID"
             },
@@ -28,9 +39,56 @@
                "ui:placeholder":"None"
             }
          }
+      },
+      "Experimental_details":{  
+         "Sample_Preparation":{  
+            "ui:options":{  
+               "orderable":false
+            },
+            "items":{  
+               "Medium type":{  
+                  "ui:widget":"radio"
+               },
+               "Other growth conditions":{  
+                  "ui:widget":"textarea"
+               },
+               "Metagenomic sample description":{  
+                  "ui:widget":"textarea"
+               }
+            }
+         },
+         "Extraction Methods":{  
+            "ui:options":{  
+               "orderable":false
+            },
+            "items":{  
+               "Other extraction parameters":{  
+                  "ui:widget":"textarea"
+               }
+            }
+         },
+         "Instrumentation Methods":{  
+            "ui:options":{  
+               "orderable":false
+            },
+            "items":{  
+               "Column parameters":{  
+                  "ui:widget":"radio"
+               },
+               "LCMS mode":{  
+                  "ui:widget":"radio"
+               },
+               "Other LCMS parameters":{  
+                  "ui:widget":"textarea"
+               }
+            }
+         }
       }
    },
    "Genome_Metabolome_links":{  
+      "ui:options":{  
+         "orderable":false
+      },
       "items":{  
          "Genome_Metagenome_ID":{  
             "ui:field":"foreignKey",
@@ -55,6 +113,16 @@
             "foreignKey":{  
 
             }
+         }
+      }
+   },
+   "gene_cluster_ms2_spectra_links":{  
+      "ui:options":{  
+         "orderable":false
+      },
+      "items":{  
+         "verification":{  
+            "ui:widget":"radio"
          }
       }
    }
