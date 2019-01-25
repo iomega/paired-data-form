@@ -136,10 +136,10 @@
     "@types/node" "*"
     "@types/react" "*"
 
-"@types/react-jsonschema-form@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@types/react-jsonschema-form/-/react-jsonschema-form-1.0.11.tgz#8ecae018d06f735cae5c65da4ba71faf44d305c9"
-  integrity sha512-n5yk3jQc2tTZA+d8l6ndFuTso1pymq57eVsHH8sKO3rAWLttuP4d5WjRpnjpOkzblwMMeSTIgP/1/HTY6vvHzw==
+"@types/react-jsonschema-form@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@types/react-jsonschema-form/-/react-jsonschema-form-1.0.13.tgz#5d6e8ef47477471cfed8ad76f76242682a7cf618"
+  integrity sha512-KPDSUlYaSR60p7aVaAVBVe/Tv7LawqPdbAMDGykDeLKPIW+Gs/tKOBVsFaz4IaGWpqemoDtDjtjFawop68tDCA==
   dependencies:
     "@types/json-schema" "*"
     "@types/react" "*"
@@ -7023,10 +7023,10 @@ react-jsonschema-form-extras@^0.9.31:
     react-render-html "^0.6.0"
     selectn "^1.1.2"
 
-react-jsonschema-form@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/react-jsonschema-form/-/react-jsonschema-form-1.0.5.tgz#692e6bc2d747be11e61602b1ba76105d1b7605ac"
-  integrity sha512-idnHVkOtRDspajpc4+IfLx9gLCnqJc5zZqEqUoc7SzjSVdCRAMaxT5Qr5lPdgzb8mRcJSXaXI+qwlVfKScrLBg==
+react-jsonschema-form@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-jsonschema-form/-/react-jsonschema-form-1.2.0.tgz#29bb83cc798840f90c576f75e3fc55e29b0a6df9"
+  integrity sha512-rR77qoFiQ5TxDYwsJz8UWmDner4jQ4xMnDqeV6Nvg7GtoEyOUoTVkI/SBMEzfXuF/piWZXYjquP96Hy/2L7C+Q==
   dependencies:
     ajv "^5.2.3"
     babel-runtime "^6.26.0"
