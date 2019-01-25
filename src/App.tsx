@@ -7,6 +7,7 @@ import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 import { ForeignKeyField } from './ForeignKeyField';
 
 import "./App.css";
+import { PairedDataRecord } from './PairedDataRecord';
 
 interface IState {
   schema: JSONSchema6;
@@ -110,11 +111,8 @@ class App extends React.Component<{}, IState> {
         )
         }
         {Object.keys(this.state.formData).length > 0 &&
-          <div>
-            <h3>iOMEGA Paired data record:</h3>
-            <textarea cols={120} rows={10} disabled={true} value={JSON.stringify(this.state.formData, null, 4)} />
-          </div>
-        }
+          <PairedDataRecord data={this.state.formData} schema={this.state.schema}/>
+          }
       </div>
     );
   }
