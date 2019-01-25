@@ -462,6 +462,7 @@
 			"title": "Linked gene clusters and MS2 spectra.",
 			"description": "If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide details in this section",
 			"items": {
+				"type": "object",
 				"properties": {
 					"Known_links": {
 						"type": "string",
