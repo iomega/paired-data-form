@@ -1,0 +1,32 @@
+{
+    "version": {
+        "ui:widget": "hidden"
+    },
+    "personal": {
+        "ui:field": "collapsible",
+        "collapse": {
+            "field": "ObjectField",
+            "collapsed": false
+        }
+    },
+    "Genome_Metabolome_links": {
+        "items": {
+            "Genome_Metagenome_ID": {
+                "ui:field": "foreignKey",
+                "foreignKey": {}
+            },
+            "Sample_preparation_label": {
+                "ui:field": "foreignKey",
+                "foreignKey": {}
+            },
+            "Extraction_method_label": {
+                "ui:field": "foreignKey",
+                "foreignKey": {}
+            },
+            "Instrumentation_method_label": {
+                "ui:field": "foreignKey",
+                "foreignKey": {}
+            }
+        }
+    }
+}
