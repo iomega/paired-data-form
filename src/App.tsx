@@ -23,6 +23,12 @@ const formFields = {
 class App extends React.Component<{}, IState> {
   public state: IState = { schema: {}, uiSchema: {}, formData: {} };
   public rawFormData: any = {};
+  private uploadRef: React.RefObject<HTMLInputElement>;
+
+  constructor(props: {}) {
+    super(props);
+    this.uploadRef = React.createRef();
+  }
 
   public componentDidMount() {
     fetch("schema.json")
@@ -102,8 +108,16 @@ class App extends React.Component<{}, IState> {
             liveValidate={true}
           >
             <ButtonGroup>
-              <Button><Glyphicon glyph="upload" /> Upload</Button>
-              <Button><Glyphicon glyph="download" /> Download</Button>
+              <Button onClick={this.onUpload} title="Upload JSON file">
+                <Glyphicon glyph="upload"/> Upload
+                <input
+                  type="file"
+                  accept="application/json,.json"
+                  onChange={this.fillFormFromFile}
+                  ref={this.uploadRef}
+                  style={{ display: "none" }}
+                />
+              </Button>
               <Button type="submit" bsStyle="primary"><Glyphicon glyph="ok" /> Save</Button>
               <Button type="reset"><Glyphicon glyph="remove" /> Reset</Button>
             </ButtonGroup>
@@ -115,6 +129,27 @@ class App extends React.Component<{}, IState> {
           }
       </div>
     );
+  }
+
+  public onUpload = () => {
+    if (this.uploadRef.current) {
+      this.uploadRef.current.click();
+    }
+  }
+
+  public fillFormFromFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) {
+      return;
+    }
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = evt => {
+      if (reader.result) {
+        const formData = JSON.parse(reader.result as string);
+        this.setState({formData});
+      }
+    }
+    reader.readAsText(file);
   }
 }
 
