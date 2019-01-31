@@ -53,7 +53,7 @@ class App extends React.Component<{}, IState> {
         (r: any) => r.GenBank_accession || r.RefSeq_accession || r.ENA_NCBI_accession || r.MGnify_accession
       );
       return Promise.resolve(labels);
-    } else if (url === 'Sample_preparation_Method') {
+    } else if (url === 'Sample_preparation_label') {
       if (this.rawFormData.data_to_link.Experimental_details.Sample_Preparation === undefined) {
         return Promise.resolve([]);
       }
