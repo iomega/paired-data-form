@@ -1,9 +1,8 @@
 import * as React from "react";
 
-import { Glyphicon } from 'react-bootstrap';
+import { Glyphicon } from "react-bootstrap";
 import { FieldProps } from "react-jsonschema-form";
-import Select from 'react-select'
-
+import Select from "react-select";
 
 export class ForeignKeyField extends React.Component<FieldProps, {}> {
   public state = {
@@ -17,10 +16,8 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
 
   public loadOptions = () => {
     const values = this.props.uiSchema.foreignKey.search(this.props.name);
-    return values.then((vals: string[]) => {
-      return vals.map((v: string) => {
-        return { value: v, label: v };
-      });
+    return values.map((v: string) => {
+      return { value: v, label: v };
     });
   };
 
@@ -28,7 +25,9 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
     let field = (
       <span className="form-control" onClick={this.onOpen}>
         {this.props.formData || "Click to select"}
-        <span className="pull-right"><Glyphicon glyph="chevron-down"/></span>
+        <span className="pull-right">
+          <Glyphicon glyph="chevron-down" />
+        </span>
       </span>
     );
     if (this.state.open && this.state.options.length > 0) {
@@ -50,8 +49,8 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
     );
   }
 
-  public onOpen = async () => {
-    const options = await this.loadOptions();
+  public onOpen = () => {
+    const options = this.loadOptions();
     this.setState({ open: true, options });
   };
 
