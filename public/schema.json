@@ -146,10 +146,10 @@
                      "items": {
                         "type": "object",
                         "properties": {
-                           "Growth conditions": {
+                           "medium":{  
                               "type": "string",
                               "title": "Growth medium",
-                              "description": "Please select a growth medium used in the experiment. If it is not present, please select Other here and add your medium in the Other growth conditions section at the end.",
+                              "description":"Please select a growth medium used in the experiment. If it is not present, please select Other and type it in.",
                               "enum": [
                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium381.pdf",
                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium545.pdf",
@@ -232,7 +232,7 @@
                               "title": "Other growth conditions",
                               "description": "Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h (optional). If you selected Other for growth medium, please write your growth medium here."
                            },
-                           "Metagenomic host or environment": {
+                           "environment":{  
                               "type": "string",
                               "title": "Metagenome host or isolation source",
                               "description": "For metagenomic samples, please select the source host or isolation source. If it is not available, please write it in the metagenomic sample description below.",
@@ -275,6 +275,85 @@
                               "title": "Sample Growth Conditions Label",
                               "description": "Please assign a Sample Growth Conditions Label for this set of sample preparation details. If more than one sample growth conditions was used, please create a new Sample Growth Conditions Label for each condition by clicking on the plus."
                            }
+                        },
+                        "dependencies":{  
+                           "medium":{  
+                              "oneOf":[  
+                                 {  
+                                    "properties":{  
+                                       "medium":{  
+                                          "enum":[  
+                                             "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium381.pdf",
+                                             "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium545.pdf",
+                                             "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1.pdf",
+                                             "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium189.pdf",
+                                             "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium514.pdf",
+                                             "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1087.pdf",
+                                             "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium987.pdf",
+                                             "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium547.pdf",
+                                             "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1054.pdf",
+                                             "https://www.elabprotocols.com/protocols/#!protocol=469",
+                                             "https://www.elabprotocols.com/protocols/#!protocol=486",
+                                             "https://www.elabprotocols.com/protocols/#!protocol=464",
+                                             "https://www.elabprotocols.com/protocols/#!protocol=484",
+                                             "https://openwetware.org/wiki/M9_medium/minimal",
+                                             "https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/1805982/MYMmedium.pdf",
+                                             "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2950629/pdf/nihms234294.pdf"
+                                          ]
+                                       }
+                                    }
+                                 },
+                                 {  
+                                    "properties":{  
+                                       "medium":{  
+                                          "enum":[  
+                                             "other"
+                                          ]
+                                       },
+                                       "Other_medium":{  
+                                          "type":"string",
+                                          "title":"Name of other medium"
+                                       }
+                                    }
+                                 }
+                              ]
+                           },
+                           "environment":{  
+                              "oneOf":[  
+                                 {  
+                                    "properties":{  
+                                       "environment":{  
+                                          "enum":[  
+                                             "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000393",
+                                             "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000395",
+                                             "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000871",
+                                             "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000058",
+                                             "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000421",
+                                             "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000116",
+                                             "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000057",
+                                             "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000007",
+                                             "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000066",
+                                             "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000022",
+                                             "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000006"
+                                          ]
+                                       }
+                                    }
+                                 },
+                                 {  
+                                    "properties":{  
+                                       "environment":{  
+                                          "enum":[  
+                                             "other"
+                                          ]
+                                       },
+                                       "Other_environment":{  
+                                          "type":"string",
+                                          "title":"Name of other environment or host"
+                                       }
+                                    }
+                                 }
+                              ]
+                           }
                         }
                      }
                   },
@@ -288,7 +367,7 @@
                            "Extraction solvent(s)": {
                               "type": "array",
                               "title": "Extraction solvent",
-                              "description": "Please select the organic solvent used to extract the sample. If your sovent is not listed, please select Other and specify the solvent in the Other extraction parameters section below. If you used multiple solvents, please select and order them and indicate the ratio in the Solvent ratio section below.",
+                              "description":"Please select the organic solvent used to extract the sample. If your sovent is not listed, please select Other and specify the solvent. If you used multiple solvents, please select them all and indicate the ratio.",
                               "items": {
                                  "type": "object",
                                  "required": [
@@ -399,7 +478,7 @@
                      "items": {
                         "type": "object",
                         "properties": {
-                           "instrument_type": {
+                           "instrument":{  
                               "type": "string",
                               "title": "Instrument type",
                               "description": "Please select the type of LCMS instrument used. If your instrument type is not listed here, please select Other and specify it in the Other instrumentation information section below.",
@@ -477,6 +556,43 @@
                               "title": "Instrumentation Method Label",
                               "description": "Please assign an Instrumentation Method Label for this set of instrumentation details. If more than one LCMS instrumentation method was used, please create a new Instrumentation Method Label for each condition by clicking on the plus."
                            }
+                        },
+                        "dependencies":{  
+                           "instrument":{  
+                              "oneOf":[  
+                                 {  
+                                    "properties":{  
+                                       "instrument":{  
+                                          "enum":[  
+                                             "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000081",
+                                             "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000084",
+                                             "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000264",
+                                             "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000082",
+                                             "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000484",
+                                             "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000079",
+                                             "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000080",
+                                             "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000254",
+                                             "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000284",
+                                             "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000288"
+                                          ]
+                                       }
+                                    }
+                                 },
+                                 {  
+                                    "properties":{  
+                                       "instrument":{  
+                                          "enum":[  
+                                             "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000443"
+                                          ]
+                                       },
+                                       "Other_instrument":{  
+                                          "type":"string",
+                                          "title":"Name of other instrument type"
+                                       }
+                                    }
+                                 }
+                              ]
+                           }
                         }
                      }
                   }
@@ -492,7 +608,7 @@
             "type": "object",
             "required": [
                "Genome_Metagenome_ID",
-               "Metabolomics_Data_File",
+               "Metabolomics_data",
                "Sample_preparation_label",
                "Extraction_method_label",
                "Instrumentation_method_label"
