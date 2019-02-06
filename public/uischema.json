@@ -57,7 +57,7 @@
             "orderable":false
          },
          "items":{  
-            "genome_details":{  
+            "medium_details":{  
                "medium_type":{  
                   "ui:widget":"radio"
                }
