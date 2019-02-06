@@ -46,7 +46,7 @@
          }
       }
    },
-   "Experimental_details":{  
+   "experimental":{  
       "ui:field":"collapsible",
       "collapse":{  
          "field":"ObjectField",
@@ -57,7 +57,7 @@
             "orderable":false
          },
          "items":{  
-            "Media details":{  
+            "Genome details":{  
                "Medium type":{  
                   "ui:widget":"radio"
                }
@@ -97,7 +97,7 @@
          }
       }
    },
-   "Genome_Metabolome_links":{  
+   "links":{  
       "ui:field":"collapsible",
       "collapse":{  
          "field":"ObjectField",
@@ -133,7 +133,7 @@
          }
       }
    },
-   "gene_cluster_ms2_spectra_links":{  
+   "BGC_MS2_links":{  
       "ui:field":"collapsible",
       "collapse":{  
          "field":"ObjectField",

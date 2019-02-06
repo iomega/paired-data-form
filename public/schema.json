@@ -132,7 +132,7 @@
             }
          }
       },
-      "Experimental_details":{  
+      "experimental":{  
          "type":"object",
          "title":"Metabolomics experimental details",
          "description":"Please provide basic information about the Sample Preparation, Extraction Methods, and Instrumentation Methods used. If different Sample Preparation, Extraction Methods, and/or Instrumentation Methods were used leading to different metabolomics data, please use separate entries for each experimental change and create a label that will help you recall the experimental parameters during the linking step.",
@@ -144,7 +144,7 @@
                "items":{  
                   "type":"object",
                   "properties":{  
-                     "Media details":{  
+                     "Genome details":{  
                         "type":"object",
                         "properties":{  
                            "Medium type":{  
@@ -613,7 +613,7 @@
             }
          }
       },
-      "Genome_Metabolome_links":{  
+      "links":{  
          "type":"array",
          "title":"Links between genomes and metabolomics data",
          "description":"Create a linked pair by selecting the genome/metagenome accession number as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.",
@@ -656,7 +656,7 @@
             }
          }
       },
-      "gene_cluster_ms2_spectra_links":{  
+      "BGC_MS2_links":{  
          "type":"array",
          "title":"Linked gene clusters and MS2 spectra.",
          "description":"If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide details in this section",
@@ -683,8 +683,8 @@
                      "Evidence as indicated in MIBiG"
                   ]
                },
-               "type":"string",
-               "Compound_SMILES":{  
+               "Compound_SMILES":{
+				"type": "string",
                   "title":"Simplified molecular-input line-entry system (SMILES)",
                   "description":"Please provide the SMILES notation for the known molecule."
                },
