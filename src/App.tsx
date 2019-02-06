@@ -72,7 +72,7 @@ class App extends React.Component<{}, IState> {
           r.BioSample_accession
       );
       return labels;
-    } else if (url === "sample_preparation_method") {
+    } else if (url === "sample_preparation_label") {
       if (
         !this.rawFormData.experimental.sample_preparation
       ) {
