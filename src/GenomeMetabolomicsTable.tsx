@@ -63,14 +63,15 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         );
     });
     return (
-        <Table condensed={true} striped={true}>
+        <Table condensed={true} striped={true} bordered={true}>
             <thead>
-            {/*
                 <tr>
-                    <th colSpan={7}>Metabolome data file</th>
-                    <th colSpan={7}>Genomic</th>
+                    <th colSpan={cols.length}/>
+                    <th colSpan={genomeHeaders.length}>{gmProps[genomeExpander.fk].title}</th>
+                    <th colSpan={sampleHeaders.length}>{gmProps[sampleExpander.fk].title}</th>
+                    <th colSpan={extractionHeaders.length}>{gmProps[extractionExpander.fk].title}</th>
+                    <th colSpan={instrumentHeaders.length}>{gmProps[instrumentExpander.fk].title}</th>
                 </tr>
-            */}                
                 <tr>
                     {headers}
                 </tr>
