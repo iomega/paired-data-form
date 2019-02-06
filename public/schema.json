@@ -93,7 +93,8 @@
                   "properties": {
                      "genome_type": {
                         "type": "string",
-                        "title": "Please select genome (microbial isolate grown in pure culture), metagenome (microbial mixture or environmental sample), or metagenome-assembled genome (genome assembled from a metagenome with no isolate grown in culture).",
+                        "title": "(Meta)Genome?",
+                        "description": "Please select genome (microbial isolate grown in pure culture), metagenome (microbial mixture or environmental sample), or metagenome-assembled genome (genome assembled from a metagenome with no isolate grown in culture).",
                         "enum": [
                            "genome",
                            "metagenome",
