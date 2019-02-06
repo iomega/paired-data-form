@@ -145,6 +145,12 @@
       "items":{  
          "verification":{  
             "ui:widget":"checkbox"
+         },
+         "MS2_URL":{
+            "ui:field":"foreignKey",
+            "foreignKey":{
+
+            }
          }
       }
    }
