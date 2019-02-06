@@ -144,9 +144,9 @@
                "items":{  
                   "type":"object",
                   "properties":{  
-                     "genome_details":{  
+                     "medium_details":{
                         "type":"object",
-						"title": "Genome details",
+                        "title": "Medium details",
                         "properties":{  
                            "medium_type":{  
                               "type":"string",
@@ -281,7 +281,7 @@
                      },
                      "metagenome_details":{  
                         "type":"object",
-						"title": "Metagenome details",
+                        "title": "Metagenome details",
                         "properties":{  
                            "environment":{  
                               "type":"string",
