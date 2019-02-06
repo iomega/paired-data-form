@@ -1,18 +1,14 @@
 import * as React from "react";
+
 import { Button, Glyphicon } from 'react-bootstrap';
+
+import { GeneSpectraTable } from './GeneSpectraTable';
 import { GenomeMetabolomicsTable } from './GenomeMetabolomicsTable';
 
 interface IProps {
     data: any;
     schema: any;
 }
-
-// function flattenGenomeMetabolome(data) {
-//     return {
-//         columns: [],
-//         rows: []
-//     }
-// }
 
 function record2dataUrl(data: object, mimeType = 'application/json') {
     const bj = btoa(JSON.stringify(data, null, 4));
@@ -46,9 +42,10 @@ export const PairedDataRecord = (props: IProps) => {
             </ul>
 
             <h2>Links between genomes and metabolomics data</h2>
-            <GenomeMetabolomicsTable data={props.data} schema={props.schema}/>
+            <GenomeMetabolomicsTable data={props.data} schema={props.schema} />
 
             <h2>Linked gene clusters and MS2 spectra</h2>
+            <GeneSpectraTable data={props.data} schema={props.schema} />
         </div>
     );
 }

@@ -14,7 +14,7 @@ interface IProps {
 
 export const GenomeMetabolomicsTable = (props: IProps) => {
     if (!props.data.Genome_Metabolome_links) {
-        return <div>No links between (meta)genomes and metabolimics data files.</div>;
+        return <p>No links between (meta)genomes and metabolimics data files.</p>;
     }
     const genomeExpander = new GenomeExpander(props.schema, props.data);
     const sampleExpander = new SampleGrowthConditionsExpander(props.schema, props.data);
@@ -50,7 +50,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             }
             return (<td key={tdi}>{row[td]}</td>);
         });
-        
+
         const genomeTds = genomeExpander.tds(row, tds.length);
         tds = tds.concat(genomeTds);
         const sampleTds = sampleExpander.tds(row, tds.length);
@@ -69,7 +69,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         <Table condensed={true} striped={true} bordered={true}>
             <thead>
                 <tr>
-                    <th colSpan={cols.length}/>
+                    <th colSpan={cols.length} />
                     <th colSpan={genomeHeaders.length}>{gmProps[genomeExpander.fk].title}</th>
                     <th colSpan={sampleHeaders.length}>{gmProps[sampleExpander.fk].title}</th>
                     <th colSpan={extractionHeaders.length}>{gmProps[extractionExpander.fk].title}</th>
