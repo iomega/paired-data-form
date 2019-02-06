@@ -30,7 +30,7 @@ export class SampleGrowthConditionsExpander implements IExpander {
         return Object.keys(this.schema).map(k => this.schema[k].title);
     }
 
-    private cols(row: object) {
+    private cols(row: any) {
         const mediumKey = 'medium';
         const mediumSchema = this.schema[mediumKey];
         const envKey = 'environment';
@@ -40,11 +40,19 @@ export class SampleGrowthConditionsExpander implements IExpander {
             if (k === mediumKey) {
                 const mediumIndex = mediumSchema.enum.indexOf(v);
                 const mediumLabel = mediumSchema.enumNames[mediumIndex];
-                return <a key={v} href={v}>{mediumLabel}</a>;
+                if (v === 'other') {
+                    return row.Other_medium;
+                } else {
+                    return <a key={v} href={v}>{mediumLabel}</a>;
+                }
             } else if (k === envKey) {
                 const envIndex = envSchema.enum.indexOf(v);
                 const envLabel = envSchema.enumNames[envIndex];
-                return <a key={v} href={v}>{envLabel}</a>;
+                if (v === 'other') {
+                    return row.Other_environment;
+                } else {
+                    return <a key={v} href={v}>{envLabel}</a>;
+                }
             }
             return v;
         });

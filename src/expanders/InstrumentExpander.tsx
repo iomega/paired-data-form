@@ -30,7 +30,7 @@ export class InstrumentExpander implements IExpander {
         return Object.keys(this.schema).map(k => this.schema[k].title);
     }
 
-    private cols(row: object) {
+    private cols(row: any) {
         const typeKey = 'instrument';
         const typeSchema = this.schema[typeKey];
         const modeKey = 'LCMS mode';
@@ -40,6 +40,9 @@ export class InstrumentExpander implements IExpander {
             if (k === typeKey) {
                 const typeIndex = typeSchema.enum.indexOf(v);
                 const typeLabel = typeSchema.enumNames[typeIndex];
+                if (typeLabel === 'Other Mass Spectrometer') {
+                    return row.Other_instrument;
+                }
                 return <a key={v} href={v}>{typeLabel}</a>;
             } else if (k === modeKey) {
                 const modeIndex = modeSchema.enum.indexOf(v);

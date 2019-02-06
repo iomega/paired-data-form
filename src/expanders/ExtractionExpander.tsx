@@ -30,7 +30,7 @@ export class ExtractionExpander implements IExpander {
         return Object.keys(this.schema).map(k => this.schema[k].title);
     }
 
-    private cols(row: object) {
+    private cols(row: any) {
         const solventsKey = 'Extraction solvent(s)';
         const solventSchema = this.schema[solventsKey].items.properties.solvent;
         return Object.keys(this.schema).map(k => {
@@ -39,6 +39,9 @@ export class ExtractionExpander implements IExpander {
                 return v.map((s: any) => {
                     const solventIndex = solventSchema.enum.indexOf(s.solvent);
                     const solventName = solventSchema.enumNames[solventIndex];
+                    if (solventName === 'Other solvent') {
+                        return (<span key={s.Other_solvent}>{s.Other_solvent}={s.ratio}</span>);
+                    }
                     return (<span key={s.solvent}><a href={s.solvent}>{solventName}</a>={s.ratio}</span>);
                 });
             }
