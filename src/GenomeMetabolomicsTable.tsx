@@ -1,56 +1,15 @@
 import * as React from "react";
+
 import { Table } from 'react-bootstrap';
+
+import { ExtractionExpander } from './expanders/ExtractionExpander';
+import { GenomeExpander } from './expanders/GenomeExpander';
+import { InstrumentExpander } from './expanders/InstrumentExpander';
+import { SampleGrowthConditionsExpander } from './expanders/SampleGrowthConditionsExpander';
 
 interface IProps {
     data: any;
     schema: any;
-}
-
-interface IExpander {
-    fk: string;
-    ths(offset: number): JSX.Element[];
-    tds(row: any, offset: number): JSX.Element[];
-}
-
-class GenomeExpander implements IExpander {
-    public fk = 'Genome_Metagenome_ID';
-    private foreignTable = 'metagenome_genome sequence_assemblies';
-    private schema: any;
-    private lookup: any[];
-    
-    constructor(schema: any, data: any) {
-        this.schema = schema.properties.data_to_link.properties[this.foreignTable].items.properties
-        this.lookup = data.data_to_link[this.foreignTable];
-    }
-
-    public ths(offset: number) {
-        return this.headers().map((s, i) => <th key={i + offset}>{s}</th>);
-    }
-
-    public tds(row: any, offset: number) {
-        const genome = this.find(row);
-        const genomeCols = this.cols(genome);
-        return genomeCols.map((td, tdi) => {
-            return (<td key={tdi + offset}>{td}</td>);
-        });
-    }
-
-    private headers() {
-        return Object.keys(this.schema).map(k => this.schema[k].title);
-    }
-    private cols(row: object) {
-        return Object.keys(this.schema).map(k => row[k]);
-    }
-
-    private find(row: any) {
-        const genomeId = row[this.fk];
-        return this.lookup.find((r: any) => (
-            r.GenBank_accession === genomeId ||
-            r.RefSeq_accession === genomeId || 
-            r.ENA_NCBI_accession === genomeId || 
-            r.MGnify_accession === genomeId
-        ));
-    }
 }
 
 export const GenomeMetabolomicsTable = (props: IProps) => {
@@ -58,8 +17,16 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         return <div>No links between (meta)genomes and metabolimics data files.</div>;
     }
     const genomeExpander = new GenomeExpander(props.schema, props.data);
+    const sampleExpander = new SampleGrowthConditionsExpander(props.schema, props.data);
+    const extractionExpander = new ExtractionExpander(props.schema, props.data);
+    const instrumentExpander = new InstrumentExpander(props.schema, props.data);
     const gmProps = props.schema.properties.Genome_Metabolome_links.items.properties;
-    const foreignKeys = new Set([genomeExpander.fk]);
+    const foreignKeys = new Set([
+        genomeExpander.fk,
+        sampleExpander.fk,
+        extractionExpander.fk,
+        instrumentExpander.fk,
+    ]);
     const cols = Object.keys(gmProps).filter(k => !foreignKeys.has(k));
 
     let headers = cols.map((s) => {
@@ -68,6 +35,12 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
     });
     const genomeHeaders = genomeExpander.ths(headers.length);
     headers = headers.concat(genomeHeaders);
+    const sampleHeaders = sampleExpander.ths(headers.length);
+    headers = headers.concat(sampleHeaders);
+    const extractionHeaders = extractionExpander.ths(headers.length);
+    headers = headers.concat(extractionHeaders);
+    const instrumentHeaders = instrumentExpander.ths(headers.length);
+    headers = headers.concat(instrumentHeaders);
 
     const gmRows = props.data.Genome_Metabolome_links;
     const rows = gmRows.map((row: any, i: number) => {
@@ -77,6 +50,12 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         
         const genomeTds = genomeExpander.tds(row, tds.length);
         tds = tds.concat(genomeTds);
+        const sampleTds = sampleExpander.tds(row, tds.length);
+        tds = tds.concat(sampleTds);
+        const extractionTds = extractionExpander.tds(row, tds.length);
+        tds = tds.concat(extractionTds);
+        const instrumentTds = instrumentExpander.tds(row, tds.length);
+        tds = tds.concat(instrumentTds);
         return (
             <tr key={i}>
                 {tds}
@@ -84,8 +63,14 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         );
     });
     return (
-        <Table>
+        <Table condensed={true} striped={true}>
             <thead>
+            {/*
+                <tr>
+                    <th colSpan={7}>Metabolome data file</th>
+                    <th colSpan={7}>Genomic</th>
+                </tr>
+            */}                
                 <tr>
                     {headers}
                 </tr>
