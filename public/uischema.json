@@ -9,83 +9,100 @@
          "collapsed":false
       }
    },
-   "data_to_link":{  
+   "metabolomics":{  
       "ui:field":"collapsible",
       "collapse":{  
          "field":"ObjectField",
-         "collapsed":false
+         "collapsed":true
+      }
+   },
+   "genomes":{  
+      "ui:field":"collapsible",
+      "collapse":{  
+         "field":"ObjectField",
+         "collapsed":true
       },
-      "metagenome_genome sequence_assemblies":{  
+      "ui:options":{  
+         "orderable":false
+      },
+      "items":{  
+         "genome_type":{  
+            "ui:widget":"radio"
+         },
+         "GenBank_accession":{  
+            "ui:placeholder":"None, there is a RefSeq ID"
+         },
+         "RefSeq_accession":{  
+            "ui:placeholder":"None, there is a GenBank ID"
+         },
+         "ENA_NCBI_accession":{  
+            "ui:placeholder":"None, there is a MGnify ID"
+         },
+         "MGnify_accession":{  
+            "ui:placeholder":"None, there is a ENA/NCBI ID"
+         },
+         "BioSample_accession":{  
+            "ui:placeholder":"None"
+         }
+      }
+   },
+   "Experimental_details":{  
+      "ui:field":"collapsible",
+      "collapse":{  
+         "field":"ObjectField",
+         "collapsed":true
+      },
+      "Sample_Preparation":{  
          "ui:options":{  
             "orderable":false
          },
          "items":{  
-            "genome_type":{  
-               "ui:widget":"radio"
+            "Media details":{  
+               "Medium type":{  
+                  "ui:widget":"radio"
+               }
             },
-            "GenBank_accession":{  
-               "ui:placeholder":"None, there is a RefSeq ID"
+            "Other growth conditions":{  
+               "ui:widget":"textarea"
             },
-            "RefSeq_accession":{  
-               "ui:placeholder":"None, there is a GenBank ID"
-            },
-            "ENA_NCBI_accession":{  
-               "ui:placeholder":"None, there is a MGnify ID"
-            },
-            "MGnify_accession":{  
-               "ui:placeholder":"None, there is a ENA/NCBI ID"
-            },
-            "BioSample_accession":{  
-               "ui:placeholder":"None"
+            "Metagenomic sample description":{  
+               "ui:widget":"textarea"
             }
          }
       },
-      "Experimental_details":{  
-         "Sample_Preparation":{  
-            "ui:options":{  
-               "orderable":false
-            },
-            "items":{  
-               "Medium type":{  
-                  "ui:widget":"radio"
-               },
-               "Other growth conditions":{  
-                  "ui:widget":"textarea"
-               },
-               "Metagenomic sample description":{  
-                  "ui:widget":"textarea"
-               }
-            }
+      "Extraction Methods":{  
+         "ui:options":{  
+            "orderable":false
          },
-         "Extraction Methods":{  
-            "ui:options":{  
-               "orderable":false
-            },
-            "items":{  
-               "Other extraction parameters":{  
-                  "ui:widget":"textarea"
-               }
+         "items":{  
+            "Other extraction parameters":{  
+               "ui:widget":"textarea"
             }
+         }
+      },
+      "Instrumentation Methods":{  
+         "ui:options":{  
+            "orderable":false
          },
-         "Instrumentation Methods":{  
-            "ui:options":{  
-               "orderable":false
+         "items":{  
+            "Column parameters":{  
+               "ui:widget":"radio"
             },
-            "items":{  
-               "Column parameters":{  
-                  "ui:widget":"radio"
-               },
-               "LCMS mode":{  
-                  "ui:widget":"radio"
-               },
-               "Other LCMS parameters":{  
-                  "ui:widget":"textarea"
-               }
+            "LCMS mode":{  
+               "ui:widget":"radio"
+            },
+            "Other LCMS parameters":{  
+               "ui:widget":"textarea"
             }
          }
       }
    },
    "Genome_Metabolome_links":{  
+      "ui:field":"collapsible",
+      "collapse":{  
+         "field":"ObjectField",
+         "collapsed":true
+      },
       "ui:options":{  
          "orderable":false
       },
@@ -117,12 +134,17 @@
       }
    },
    "gene_cluster_ms2_spectra_links":{  
+      "ui:field":"collapsible",
+      "collapse":{  
+         "field":"ObjectField",
+         "collapsed":true
+      },
       "ui:options":{  
          "orderable":false
       },
       "items":{  
          "verification":{  
-            "ui:widget":"radio"
+            "ui:widget":"checkbox"
          }
       }
    }
