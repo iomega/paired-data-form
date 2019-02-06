@@ -123,6 +123,12 @@
       "items":{  
          "verification":{  
             "ui:widget":"radio"
+         },
+         "MS2_URL":{
+            "ui:field":"foreignKey",
+            "foreignKey":{
+
+            }
          }
       }
    }

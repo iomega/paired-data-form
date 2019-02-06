@@ -50,6 +50,9 @@ class App extends React.Component<{}, IState> {
         uiSchema.Genome_Metabolome_links.items.Instrumentation_method_label.foreignKey.search = this.searchLabels.bind(
           this
         );
+        uiSchema.gene_cluster_ms2_spectra_links.items.MS2_URL.foreignKey.search = this.searchLabels.bind(
+          this
+        );
         this.setState({ uiSchema });
       });
   }
@@ -61,7 +64,7 @@ class App extends React.Component<{}, IState> {
     if (url === "Genome_Metagenome_ID") {
       if (
         this.rawFormData.data_to_link[
-          "metagenome_genome sequence_assemblies"
+        "metagenome_genome sequence_assemblies"
         ] === undefined
       ) {
         return [];
@@ -92,7 +95,7 @@ class App extends React.Component<{}, IState> {
     } else if (url === "Extraction_method_label") {
       if (
         this.rawFormData.data_to_link.Experimental_details[
-          "Extraction Methods"
+        "Extraction Methods"
         ] === undefined
       ) {
         return [];
@@ -105,7 +108,7 @@ class App extends React.Component<{}, IState> {
     } else if (url === "Instrumentation_method_label") {
       if (
         this.rawFormData.data_to_link.Experimental_details[
-          "Instrumentation Methods"
+        "Instrumentation Methods"
         ] === undefined
       ) {
         return [];
@@ -114,6 +117,12 @@ class App extends React.Component<{}, IState> {
       const labels = this.rawFormData.data_to_link.Experimental_details[
         "Instrumentation Methods"
       ].map((r: any) => r.Instrumentation_Method);
+      return labels;
+    } else if (url === 'MS2_URL') {
+      if (!this.rawFormData.Genome_Metabolome_links) {
+        return [];
+      }
+      const labels = this.rawFormData.Genome_Metabolome_links.map((r: any) => r.Metabolomics_Data_File);
       return labels;
     }
     throw new Error("Unknown link");
@@ -236,6 +245,14 @@ class App extends React.Component<{}, IState> {
         }
       }
     );
+    if (formData.gene_cluster_ms2_spectra_links) {
+      const msUrls = this.searchLabels("MS2_URL");
+      formData.gene_cluster_ms2_spectra_links.forEach((geneSpectraLink: any, i: number) => {
+        if (geneSpectraLink.MS2_URL && !msUrls.includes(geneSpectraLink.MS2_URL)) {
+          errors.gene_cluster_ms2_spectra_links[i].MS2_URL.addError("Invalid selection");
+        }
+      });
+    }
     return errors;
   };
 }
