@@ -20,7 +20,7 @@ export const GeneSpectraTable = (props: IProps) => {
         }
         return <th key={i}>{v}</th>;
     });
-    
+
     const depKey = 'What would you like to link?';
     const depCols: string[] = [];
     const depHeaders: JSX.Element[] = [];
@@ -37,7 +37,7 @@ export const GeneSpectraTable = (props: IProps) => {
             return <td key={ci}>{r[c]}</td>;
         });
         const depTds = depCols.map((c: string, ci: number) => {
-            return <td key={ci}>{r[c]}</td>;
+            return <td key={tds.length + ci}>{r[c]}</td>;
         });
         tds = tds.concat(depTds);
         return (
