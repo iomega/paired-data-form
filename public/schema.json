@@ -281,7 +281,7 @@
                      },
                      "metagenome_details":{  
                         "type":"object",
-						"title": "Metagenome details"
+						"title": "Metagenome details",
                         "properties":{  
                            "environment":{  
                               "type":"string",
@@ -492,7 +492,7 @@
                   "properties":{  
                      "instrumentation":{  
                         "type":"object",
-						"title": "Instrumentation"
+						"title": "Instrumentation",
                         "properties":{  
                            "instrument":{  
                               "type":"string",
@@ -753,7 +753,7 @@
                },
                "link":{  
                   "type":"string",
-				  "title": "What would you like to link?"
+				  "title": "What would you like to link?",
                   "enum":[  
                      "GNPS molecular family",
                      "single molecule"
