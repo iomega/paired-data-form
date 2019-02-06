@@ -3,15 +3,15 @@ import * as React from "react";
 import { IExpander } from "./AbstractExpander";
 
 export class ExtractionExpander implements IExpander {
-    public fk = 'Extraction_method_label';
-    private foreignTable = 'Extraction Methods';
-    private labelField = 'Extraction_Method';
+    public fk = 'extraction_method_label';
+    private foreignTable = 'extraction_methods';
+    private labelField = 'extraction_method';
     private schema: any;
     private lookup: any[];
 
     constructor(schema: any, data: any) {
-        this.schema = schema.properties.data_to_link.properties.Experimental_details.properties[this.foreignTable].items.properties;
-        this.lookup = data.data_to_link.Experimental_details[this.foreignTable];
+        this.schema = schema.properties.experimental.properties[this.foreignTable].items.properties;
+        this.lookup = data.experimental[this.foreignTable];
     }
 
     public ths(offset: number) {
@@ -31,7 +31,7 @@ export class ExtractionExpander implements IExpander {
     }
 
     private cols(row: any) {
-        const solventsKey = 'Extraction solvent(s)';
+        const solventsKey = 'solvents';
         const solventSchema = this.schema[solventsKey].items.properties.solvent;
         return Object.keys(this.schema).map(k => {
             const v = row[k];

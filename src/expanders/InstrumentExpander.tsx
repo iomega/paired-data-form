@@ -10,8 +10,8 @@ export class InstrumentExpander implements IExpander {
     private lookup: any[];
 
     constructor(schema: any, data: any) {
-        this.schema = schema.properties.data_to_link.properties.Experimental_details.properties[this.foreignTable].items.properties;
-        this.lookup = data.data_to_link.Experimental_details[this.foreignTable];
+        this.schema = schema.properties.experimental.properties[this.foreignTable].items.properties;
+        this.lookup = data.experimental[this.foreignTable];
     }
 
     public ths(offset: number) {

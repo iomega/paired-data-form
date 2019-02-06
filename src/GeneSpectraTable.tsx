@@ -8,10 +8,10 @@ interface IProps {
 }
 
 export const GeneSpectraTable = (props: IProps) => {
-    if (!props.data.gene_cluster_ms2_spectra_links) {
+    if (!props.data.BGC_MS2_links) {
         return <p>No links between gene clusters and MS2 spectra.</p>;
     }
-    const mySchema = props.schema.properties.gene_cluster_ms2_spectra_links.items;
+    const mySchema = props.schema.properties.BGC_MS2_links.items;
     const myProps = mySchema.properties;
     const cols = Object.keys(myProps);
     let headers = cols.map((v: any, i: number) => {
@@ -32,7 +32,7 @@ export const GeneSpectraTable = (props: IProps) => {
     })
     headers = headers.concat(depHeaders);
 
-    const rows = props.data.gene_cluster_ms2_spectra_links.map((r: any, i: number) => {
+    const rows = props.data.BGC_MS2_links.map((r: any, i: number) => {
         let tds = cols.map((c: any, ci: number) => {
             return <td key={ci}>{r[c]}</td>;
         });
