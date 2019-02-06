@@ -608,7 +608,7 @@
             "type": "object",
             "required": [
                "Genome_Metagenome_ID",
-               "Metabolomics_data",
+               "Metabolomics_Data_File",
                "Sample_preparation_label",
                "Extraction_method_label",
                "Instrumentation_method_label"
