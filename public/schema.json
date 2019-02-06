@@ -629,19 +629,11 @@
                "extraction_method_label",
                "instrumentation_method_label"
             ],
-<<<<<<< HEAD
             "properties":{  
                "genome_ID":{  
                   "type":"string",
                   "title":"Linked Genome/Metagenome Accession ID",
                   "description":"Please select the Genome/Metagenome accession number to be linked to a metabolomics data file."
-=======
-            "properties": {
-               "Genome_Metagenome_ID": {
-                  "type": "string",
-                  "title": "Linked Genome/Metagenome Accession ID",
-                  "description": "Please select the Genome/Metagenome accession number to be linked to a metabolomics data file."
->>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                },
                "metabolomics_file":{  
                   "type":"string",
@@ -649,7 +641,6 @@
                   "description":"Please provide a direct link to the metabolomics data file location, e.g., ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML, that provides access to CNB091_R5_M.mzXML.",
                   "format":"uri"
                },
-<<<<<<< HEAD
                "sample_preparation_label":{  
                   "type":"string",
                   "title":"Sample Growth Conditions",
@@ -664,22 +655,6 @@
                   "type":"string",
                   "title":"Instrumentation Method",
                   "description":"Please select the Instrumentation Method Label for this linked dataset"
-=======
-               "Sample_preparation_label": {
-                  "type": "string",
-                  "title": "Sample Growth Conditions",
-                  "description": "Please select the Sample Growth Conditions Label for this linked dataset."
-               },
-               "Extraction_method_label": {
-                  "type": "string",
-                  "title": "Extraction Method",
-                  "description": "Please select the Extraction Method Label for this linked dataset"
-               },
-               "Instrumentation_method_label": {
-                  "type": "string",
-                  "title": "Instrumentation Method",
-                  "description": "Please select the Instrumentation Method Label for this linked dataset"
->>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                }
             }
          }
@@ -694,19 +669,11 @@
                "BGC_ID",
                "verification"
             ],
-<<<<<<< HEAD
             "properties":{  
                "known_link":{  
                   "type":"string",
                   "title":"Known linked gene cluster and molecule",
                   "description":"Please provide a brief description of the known linked molecule(s) and gene cluster(s), including the name of the molecule(s)."
-=======
-            "properties": {
-               "Known_links": {
-                  "type": "string",
-                  "title": "Known linked gene cluster and molecule",
-                  "description": "Please provide a brief description of the known linked molecule(s) and gene cluster(s), including the name of the molecule(s)."
->>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                },
                "verification":{  
                   "type":"string",
@@ -724,24 +691,17 @@
                   "title":"Simplified molecular-input line-entry system (SMILES)",
                   "description":"Please provide the SMILES notation for the known molecule."
                },
-<<<<<<< HEAD
                "IUPAC":{  
                   "type":"string",
                   "title":"International union of pure and applied chemistry (IUPAC) name",
                   "description":"Please provide the IUPAC name for the known molecule,"
-=======
-               "Compound_IUPAC": {
-                  "type": "string",
-                  "title": "International union of pure and applied chemistry (IUPAC) name",
-                  "description": "Please provide the IUPAC name for the known molecule,"
->>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
-               },
+              },
                "BGC_ID":{  
                   "type":"object",
+				  "title": "MIBiG BGC ID",
                   "properties":{  
                      "BGC":{  
                         "type":"string",
-                        "title":"Biosynthetic gene cluster",
                         "enum":[  
                            "MIBiG number associated with this exact BGC",
                            "MIBiG number of a similar BGC from a closely related strain"
@@ -791,23 +751,17 @@
                      }
                   }
                },
-<<<<<<< HEAD
                "link":{  
                   "type":"string",
 				  "title": "What would you like to link?",
                   "enum":[  
-=======
-               "What would you like to link?": {
-                  "type": "string",
-                  "enum": [
->>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                      "GNPS molecular family",
                      "single molecule"
                   ],
                   "default": "single molecule"
                }
             },
-<<<<<<< HEAD
+
             "dependencies":{  
                "link":{  
                   "oneOf":[  
@@ -815,15 +769,6 @@
                         "properties":{  
                            "link":{  
                               "enum":[  
-=======
-            "dependencies": {
-               "What would you like to link?": {
-                  "oneOf": [
-                     {
-                        "properties": {
-                           "What would you like to link?": {
-                              "enum": [
->>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                                  "GNPS molecular family"
                               ]
                            },
@@ -834,17 +779,10 @@
                            }
                         }
                      },
-<<<<<<< HEAD
                      {  
                         "properties":{  
                            "link":{  
                               "enum":[  
-=======
-                     {
-                        "properties": {
-                           "What would you like to link?": {
-                              "enum": [
->>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                                  "single molecule"
                               ]
                            },
