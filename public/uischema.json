@@ -52,46 +52,46 @@
          "field":"ObjectField",
          "collapsed":true
       },
-      "Sample_Preparation":{  
+      "sample_preparation":{  
          "ui:options":{  
             "orderable":false
          },
          "items":{  
-            "Genome details":{  
-               "Medium type":{  
+            "genome_details":{  
+               "medium_type":{  
                   "ui:widget":"radio"
                }
             },
-            "Other growth conditions":{  
+            "other_growth_conditions":{  
                "ui:widget":"textarea"
             },
-            "Metagenomic sample description":{  
-               "ui:widget":"textarea"
-            }
-         }
-      },
-      "Extraction Methods":{  
-         "ui:options":{  
-            "orderable":false
-         },
-         "items":{  
-            "Other extraction parameters":{  
+            "metagenomic_sample_description":{  
                "ui:widget":"textarea"
             }
          }
       },
-      "Instrumentation Methods":{  
+      "extraction_methods":{  
          "ui:options":{  
             "orderable":false
          },
          "items":{  
-            "Column parameters":{  
+            "other_extraction_parameters":{  
+               "ui:widget":"textarea"
+            }
+         }
+      },
+      "instrumentation_methods":{  
+         "ui:options":{  
+            "orderable":false
+         },
+         "items":{  
+            "column":{  
                "ui:widget":"radio"
             },
-            "LCMS mode":{  
+            "mode":{  
                "ui:widget":"radio"
             },
-            "Other LCMS parameters":{  
+            "other_instrumentation":{  
                "ui:widget":"textarea"
             }
          }
@@ -107,25 +107,25 @@
          "orderable":false
       },
       "items":{  
-         "Genome_Metagenome_ID":{  
+         "genome_ID":{  
             "ui:field":"foreignKey",
             "foreignKey":{  
 
             }
          },
-         "Sample_preparation_label":{  
+         "sample_preparation_label":{  
             "ui:field":"foreignKey",
             "foreignKey":{  
 
             }
          },
-         "Extraction_method_label":{  
+         "extraction_method_label":{  
             "ui:field":"foreignKey",
             "foreignKey":{  
 
             }
          },
-         "Instrumentation_method_label":{  
+         "instrumentation_method_label":{  
             "ui:field":"foreignKey",
             "foreignKey":{  
 
