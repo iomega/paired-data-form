@@ -1,52 +1,52 @@
-{  
-   "title":"iOMEGA Paired Data Platform",
-   "description":"This is the JSON schema for paired genomic / metabolomic data.",
-   "type":"object",
-   "required":[  
+{
+   "title": "iOMEGA Paired Data Platform",
+   "description": "This is the JSON schema for paired genomic / metabolomic data.",
+   "type": "object",
+   "required": [
       "version",
       "personal",
       "metabolomics",
       "genomes"
    ],
-   "properties":{  
-      "version":{  
-         "type":"string",
-         "readonly":true,
-         "default":"1"
+   "properties": {
+      "version": {
+         "type": "string",
+         "readonly": true,
+         "default": "1"
       },
-      "personal":{  
-         "type":"object",
-         "title":"Submitter Information",
-         "properties":{  
-            "submitter_name":{  
-               "type":"string",
-               "title":"Name of contact for correspondence",
-               "description":"This person will be the point of contact for any communication related to this entry."
+      "personal": {
+         "type": "object",
+         "title": "Submitter Information",
+         "properties": {
+            "submitter_name": {
+               "type": "string",
+               "title": "Name of contact for correspondence",
+               "description": "This person will be the point of contact for any communication related to this entry."
             },
-            "submitter_institution":{  
-               "type":"string",
-               "title":"Academic institution or company name",
-               "description":"Please use the full, official name of your institute in English. E.g., 'Harvard University'."
+            "submitter_institution": {
+               "type": "string",
+               "title": "Academic institution or company name",
+               "description": "Please use the full, official name of your institute in English. E.g., 'Harvard University'."
             },
-            "submitter_email":{  
-               "type":"string",
-               "title":"Submitter contact e-mail address",
-               "format":"email"
+            "submitter_email": {
+               "type": "string",
+               "title": "Submitter contact e-mail address",
+               "format": "email"
             },
-            "PI_name":{  
-               "type":"string",
-               "title":"Name of the principal investigator of the submitter",
-               "description":"This person is contacted in case the submitter has moved institution"
+            "PI_name": {
+               "type": "string",
+               "title": "Name of the principal investigator of the submitter",
+               "description": "This person is contacted in case the submitter has moved institution"
             },
-            "PI_institution":{  
-               "type":"string",
-               "title":"Academic institution or company name",
-               "description":"Please use the full, official name of your institute in English. E.g., 'Harvard University'."
+            "PI_institution": {
+               "type": "string",
+               "title": "Academic institution or company name",
+               "description": "Please use the full, official name of your institute in English. E.g., 'Harvard University'."
             },
-            "PI_email":{  
-               "type":"string",
-               "title":"PI contact e-mail address",
-               "format":"email"
+            "PI_email": {
+               "type": "string",
+               "title": "PI contact e-mail address",
+               "format": "email"
             }
          }
       },
@@ -158,10 +158,10 @@
                               ]
                            },
                            "medium":{  
-                              "type":"string",
-                              "title":"Growth medium",
+                              "type": "string",
+                              "title": "Growth medium",
                               "description":"Please select a growth medium used in the experiment. If it is not present, please select Other and type it in.",
-                              "enum":[  
+                              "enum": [
                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium381.pdf",
                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium545.pdf",
                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1.pdf",
@@ -180,7 +180,7 @@
                                  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2950629/pdf/nihms234294.pdf",
                                  "other"
                               ],
-                              "enumNames":[  
+                              "enumNames": [
                                  "LB (Luria-Bertani) medium",
                                  "Tryptic-Soy Broth (TSB)",
                                  "Nutrient Agar",
@@ -511,7 +511,7 @@
                                  "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000288",
                                  "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000443"
                               ],
-                              "enumNames":[  
+                              "enumNames": [
                                  "Quadrupole",
                                  "Time-of-flight (TOF)",
                                  "Ion trap (IT)",
@@ -629,11 +629,19 @@
                "extraction_method_label",
                "instrumentation_method_label"
             ],
+<<<<<<< HEAD
             "properties":{  
                "genome_ID":{  
                   "type":"string",
                   "title":"Linked Genome/Metagenome Accession ID",
                   "description":"Please select the Genome/Metagenome accession number to be linked to a metabolomics data file."
+=======
+            "properties": {
+               "Genome_Metagenome_ID": {
+                  "type": "string",
+                  "title": "Linked Genome/Metagenome Accession ID",
+                  "description": "Please select the Genome/Metagenome accession number to be linked to a metabolomics data file."
+>>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                },
                "metabolomics_file":{  
                   "type":"string",
@@ -641,6 +649,7 @@
                   "description":"Please provide a direct link to the metabolomics data file location, e.g., ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML, that provides access to CNB091_R5_M.mzXML.",
                   "format":"uri"
                },
+<<<<<<< HEAD
                "sample_preparation_label":{  
                   "type":"string",
                   "title":"Sample Growth Conditions",
@@ -655,6 +664,22 @@
                   "type":"string",
                   "title":"Instrumentation Method",
                   "description":"Please select the Instrumentation Method Label for this linked dataset"
+=======
+               "Sample_preparation_label": {
+                  "type": "string",
+                  "title": "Sample Growth Conditions",
+                  "description": "Please select the Sample Growth Conditions Label for this linked dataset."
+               },
+               "Extraction_method_label": {
+                  "type": "string",
+                  "title": "Extraction Method",
+                  "description": "Please select the Extraction Method Label for this linked dataset"
+               },
+               "Instrumentation_method_label": {
+                  "type": "string",
+                  "title": "Instrumentation Method",
+                  "description": "Please select the Instrumentation Method Label for this linked dataset"
+>>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                }
             }
          }
@@ -669,11 +694,19 @@
                "BGC_ID",
                "verification"
             ],
+<<<<<<< HEAD
             "properties":{  
                "known_link":{  
                   "type":"string",
                   "title":"Known linked gene cluster and molecule",
                   "description":"Please provide a brief description of the known linked molecule(s) and gene cluster(s), including the name of the molecule(s)."
+=======
+            "properties": {
+               "Known_links": {
+                  "type": "string",
+                  "title": "Known linked gene cluster and molecule",
+                  "description": "Please provide a brief description of the known linked molecule(s) and gene cluster(s), including the name of the molecule(s)."
+>>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                },
                "verification":{  
                   "type":"string",
@@ -691,10 +724,17 @@
                   "title":"Simplified molecular-input line-entry system (SMILES)",
                   "description":"Please provide the SMILES notation for the known molecule."
                },
+<<<<<<< HEAD
                "IUPAC":{  
                   "type":"string",
                   "title":"International union of pure and applied chemistry (IUPAC) name",
                   "description":"Please provide the IUPAC name for the known molecule,"
+=======
+               "Compound_IUPAC": {
+                  "type": "string",
+                  "title": "International union of pure and applied chemistry (IUPAC) name",
+                  "description": "Please provide the IUPAC name for the known molecule,"
+>>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                },
                "BGC_ID":{  
                   "type":"object",
@@ -751,16 +791,23 @@
                      }
                   }
                },
+<<<<<<< HEAD
                "link":{  
                   "type":"string",
 				  "title": "What would you like to link?",
                   "enum":[  
+=======
+               "What would you like to link?": {
+                  "type": "string",
+                  "enum": [
+>>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                      "GNPS molecular family",
                      "single molecule"
                   ],
-                  "default":"single molecule"
+                  "default": "single molecule"
                }
             },
+<<<<<<< HEAD
             "dependencies":{  
                "link":{  
                   "oneOf":[  
@@ -768,32 +815,48 @@
                         "properties":{  
                            "link":{  
                               "enum":[  
+=======
+            "dependencies": {
+               "What would you like to link?": {
+                  "oneOf": [
+                     {
+                        "properties": {
+                           "What would you like to link?": {
+                              "enum": [
+>>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                                  "GNPS molecular family"
                               ]
                            },
-                           "network_nodes_URL":{  
-                              "type":"string",
-                              "title":"GNPS network nodes URL",
-                              "description":"Please provide the URL from GNPS for the network nodes page: first click 'View Spectral Families (In Browser Network Visualizer)' and then click 'Network Nodes' and copy this URL, e.g. https://gnps.ucsd.edu/ProteoSAFe/result.jsp?view=cluster_info_sliced&componentindex=290&show=true&task=c36f90ba29fe44c18e96db802de0c6b9#%7B%7D"
+                           "network_nodes_URL": {
+                              "type": "string",
+                              "title": "GNPS network nodes URL",
+                              "description": "Please provide the URL from GNPS for the network nodes page: first click 'View Spectral Families (In Browser Network Visualizer)' and then click 'Network Nodes' and copy this URL, e.g. https://gnps.ucsd.edu/ProteoSAFe/result.jsp?view=cluster_info_sliced&componentindex=290&show=true&task=c36f90ba29fe44c18e96db802de0c6b9#%7B%7D"
                            }
                         }
                      },
+<<<<<<< HEAD
                      {  
                         "properties":{  
                            "link":{  
                               "enum":[  
+=======
+                     {
+                        "properties": {
+                           "What would you like to link?": {
+                              "enum": [
+>>>>>>> 18b2c8b95a3b20c9a6d3d2db39f6004ab89ea7c7
                                  "single molecule"
                               ]
                            },
-                           "MS2_URL":{  
-                              "type":"string",
-                              "title":"MS2 URL",
-                              "description":"Please provide the URL for the mass spectrum with the molecule to link."
+                           "MS2_URL": {
+                              "type": "string",
+                              "title": "MS2 URL",
+                              "description": "Please provide the URL for the mass spectrum with the molecule to link."
                            },
-                           "MS2_scan":{  
-                              "type":"string",
-                              "title":"MS2 scan number",
-                              "description":"Please provide the MS2 scan number for the molecule to link."
+                           "MS2_scan": {
+                              "type": "string",
+                              "title": "MS2 scan number",
+                              "description": "Please provide the MS2 scan number for the molecule to link."
                            }
                         }
                      }

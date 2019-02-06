@@ -19,7 +19,7 @@
    "genomes":{  
       "ui:field":"collapsible",
       "collapse":{  
-         "field":"ObjectField",
+         "field":"ArrayField",
          "collapsed":true
       },
       "ui:options":{  
@@ -100,7 +100,7 @@
    "links":{  
       "ui:field":"collapsible",
       "collapse":{  
-         "field":"ObjectField",
+         "field":"ArrayField",
          "collapsed":true
       },
       "ui:options":{  
@@ -136,7 +136,7 @@
    "BGC_MS2_links":{  
       "ui:field":"collapsible",
       "collapse":{  
-         "field":"ObjectField",
+         "field":"ArrayField",
          "collapsed":true
       },
       "ui:options":{  
@@ -145,6 +145,12 @@
       "items":{  
          "verification":{  
             "ui:widget":"checkbox"
+         },
+         "MS2_URL":{
+            "ui:field":"foreignKey",
+            "foreignKey":{
+
+            }
          }
       }
    }
