@@ -45,6 +45,9 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
     const gmRows = props.data.Genome_Metabolome_links;
     const rows = gmRows.map((row: any, i: number) => {
         let tds = cols.map((td, tdi) => {
+            if (td === 'Metabolomics_Data_File') {
+                return (<td key={tdi}><a href={row[td]}>{row[td]}</a></td>);
+            }
             return (<td key={tdi}>{row[td]}</td>);
         });
         

@@ -31,7 +31,23 @@ export class SampleGrowthConditionsExpander implements IExpander {
     }
 
     private cols(row: object) {
-        return Object.keys(this.schema).map(k => row[k]);
+        const mediumKey = 'medium';
+        const mediumSchema = this.schema[mediumKey];
+        const envKey = 'environment';
+        const envSchema = this.schema[envKey];
+        return Object.keys(this.schema).map(k => {
+            const v = row[k];
+            if (k === mediumKey) {
+                const mediumIndex = mediumSchema.enum.indexOf(v);
+                const mediumLabel = mediumSchema.enumNames[mediumIndex];
+                return <a key={v} href={v}>{mediumLabel}</a>;
+            } else if (k === envKey) {
+                const envIndex = envSchema.enum.indexOf(v);
+                const envLabel = envSchema.enumNames[envIndex];
+                return <a key={v} href={v}>{envLabel}</a>;
+            }
+            return v;
+        });
     }
 
     private find(row: any) {

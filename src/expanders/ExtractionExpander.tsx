@@ -31,10 +31,16 @@ export class ExtractionExpander implements IExpander {
     }
 
     private cols(row: object) {
-        return Object.keys(this.schema).map((k) => {
+        const solventsKey = 'Extraction solvent(s)';
+        const solventSchema = this.schema[solventsKey].items.properties.solvent;
+        return Object.keys(this.schema).map(k => {
             const v = row[k];
-            if (k === 'Extraction solvent(s)') {
-                return v.map((s: any) => `${s.solvent}=${s.ratio}`).join(',');
+            if (k === solventsKey) {
+                return v.map((s: any) => {
+                    const solventIndex = solventSchema.enum.indexOf(s.solvent);
+                    const solventName = solventSchema.enumNames[solventIndex];
+                    return (<span key={s.solvent}><a href={s.solvent}>{solventName}</a>={s.ratio}</span>);
+                });
             }
             return v;
         });

@@ -31,7 +31,23 @@ export class InstrumentExpander implements IExpander {
     }
 
     private cols(row: object) {
-        return Object.keys(this.schema).map(k => row[k]);
+        const typeKey = 'instrument';
+        const typeSchema = this.schema[typeKey];
+        const modeKey = 'LCMS mode';
+        const modeSchema = this.schema[modeKey];
+        return Object.keys(this.schema).map(k => {
+            const v = row[k];
+            if (k === typeKey) {
+                const typeIndex = typeSchema.enum.indexOf(v);
+                const typeLabel = typeSchema.enumNames[typeIndex];
+                return <a key={v} href={v}>{typeLabel}</a>;
+            } else if (k === modeKey) {
+                const modeIndex = modeSchema.enum.indexOf(v);
+                const modeLabel = modeSchema.enumNames[modeIndex];
+                return <a key={v} href={v}>{modeLabel}</a>;
+            }
+            return v;
+        });
     }
 
     private find(row: any) {
