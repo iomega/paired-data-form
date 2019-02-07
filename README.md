@@ -1,4 +1,4 @@
-Web form for paired data.
+Web form for paired data for mapping between genomic and metabolomic (mass spectra) datasets.
 
 The schema ([public/schema.json](public/schema.json)) describes the form.
 

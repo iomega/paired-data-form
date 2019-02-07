@@ -38,19 +38,19 @@ class App extends React.Component<{}, IState> {
       .then(r => r.json())
       .then(uiSchema => {
         // inject foreign key search method
-        uiSchema.Genome_Metabolome_links.items.Genome_Metagenome_ID.foreignKey.search = this.searchLabels.bind(
+        uiSchema.links.items.genome_ID.foreignKey.search = this.searchLabels.bind(
           this
         );
-        uiSchema.Genome_Metabolome_links.items.Sample_preparation_label.foreignKey.search = this.searchLabels.bind(
+        uiSchema.links.items.sample_preparation_label.foreignKey.search = this.searchLabels.bind(
           this
         );
-        uiSchema.Genome_Metabolome_links.items.Extraction_method_label.foreignKey.search = this.searchLabels.bind(
+        uiSchema.links.items.extraction_method_label.foreignKey.search = this.searchLabels.bind(
           this
         );
-        uiSchema.Genome_Metabolome_links.items.Instrumentation_method_label.foreignKey.search = this.searchLabels.bind(
+        uiSchema.links.items.instrumentation_method_label.foreignKey.search = this.searchLabels.bind(
           this
         );
-        uiSchema.gene_cluster_ms2_spectra_links.items.MS2_URL.foreignKey.search = this.searchLabels.bind(
+        uiSchema.BGC_MS2_links.items.MS2_URL.foreignKey.search = this.searchLabels.bind(
           this
         );
         this.setState({ uiSchema });
@@ -58,71 +58,54 @@ class App extends React.Component<{}, IState> {
   }
 
   public searchLabels = (url: string) => {
-    if (Object.keys(this.rawFormData.data_to_link).length === 0) {
-      throw new Error("Missing data to link");
-    }
-    if (url === "Genome_Metagenome_ID") {
-      if (
-        this.rawFormData.data_to_link[
-        "metagenome_genome sequence_assemblies"
-        ] === undefined
-      ) {
+    if (url === "genome_ID") {
+      if (!this.rawFormData.genomes) {
         return [];
       }
 
-      const labels = this.rawFormData.data_to_link[
-        "metagenome_genome sequence_assemblies"
-      ].map(
+      const labels = this.rawFormData.genomes.map(
         (r: any) =>
           r.GenBank_accession ||
           r.RefSeq_accession ||
           r.ENA_NCBI_accession ||
-          r.MGnify_accession
+          r.MGnify_accession ||
+          r.BioSample_accession
       );
       return labels;
-    } else if (url === "Sample_preparation_label") {
+    } else if (url === "sample_preparation_label") {
       if (
-        this.rawFormData.data_to_link.Experimental_details
-          .Sample_Preparation === undefined
+        !this.rawFormData.experimental.sample_preparation
       ) {
         return [];
       }
 
-      const labels = this.rawFormData.data_to_link.Experimental_details.Sample_Preparation.map(
-        (r: any) => r.Sample_preparation_Method
+      const labels = this.rawFormData.experimental.sample_preparation.map(
+        (r: any) => r.sample_preparation_method
       );
       return labels;
-    } else if (url === "Extraction_method_label") {
+    } else if (url === "extraction_method_label") {
       if (
-        this.rawFormData.data_to_link.Experimental_details[
-        "Extraction Methods"
-        ] === undefined
+        !this.rawFormData.experimental.extraction_methods
       ) {
         return [];
       }
 
-      const labels = this.rawFormData.data_to_link.Experimental_details[
-        "Extraction Methods"
-      ].map((r: any) => r.Extraction_Method);
+      const labels = this.rawFormData.experimental.extraction_methods.map((r: any) => r.extraction_method);
       return labels;
-    } else if (url === "Instrumentation_method_label") {
+    } else if (url === "instrumentation_method_label") {
       if (
-        this.rawFormData.data_to_link.Experimental_details[
-        "Instrumentation Methods"
-        ] === undefined
+        this.rawFormData.experimental.instrumentation_methods === undefined
       ) {
         return [];
       }
 
-      const labels = this.rawFormData.data_to_link.Experimental_details[
-        "Instrumentation Methods"
-      ].map((r: any) => r.Instrumentation_Method);
+      const labels = this.rawFormData.experimental.instrumentation_methods.map((r: any) => r.instrumentation_method);
       return labels;
     } else if (url === 'MS2_URL') {
-      if (!this.rawFormData.Genome_Metabolome_links) {
+      if (!this.rawFormData.links) {
         return [];
       }
-      const labels = this.rawFormData.Genome_Metabolome_links.map((r: any) => r.Metabolomics_Data_File);
+      const labels = this.rawFormData.links.map((r: any) => r.metabolomics_file);
       return labels;
     }
     throw new Error("Unknown link");
@@ -202,54 +185,54 @@ class App extends React.Component<{}, IState> {
   };
 
   public validate = (formData: any, errors: FormValidation) => {
-    if (!formData.Genome_Metabolome_links) {
+    if (!formData.links) {
       return errors;
     }
-    const gmIds = this.searchLabels("Genome_Metagenome_ID");
-    const spIds = this.searchLabels("Sample_preparation_label");
-    const emIds = this.searchLabels("Extraction_method_label");
-    const imIds = this.searchLabels("Instrumentation_method_label");
-    formData.Genome_Metabolome_links.forEach(
+    const gmIds = this.searchLabels("genome_ID");
+    const spIds = this.searchLabels("sample_preparation_label");
+    const emIds = this.searchLabels("extraction_method_label");
+    const imIds = this.searchLabels("instrumentation_method_label");
+    formData.links.forEach(
       (genomeMetabolomeLink: any, i: number) => {
         if (
-          genomeMetabolomeLink.Genome_Metagenome_ID &&
-          !gmIds.includes(genomeMetabolomeLink.Genome_Metagenome_ID)
+          genomeMetabolomeLink.genome_ID &&
+          !gmIds.includes(genomeMetabolomeLink.genome_ID)
         ) {
-          errors.Genome_Metabolome_links[i].Genome_Metagenome_ID.addError(
+          errors.links[i].genome_ID.addError(
             "Invalid selection"
           );
         }
         if (
-          genomeMetabolomeLink.Sample_preparation_label &&
-          !spIds.includes(genomeMetabolomeLink.Sample_preparation_label)
+          genomeMetabolomeLink.sample_preparation_label &&
+          !spIds.includes(genomeMetabolomeLink.sample_preparation_label)
         ) {
-          errors.Genome_Metabolome_links[i].Sample_preparation_label.addError(
+          errors.links[i].sample_preparation_label.addError(
             "Invalid selection"
           );
         }
         if (
-          genomeMetabolomeLink.Extraction_method_label &&
-          !emIds.includes(genomeMetabolomeLink.Extraction_method_label)
+          genomeMetabolomeLink.extraction_method_label &&
+          !emIds.includes(genomeMetabolomeLink.extraction_method_label)
         ) {
-          errors.Genome_Metabolome_links[i].Extraction_method_label.addError(
+          errors.links[i].extraction_method_label.addError(
             "Invalid selection"
           );
         }
         if (
-          genomeMetabolomeLink.Instrumentation_method_label &&
-          !imIds.includes(genomeMetabolomeLink.Instrumentation_method_label)
+          genomeMetabolomeLink.instrumentation_method_label &&
+          !imIds.includes(genomeMetabolomeLink.instrumentation_method_label)
         ) {
-          errors.Genome_Metabolome_links[
+          errors.links[
             i
-          ].Instrumentation_method_label.addError("Invalid selection");
+          ].instrumentation_method_label.addError("Invalid selection");
         }
       }
     );
-    if (formData.gene_cluster_ms2_spectra_links) {
+    if (formData.BGC_MS2_links) {
       const msUrls = this.searchLabels("MS2_URL");
-      formData.gene_cluster_ms2_spectra_links.forEach((geneSpectraLink: any, i: number) => {
+      formData.BGC_MS2_links.forEach((geneSpectraLink: any, i: number) => {
         if (geneSpectraLink.MS2_URL && !msUrls.includes(geneSpectraLink.MS2_URL)) {
-          errors.gene_cluster_ms2_spectra_links[i].MS2_URL.addError("Invalid selection");
+          errors.BGC_MS2_links[i].MS2_URL.addError("Invalid selection");
         }
       });
     }
