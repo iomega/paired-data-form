@@ -115,6 +115,10 @@ class App extends React.Component<{}, IState> {
     this.setState({ formData });
   };
 
+  public onReset = () => {
+    this.setState({ formData: {} });
+  }
+
   public onFormChange = ({ formData }: ISubmitEvent<object>) => {
     this.rawFormData = formData;
   };
@@ -147,7 +151,7 @@ class App extends React.Component<{}, IState> {
                 <Button type="submit" bsStyle="primary">
                   <Glyphicon glyph="ok" /> Save
                 </Button>
-                <Button type="reset">
+                <Button type="reset" onClick={this.onReset}>
                   <Glyphicon glyph="remove" /> Reset
                 </Button>
               </ButtonGroup>
