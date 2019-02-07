@@ -3,7 +3,7 @@ import * as React from "react";
 import { IExpander } from './AbstractExpander';
 
 export class GenomeExpander implements IExpander {
-    public fk = 'Genome_Metagenome_ID';
+    public fk = 'genome_ID';
     private foreignTable = 'genomes';
     private schema: any;
     private lookup: any[];
@@ -38,7 +38,7 @@ export class GenomeExpander implements IExpander {
         return this.lookup.find((r: any) => (r.GenBank_accession === genomeId ||
             r.RefSeq_accession === genomeId ||
             r.ENA_NCBI_accession === genomeId ||
-            r.MGnify_accession === genomeId || 
+            r.MGnify_accession === genomeId ||
             r.BioSample_accession === genomeId));
     }
 }

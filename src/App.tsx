@@ -99,13 +99,13 @@ class App extends React.Component<{}, IState> {
         return [];
       }
 
-      const labels = this.rawFormData.experimental.instrumentation_methods.map((r: any) => r.Instrumentation_Method);
+      const labels = this.rawFormData.experimental.instrumentation_methods.map((r: any) => r.instrumentation_method);
       return labels;
     } else if (url === 'MS2_URL') {
       if (!this.rawFormData.links) {
         return [];
       }
-      const labels = this.rawFormData.links.map((r: any) => r.Metabolomics_Data_File);
+      const labels = this.rawFormData.links.map((r: any) => r.metabolomics_file);
       return labels;
     }
     throw new Error("Unknown link");
