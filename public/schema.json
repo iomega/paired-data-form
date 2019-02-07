@@ -492,7 +492,7 @@
                   "properties":{  
                      "instrumentation":{  
                         "type":"object",
-						"title": "Instrumentation",
+                        "title": "Instrumentation",
                         "properties":{  
                            "instrument":{  
                               "type":"string",
@@ -687,7 +687,7 @@
                   ]
                },
                "SMILES":{
-				"type": "string",
+                "type": "string",
                   "title":"Simplified molecular-input line-entry system (SMILES)",
                   "description":"Please provide the SMILES notation for the known molecule."
                },
@@ -698,7 +698,7 @@
               },
                "BGC_ID":{  
                   "type":"object",
-				  "title": "MIBiG BGC ID",
+                  "title": "MIBiG BGC ID",
                   "properties":{  
                      "BGC":{  
                         "type":"string",
@@ -753,7 +753,7 @@
                },
                "link":{  
                   "type":"string",
-				  "title": "What would you like to link?",
+                  "title": "What would you like to link?",
                   "enum":[  
                      "GNPS molecular family",
                      "single molecule"
