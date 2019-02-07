@@ -40,8 +40,8 @@ export class SampleGrowthConditionsExpander implements IExpander {
             if (k === mediumKey) {
                 const mediumIndex = mediumSchema.enum.indexOf(v.medium);
                 const mediumLabel = mediumSchema.enumNames[mediumIndex];
-                if (v === 'other') {
-                    return <span>{row.Other_medium} ({v.medium_type})</span>;
+                if (v.medium === 'other') {
+                    return <span>{v.Other_medium} ({v.medium_type})</span>;
                 } else {
                     return <a key={v.medium} href={v.medium}>{mediumLabel} ({v.medium_type})</a>;
                 }
@@ -51,8 +51,8 @@ export class SampleGrowthConditionsExpander implements IExpander {
                 }
                 const envIndex = envSchema.enum.indexOf(v.environment);
                 const envLabel = envSchema.enumNames[envIndex];
-                if (v === 'other') {
-                    return row.metagenome_details.Other_environment;
+                if (v.environment === 'other') {
+                    return v.Other_environment;
                 } else {
                     return <a key={v} href={v}>{envLabel}</a>;
                 }
