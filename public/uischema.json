@@ -144,7 +144,7 @@
       },
       "items":{  
          "verification":{  
-            "ui:widget":"checkbox"
+            "ui:widget":"radio"
          },
          "MS2_URL":{
             "ui:field":"foreignKey",
