@@ -8,7 +8,7 @@
       "metabolomics",
       "genomes",
       "experimental",
-      "links"
+      "genome_metabolome_links"
    ],
    "properties":{  
       "version":{  
@@ -56,7 +56,8 @@
          "type":"object",
          "title":"Overall metabolomics project details",
          "description":"Please provide basic information on the publicly available metabolomics project from which paired data is available. Currently, we allow for links to mass spectrometry data deposited in GNPS-MaSSIVE.",
-         "properties":{  
+         "required": ["GNPSMassIVE_ID", "MaSSIVE_URL"],
+		 "properties":{  
             "GNPSMassIVE_ID":{  
                "type":"string",
                "title":"GNPS-MassIVE identifier",
@@ -89,12 +90,14 @@
          "description":"Please add all genomes and/or metagenomes for which paired data is available as separate entries.",
          "items":{  
             "type":"object",
-            "properties":{  
+            "required": ["genome_ID"],
+			"properties":{  
                "genome_ID":{  
                   "type":"object",
                   "title":"Genome or Metagenome",
                   "description":"Please select genome (microbial isolate grown in pure culture), metagenome (microbial mixture or environmental sample), or metagenome-assembled genome (genome assembled from a metagenome with no isolate grown in culture).",
-                  "properties":{  
+                  "required": ["genome_type"],
+				  "properties":{  
                      "genome_type":{  
                         "type":"string",
                         "title":"Genome type",
@@ -189,7 +192,8 @@
                               "enum":[  
                                  "liquid",
                                  "solid"
-                              ]
+                              ],
+							  "default": "liquid"
                            },
                            "medium":{  
                               "type":"string",
@@ -541,7 +545,8 @@
                         "title":"Sample Growth Conditions Label",
                         "description":"Please assign a Sample Growth Conditions Label for this set of sample preparation details. If more than one sample growth conditions was used, please create a new Sample Growth Conditions Label for each condition by clicking on the plus."
                      }
-                  }
+                  },
+				  "required": ["sample_preparation_method"]
                }
             },
             "extraction_methods":{  
@@ -718,7 +723,8 @@
                         "title":"Extraction Method Label",
                         "description":"Please assign an Extraction Method Label for this set of extraction details. If more than one extraction method was used, please create a new Extraction Method Label for each method by clicking on the plus."
                      }
-                  }
+                  },
+				  "required": ["extraction_method"]
                }
             },
             "instrumentation_methods":{  
@@ -862,7 +868,8 @@
                         "enum":[  
                            "Reverse Phase",
                            "Normal Phase"
-                        ]
+                        ],
+						"default": "Reverse Phase"
                      },
                      "mode":{  
                         "type":"string",
@@ -883,7 +890,8 @@
                                  "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000129"
                               ]
                            }
-                        ]
+                        ],
+						"default": ["https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000130"]
                      },
                      "range":{  
                         "type":"string",
@@ -910,7 +918,8 @@
                         "title":"Instrumentation Method Label",
                         "description":"Please assign an Instrumentation Method Label for this set of instrumentation details. If more than one LCMS instrumentation method was used, please create a new Instrumentation Method Label for each condition by clicking on the plus."
                      }
-                  }
+                  },
+				  "required": ["instrumentation_method"]
                }
             }
          }
