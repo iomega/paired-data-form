@@ -3,14 +3,14 @@ import * as React from "react";
 import { IExpander } from './AbstractExpander';
 
 export class GenomeExpander implements IExpander {
-    public fk = 'Genome_Metagenome_ID';
-    private foreignTable = 'metagenome_genome sequence_assemblies';
+    public fk = 'genome_ID';
+    private foreignTable = 'genomes';
     private schema: any;
     private lookup: any[];
 
     constructor(schema: any, data: any) {
-        this.schema = schema.properties.data_to_link.properties[this.foreignTable].items.properties;
-        this.lookup = data.data_to_link[this.foreignTable];
+        this.schema = schema.properties[this.foreignTable].items.properties;
+        this.lookup = data[this.foreignTable];
     }
 
     public ths(offset: number) {
@@ -38,6 +38,7 @@ export class GenomeExpander implements IExpander {
         return this.lookup.find((r: any) => (r.GenBank_accession === genomeId ||
             r.RefSeq_accession === genomeId ||
             r.ENA_NCBI_accession === genomeId ||
-            r.MGnify_accession === genomeId));
+            r.MGnify_accession === genomeId ||
+            r.BioSample_accession === genomeId));
     }
 }

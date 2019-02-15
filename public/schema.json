@@ -146,9 +146,9 @@
                "items":{  
                   "type":"object",
                   "properties":{  
-                     "genome_details":{  
+                     "medium_details":{
                         "type":"object",
-                        "title":"Genome details",
+                        "title": "Medium details",
                         "properties":{  
                            "medium_type":{  
                               "type":"string",
@@ -366,7 +366,7 @@
                      },
                      "metagenome_details":{  
                         "type":"object",
-                        "title":"Metagenome details",
+                        "title": "Metagenome details",
                         "properties":{  
                            "environment":{  
                               "type":"string",
@@ -698,7 +698,7 @@
                   "properties":{  
                      "instrumentation":{  
                         "type":"object",
-                        "title":"Instrumentation",
+                        "title": "Instrumentation",
                         "properties":{  
                            "instrument":{  
                               "type":"string",
@@ -892,8 +892,9 @@
                      "Evidence as indicated in MIBiG"
                   ]
                },
-               "SMILES":{  
-                  "type":"string",
+
+               "SMILES":{
+                "type": "string",
                   "title":"Simplified molecular-input line-entry system (SMILES)",
                   "description":"Please provide the SMILES notation for the known molecule."
                },
@@ -904,7 +905,7 @@
                },
                "BGC_ID":{  
                   "type":"object",
-                  "title":"MIBiG BGC ID",
+                  "title": "MIBiG BGC ID",
                   "properties":{  
                      "BGC":{  
                         "type":"string",
@@ -959,7 +960,7 @@
                },
                "link":{  
                   "type":"string",
-                  "title":"What would you like to link?",
+                  "title": "What would you like to link?",
                   "enum":[  
                      "GNPS molecular family",
                      "single molecule"

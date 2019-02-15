@@ -3,15 +3,15 @@ import * as React from "react";
 import { IExpander } from "./AbstractExpander";
 
 export class SampleGrowthConditionsExpander implements IExpander {
-    public fk = 'Sample_preparation_label';
-    private foreignTable = 'Sample_Preparation';
-    private labelField = 'Sample_preparation_Method';
+    public fk = 'sample_preparation_label';
+    private foreignTable = 'sample_preparation';
+    private labelField = 'sample_preparation_method';
     private schema: any;
     private lookup: any[];
 
     constructor(schema: any, data: any) {
-        this.schema = schema.properties.data_to_link.properties.Experimental_details.properties[this.foreignTable].items.properties;
-        this.lookup = data.data_to_link.Experimental_details[this.foreignTable];
+        this.schema = schema.properties.experimental.properties[this.foreignTable].items.properties;
+        this.lookup = data.experimental[this.foreignTable];
     }
 
     public ths(offset: number) {
@@ -31,25 +31,28 @@ export class SampleGrowthConditionsExpander implements IExpander {
     }
 
     private cols(row: any) {
-        const mediumKey = 'medium';
-        const mediumSchema = this.schema[mediumKey];
-        const envKey = 'environment';
-        const envSchema = this.schema[envKey];
+        const mediumKey = 'medium_details';
+        const mediumSchema = this.schema[mediumKey].properties.medium;
+        const envKey = 'metagenome_details';
+        const envSchema = this.schema[envKey].properties.environment;
         return Object.keys(this.schema).map(k => {
             const v = row[k];
             if (k === mediumKey) {
-                const mediumIndex = mediumSchema.enum.indexOf(v);
+                const mediumIndex = mediumSchema.enum.indexOf(v.medium);
                 const mediumLabel = mediumSchema.enumNames[mediumIndex];
-                if (v === 'other') {
-                    return row.Other_medium;
+                if (v.medium === 'other') {
+                    return <span>{v.Other_medium} ({v.medium_type})</span>;
                 } else {
-                    return <a key={v} href={v}>{mediumLabel}</a>;
+                    return <a key={v.medium} href={v.medium}>{mediumLabel} ({v.medium_type})</a>;
                 }
             } else if (k === envKey) {
-                const envIndex = envSchema.enum.indexOf(v);
+                if (!v.environment) {
+                    return undefined;
+                }
+                const envIndex = envSchema.enum.indexOf(v.environment);
                 const envLabel = envSchema.enumNames[envIndex];
-                if (v === 'other') {
-                    return row.Other_environment;
+                if (v.environment === 'other') {
+                    return v.Other_environment;
                 } else {
                     return <a key={v} href={v}>{envLabel}</a>;
                 }

@@ -23,10 +23,10 @@ export const PairedDataRecord = (props: IProps) => {
         return <li key={s}>{field.title}: {props.data.personal[s]}</li>;
     });
 
-    const metabolomeProps = props.schema.properties.data_to_link.properties.Metabolomics_details.properties;
+    const metabolomeProps = props.schema.properties.metabolomics.properties;
     const metabolome = Object.keys(metabolomeProps).map((s: string) => {
         const field = metabolomeProps[s];
-        return <li key={s}>{field.title}: {props.data.data_to_link.Metabolomics_details[s]}</li>;
+        return <li key={s}>{field.title}: {props.data.metabolomics[s]}</li>;
     });
     return (
         <div>

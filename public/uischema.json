@@ -57,7 +57,7 @@
             "orderable":false
          },
          "items":{  
-            "genome_details":{  
+            "medium_details":{  
                "medium_type":{  
                   "ui:widget":"radio"
                }
@@ -144,7 +144,7 @@
       },
       "items":{  
          "verification":{  
-            "ui:widget":"checkbox"
+            "ui:widget":"radio"
          },
          "MS2_URL":{
             "ui:field":"foreignKey",

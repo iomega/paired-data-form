@@ -3,15 +3,15 @@ import * as React from "react";
 import { IExpander } from "./AbstractExpander";
 
 export class InstrumentExpander implements IExpander {
-    public fk = 'Instrumentation_method_label';
-    private foreignTable = 'Instrumentation Methods';
-    private labelField = 'Instrumentation_Method';
+    public fk = 'instrumentation_method_label';
+    private foreignTable = 'instrumentation_methods';
+    private labelField = 'instrumentation_method';
     private schema: any;
     private lookup: any[];
 
     constructor(schema: any, data: any) {
-        this.schema = schema.properties.data_to_link.properties.Experimental_details.properties[this.foreignTable].items.properties;
-        this.lookup = data.data_to_link.Experimental_details[this.foreignTable];
+        this.schema = schema.properties.experimental.properties[this.foreignTable].items.properties;
+        this.lookup = data.experimental[this.foreignTable];
     }
 
     public ths(offset: number) {
@@ -31,19 +31,19 @@ export class InstrumentExpander implements IExpander {
     }
 
     private cols(row: any) {
-        const typeKey = 'instrument';
+        const typeKey = 'instrumentation';
         const typeSchema = this.schema[typeKey];
-        const modeKey = 'LCMS mode';
+        const modeKey = 'mode';
         const modeSchema = this.schema[modeKey];
         return Object.keys(this.schema).map(k => {
             const v = row[k];
             if (k === typeKey) {
-                const typeIndex = typeSchema.enum.indexOf(v);
-                const typeLabel = typeSchema.enumNames[typeIndex];
+                const typeIndex = typeSchema.properties.instrument.enum.indexOf(v.instrument);
+                const typeLabel = typeSchema.properties.instrument.enumNames[typeIndex];
                 if (typeLabel === 'Other Mass Spectrometer') {
-                    return row.Other_instrument;
+                    return <span key={row.instrumentation.other_instrument}>{row.instrumentation.other_instrument}</span>;
                 }
-                return <a key={v} href={v}>{typeLabel}</a>;
+                return <a key={v.instrument} href={v.instrument}>{typeLabel}</a>;
             } else if (k === modeKey) {
                 const modeIndex = modeSchema.enum.indexOf(v);
                 const modeLabel = modeSchema.enumNames[modeIndex];
