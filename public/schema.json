@@ -90,35 +90,67 @@
          "items":{  
             "type":"object",
             "properties":{  
-               "genome_type":{  
-                  "type":"string",
-                  "title":"Genome type",
+               "genome_ID":{  
+                  "type":"object",
+                  "title":"Genome or Metagenome",
                   "description":"Please select genome (microbial isolate grown in pure culture), metagenome (microbial mixture or environmental sample), or metagenome-assembled genome (genome assembled from a metagenome with no isolate grown in culture).",
-                  "enum":[  
-                     "genome",
-                     "metagenome",
-                     "metagenome-assembled genome"
-                  ]
-               },
-               "GenBank_accession":{  
-                  "type":"string",
-                  "title":"GenBank accession number",
-                  "description":"If the publicly available genome got a GenBank accession number assigned, e.g., AL645882, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records. At least one identifier must be entered."
-               },
-               "RefSeq_accession":{  
-                  "type":"string",
-                  "title":"RefSeq accession number",
-                  "description":"If the publicly available genome got a RefSeq accession number assigned, e.g., NC_003888.3, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records."
-               },
-               "ENA_NCBI_accession":{  
-                  "type":"string",
-                  "title":"ENA/NCBI accession number",
-                  "description":"If the publicly available metagenome got a ENA/NCBI accession number assigned, e.g., GCA_900283375, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify (and an accession number must be received) before this form can be filled out."
-               },
-               "MGnify_accession":{  
-                  "type":"string",
-                  "title":"MGnify accession number",
-                  "description":"If the publicly available metagenome got a ENA/NCBI accession number assigned, e.g., MGYA00067671, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify (and an accession number must be received) before this form can be filled out."
+                  "properties":{  
+                     "genome_type":{  
+                        "type":"string",
+                        "title":"Genome type",
+                        "enum":[  
+                           "genome",
+                           "metagenome",
+                           "metagenome-assembled genome"
+                        ],
+                        "default":"genome"
+                     }
+                  },
+                  "dependencies":{  
+                     "genome_type":{  
+                        "oneOf":[  
+                           {  
+                              "properties":{  
+                                 "genome_type":{  
+                                    "enum":[  
+                                       "genome",
+                                       "metagenome-assembled genome"
+                                    ]
+                                 },
+                                 "GenBank_accession":{  
+                                    "type":"string",
+                                    "title":"GenBank accession number",
+                                    "description":"If the publicly available genome got a GenBank accession number assigned, e.g., AL645882, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records. At least one identifier must be entered."
+                                 },
+                                 "RefSeq_accession":{  
+                                    "type":"string",
+                                    "title":"RefSeq accession number",
+                                    "description":"If the publicly available genome got a RefSeq accession number assigned, e.g., NC_003888.3, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records."
+                                 }
+                              }
+                           },
+                           {  
+                              "properties":{  
+                                 "genome_type":{  
+                                    "enum":[  
+                                       "metagenome"
+                                    ]
+                                 },
+                                 "ENA_NCBI_accession":{  
+                                    "type":"string",
+                                    "title":"ENA/NCBI accession number",
+                                    "description":"If the publicly available metagenome got a ENA/NCBI accession number assigned, e.g., GCA_900283375, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify (and an accession number must be received) before this form can be filled out."
+                                 },
+                                 "MGnify_accession":{  
+                                    "type":"string",
+                                    "title":"MGnify accession number",
+                                    "description":"If the publicly available metagenome got a ENA/NCBI accession number assigned, e.g., MGYA00067671, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify (and an accession number must be received) before this form can be filled out."
+                                 }
+                              }
+                           }
+                        ]
+                     }
+                  }
                },
                "BioSample_accession":{  
                   "type":"string",
@@ -943,15 +975,19 @@
                   "description":"Please provide a brief description of the known linked molecule(s) and gene cluster(s), including the name of the molecule(s)."
                },
                "verification":{  
-                  "type":"string",
+                  "type":"array",
                   "title":"Link verification",
                   "description":"Please indicate if verification of the link between BGC and MS2 is experimentally validated or bioinformatically inferred.",
-                  "enum":[  
-                     "Experimentally validated with knockouts, heterologous expression, or other gene cluster manipulation",
-                     "Bioinformatically inferred through comparative analysis with another experimentally defined gene cluster",
-                     "Experimentally validated with NMR and/or detailed MS/MS analysis",
-                     "Evidence as indicated in MIBiG"
-                  ]
+                  "items":{  
+                     "type":"string",
+                     "enum":[  
+                        "Experimentally validated with knockouts, heterologous expression, or other gene cluster manipulation",
+                        "Bioinformatically inferred through comparative analysis with another experimentally defined gene cluster",
+                        "Experimentally validated with NMR and/or detailed MS/MS analysis",
+                        "Evidence as indicated in MIBiG"
+                     ]
+                  },
+                  "uniqueItems":true
                },
                "SMILES":{  
                   "type":"string",
@@ -972,7 +1008,8 @@
                         "enum":[  
                            "MIBiG number associated with this exact BGC",
                            "MIBiG number of a similar BGC from a closely related strain"
-                        ]
+                        ],
+                        "default":"MIBiG number associated with this exact BGC"
                      }
                   },
                   "dependencies":{  
