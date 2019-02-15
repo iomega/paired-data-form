@@ -146,9 +146,9 @@
                "items":{  
                   "type":"object",
                   "properties":{  
-                     "medium_details":{
+                     "medium_details":{  
                         "type":"object",
-                        "title": "Medium details",
+                        "title":"Medium details",
                         "properties":{  
                            "medium_type":{  
                               "type":"string",
@@ -366,7 +366,7 @@
                      },
                      "metagenome_details":{  
                         "type":"object",
-                        "title": "Metagenome details",
+                        "title":"Metagenome details",
                         "properties":{  
                            "environment":{  
                               "type":"string",
@@ -698,37 +698,90 @@
                   "properties":{  
                      "instrumentation":{  
                         "type":"object",
-                        "title": "Instrumentation",
+                        "title":"Instrumentation",
                         "properties":{  
                            "instrument":{  
                               "type":"string",
                               "title":"Instrument type",
                               "description":"Please select the type of LCMS instrument used. If your instrument type is not listed here, please select Other and specify.",
-                              "enum":[  
-                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000081",
-                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000084",
-                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000264",
-                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000082",
-                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000484",
-                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000079",
-                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000080",
-                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000254",
-                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000284",
-                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000288",
-                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000443"
-                              ],
-                              "enumNames":[  
-                                 "Quadrupole",
-                                 "Time-of-flight (TOF)",
-                                 "Ion trap (IT)",
-                                 "Quadrupol-IT",
-                                 "Orbitrap (Q-Exactive, LTQ-Orbitrap, etc.)",
-                                 "Fourier Transform Ion Cyclotron Resonance (FTICR)",
-                                 "Magnetic Sector",
-                                 "Electrostatic Energy Analyzer",
-                                 "Stored Waveform Inverse Fourier Transform",
-                                 "Cyclotron",
-                                 "Other Mass Spectrometer"
+                              "anyOf":[  
+                                 {  
+                                    "type":"string",
+                                    "title":"Quadrupole",
+                                    "enum":[  
+                                       "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000081"
+                                    ]
+                                 },
+                                 {  
+                                    "type":"string",
+                                    "title":"Time-of-flight (TOF)",
+                                    "enum":[  
+                                       "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000084"
+                                    ]
+                                 },
+                                 {  
+                                    "type":"string",
+                                    "title":"Ion trap (IT)",
+                                    "enum":[  
+                                       "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000264"
+                                    ]
+                                 },
+                                 {  
+                                    "type":"string",
+                                    "title":"Quadrupol-IT",
+                                    "enum":[  
+                                       "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000082"
+                                    ]
+                                 },
+                                 {  
+                                    "type":"string",
+                                    "title":"Orbitrap (Q-Exactive, LTQ-Orbitrap, etc.)",
+                                    "enum":[  
+                                       "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000484"
+                                    ]
+                                 },
+                                 {  
+                                    "type":"string",
+                                    "title":"Fourier Transform Ion Cyclotron Resonance (FTICR)",
+                                    "enum":[  
+                                       "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000079"
+                                    ]
+                                 },
+                                 {  
+                                    "type":"string",
+                                    "title":"Magnetic Sector",
+                                    "enum":[  
+                                       "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000080"
+                                    ]
+                                 },
+                                 {  
+                                    "type":"string",
+                                    "title":"Electrostatic Energy Analyzer",
+                                    "enum":[  
+                                       "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000254"
+                                    ]
+                                 },
+                                 {  
+                                    "type":"string",
+                                    "title":"Stored Waveform Inverse Fourier Transform",
+                                    "enum":[  
+                                       "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000284"
+                                    ]
+                                 },
+                                 {  
+                                    "type":"string",
+                                    "title":"Cyclotron",
+                                    "enum":[  
+                                       "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000288"
+                                    ]
+                                 },
+                                 {  
+                                    "type":"string",
+                                    "title":"Other Mass Spectrometer",
+                                    "enum":[  
+                                       "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000443"
+                                    ]
+                                 }
                               ]
                            }
                         },
@@ -783,13 +836,21 @@
                         "type":"string",
                         "title":"Instrument mode",
                         "description":"Please select positive or negative mode.",
-                        "enum":[  
-                           "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000130",
-                           "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000129"
-                        ],
-                        "enumNames":[  
-                           "Positive",
-                           "Negative"
+                        "anyOf":[  
+                           {  
+                              "type":"string",
+                              "title":"Positive",
+                              "enum":[  
+                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000130"
+                              ]
+                           },
+                           {  
+                              "type":"string",
+                              "title":"Negative",
+                              "enum":[  
+                                 "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000129"
+                              ]
+                           }
                         ]
                      },
                      "range":{  
@@ -822,7 +883,7 @@
             }
          }
       },
-      "links":{  
+      "genome_metabolome_links":{  
          "type":"array",
          "title":"Links between genomes and metabolomics data",
          "description":"Create a linked pair by selecting the genome/metagenome accession number as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.",
@@ -892,9 +953,8 @@
                      "Evidence as indicated in MIBiG"
                   ]
                },
-
-               "SMILES":{
-                "type": "string",
+               "SMILES":{  
+                  "type":"string",
                   "title":"Simplified molecular-input line-entry system (SMILES)",
                   "description":"Please provide the SMILES notation for the known molecule."
                },
@@ -905,7 +965,7 @@
                },
                "BGC_ID":{  
                   "type":"object",
-                  "title": "MIBiG BGC ID",
+                  "title":"MIBiG BGC ID",
                   "properties":{  
                      "BGC":{  
                         "type":"string",
@@ -960,7 +1020,7 @@
                },
                "link":{  
                   "type":"string",
-                  "title": "What would you like to link?",
+                  "title":"What would you like to link?",
                   "enum":[  
                      "GNPS molecular family",
                      "single molecule"
