@@ -28,10 +28,13 @@ export const PairedDataRecord = (props: IProps) => {
         const field = metabolomeProps[s];
         return <li key={s}>{field.title}: {props.data.metabolomics[s]}</li>;
     });
+
+    const GNPSMassIVE_ID = props.data.metabolomics.GNPSMassIVE_ID;
+    const filename = `paired_datarecord_${GNPSMassIVE_ID}.json`;
     return (
         <div>
             <h3>iOMEGA Paired data record:</h3>
-            <Button href={dataUrl} download="paired_datarecord.json"><Glyphicon glyph="download" /> Download</Button>
+            <Button href={dataUrl} download={filename}><Glyphicon glyph="download" /> Download</Button>
             <h2>Submitter Information</h2>
             <ul>
                 {submitter}
