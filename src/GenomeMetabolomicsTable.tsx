@@ -13,14 +13,14 @@ interface IProps {
 }
 
 export const GenomeMetabolomicsTable = (props: IProps) => {
-    if (!props.data.links) {
+    if (!props.data.genome_metabolome_links) {
         return <p>No links between (meta)genomes and metabolimics data files.</p>;
     }
     const genomeExpander = new GenomeExpander(props.schema, props.data);
     const sampleExpander = new SampleGrowthConditionsExpander(props.schema, props.data);
     const extractionExpander = new ExtractionExpander(props.schema, props.data);
     const instrumentExpander = new InstrumentExpander(props.schema, props.data);
-    const gmProps = props.schema.properties.links.items.properties;
+    const gmProps = props.schema.properties.genome_metabolome_links.items.properties;
     const foreignKeys = new Set([
         genomeExpander.fk,
         sampleExpander.fk,
@@ -42,7 +42,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
     const instrumentHeaders = instrumentExpander.ths(headers.length);
     headers = headers.concat(instrumentHeaders);
 
-    const gmRows = props.data.links;
+    const gmRows = props.data.genome_metabolome_links;
     const rows = gmRows.map((row: any, i: number) => {
         let tds = cols.map((td, tdi) => {
             if (td === 'Metabolomics_Data_File') {

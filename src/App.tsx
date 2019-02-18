@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { JSONSchema6 } from "json-schema";
 import { Button, ButtonGroup, Glyphicon } from "react-bootstrap";
-import Form, { FormValidation, ISubmitEvent } from "react-jsonschema-form";
+import Form, { ISubmitEvent } from "react-jsonschema-form";
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField";
 import { ForeignKeyField } from "./ForeignKeyField";
 
@@ -38,16 +38,16 @@ class App extends React.Component<{}, IState> {
       .then(r => r.json())
       .then(uiSchema => {
         // inject foreign key search method
-        uiSchema.links.items.genome_ID.foreignKey.search = this.searchLabels.bind(
+        uiSchema.genome_metabolome_links.items.genome_ID.foreignKey.search = this.searchLabels.bind(
           this
         );
-        uiSchema.links.items.sample_preparation_label.foreignKey.search = this.searchLabels.bind(
+        uiSchema.genome_metabolome_links.items.sample_preparation_label.foreignKey.search = this.searchLabels.bind(
           this
         );
-        uiSchema.links.items.extraction_method_label.foreignKey.search = this.searchLabels.bind(
+        uiSchema.genome_metabolome_links.items.extraction_method_label.foreignKey.search = this.searchLabels.bind(
           this
         );
-        uiSchema.links.items.instrumentation_method_label.foreignKey.search = this.searchLabels.bind(
+        uiSchema.genome_metabolome_links.items.instrumentation_method_label.foreignKey.search = this.searchLabels.bind(
           this
         );
         uiSchema.BGC_MS2_links.items.MS2_URL.foreignKey.search = this.searchLabels.bind(
@@ -65,10 +65,10 @@ class App extends React.Component<{}, IState> {
 
       const labels = this.rawFormData.genomes.map(
         (r: any) =>
-          r.GenBank_accession ||
-          r.RefSeq_accession ||
-          r.ENA_NCBI_accession ||
-          r.MGnify_accession ||
+          r.genome_ID.GenBank_accession ||
+          r.genome_ID.RefSeq_accession ||
+          r.genome_ID.ENA_NCBI_accession ||
+          r.genome_ID.MGnify_accession ||
           r.BioSample_accession
       );
       return labels;
@@ -102,10 +102,10 @@ class App extends React.Component<{}, IState> {
       const labels = this.rawFormData.experimental.instrumentation_methods.map((r: any) => r.instrumentation_method);
       return labels;
     } else if (url === 'MS2_URL') {
-      if (!this.rawFormData.links) {
+      if (!this.rawFormData.genome_metabolome_links) {
         return [];
       }
-      const labels = this.rawFormData.links.map((r: any) => r.metabolomics_file);
+      const labels = this.rawFormData.genome_metabolome_links.map((r: any) => r.metabolomics_file);
       return labels;
     }
     throw new Error("Unknown link");
@@ -188,21 +188,33 @@ class App extends React.Component<{}, IState> {
     reader.readAsText(file);
   };
 
-  public validate = (formData: any, errors: FormValidation) => {
-    if (!formData.links) {
+  public validate = (formData: any, errors: any) => {
+    if (formData.experimental.extraction_methods) {
+      formData.experimental.extraction_methods.forEach((e: any, i: number) => {
+        const ratioTotal = e.solvents.reduce((c: number, s: any) => {
+          return s.ratio + c;
+        }, 0);
+        if (ratioTotal > 1) {
+          errors.experimental.extraction_methods[i].solvents.addError(
+            'Combined ratio not within 0 and 1'
+          );
+        }
+      });
+    }
+    if (!formData.genome_metabolome_links) {
       return errors;
     }
     const gmIds = this.searchLabels("genome_ID");
     const spIds = this.searchLabels("sample_preparation_label");
     const emIds = this.searchLabels("extraction_method_label");
     const imIds = this.searchLabels("instrumentation_method_label");
-    formData.links.forEach(
+    formData.genome_metabolome_links.forEach(
       (genomeMetabolomeLink: any, i: number) => {
         if (
           genomeMetabolomeLink.genome_ID &&
           !gmIds.includes(genomeMetabolomeLink.genome_ID)
         ) {
-          errors.links[i].genome_ID.addError(
+          errors.genome_metabolome_links[i].genome_ID.addError(
             "Invalid selection"
           );
         }
@@ -210,7 +222,7 @@ class App extends React.Component<{}, IState> {
           genomeMetabolomeLink.sample_preparation_label &&
           !spIds.includes(genomeMetabolomeLink.sample_preparation_label)
         ) {
-          errors.links[i].sample_preparation_label.addError(
+          errors.genome_metabolome_links[i].sample_preparation_label.addError(
             "Invalid selection"
           );
         }
@@ -218,7 +230,7 @@ class App extends React.Component<{}, IState> {
           genomeMetabolomeLink.extraction_method_label &&
           !emIds.includes(genomeMetabolomeLink.extraction_method_label)
         ) {
-          errors.links[i].extraction_method_label.addError(
+          errors.genome_metabolome_links[i].extraction_method_label.addError(
             "Invalid selection"
           );
         }
@@ -226,7 +238,7 @@ class App extends React.Component<{}, IState> {
           genomeMetabolomeLink.instrumentation_method_label &&
           !imIds.includes(genomeMetabolomeLink.instrumentation_method_label)
         ) {
-          errors.links[
+          errors.genome_metabolome_links[
             i
           ].instrumentation_method_label.addError("Invalid selection");
         }
