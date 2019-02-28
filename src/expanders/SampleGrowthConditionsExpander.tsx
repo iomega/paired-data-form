@@ -18,48 +18,100 @@ export class SampleGrowthConditionsExpander implements IExpander {
         return this.headers().map((s, i) => <th key={i + offset}>{s}</th>);
     }
 
-    public tds(row: any, offset: number) {
-        const foreignItem = this.find(row);
-        const foreignCols = this.cols(foreignItem);
-        return foreignCols.map((td, tdi) => {
-            return (<td key={tdi + offset}>{td}</td>);
-        });
-    }
+  public tds(row: any, offset: number) {
+    const foreignItem = this.find(row);
+    const foreignCols = this.htmlCols(foreignItem);
+    return foreignCols.map((td, tdi) => {
+      return <td key={tdi + offset}>{td}</td>;
+    });
+  }
 
-    private headers() {
-        return Object.keys(this.schema).map(k => this.schema[k].title);
-    }
+  public headers() {
+    return Object.keys(this.schema).map(k => this.schema[k].title);
+  }
 
-    private cols(row: any) {
-        const mediumKey = 'medium_details';
-        const mediumSchema = this.schema[mediumKey].properties.medium;
-        const envKey = 'metagenome_details';
-        const envSchema = this.schema[envKey].properties.environment;
-        return Object.keys(this.schema).map(k => {
-            const v = row[k];
-            if (k === mediumKey) {
-                const mediumIndex = mediumSchema.enum.indexOf(v.medium);
-                const mediumLabel = mediumSchema.enumNames[mediumIndex];
-                if (v.medium === 'other') {
-                    return <span>{v.Other_medium} ({v.medium_type})</span>;
-                } else {
-                    return <a key={v.medium} href={v.medium}>{mediumLabel} ({v.medium_type})</a>;
-                }
-            } else if (k === envKey) {
-                if (!v.environment) {
-                    return undefined;
-                }
-                const envIndex = envSchema.enum.indexOf(v.environment);
-                const envLabel = envSchema.enumNames[envIndex];
-                if (v.environment === 'other') {
-                    return v.Other_environment;
-                } else {
-                    return <a key={v} href={v}>{envLabel}</a>;
-                }
-            }
-            return v;
-        });
-    }
+  public textCols(row: any) {
+    const foreignItem = this.find(row);
+    return this.textColsOf(foreignItem);
+  }
+
+  private textColsOf(row: any) {
+    const mediumKey = "medium_details";
+    const mediumSchema = this.schema[mediumKey].properties.medium;
+    const envKey = "metagenome_details";
+    const envSchema = this.schema[envKey].properties.environment;
+    return Object.keys(this.schema).map(k => {
+      const v = row[k];
+      if (k === mediumKey) {
+        const mediumLabel = mediumSchema.anyOf.find(
+          (r: any) => r.enum[0] === v.medium
+        ).title;
+        if (v.medium === "other") {
+          return `${v.Other_medium} (${v.medium_type})`;
+        } else {
+          return `${mediumLabel} (${v.medium_type})`;
+        }
+      } else if (k === envKey) {
+        if (!v.environment) {
+          return undefined;
+        }
+        const envLabel = envSchema.anyOf.find(
+          (r: any) => r.enum[0] === v.environment
+        ).title;
+        if (v.environment === "other") {
+          return v.Other_environment;
+        } else {
+          return envLabel;
+        }
+      }
+      return v;
+    });
+  }
+
+  private htmlCols(row: any) {
+    const mediumKey = "medium_details";
+    const mediumSchema = this.schema[mediumKey].properties.medium;
+    const envKey = "metagenome_details";
+    const envSchema = this.schema[envKey].properties.environment;
+    return Object.keys(this.schema).map(k => {
+      const v = row[k];
+      if (k === mediumKey) {
+        const mediumLabel = mediumSchema.anyOf.find(
+          (r: any) => r.enum[0] === v.medium
+        ).title;
+        if (v.medium === "other") {
+          return (
+            <span>
+              {v.Other_medium} ({v.medium_type})
+            </span>
+          );
+        } else {
+          return (
+            <a key={v.medium} href={v.medium}>
+              {mediumLabel} ({v.medium_type})
+            </a>
+          );
+        }
+      } else if (k === envKey) {
+        if (!v.environment) {
+          return undefined;
+        }
+        const envLabel = envSchema.anyOf.find(
+          (r: any) => r.enum[0] === v.environment
+        ).title;
+        if (v.environment === "other") {
+          return v.Other_environment;
+        } else {
+          return (
+            <a key={v} href={v}>
+              {envLabel}
+            </a>
+          );
+        }
+      }
+      return v;
+    });
+  }
 
     private find(row: any) {
         const label = row[this.fk];
