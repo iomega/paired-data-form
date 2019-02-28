@@ -7,3 +7,4 @@ cache:
 script:
   - npm run build
   - npm test
+  - ajv compile -s public/schema.json
