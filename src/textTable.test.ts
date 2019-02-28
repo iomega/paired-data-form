@@ -1,32 +1,35 @@
-import { textTable } from './textTable';
+import { textTable, jsonDocument } from './textTable';
 
-describe('textTable', () => {
+describe('with schema loaded', () => {
     let schema: any;
     beforeEach(() => {
         schema = require('../public/schema.json');
-    })
-
-    it('should convert minimal json doc to text table', () => {
-        const doc = {
-            "version": "1",
-            "personal": {},
-            "metabolomics": {
-                "GNPSMassIVE_ID": "MSV000078839",
-                "MaSSIVE_URL": "https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view"
-            },
-            "genomes": [],
-            "experimental": {},
-            "genome_metabolome_links": []
-        };
-        const table = textTable(schema, doc);
-        const expected = [
-            ["Location of metabolomics data file", "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Medium details", "Growth temperature", "Aeration", "Growth time", "Growth phase or OD", "Other growth conditions", "Metagenome details", "Metagenomic sample description", "Sample Growth Conditions Label", "Extraction solvent", "Other extraction details", "Extraction Method Label", "Instrumentation", "Column details", "Instrument mode", "Mass range", "Collision energy", "Buffering", "Other instrumentation information", "Instrumentation Method Label"]
-        ];
-        expect(table).toEqual(expected);
     });
 
-    it('should convert kitchen sick', () => {
-        const doc = {
+    describe('textTable', () => {
+
+
+        it('should convert minimal json doc to text table', () => {
+            const doc = {
+                "version": "1",
+                "personal": {},
+                "metabolomics": {
+                    "GNPSMassIVE_ID": "MSV000078839",
+                    "MaSSIVE_URL": "https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view"
+                },
+                "genomes": [],
+                "experimental": {},
+                "genome_metabolome_links": []
+            };
+            const table = textTable(schema, doc);
+            const expected = [
+                ["Location of metabolomics data file", "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Medium details", "Growth temperature", "Aeration", "Growth time", "Growth phase or OD", "Other growth conditions", "Metagenome details", "Metagenomic sample description", "Sample Growth Conditions Label", "Extraction solvent", "Other extraction details", "Extraction Method Label", "Instrumentation", "Column details", "Instrument mode", "Mass range", "Collision energy", "Buffering", "Other instrumentation information", "Instrumentation Method Label"]
+            ];
+            expect(table).toEqual(expected);
+        });
+
+        it('should convert kitchen sick', () => {
+            const doc = {
                 "version": "1",
                 "personal": {
                     "submitter_name": "Stefan Verhoeven"
@@ -145,12 +148,31 @@ describe('textTable', () => {
                         "instrumentation_method_label": "bh"
                     }
                 ]
-        };
-        const table = textTable(schema, doc);
-        const expected = [
-            ["Location of metabolomics data file", "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Medium details", "Growth temperature", "Aeration", "Growth time", "Growth phase or OD", "Other growth conditions", "Metagenome details", "Metagenomic sample description", "Sample Growth Conditions Label", "Extraction solvent", "Other extraction details", "Extraction Method Label", "Instrumentation", "Column details", "Instrument mode", "Mass range", "Collision energy", "Buffering", "Other instrumentation information", "Instrumentation Method Label"],
-            ["ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML", "genome", "AL645882", "NC_003888.3", undefined, undefined, "SAMEA3648350", "12000953", "Nutrient Agar (liquid)", 37, "shaking", 24, "odbla", "otrhergrotcondf", "Other mammal", "metagen samp desc", "agar", "Methanol=1", undefined, "meth", "Quadrupole", "Reverse Phase", "Positive", "1000-10000", "1234-56789", "0.1% formic acid", "Atomaton 400h+", "quad"], ["ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML2", "genome", "AL645882", "NC_003888.3", undefined, undefined, "SAMEA3648350", "12000953", "blood (liquid)", 1, "not shaking", undefined, undefined, undefined, "Human", "met sam desc", "blod", "beer=0.9;Water=0.1", "no alc", "beer", "blackhole", "Reverse Phase", "Positive", undefined, undefined, undefined, undefined, "bh"]
-        ];
-        expect(table).toEqual(expected);
+            };
+            const table = textTable(schema, doc);
+            const expected = [
+                ["Location of metabolomics data file", "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Medium details", "Growth temperature", "Aeration", "Growth time", "Growth phase or OD", "Other growth conditions", "Metagenome details", "Metagenomic sample description", "Sample Growth Conditions Label", "Extraction solvent", "Other extraction details", "Extraction Method Label", "Instrumentation", "Column details", "Instrument mode", "Mass range", "Collision energy", "Buffering", "Other instrumentation information", "Instrumentation Method Label"],
+                ["ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML", "genome", "AL645882", "NC_003888.3", undefined, undefined, "SAMEA3648350", "12000953", "Nutrient Agar (liquid)", 37, "shaking", 24, "odbla", "otrhergrotcondf", "Other mammal", "metagen samp desc", "agar", "Methanol=1", undefined, "meth", "Quadrupole", "Reverse Phase", "Positive", "1000-10000", "1234-56789", "0.1% formic acid", "Atomaton 400h+", "quad"], ["ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML2", "genome", "AL645882", "NC_003888.3", undefined, undefined, "SAMEA3648350", "12000953", "blood (liquid)", 1, "not shaking", undefined, undefined, undefined, "Human", "met sam desc", "blod", "beer=0.9;Water=0.1", "no alc", "beer", "blackhole", "Reverse Phase", "Positive", undefined, undefined, undefined, undefined, "bh"]
+            ];
+            expect(table).toEqual(expected);
+        });
+    });
+
+    describe('jsonDocument', () => {
+        it('should convert minimal text table to json doc', () => {
+            const table = [
+                ["Location of metabolomics data file", "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Medium details", "Growth temperature", "Aeration", "Growth time", "Growth phase or OD", "Other growth conditions", "Metagenome details", "Metagenomic sample description", "Sample Growth Conditions Label", "Extraction solvent", "Other extraction details", "Extraction Method Label", "Instrumentation", "Column details", "Instrument mode", "Mass range", "Collision energy", "Buffering", "Other instrumentation information", "Instrumentation Method Label"]
+            ];
+            const doc = jsonDocument(schema, table);
+            const expected = {
+                "version": "1",
+                "personal": {},
+                "metabolomics": {},
+                "genomes": [],
+                "experimental": {},
+                "genome_metabolome_links": []
+            };
+            expect(doc).toEqual(expected);
+        })
     });
 });

@@ -3,6 +3,7 @@ import { ExtractionExpander } from './expanders/ExtractionExpander';
 import { GenomeExpander } from './expanders/GenomeExpander';
 import { InstrumentExpander } from './expanders/InstrumentExpander';
 import { SampleGrowthConditionsExpander } from './expanders/SampleGrowthConditionsExpander';
+import { any } from 'prop-types';
 
 export function textTable(schema: any, data: any): string[][] {
     const expanders: IExpander[] = [
@@ -40,4 +41,15 @@ export function tsvUrl(schema: any, data: any) {
     const mimeType = 'text/tab-separated-values';
     const bj = btoa(tsvExport(schema, data));
     return `data:${mimeType};base64,${bj}`;
+}
+
+export function jsonDocument(schema: any, data: any) {
+    return {
+        "version": "1",
+        "personal": {},
+        "metabolomics": {},
+        "genomes": [],
+        "experimental": {},
+        "genome_metabolome_links": []        
+    }
 }
