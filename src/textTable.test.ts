@@ -1,4 +1,4 @@
-import { textTable, jsonDocument } from './textTable';
+import { jsonDocument, textTable } from './textTable';
 
 describe('with schema loaded', () => {
     let schema: any;

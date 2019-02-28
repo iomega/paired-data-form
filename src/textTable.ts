@@ -42,17 +42,17 @@ export function tsvUrl(schema: any, data: any) {
     return `data:${mimeType};base64,${bj}`;
 }
 
-function collapseSamplePreparation(row: Map<String, any>) {
+function collapseSamplePreparation(row: Map<string, any>) {
     // TODO implement
     return {};
 }
 
-function collapseExtractionMethod(row: Map<String, any>) {
+function collapseExtractionMethod(row: Map<string, any>) {
     // TODO implement
     return {};
 }
 
-function collapseInstrumentationMethod(row: Map<String, any>) {
+function collapseInstrumentationMethod(row: Map<string, any>) {
     // TODO implement
     return {};
 }
@@ -65,36 +65,36 @@ export function jsonDocument(schema: any, table: any[]) {
     })
     const rows = table;
     const genomes: any[] = [];
-    const sample_preparations: any[] = [];
-    const sample_preparation_labels = new Set();
-    const extraction_methods: any[] = [];
-    const extraction_method_labels = new Set();
-    const instrumentation_methods: any[] = [];
-    const instrumentation_method_labels = new Set();
+    const samplePreparations: any[] = [];
+    const samplePreparationLabels = new Set();
+    const extractionMethods: any[] = [];
+    const extractionMethodLabels = new Set();
+    const instrumentationMethods: any[] = [];
+    const instrumentationMethodLabels = new Set();
     const gmRows: any[] = rows.map(r => {
-        const namedRow: Map<String, any> = new Map(r.map((c: any, i: number) => [header[i], c]));
-        const metabolomics_file = namedRow.get("Location of metabolomics data file");
-        const sample_preparation_label = namedRow.get("Sample Growth Conditions Label");
-        if (!sample_preparation_labels.has(sample_preparation_label)) {
-            sample_preparations.push(collapseSamplePreparation(namedRow));
-            sample_preparation_labels.add(sample_preparation_label);
+        const namedRow: Map<string, any> = new Map(r.map((c: any, i: number) => [header[i], c]));
+        const metabolomicsFile = namedRow.get("Location of metabolomics data file");
+        const samplePreparationLabel = namedRow.get("Sample Growth Conditions Label");
+        if (!samplePreparationLabels.has(samplePreparationLabel)) {
+            samplePreparations.push(collapseSamplePreparation(namedRow));
+            samplePreparationLabels.add(samplePreparationLabel);
         }
-        const extraction_method_label = namedRow.get("Extraction Method Label");
-        if (!extraction_method_labels.has(extraction_method_label)) {
-            extraction_methods.push(collapseExtractionMethod(namedRow));
-            extraction_method_labels.add(extraction_method_label);
+        const extractionMethodLabel = namedRow.get("Extraction Method Label");
+        if (!extractionMethodLabels.has(extractionMethodLabel)) {
+            extractionMethods.push(collapseExtractionMethod(namedRow));
+            extractionMethodLabels.add(extractionMethodLabel);
         }
-        const instrumentation_method_label = namedRow.get("Instrumentation Method Label");
-        if (!instrumentation_method_labels.has(instrumentation_method_label)) {
-            instrumentation_methods.push(collapseInstrumentationMethod(namedRow));
-            instrumentation_method_labels.add(instrumentation_method_label);
+        const instrumentationMethodLabel = namedRow.get("Instrumentation Method Label");
+        if (!instrumentationMethodLabels.has(instrumentationMethodLabel)) {
+            instrumentationMethods.push(collapseInstrumentationMethod(namedRow));
+            instrumentationMethodLabels.add(instrumentationMethodLabel);
         }
         return {
             "genome_ID": "AL645882", // TODO map genome id
-            metabolomics_file,
-            sample_preparation_label,
-            extraction_method_label,
-            instrumentation_method_label
+            metabolomics_file: metabolomicsFile,
+            sample_preparation_label: samplePreparationLabel,
+            extraction_method_label: extractionMethodLabel,
+            instrumentation_method_label: instrumentationMethodLabel
         };
     });
     return {
@@ -103,9 +103,9 @@ export function jsonDocument(schema: any, table: any[]) {
         "metabolomics": {},
         genomes,
         "experimental": {
-            sample_preparation: sample_preparations,
-            extraction_methods,
-            instrumentation_methods
+            sample_preparation: samplePreparations,
+            extraction_methods: extractionMethods,
+            instrumentation_methods: instrumentationMethods
         },
         "genome_metabolome_links": gmRows
     }
