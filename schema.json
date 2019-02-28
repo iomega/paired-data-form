@@ -1,6 +1,6 @@
 {
   "title": "iOMEGA Paired Data Platform",
-  "description": "This is the JSON schema for paired genomic / metabolomic data",
+  "description": "This Paired Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer-readable manner to further the field of natural products discovery. The form below aims to capture sufficient metadata to create informative links between genome sequences on the one hand and metabolomics profiles on the other hand. Note that wherever we could, we have used existing ontology to define terms. When filling out the form below, at any time the inputted data can be saved and downloaded in json format to be reloaded when continuing with the entries. The form below first asks for some personal information to provide proper credits and allow the community to ask the right person information on the linked data. Then, overall information on the metabolomics experiment is captured, before all genomes or metagenomes can be detailed. Then the metabolomics metadata can be saved using labels for sample growth conditions, extraction, and instrument methods. Finally, the data links can be made with references to the actual mass spectral files in MaSSIVE. Optionally, you can save links between known biosynthesis gene clusters and mass spectra or molecular families in the second part of the form. We investigate the options for a direct csv upload as well. After saving your entries, a table below the form will appear filled with your data to review. Then you can download the filled json schema in which all links are recorded. We hope you will use our platform to capture your paired data links as this will allow you and the community to efficiently use your data in follow-up studies that rely on the combined use of genome and metabolome data.",
   "type": "object",
   "required": [
     "version",
@@ -1082,3 +1082,4 @@
     }
   }
 }
+
