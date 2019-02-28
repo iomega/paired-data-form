@@ -1,18 +1,18 @@
 import * as React from "react";
 
-import { Button, Glyphicon } from 'react-bootstrap';
+import { Button, Glyphicon } from "react-bootstrap";
 
-import { GeneSpectraTable } from './GeneSpectraTable';
-import { GenomeMetabolomicsTable } from './GenomeMetabolomicsTable';
+import { GeneSpectraTable } from "./GeneSpectraTable";
+import { GenomeMetabolomicsTable } from "./GenomeMetabolomicsTable";
 
 interface IProps {
-    data: any;
-    schema: any;
+  data: any;
+  schema: any;
 }
 
-function record2dataUrl(data: object, mimeType = 'application/json') {
-    const bj = btoa(JSON.stringify(data, null, 4));
-    return `data:${mimeType};base64,${bj}`
+function record2dataUrl(data: object, mimeType = "application/json") {
+  const bj = btoa(JSON.stringify(data, null, 4));
+  return `data:${mimeType};base64,${bj}`;
 }
 
 export const PairedDataRecord = (props: IProps) => {
@@ -51,4 +51,4 @@ export const PairedDataRecord = (props: IProps) => {
             <GeneSpectraTable data={props.data} schema={props.schema} />
         </div>
     );
-}
+};

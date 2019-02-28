@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { IExpander } from './AbstractExpander';
+import { IExpander } from "./AbstractExpander";
 
 export class GenomeExpander implements IExpander {
   public fk = "genome_ID";

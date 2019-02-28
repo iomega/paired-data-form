@@ -1,7 +1,7 @@
 import { textTable } from './textTable';
 
 describe('textTable', () => {
-    let schema;
+    let schema: any;
     beforeEach(() => {
         schema = require('../public/schema.json');
     })

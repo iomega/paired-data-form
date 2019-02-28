@@ -29,13 +29,13 @@ export class InstrumentExpander implements IExpander {
     });
   }
 
-  public headers() {
-    return Object.keys(this.schema).map(k => this.schema[k].title);
-  }
-
   public textCols(row: any) {
     const foreignItem = this.find(row);
     return this.textColsOf(foreignItem);
+  }
+
+  public headers() {
+    return Object.keys(this.schema).map(k => this.schema[k].title);
   }
 
   private htmlCols(row: any) {
@@ -73,7 +73,6 @@ export class InstrumentExpander implements IExpander {
       return v;
     });
   }
-
 
   private textColsOf(row: any) {
     const typeKey = "instrumentation";

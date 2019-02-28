@@ -94,6 +94,6 @@ export class ExtractionExpander implements IExpander {
 
   private find(row: any) {
     const label = row[this.fk];
-    return this.lookup.find((r: any) => (r[this.labelField] === label));
+    return this.lookup.find((r: any) => r[this.labelField] === label);
   }
 }
