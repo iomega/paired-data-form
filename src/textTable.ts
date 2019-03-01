@@ -212,10 +212,6 @@ function collapseGenome(row: Map<string, any>) {
 
 export function jsonDocument(schema: any, table: any[]) {
     const header: string[] = table.shift();
-    const colNames = new Map();
-    header.forEach((d, i) => {
-        colNames.set(d, i);
-    })
     const rows = table;
     const genomes: any[] = [];
     const genomeIDs = new Set();
