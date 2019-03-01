@@ -50,12 +50,12 @@ function label2value(label: string, oneOf: any[]) {
     return hit;
 }
 
-function collapseSamplePreparation(row: Map<string, any>, schema: any) {
+function collapseSamplePreparation(row: any, schema: any) {
      const sample: any = {
-        sample_preparation_method: row.get('Sample Growth Conditions Label'),
+        sample_preparation_method: row['Sample Growth Conditions Label'],
     }
  
-    const mediumDetails = row.get('Medium details');
+    const mediumDetails = row['Medium details'];
     const mediumMatches = /^(.*?) \((.*)\)$/.exec(mediumDetails);
     if (mediumMatches && mediumMatches.length === 3) {
         const mediumType = mediumMatches[2];
@@ -68,34 +68,34 @@ function collapseSamplePreparation(row: Map<string, any>, schema: any) {
             sample.medium_details.Other_medium = mediumLabel;
         }
     }
-    const temp = row.get('Growth temperature');
+    const temp = row['Growth temperature'];
     if (temp) {
         sample.growth_temperature = temp;
     }
-    const aeration = row.get('Aeration');
+    const aeration = row.Aeration;
     if (aeration) {
         sample.aeration = aeration;
     }
-    const growingTime = row.get('Growth time');
+    const growingTime = row['Growth time'];
     if (growingTime) {
         sample.growing_time = growingTime;
     }
-    const phase = row.get('Growth phase or OD');
+    const phase = row['Growth phase or OD'];
     if (phase) {
         sample.growth_phase_OD = phase;
     }
-    const cond = row.get('Other growth conditions');
+    const cond = row['Other growth conditions'];
     if (cond) {
         sample.other_growth_conditions = cond;
     }
-    const metagenomeLabel = row.get('Metagenome details');
+    const metagenomeLabel = row['Metagenome details'];
     const metagenomeValue = label2value(metagenomeLabel, schema.properties.experimental.properties.sample_preparation.items.properties.metagenome_details.properties.environment.anyOf);
     if (metagenomeValue) {
         sample.metagenome_details = {environment: metagenomeValue};
     } else {
         sample.metagenome_details = {Other_environment: metagenomeLabel};
     }
-    const metadesc = row.get('Metagenomic sample description');
+    const metadesc = row['Metagenomic sample description'];
     if (metadesc) {
         sample.metagenomic_sample_description = metadesc;
     }
@@ -104,10 +104,10 @@ function collapseSamplePreparation(row: Map<string, any>, schema: any) {
 
 function collapseExtractionMethod(row: Map<string, any>, schema: any) {
     const extract: any = {
-        extraction_method: row.get('Extraction Method Label'),
+        extraction_method: row['Extraction Method Label'],
         solvents: []
     };
-    const solventsString: string = row.get('Extraction solvent');
+    const solventsString: string = row['Extraction solvent'];
     solventsString.split(';').forEach(solventString => {
         const [solventLabel, ratio] = solventString.split('=');
         const solventValue = label2value(solventLabel, schema.properties.experimental.properties.extraction_methods.items.properties.solvents.items.properties.solvent.anyOf);
@@ -123,45 +123,45 @@ function collapseExtractionMethod(row: Map<string, any>, schema: any) {
             });
         }
     });
-    const other = row.get('Other extraction details');
+    const other = row['Other extraction details'];
     if (other) {
         extract.other_extraction_parameters = other;
     }
     return extract;
 }
 
-function collapseInstrumentationMethod(row: Map<string, any>, schema: any) {
+function collapseInstrumentationMethod(row: any, schema: any) {
     const instr: any = {
-        instrumentation_method: row.get('Instrumentation Method Label')
+        instrumentation_method: row['Instrumentation Method Label']
     };
-    const instrTypeLabel = row.get('Instrumentation');
+    const instrTypeLabel = row.Instrumentation;
     const instrTypeValue = label2value(instrTypeLabel, schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf);
     if (instrTypeValue) {
         instr.instrumentation = {instrument: instrTypeValue}
     } else {
         instr.instrumentation = {other_instrument: instrTypeLabel}
     }
-    const column = row.get('Column details');
+    const column = row['Column details'];
     if (column) {
         instr.column = column;
     }
-    const mode = row.get('Instrument mode');
+    const mode = row['Instrument mode'];
     if (mode) {
         instr.mode = label2value(mode, schema.properties.experimental.properties.instrumentation_methods.items.properties.mode.anyOf);
     }
-    const range = row.get('Mass range');
+    const range = row['Mass range'];
     if (range) {
         instr.range = range;
     }
-    const coll = row.get('Collision energy');
+    const coll = row['Collision energy'];
     if (coll) {
         instr.collision_energy = coll;
     }
-    const buf = row.get('Buffering');
+    const buf = row.Buffering;
     if (buf) {
         instr.buffering = buf;
     }
-    const other = row.get('Other instrumentation information');
+    const other = row['Other instrumentation information'];
     if (other) {
         instr.other_instrumentation = other;
     }
@@ -169,50 +169,48 @@ function collapseInstrumentationMethod(row: Map<string, any>, schema: any) {
 }
 
 function preferredGenomeID(row: Map<string, any>) {
-    return row.get('GenBank accession number') || 
-        row.get('RefSeq_accession number') ||
-        row.get('ENA/NCBI accession number') ||
-        row.get('MGnify accession number') ||
-        row.get('BioSample accession number')
+    return row['GenBank accession number'] || 
+        row['RefSeq_accession number'] ||
+        row['ENA/NCBI accession number'] ||
+        row['MGnify accession number'] ||
+        row['BioSample accession number']
     ;
 }
 
 function collapseGenome(row: Map<string, any>) {
     const genome: any = {
         genome_ID: {
-            genome_type: row.get('Genome or Metagenome')
+            genome_type: row['Genome or Metagenome']
         }
     };
-    const genbankAccession = row.get('GenBank accession number');
+    const genbankAccession = row['GenBank accession number'];
     if (genbankAccession) {
         genome.genome_ID.GenBank_accession = genbankAccession;
     }
-    const refseqAccession = row.get('RefSeq accession number');
+    const refseqAccession = row['RefSeq accession number'];
     if (refseqAccession) {
         genome.genome_ID.RefSeq_accession = refseqAccession;
     }
-    const ena = row.get('ENA/NCBI accession number');
+    const ena = row['ENA/NCBI accession number'];
     if (ena) {
         genome.genome_ID.ENA_NCBI_accession = ena;
     }
-    const mgnify = row.get('MGnify accession number');
+    const mgnify = row['MGnify accession number'];
     if (mgnify) {
         genome.genome_ID.MGnify_accession = mgnify;
     }
-    const biosample = row.get('BioSample accession number');
+    const biosample = row['BioSample accession number'];
     if (biosample) {
         genome.BioSample_accession = biosample;
     }
-    const pubs = row.get('Key publications');
+    const pubs = row['Key publications'];
     if (pubs) {
         genome.publications = pubs;
     }
     return genome;
 }
 
-export function jsonDocument(schema: any, table: any[]) {
-    const header: string[] = table.shift();
-    const rows = table;
+export function jsonDocument(schema: any, rows: any) {
     const genomes: any[] = [];
     const genomeIDs = new Set();
     const samplePreparations: any[] = [];
@@ -221,27 +219,26 @@ export function jsonDocument(schema: any, table: any[]) {
     const extractionMethodLabels = new Set();
     const instrumentationMethods: any[] = [];
     const instrumentationMethodLabels = new Set();
-    const gmRows: any[] = rows.map(r => {
-        const namedRow: Map<string, any> = new Map(r.map((c: any, i: number) => [header[i], c]));
-        const metabolomicsFile = namedRow.get("Location of metabolomics data file");
-        const genomeID = preferredGenomeID(namedRow);
+    const gmRows: any[] = rows.map((row: any) => {
+        const metabolomicsFile = row['Location of metabolomics data file'];
+        const genomeID = preferredGenomeID(row);
         if (!genomeIDs.has(genomeID)) {
-            genomes.push(collapseGenome(namedRow));
+            genomes.push(collapseGenome(row));
             genomeIDs.add(genomeID);
         }
-        const samplePreparationLabel = namedRow.get("Sample Growth Conditions Label");
+        const samplePreparationLabel = row['Sample Growth Conditions Label'];
         if (!samplePreparationLabels.has(samplePreparationLabel)) {
-            samplePreparations.push(collapseSamplePreparation(namedRow, schema));
+            samplePreparations.push(collapseSamplePreparation(row, schema));
             samplePreparationLabels.add(samplePreparationLabel);
         }
-        const extractionMethodLabel = namedRow.get("Extraction Method Label");
+        const extractionMethodLabel = row['Extraction Method Label'];
         if (!extractionMethodLabels.has(extractionMethodLabel)) {
-            extractionMethods.push(collapseExtractionMethod(namedRow, schema));
+            extractionMethods.push(collapseExtractionMethod(row, schema));
             extractionMethodLabels.add(extractionMethodLabel);
         }
-        const instrumentationMethodLabel = namedRow.get("Instrumentation Method Label");
+        const instrumentationMethodLabel = row['Instrumentation Method Label'];
         if (!instrumentationMethodLabels.has(instrumentationMethodLabel)) {
-            instrumentationMethods.push(collapseInstrumentationMethod(namedRow, schema));
+            instrumentationMethods.push(collapseInstrumentationMethod(row, schema));
             instrumentationMethodLabels.add(instrumentationMethodLabel);
         }
         return {

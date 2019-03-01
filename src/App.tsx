@@ -4,10 +4,13 @@ import { JSONSchema6 } from "json-schema";
 import { Button, ButtonGroup, Glyphicon } from "react-bootstrap";
 import Form, { ISubmitEvent } from "react-jsonschema-form";
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField";
+
 import { ForeignKeyField } from "./ForeignKeyField";
+import { GenomeMetabolomeLinksField } from './GenomeMetabolomeLinksField';
+import { PairedDataRecord } from "./PairedDataRecord";
 
 import "./App.css";
-import { PairedDataRecord } from "./PairedDataRecord";
+import { jsonDocument } from './textTable';
 
 interface IState {
   schema: JSONSchema6;
@@ -17,7 +20,8 @@ interface IState {
 
 const formFields = {
   collapsible: CollapsibleField,
-  foreignKey: ForeignKeyField
+  foreignKey: ForeignKeyField,
+  gmarray: GenomeMetabolomeLinksField,
 };
 
 class App extends React.Component<{}, IState> {
@@ -123,7 +127,19 @@ class App extends React.Component<{}, IState> {
     this.rawFormData = formData;
   };
 
+  public uploadGenomeMetabolomeLinks = (rows: any[]) => {
+    const doc = jsonDocument(this.state.schema, rows);
+    const formData: any = this.state.formData;
+    formData.genomes = doc.genomes;
+    formData.experimental = doc.experimental;
+    formData.genome_metabolome_links = doc.genome_metabolome_links;
+    this.setState({ formData });
+  }
+
   public render() {
+    const formContext = {
+      uploadGenomeMetabolomeLinks: this.uploadGenomeMetabolomeLinks
+    };
     return (
       <div className="App">
         {Object.keys(this.state.schema).length > 0 &&
@@ -136,6 +152,7 @@ class App extends React.Component<{}, IState> {
               onSubmit={this.onSubmit}
               onChange={this.onFormChange}
               validate={this.validate}
+              formContext={formContext}
             >
               <ButtonGroup>
                 <Button onClick={this.onUpload} title="Upload JSON file">

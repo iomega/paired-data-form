@@ -107,7 +107,7 @@
   "genome_metabolome_links": {
     "ui:field": "collapsible",
     "collapse": {
-      "field": "ArrayField",
+      "field": "gmarray",
       "collapsed": true
     },
     "ui:options": {

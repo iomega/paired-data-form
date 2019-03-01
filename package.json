@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": ">=3.4.1 <4",
+    "d3-dsv": "^1.1.1",
     "moment": "^2.23.0",
     "react": "^16.8.3",
     "react-bootstrap": "^0.32.4",
@@ -23,6 +24,7 @@
     "deploy": "gh-pages -t -d build"
   },
   "devDependencies": {
+    "@types/d3-dsv": "^1.0.36",
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.2",
     "@types/react": "^16.8.6",
