@@ -57,6 +57,11 @@ function collapseInstrumentationMethod(row: Map<string, any>) {
     return {};
 }
 
+function preferredGenomeID(row: Map<string, any>) {
+    // TODO implement fully
+    return row.get('GenBank_accession') || row.get('RefSeq_accession');
+}
+
 export function jsonDocument(schema: any, table: any[]) {
     const header: string[] = table.shift();
     const colNames = new Map();
@@ -90,7 +95,7 @@ export function jsonDocument(schema: any, table: any[]) {
             instrumentationMethodLabels.add(instrumentationMethodLabel);
         }
         return {
-            "genome_ID": "AL645882", // TODO map genome id
+            "genome_ID": preferredGenomeID(namedRow),
             metabolomics_file: metabolomicsFile,
             sample_preparation_label: samplePreparationLabel,
             extraction_method_label: extractionMethodLabel,
