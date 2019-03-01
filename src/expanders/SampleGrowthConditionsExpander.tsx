@@ -30,6 +30,7 @@ export class SampleGrowthConditionsExpander implements IExpander {
   }
 
   public headers() {
+    // TODO split medium type and medium label
     return Object.keys(this.schema).map(k => this.schema[k].title);
   }
 

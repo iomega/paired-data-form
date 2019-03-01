@@ -59,7 +59,22 @@ function collapseInstrumentationMethod(row: Map<string, any>) {
 
 function preferredGenomeID(row: Map<string, any>) {
     // TODO implement fully
-    return row.get('GenBank_accession') || row.get('RefSeq_accession');
+    return row.get('GenBank_accession number') || 
+        row.get('RefSeq_accession number') ||
+        row.get('ENA/NCBI accession number') ||
+        row.get('MGnify accession number') ||
+        row.get('BioSample accession number')
+    ;
+}
+
+function collapseGenome(row: Map<string, any>) {
+    // TODO implement
+    return {
+        genome_ID: {
+
+        },
+        
+    };
 }
 
 export function jsonDocument(schema: any, table: any[]) {
@@ -70,6 +85,7 @@ export function jsonDocument(schema: any, table: any[]) {
     })
     const rows = table;
     const genomes: any[] = [];
+    const genomeIDs = new Set();
     const samplePreparations: any[] = [];
     const samplePreparationLabels = new Set();
     const extractionMethods: any[] = [];
@@ -79,6 +95,11 @@ export function jsonDocument(schema: any, table: any[]) {
     const gmRows: any[] = rows.map(r => {
         const namedRow: Map<string, any> = new Map(r.map((c: any, i: number) => [header[i], c]));
         const metabolomicsFile = namedRow.get("Location of metabolomics data file");
+        const genomeID = preferredGenomeID(namedRow);
+        if (!genomeIDs.has(genomeID)) {
+            genomes.push(collapseGenome(namedRow));
+            genomeIDs.add(genomeID);
+        }
         const samplePreparationLabel = namedRow.get("Sample Growth Conditions Label");
         if (!samplePreparationLabels.has(samplePreparationLabel)) {
             samplePreparations.push(collapseSamplePreparation(namedRow));
@@ -95,7 +116,7 @@ export function jsonDocument(schema: any, table: any[]) {
             instrumentationMethodLabels.add(instrumentationMethodLabel);
         }
         return {
-            "genome_ID": preferredGenomeID(namedRow),
+            genome_ID: genomeID,
             metabolomics_file: metabolomicsFile,
             sample_preparation_label: samplePreparationLabel,
             extraction_method_label: extractionMethodLabel,
@@ -103,15 +124,15 @@ export function jsonDocument(schema: any, table: any[]) {
         };
     });
     return {
-        "version": "1",
-        "personal": {},
-        "metabolomics": {},
+        version: "1",
+        personal: {},
+        metabolomics: {},
         genomes,
-        "experimental": {
+        experimental: {
             sample_preparation: samplePreparations,
             extraction_methods: extractionMethods,
             instrumentation_methods: instrumentationMethods
         },
-        "genome_metabolome_links": gmRows
+        genome_metabolome_links: gmRows
     }
 }
