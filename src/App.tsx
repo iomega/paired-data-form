@@ -133,6 +133,22 @@ class App extends React.Component<{}, IState> {
     formData.genomes = doc.genomes;
     formData.experimental = doc.experimental;
     formData.genome_metabolome_links = doc.genome_metabolome_links;
+    if (!formData.personal) {
+      formData.personal = {
+        PI_email: undefined,
+        PI_institution: undefined,
+        PI_name: undefined,
+        submitter_email: undefined,
+        submitter_institution: undefined,
+        submitter_name: undefined,
+      };
+    }
+    if (!formData.metabolomics) {
+      formData.metabolomics = {
+        GNPSMassIVE_ID: undefined,
+        MaSSIVE_URL: undefined
+      }
+    }
     this.setState({ formData });
   }
 

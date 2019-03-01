@@ -56,7 +56,7 @@ function collapseSamplePreparation(row: any, schema: any) {
     }
  
     const mediumDetails = row['Medium details'];
-    const mediumMatches = /^(.*?) \((.*)\)$/.exec(mediumDetails);
+    const mediumMatches = /^(.*) \((.*)\)$/.exec(mediumDetails);
     if (mediumMatches && mediumMatches.length === 3) {
         const mediumType = mediumMatches[2];
         const mediumLabel = mediumMatches[1];
