@@ -30,8 +30,13 @@ export class SampleGrowthConditionsExpander implements IExpander {
   }
 
   public headers() {
-    // TODO split medium type and medium label
-    return Object.keys(this.schema).map(k => this.schema[k].title);
+    const mediumKey = "medium_details";
+    const mediumCols = [
+      this.schema[mediumKey].properties.medium_type.title,
+      this.schema[mediumKey].properties.medium.title
+    ];
+    const cols = Object.keys(this.schema).filter(k => k !== mediumKey).map(k => this.schema[k].title);
+    return mediumCols.concat(cols);
   }
 
   public textCols(row: any) {
@@ -44,16 +49,17 @@ export class SampleGrowthConditionsExpander implements IExpander {
     const mediumSchema = this.schema[mediumKey].properties.medium;
     const envKey = "metagenome_details";
     const envSchema = this.schema[envKey].properties.environment;
-    return Object.keys(this.schema).map(k => {
+    const mediumTypeCol = row[mediumKey].medium_type;
+    const cols = Object.keys(this.schema).map(k => {
       const v = row[k];
       if (k === mediumKey) {
         const mediumLabel = mediumSchema.anyOf.find(
           (r: any) => r.enum[0] === v.medium
         ).title;
         if (v.medium === "other") {
-          return `${v.Other_medium} (${v.medium_type})`;
+          return v.Other_medium;
         } else {
-          return `${mediumLabel} (${v.medium_type})`;
+          return mediumLabel;
         }
       } else if (k === envKey) {
         if (!v.environment) {
@@ -70,6 +76,8 @@ export class SampleGrowthConditionsExpander implements IExpander {
       }
       return v;
     });
+    cols.unshift(mediumTypeCol);
+    return cols;
   }
 
   private htmlCols(row: any) {
@@ -77,7 +85,8 @@ export class SampleGrowthConditionsExpander implements IExpander {
     const mediumSchema = this.schema[mediumKey].properties.medium;
     const envKey = "metagenome_details";
     const envSchema = this.schema[envKey].properties.environment;
-    return Object.keys(this.schema).map(k => {
+    const mediumTypeCol = row[mediumKey].medium_type;
+    const cols = Object.keys(this.schema).map(k => {
       const v = row[k];
       if (k === mediumKey) {
         const mediumLabel = mediumSchema.anyOf.find(
@@ -86,13 +95,13 @@ export class SampleGrowthConditionsExpander implements IExpander {
         if (v.medium === "other") {
           return (
             <span>
-              {v.Other_medium} ({v.medium_type})
+              {v.Other_medium}
             </span>
           );
         } else {
           return (
             <a key={v.medium} href={v.medium}>
-              {mediumLabel} ({v.medium_type})
+              {mediumLabel}
             </a>
           );
         }
@@ -115,6 +124,8 @@ export class SampleGrowthConditionsExpander implements IExpander {
       }
       return v;
     });
+    cols.unshift(mediumTypeCol);
+    return cols;
   }
 
   private find(row: any) {

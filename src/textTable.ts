@@ -53,15 +53,15 @@ function label2value(label: string, oneOf: any[]) {
 function collapseSamplePreparation(row: any, schema: any) {
      const sample: any = {
         sample_preparation_method: row['Sample Growth Conditions Label'],
+        medium_details: {}
     }
- 
-    const mediumDetails = row['Medium details'];
-    const mediumMatches = /^(.*) \((.*)\)$/.exec(mediumDetails);
-    if (mediumMatches && mediumMatches.length === 3) {
-        const mediumType = mediumMatches[2];
-        const mediumLabel = mediumMatches[1];
+    const type = row['Medium type'];
+    if (type) {
+        sample.medium_details.medium_type = type;
+    }
+     const mediumLabel = row['Growth medium'];
+    if (mediumLabel) {
         const mediumValue = label2value(mediumLabel, schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.properties.medium.anyOf);
-        sample.medium_details = {medium_type: mediumType};
         if (mediumValue) {
             sample.medium_details.medium = mediumValue;
         } else {
