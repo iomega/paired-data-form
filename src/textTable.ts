@@ -70,7 +70,7 @@ function collapseSamplePreparation(row: any, schema: any) {
     }
     const temp = row['Growth temperature'];
     if (temp) {
-        sample.growth_temperature = temp;
+        sample.growth_temperature = temp*1;
     }
     const aeration = row.Aeration;
     if (aeration) {
@@ -78,7 +78,7 @@ function collapseSamplePreparation(row: any, schema: any) {
     }
     const growingTime = row['Growth time'];
     if (growingTime) {
-        sample.growing_time = growingTime;
+        sample.growing_time = growingTime*1;
     }
     const phase = row['Growth phase or OD'];
     if (phase) {

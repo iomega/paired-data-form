@@ -66,7 +66,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             </tr>
         );
     });
-    const genomemetabolomecsvfn = 'paired-' + props.data.metabolomics.GNPSMassIVE_ID + 'genome-metabolome.tsv';
+    const genomemetabolometsvfn = 'paired-' + props.data.metabolomics.GNPSMassIVE_ID + 'genome-metabolome.tsv';
     return (
         <div>
             <Table condensed={true} striped={true} bordered={true}>
@@ -86,7 +86,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                     {rows}
                 </tbody>
             </Table>
-            <a href={tsvUrl(props.schema, props.data)} download={genomemetabolomecsvfn}>TSV Downoad</a>
+            <a href={tsvUrl(props.schema, props.data)} download={genomemetabolometsvfn}>tab delimited downoad</a>
         </div>
     );
 }
