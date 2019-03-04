@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/paired-data-form/static/media/glyphicons-halflings-regular.f4769f9b.eot"
   },
   {
-    "revision": "65a869d6dcfd3819dc84",
+    "revision": "921c48de17761abe50de",
     "url": "/paired-data-form/static/css/main.c3e18222.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = [
     "url": "/paired-data-form/static/js/2.f8ac8db4.chunk.js"
   },
   {
-    "revision": "65a869d6dcfd3819dc84",
-    "url": "/paired-data-form/static/js/main.65a869d6.chunk.js"
+    "revision": "921c48de17761abe50de",
+    "url": "/paired-data-form/static/js/main.921c48de.chunk.js"
   },
   {
     "revision": "448c34a56d699c29117adc64c43affeb",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/paired-data-form/static/css/2.f7274c4e.chunk.css"
   },
   {
-    "revision": "b2286f9b629d2d98bf1999b2437d04b2",
+    "revision": "1cbbbdd68ef1f0437d0404206548d890",
     "url": "/paired-data-form/index.html"
   }
 ];
