@@ -3,8 +3,9 @@ import * as React from "react";
 import { IExpander } from "./AbstractExpander";
 
 export class GenomeExpander implements IExpander {
-  public fk = "genome_ID";
+  public fk = "genome_label";
   private foreignTable = "genomes";
+  private labelField = "genome_label";
   private schema: any;
   private lookup: any[];
 
@@ -78,14 +79,9 @@ export class GenomeExpander implements IExpander {
   }
 
   private find(row: any) {
-    const genomeId = row[this.fk];
+    const label = row[this.fk];
     return this.lookup.find(
-      (r: any) =>
-        r.genome_ID.GenBank_accession === genomeId ||
-        r.genome_ID.RefSeq_accession === genomeId ||
-        r.genome_ID.ENA_NCBI_accession === genomeId ||
-        r.genome_ID.MGnify_accession === genomeId ||
-        r.BioSample_accession === genomeId
+      (r: any) => r[this.labelField] === label
     );
   }
 }

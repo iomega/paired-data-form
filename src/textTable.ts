@@ -168,20 +168,12 @@ function collapseInstrumentationMethod(row: any, schema: any) {
     return instr;
 }
 
-function preferredGenomeID(row: any) {
-    return row['GenBank accession number'] || 
-        row['RefSeq_accession number'] ||
-        row['ENA/NCBI accession number'] ||
-        row['MGnify accession number'] ||
-        row['BioSample accession number']
-    ;
-}
-
 function collapseGenome(row: any) {
     const genome: any = {
         genome_ID: {
             genome_type: row['Genome or Metagenome']
-        }
+        },
+        genome_label: row['Genome label']
     };
     const genbankAccession = row['GenBank accession number'];
     if (genbankAccession) {
@@ -212,7 +204,7 @@ function collapseGenome(row: any) {
 
 export function jsonDocument(schema: any, rows: any) {
     const genomes: any[] = [];
-    const genomeIDs = new Set();
+    const genomeLabels = new Set();
     const samplePreparations: any[] = [];
     const samplePreparationLabels = new Set();
     const extractionMethods: any[] = [];
@@ -221,10 +213,10 @@ export function jsonDocument(schema: any, rows: any) {
     const instrumentationMethodLabels = new Set();
     const gmRows: any[] = rows.map((row: any) => {
         const metabolomicsFile = row['Location of metabolomics data file'];
-        const genomeID = preferredGenomeID(row);
-        if (!genomeIDs.has(genomeID)) {
+        const genomeLabel = row['Genome label'];
+        if (!genomeLabels.has(genomeLabel)) {
             genomes.push(collapseGenome(row));
-            genomeIDs.add(genomeID);
+            genomeLabels.add(genomeLabel);
         }
         const samplePreparationLabel = row['Sample Growth Conditions Label'];
         if (!samplePreparationLabels.has(samplePreparationLabel)) {
@@ -242,7 +234,7 @@ export function jsonDocument(schema: any, rows: any) {
             instrumentationMethodLabels.add(instrumentationMethodLabel);
         }
         return {
-            genome_ID: genomeID,
+            genome_label: genomeLabel,
             metabolomics_file: metabolomicsFile,
             sample_preparation_label: samplePreparationLabel,
             extraction_method_label: extractionMethodLabel,

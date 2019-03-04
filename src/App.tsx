@@ -44,7 +44,7 @@ class App extends React.Component<{}, IState> {
       .then(r => r.json())
       .then(uiSchema => {
         // inject foreign key search method
-        uiSchema.genome_metabolome_links.items.genome_ID.foreignKey.search = this.searchLabels.bind(
+        uiSchema.genome_metabolome_links.items.genome_label.foreignKey.search = this.searchLabels.bind(
           this
         );
         uiSchema.genome_metabolome_links.items.sample_preparation_label.foreignKey.search = this.searchLabels.bind(
@@ -72,18 +72,14 @@ class App extends React.Component<{}, IState> {
     if (!currentDoc) {
       return [];
     }
-    if (url === "genome_ID") {
+    if (url === "genome_label") {
       if (!currentDoc.genomes) {
         return [];
       }
 
       const labels = currentDoc.genomes.map(
         (r: any) =>
-          r.genome_ID.GenBank_accession ||
-          r.genome_ID.RefSeq_accession ||
-          r.genome_ID.ENA_NCBI_accession ||
-          r.genome_ID.MGnify_accession ||
-          r.BioSample_accession
+          r.genome_label
       );
       return labels;
     } else if (url === "sample_preparation_label") {
@@ -250,17 +246,17 @@ class App extends React.Component<{}, IState> {
     if (!formData.genome_metabolome_links) {
       return errors;
     }
-    const gmIds = this.searchLabels("genome_ID");
+    const gmIds = this.searchLabels("genome_label");
     const spIds = this.searchLabels("sample_preparation_label");
     const emIds = this.searchLabels("extraction_method_label");
     const imIds = this.searchLabels("instrumentation_method_label");
     formData.genome_metabolome_links.forEach(
       (genomeMetabolomeLink: any, i: number) => {
         if (
-          genomeMetabolomeLink.genome_ID &&
-          !gmIds.includes(genomeMetabolomeLink.genome_ID)
+          genomeMetabolomeLink.genome_label &&
+          !gmIds.includes(genomeMetabolomeLink.genome_label)
         ) {
-          errors.genome_metabolome_links[i].genome_ID.addError(
+          errors.genome_metabolome_links[i].genome_label.addError(
             "Invalid selection"
           );
         }

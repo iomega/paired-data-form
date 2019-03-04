@@ -20,21 +20,24 @@
                 "genome_type": "genome",
                 "GenBank_accession": "ARJI01000000"
             },
-            "publications": "28335604"
+            "publications": "28335604",
+            "genome_label": "Streptomyces sp. CNB091"
         },
         {
             "genome_ID": {
                 "genome_type": "genome",
                 "GenBank_accession": "AZWL01000000"
             },
-            "publications": "28335604"
+            "publications": "28335604",
+            "genome_label": "Streptomyces sp. CNH099"
         },
         {
             "genome_ID": {
                 "genome_type": "genome",
                 "GenBank_accession": "AZXI01000001"
             },
-            "publications": "28335604"
+            "publications": "28335604",
+            "genome_label": "Salinispora arenicola CNB527"
         }
     ],
     "experimental": {
@@ -118,147 +121,147 @@
     },
     "genome_metabolome_links": [
         {
-            "genome_ID": "ARJI01000000",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNB091_A1_B.mzXML",
             "sample_preparation_label": "A1",
             "extraction_method_label": "Butanol",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "ARJI01000000",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNB091_A1_E.mzXML",
             "sample_preparation_label": "A1",
             "extraction_method_label": "EthylAcetate",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "ARJI01000000",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNB091_A1_M.mzXML",
             "sample_preparation_label": "A1",
             "extraction_method_label": "Methanol",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "ARJI01000000",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_B.mzXML",
             "sample_preparation_label": "R5",
             "extraction_method_label": "Butanol",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "ARJI01000000",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_E.mzXML",
             "sample_preparation_label": "R5",
             "extraction_method_label": "EthylAcetate",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "ARJI01000000",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML",
             "sample_preparation_label": "R5",
             "extraction_method_label": "Methanol",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "ARJI01000000",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/MS/CNB091_MS_B.mzXML",
             "sample_preparation_label": "MS",
             "extraction_method_label": "Butanol",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "ARJI01000000",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/MS/CNB091_MS_E.mzXML",
             "sample_preparation_label": "MS",
             "extraction_method_label": "EthylAcetate",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "ARJI01000000",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/MS/CNB091_MS_M.mzXML",
             "sample_preparation_label": "MS",
             "extraction_method_label": "Methanol",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "AZWL01000000",
+            "genome_label": "Streptomyces sp. CNH099",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNH099_A1_B.mzXML",
             "sample_preparation_label": "A1",
             "extraction_method_label": "Butanol",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "AZWL01000000",
+            "genome_label": "Streptomyces sp. CNH099",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNH099_A1_E.mzXML",
             "sample_preparation_label": "A1",
             "extraction_method_label": "EthylAcetate",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "AZWL01000000",
+            "genome_label": "Streptomyces sp. CNH099",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNH099_A1_M.mzXML",
             "sample_preparation_label": "A1",
             "extraction_method_label": "Methanol",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "AZWL01000000",
+            "genome_label": "Streptomyces sp. CNH099",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNH099_R5_B.mzXML",
             "sample_preparation_label": "R5",
             "extraction_method_label": "Butanol",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "AZWL01000000",
+            "genome_label": "Streptomyces sp. CNH099",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNH099_R5_E.mzXML",
             "sample_preparation_label": "R5",
             "extraction_method_label": "EthylAcetate",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "AZWL01000000",
+            "genome_label": "Streptomyces sp. CNH099",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNH099_R5_M.mzXML",
             "sample_preparation_label": "R5",
             "extraction_method_label": "Methanol",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "AZWL01000000",
+            "genome_label": "Streptomyces sp. CNH099",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/MS/CNH099_MS_B.mzXML",
             "sample_preparation_label": "MS",
             "extraction_method_label": "Butanol",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "AZWL01000000",
+            "genome_label": "Streptomyces sp. CNH099",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/MS/CNH099_MS_E.mzXML",
             "sample_preparation_label": "MS",
             "extraction_method_label": "EthylAcetate",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "AZWL01000000",
+            "genome_label": "Streptomyces sp. CNH099",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/MS/CNH099_MS_M.mzXML",
             "sample_preparation_label": "MS",
             "extraction_method_label": "Methanol",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "AZXI01000001",
+            "genome_label": "Salinispora arenicola CNB527",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNB527_A1_E.mzXML",
             "sample_preparation_label": "A1",
             "extraction_method_label": "EthylAcetate",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "AZXI01000001",
+            "genome_label": "Salinispora arenicola CNB527",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB527_R5_E.mzXML",
             "sample_preparation_label": "R5",
             "extraction_method_label": "EthylAcetate",
             "instrumentation_method_label": "ToF"
         },
         {
-            "genome_ID": "AZXI01000001",
+            "genome_label": "Salinispora arenicola CNB527",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/MS/CNB527_MS_E.mzXML",
             "sample_preparation_label": "MS",
             "extraction_method_label": "EthylAcetate",

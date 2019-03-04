@@ -90,7 +90,7 @@
       "description": "Please add all genomes and/or metagenomes for which paired data is available as separate entries.",
       "items": {
         "type": "object",
-        "required": ["genome_ID"],
+        "required": ["genome_ID", "genome_label"],
         "properties": {
           "genome_ID": {
             "type": "object",
@@ -156,6 +156,10 @@
             "pattern": "[0-9]{1,}",
             "title": "Key publications",
             "description": "Publications describing the sequencing of the genome or metagenome. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')"
+          },
+          "genome_label": {
+            "type": "string",
+            "title": "Genome label"
           }
         }
       }
@@ -908,17 +912,17 @@
       "items": {
         "type": "object",
         "required": [
-          "genome_ID",
+          "genome_label",
           "metabolomics_file",
           "sample_preparation_label",
           "extraction_method_label",
           "instrumentation_method_label"
         ],
         "properties": {
-          "genome_ID": {
+          "genome_label": {
             "type": "string",
-            "title": "Linked Genome/Metagenome Accession ID",
-            "description": "Please select the Genome/Metagenome accession number to be linked to a metabolomics data file."
+            "title": "Genome/Metagenome",
+            "description": "Please select the Genome/Metagenome label to be linked to a metabolomics data file."
           },
           "metabolomics_file": {
             "type": "string",

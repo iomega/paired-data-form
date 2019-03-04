@@ -114,7 +114,7 @@
       "orderable": false
     },
     "items": {
-      "genome_ID": {
+      "genome_label": {
         "ui:field": "foreignKey",
         "foreignKey": {}
       },
