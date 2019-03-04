@@ -7,7 +7,7 @@ cache:
 script:
   - ajv compile -s public/schema.json
   - npm run build
-  - npm test --coverage
+  - npm test -- --coverage
   - sonar-scanner -Dsonar.login=$SONAR_TOKEN
 addons:
   sonarcloud:
