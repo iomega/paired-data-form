@@ -66,7 +66,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             </tr>
         );
     });
-    const genomemetabolometsvfn = 'paired-' + props.data.metabolomics.GNPSMassIVE_ID + 'genome-metabolome.tsv';
+    const genomemetabolometsvfn = 'paired-' + props.data.metabolomics.GNPSMassIVE_ID + '-genome-metabolome.tsv';
     return (
         <div>
             <Table condensed={true} striped={true} bordered={true}>
