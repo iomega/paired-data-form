@@ -102,7 +102,7 @@ function collapseSamplePreparation(row: any, schema: any) {
     return sample;
 }
 
-function collapseExtractionMethod(row: Map<string, any>, schema: any) {
+function collapseExtractionMethod(row: any, schema: any) {
     const extract: any = {
         extraction_method: row['Extraction Method Label'],
         solvents: []
@@ -168,7 +168,7 @@ function collapseInstrumentationMethod(row: any, schema: any) {
     return instr;
 }
 
-function preferredGenomeID(row: Map<string, any>) {
+function preferredGenomeID(row: any) {
     return row['GenBank accession number'] || 
         row['RefSeq_accession number'] ||
         row['ENA/NCBI accession number'] ||
@@ -177,7 +177,7 @@ function preferredGenomeID(row: Map<string, any>) {
     ;
 }
 
-function collapseGenome(row: Map<string, any>) {
+function collapseGenome(row: any) {
     const genome: any = {
         genome_ID: {
             genome_type: row['Genome or Metagenome']

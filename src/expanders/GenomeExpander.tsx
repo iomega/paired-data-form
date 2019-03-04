@@ -52,7 +52,7 @@ export class GenomeExpander implements IExpander {
     return this.cols(foreignItem);
   }
 
-  private cols(row: object) {
+  private cols(row: any) {
     const nestedProp = "genome_ID";
     const oneOfProp = "genome_type";
     const oneOfs = this.schema[nestedProp].dependencies[oneOfProp].oneOf;
