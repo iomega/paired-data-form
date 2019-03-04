@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { JSONSchema6 } from "json-schema";
-import { Button, ButtonGroup, Glyphicon } from "react-bootstrap";
+import { Button, ButtonGroup, ButtonToolbar, Glyphicon } from "react-bootstrap";
 import Form, { ISubmitEvent } from "react-jsonschema-form";
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField";
 
@@ -155,14 +155,7 @@ class App extends React.Component<{}, IState> {
         MaSSIVE_URL: undefined
       }
     }
-    this.setState({ initDoc: formData, validDoc: undefined }, () => {
-      const form = this.formRef.current;
-      if (form) {
-        // dts for form does not include submit(), but is documented at
-        // https://react-jsonschema-form.readthedocs.io/en/latest/#submit-form-programmatically
-        (form as any).submit();
-      }
-    });
+    this.fillForm(formData);
   }
 
   public render() {
@@ -183,24 +176,31 @@ class App extends React.Component<{}, IState> {
               formContext={formContext}
               ref={this.formRef}
             >
-              <ButtonGroup>
-                <Button onClick={this.onUpload} title="Upload JSON file">
-                  <Glyphicon glyph="upload" /> Upload
-                  <input
-                    type="file"
-                    accept="application/json,.json"
-                    onChange={this.fillFormFromFile}
-                    ref={this.uploadRef}
-                    style={{ display: "none" }}
-                  />
-                </Button>
-                <Button type="submit" bsStyle="primary">
-                  <Glyphicon glyph="ok" /> Save
-                </Button>
-                <Button type="reset" onClick={this.onReset}>
-                  <Glyphicon glyph="remove" /> Reset
-                </Button>
-              </ButtonGroup>
+              <ButtonToolbar>
+                <ButtonGroup>
+                  <Button onClick={this.loadExample1} title="Load example dataset">
+                    <Glyphicon glyph="paperclip" /> Example
+                  </Button>
+                  <Button onClick={this.onUpload} title="Upload JSON file">
+                    <Glyphicon glyph="upload" /> Upload
+                    <input
+                      type="file"
+                      accept="application/json,.json"
+                      onChange={this.fillFormFromFile}
+                      ref={this.uploadRef}
+                      style={{ display: "none" }}
+                    />
+                  </Button>
+                </ButtonGroup>
+                <ButtonGroup>
+                  <Button type="submit" bsStyle="primary">
+                    <Glyphicon glyph="ok" /> Save
+                  </Button>
+                  <Button type="reset" onClick={this.onReset}>
+                    <Glyphicon glyph="remove" /> Reset
+                  </Button>
+                </ButtonGroup>
+              </ButtonToolbar>
             </Form>
           )}
         {this.state.validDoc && (
@@ -212,7 +212,7 @@ class App extends React.Component<{}, IState> {
       </div>
     );
   }
-
+ 
   public onUpload = () => {
     if (this.uploadRef.current) {
       this.uploadRef.current.click();
@@ -228,14 +228,7 @@ class App extends React.Component<{}, IState> {
     reader.onload = evt => {
       if (reader.result) {
         const formData = JSON.parse(reader.result as string);
-        this.setState({ initDoc: formData, validDoc: undefined }, () => {
-          const form = this.formRef.current;
-          if (form) {
-            // dts for form does not include submit(), but is documented at
-            // https://react-jsonschema-form.readthedocs.io/en/latest/#submit-form-programmatically
-            (form as any).submit();
-          }
-        });
+        this.fillForm(formData);
       }
     };
     reader.readAsText(file);
@@ -307,6 +300,23 @@ class App extends React.Component<{}, IState> {
     }
     return errors;
   };
+
+  public loadExample1 = () => {
+    fetch('examples/paired_datarecord_MSV000078839_example.json')
+      .then(r => r.json())
+      .then(this.fillForm);
+  }
+
+  private fillForm = (doc: any) => {
+    this.setState({ initDoc: doc, validDoc: undefined }, () => {
+      const form = this.formRef.current;
+      if (form) {
+        // dts for form does not include submit(), but is documented at
+        // https://react-jsonschema-form.readthedocs.io/en/latest/#submit-form-programmatically
+        (form as any).submit();
+      }
+    });
+  }
 }
 
 export default App;
