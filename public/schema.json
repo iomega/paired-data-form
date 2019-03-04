@@ -159,7 +159,8 @@
           },
           "genome_label": {
             "type": "string",
-            "title": "Genome label"
+            "title": "Genome Label"
+            "description": "Please assign a unique Genome Label for this genome or metagenome to help you recall it during the linking step."
           }
         }
       }
