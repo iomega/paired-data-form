@@ -6,6 +6,7 @@ import { ExtractionExpander } from './expanders/ExtractionExpander';
 import { GenomeExpander } from './expanders/GenomeExpander';
 import { InstrumentExpander } from './expanders/InstrumentExpander';
 import { SampleGrowthConditionsExpander } from './expanders/SampleGrowthConditionsExpander';
+import { tsvUrl } from './textTable';
 
 interface IProps {
     data: any;
@@ -65,23 +66,27 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             </tr>
         );
     });
+    const genomemetabolometsvfn = 'paired-' + props.data.metabolomics.GNPSMassIVE_ID + 'genome-metabolome.tsv';
     return (
-        <Table condensed={true} striped={true} bordered={true}>
-            <thead>
-                <tr>
-                    <th colSpan={cols.length} />
-                    <th colSpan={genomeHeaders.length}>{gmProps[genomeExpander.fk].title}</th>
-                    <th colSpan={sampleHeaders.length}>{gmProps[sampleExpander.fk].title}</th>
-                    <th colSpan={extractionHeaders.length}>{gmProps[extractionExpander.fk].title}</th>
-                    <th colSpan={instrumentHeaders.length}>{gmProps[instrumentExpander.fk].title}</th>
-                </tr>
-                <tr>
-                    {headers}
-                </tr>
-            </thead>
-            <tbody>
-                {rows}
-            </tbody>
-        </Table>
+        <div>
+            <Table condensed={true} striped={true} bordered={true}>
+                <thead>
+                    <tr>
+                        <th colSpan={cols.length} />
+                        <th colSpan={genomeHeaders.length}>{gmProps[genomeExpander.fk].title}</th>
+                        <th colSpan={sampleHeaders.length}>{gmProps[sampleExpander.fk].title}</th>
+                        <th colSpan={extractionHeaders.length}>{gmProps[extractionExpander.fk].title}</th>
+                        <th colSpan={instrumentHeaders.length}>{gmProps[instrumentExpander.fk].title}</th>
+                    </tr>
+                    <tr>
+                        {headers}
+                    </tr>
+                </thead>
+                <tbody>
+                    {rows}
+                </tbody>
+            </Table>
+            <a href={tsvUrl(props.schema, props.data)} download={genomemetabolometsvfn}>tab delimited downoad</a>
+        </div>
     );
 }

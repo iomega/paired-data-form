@@ -4,30 +4,36 @@ import { JSONSchema6 } from "json-schema";
 import { Button, ButtonGroup, Glyphicon } from "react-bootstrap";
 import Form, { ISubmitEvent } from "react-jsonschema-form";
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField";
+
 import { ForeignKeyField } from "./ForeignKeyField";
+import { GenomeMetabolomeLinksField } from './GenomeMetabolomeLinksField';
+import { PairedDataRecord } from "./PairedDataRecord";
 
 import "./App.css";
-import { PairedDataRecord } from "./PairedDataRecord";
+import { jsonDocument } from './textTable';
 
 interface IState {
   schema: JSONSchema6;
   uiSchema: any;
-  formData: object;
+  initDoc: any;
+  validDoc: any;
 }
 
 const formFields = {
   collapsible: CollapsibleField,
-  foreignKey: ForeignKeyField
+  foreignKey: ForeignKeyField,
+  gmarray: GenomeMetabolomeLinksField,
 };
 
 class App extends React.Component<{}, IState> {
-  public state: IState = { schema: {}, uiSchema: {}, formData: {} };
-  public rawFormData: any = {};
+  public state: IState = { schema: {}, uiSchema: {}, initDoc: {}, validDoc: undefined };
   private uploadRef: React.RefObject<HTMLInputElement>;
+  private formRef: React.RefObject<Form<any>>;
 
   constructor(props: {}) {
     super(props);
     this.uploadRef = React.createRef();
+    this.formRef = React.createRef();
   }
 
   public componentDidMount() {
@@ -58,12 +64,20 @@ class App extends React.Component<{}, IState> {
   }
 
   public searchLabels = (url: string) => {
+    const form = this.formRef.current;
+    if (!form) {
+      return [];
+    }
+    const currentDoc = (form.state as any).formData;
+    if (!currentDoc) {
+      return [];
+    }
     if (url === "genome_ID") {
-      if (!this.rawFormData.genomes) {
+      if (!currentDoc.genomes) {
         return [];
       }
 
-      const labels = this.rawFormData.genomes.map(
+      const labels = currentDoc.genomes.map(
         (r: any) =>
           r.genome_ID.GenBank_accession ||
           r.genome_ID.RefSeq_accession ||
@@ -74,56 +88,87 @@ class App extends React.Component<{}, IState> {
       return labels;
     } else if (url === "sample_preparation_label") {
       if (
-        !this.rawFormData.experimental.sample_preparation
+        !currentDoc.experimental.sample_preparation
       ) {
         return [];
       }
 
-      const labels = this.rawFormData.experimental.sample_preparation.map(
+      const labels = currentDoc.experimental.sample_preparation.map(
         (r: any) => r.sample_preparation_method
       );
       return labels;
     } else if (url === "extraction_method_label") {
       if (
-        !this.rawFormData.experimental.extraction_methods
+        !currentDoc.experimental.extraction_methods
       ) {
         return [];
       }
 
-      const labels = this.rawFormData.experimental.extraction_methods.map((r: any) => r.extraction_method);
+      const labels = currentDoc.experimental.extraction_methods.map((r: any) => r.extraction_method);
       return labels;
     } else if (url === "instrumentation_method_label") {
       if (
-        this.rawFormData.experimental.instrumentation_methods === undefined
+        currentDoc.experimental.instrumentation_methods === undefined
       ) {
         return [];
       }
 
-      const labels = this.rawFormData.experimental.instrumentation_methods.map((r: any) => r.instrumentation_method);
+      const labels = currentDoc.experimental.instrumentation_methods.map((r: any) => r.instrumentation_method);
       return labels;
     } else if (url === 'MS2_URL') {
-      if (!this.rawFormData.genome_metabolome_links) {
+      if (!currentDoc.genome_metabolome_links) {
         return [];
       }
-      const labels = this.rawFormData.genome_metabolome_links.map((r: any) => r.metabolomics_file);
+      const labels = currentDoc.genome_metabolome_links.map((r: any) => r.metabolomics_file);
       return labels;
     }
     throw new Error("Unknown link");
   };
 
   public onSubmit = ({ formData }: ISubmitEvent<object>) => {
-    this.setState({ formData });
+    this.setState({ validDoc: formData, initDoc: formData });
   };
 
   public onReset = () => {
-    this.setState({ formData: {} });
+    this.setState({ initDoc: {}, validDoc: undefined });
   }
 
-  public onFormChange = ({ formData }: ISubmitEvent<object>) => {
-    this.rawFormData = formData;
-  };
+  public uploadGenomeMetabolomeLinks = (rows: any[]) => {
+    const doc = jsonDocument(this.state.schema, rows);
+    const formData: any = this.state.initDoc;
+    formData.genomes = doc.genomes;
+    formData.experimental = doc.experimental;
+    formData.genome_metabolome_links = doc.genome_metabolome_links;
+    if (!formData.personal) {
+      formData.personal = {
+        PI_email: undefined,
+        PI_institution: undefined,
+        PI_name: undefined,
+        submitter_email: undefined,
+        submitter_institution: undefined,
+        submitter_name: undefined,
+      };
+    }
+    if (!formData.metabolomics) {
+      formData.metabolomics = {
+        GNPSMassIVE_ID: undefined,
+        MaSSIVE_URL: undefined
+      }
+    }
+    this.setState({ initDoc: formData, validDoc: undefined }, () => {
+      const form = this.formRef.current;
+      if (form) {
+        // dts for form does not include submit(), but is documented at
+        // https://react-jsonschema-form.readthedocs.io/en/latest/#submit-form-programmatically
+        (form as any).submit();
+      }
+    });
+  }
 
   public render() {
+    const formContext = {
+      uploadGenomeMetabolomeLinks: this.uploadGenomeMetabolomeLinks
+    };
     return (
       <div className="App">
         {Object.keys(this.state.schema).length > 0 &&
@@ -132,10 +177,11 @@ class App extends React.Component<{}, IState> {
               schema={this.state.schema}
               uiSchema={this.state.uiSchema}
               fields={formFields}
-              formData={this.state.formData}
+              formData={this.state.initDoc}
               onSubmit={this.onSubmit}
-              onChange={this.onFormChange}
               validate={this.validate}
+              formContext={formContext}
+              ref={this.formRef}
             >
               <ButtonGroup>
                 <Button onClick={this.onUpload} title="Upload JSON file">
@@ -157,9 +203,9 @@ class App extends React.Component<{}, IState> {
               </ButtonGroup>
             </Form>
           )}
-        {Object.keys(this.state.formData).length > 0 && (
+        {this.state.validDoc && (
           <PairedDataRecord
-            data={this.state.formData}
+            data={this.state.validDoc}
             schema={this.state.schema}
           />
         )}
@@ -182,7 +228,14 @@ class App extends React.Component<{}, IState> {
     reader.onload = evt => {
       if (reader.result) {
         const formData = JSON.parse(reader.result as string);
-        this.setState({ formData });
+        this.setState({ initDoc: formData, validDoc: undefined }, () => {
+          const form = this.formRef.current;
+          if (form) {
+            // dts for form does not include submit(), but is documented at
+            // https://react-jsonschema-form.readthedocs.io/en/latest/#submit-form-programmatically
+            (form as any).submit();
+          }
+        });
       }
     };
     reader.readAsText(file);

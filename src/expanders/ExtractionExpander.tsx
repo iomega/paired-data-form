@@ -29,8 +29,34 @@ export class ExtractionExpander implements IExpander {
     });
   }
 
-  private headers() {
+  public headers() {
     return Object.keys(this.schema).map(k => this.schema[k].title);
+  }
+
+  public textCols(row: any): string[] {
+    const foreignItem = this.find(row);
+    return this.textColsOf(foreignItem);
+  }
+
+  private textColsOf(row: any) {
+    const solventsKey = "solvents";
+    const solventSchema = this.schema[solventsKey].items.properties.solvent;
+    const sep = ';';
+    return Object.keys(this.schema).map(k => {
+      const v = row[k];
+      if (k === solventsKey) {
+        return v.map((s: any, i: number) => {
+          const solventName = solventSchema.anyOf.find(
+            (r: any) => r.enum[0] === s.solvent
+          ).title;
+          if (solventName === "Other solvent") {
+            return `${s.Other_solvent}=${s.ratio}`;
+          }
+          return `${solventName}=${s.ratio}`;
+        }).join(sep);
+      }
+      return v;
+    });
   }
 
   private cols(row: any) {
@@ -63,7 +89,6 @@ export class ExtractionExpander implements IExpander {
           );
         });
       }
-      return v;
     });
   }
 

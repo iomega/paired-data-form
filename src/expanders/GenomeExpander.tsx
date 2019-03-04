@@ -25,7 +25,7 @@ export class GenomeExpander implements IExpander {
     });
   }
 
-  private headers() {
+  public headers() {
     const nestedProp = "genome_ID";
     const oneOfProp = "genome_type";
     const oneOfs = this.schema[nestedProp].dependencies[oneOfProp].oneOf;
@@ -45,6 +45,11 @@ export class GenomeExpander implements IExpander {
       .filter(k => k !== nestedProp)
       .map(k => this.schema[k].title);
     return nested.concat(lvl1);
+  }
+
+  public textCols(row: any): string[] {
+    const foreignItem = this.find(row);
+    return this.cols(foreignItem);
   }
 
   private cols(row: object) {

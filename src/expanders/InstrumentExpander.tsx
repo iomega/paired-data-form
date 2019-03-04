@@ -23,17 +23,22 @@ export class InstrumentExpander implements IExpander {
 
   public tds(row: any, offset: number) {
     const foreignItem = this.find(row);
-    const foreignCols = this.cols(foreignItem);
+    const foreignCols = this.htmlCols(foreignItem);
     return foreignCols.map((td, tdi) => {
       return <td key={tdi + offset}>{td}</td>;
     });
   }
 
-  private headers() {
+  public textCols(row: any) {
+    const foreignItem = this.find(row);
+    return this.textColsOf(foreignItem);
+  }
+
+  public headers() {
     return Object.keys(this.schema).map(k => this.schema[k].title);
   }
 
-  private cols(row: any) {
+  private htmlCols(row: any) {
     const typeKey = "instrumentation";
     const typeSchema = this.schema[typeKey];
     const modeKey = "mode";
@@ -64,6 +69,30 @@ export class InstrumentExpander implements IExpander {
             {modeLabel}
           </a>
         );
+      }
+      return v;
+    });
+  }
+
+  private textColsOf(row: any) {
+    const typeKey = "instrumentation";
+    const typeSchema = this.schema[typeKey];
+    const modeKey = "mode";
+    const modeSchema = this.schema[modeKey];
+    return Object.keys(this.schema).map(k => {
+      const v = row[k];
+      if (k === typeKey) {
+        const typeLabel = typeSchema.properties.instrument.anyOf.find(
+          (r: any) => r.enum[0] === v.instrument
+        ).title;
+        if (typeLabel === "Other Mass Spectrometer") {
+          return row.instrumentation.other_instrument;
+        }
+        return typeLabel;
+      } else if (k === modeKey) {
+        const modeLabel = modeSchema.anyOf.find((r: any) => r.enum[0] === v)
+          .title;
+        return modeLabel;
       }
       return v;
     });
