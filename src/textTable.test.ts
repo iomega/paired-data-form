@@ -11,7 +11,7 @@ describe('with schema loaded', () => {
         it('should convert minimal json doc to text table', () => {
             const table = textTable(schema, minimalDoc);
             const expected = [
-                ["Location of metabolomics data file", "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Genome label", "Medium type", "Growth medium", "Growth temperature", "Aeration", "Growth time", "Growth phase or OD", "Other growth conditions", "Metagenome details", "Metagenomic sample description", "Sample Growth Conditions Label", "Extraction solvent", "Other extraction details", "Extraction Method Label", "Instrumentation", "Column details", "Instrument mode", "Mass range", "Collision energy", "Buffering", "Other instrumentation information", "Instrumentation Method Label"]
+                ["Location of metabolomics data file", "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Genome Label", "Medium type", "Growth medium", "Growth temperature", "Aeration", "Growth time", "Growth phase or OD", "Other growth conditions", "Metagenome details", "Metagenomic sample description", "Sample Growth Conditions Label", "Extraction solvent", "Other extraction details", "Extraction Method Label", "Instrumentation", "Column details", "Instrument mode", "Mass range", "Collision energy", "Buffering", "Other instrumentation information", "Instrumentation Method Label"]
             ];
             expect(table).toEqual(expected);
         });
@@ -19,7 +19,7 @@ describe('with schema loaded', () => {
         it('should convert kitchen sick', () => {
             const table = textTable(schema, kitchenSinkDoc);
             const expected = [
-                ["Location of metabolomics data file", "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Genome label", "Medium type", "Growth medium", "Growth temperature", "Aeration", "Growth time", "Growth phase or OD", "Other growth conditions", "Metagenome details", "Metagenomic sample description", "Sample Growth Conditions Label", "Extraction solvent", "Other extraction details", "Extraction Method Label", "Instrumentation", "Column details", "Instrument mode", "Mass range", "Collision energy", "Buffering", "Other instrumentation information", "Instrumentation Method Label"],
+                ["Location of metabolomics data file", "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Genome Label", "Medium type", "Growth medium", "Growth temperature", "Aeration", "Growth time", "Growth phase or OD", "Other growth conditions", "Metagenome details", "Metagenomic sample description", "Sample Growth Conditions Label", "Extraction solvent", "Other extraction details", "Extraction Method Label", "Instrumentation", "Column details", "Instrument mode", "Mass range", "Collision energy", "Buffering", "Other instrumentation information", "Instrumentation Method Label"],
                 ["ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML", "genome", "AL645882", "NC_003888.3", undefined, undefined, "SAMEA3648350", "12000953", "Streptomyces coelicolor A3(2)", "liquid", "Nutrient Agar", 37, "shaking", 24, "odbla", "otrhergrotcondf", "Other mammal", "metagen samp desc", "agar", "Methanol=1", undefined, "meth", "Quadrupole", "Reverse Phase", "Positive", "1000-10000", "1234-56789", "0.1% formic acid", "Atomaton 400h+", "quad"],
                 ["ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML2", "genome", "AL645882", "NC_003888.3", undefined, undefined, "SAMEA3648350", "12000953", "Streptomyces coelicolor A3(2)", "liquid", "blood", 1, "not shaking", undefined, undefined, undefined, "Human", "met sam desc", "blod", "beer=0.9;Water=0.1", "no alc", "beer", "blackhole", "Reverse Phase", "Positive", undefined, undefined, undefined, undefined, "bh"]
             ];
@@ -59,7 +59,7 @@ describe('with schema loaded', () => {
         it('should convert a single link with minimal fields text table to json doc', () => {
             const header = [
                 "Location of metabolomics data file",
-                "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Genome label",
+                "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Genome Label",
                 "Medium type", "Growth medium", "Growth temperature", "Aeration", "Growth time", "Growth phase or OD", "Other growth conditions", "Metagenome details", "Metagenomic sample description", "Sample Growth Conditions Label",
                 "Extraction solvent", "Other extraction details", "Extraction Method Label",
                 "Instrumentation", "Column details", "Instrument mode", "Mass range", "Collision energy", "Buffering", "Other instrumentation information", "Instrumentation Method Label"
@@ -128,7 +128,7 @@ describe('with schema loaded', () => {
         it('should convert a single link all fields text table to json doc', () => {
             const header = [
                 "Location of metabolomics data file",
-                "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Genome label",
+                "Genome or Metagenome", "GenBank accession number", "RefSeq accession number", "ENA/NCBI accession number", "MGnify accession number", "BioSample accession number", "Key publications", "Genome Label",
                 "Medium type", "Growth medium", "Growth temperature", "Aeration", "Growth time", "Growth phase or OD", "Other growth conditions", "Metagenome details", "Metagenomic sample description", "Sample Growth Conditions Label",
                 "Extraction solvent", "Other extraction details", "Extraction Method Label",
                 "Instrumentation", "Column details", "Instrument mode", "Mass range", "Collision energy", "Buffering", "Other instrumentation information", "Instrumentation Method Label"
@@ -230,7 +230,7 @@ describe('with schema loaded', () => {
                 "genome_metabolome_links": []
             };
             const url = tsvUrl(schema, doc);
-            const expected = 'data:text/tab-separated-values;base64,TG9jYXRpb24gb2YgbWV0YWJvbG9taWNzIGRhdGEgZmlsZQlHZW5vbWUgb3IgTWV0YWdlbm9tZQlHZW5CYW5rIGFjY2Vzc2lvbiBudW1iZXIJUmVmU2VxIGFjY2Vzc2lvbiBudW1iZXIJRU5BL05DQkkgYWNjZXNzaW9uIG51bWJlcglNR25pZnkgYWNjZXNzaW9uIG51bWJlcglCaW9TYW1wbGUgYWNjZXNzaW9uIG51bWJlcglLZXkgcHVibGljYXRpb25zCUdlbm9tZSBsYWJlbAlNZWRpdW0gdHlwZQlHcm93dGggbWVkaXVtCUdyb3d0aCB0ZW1wZXJhdHVyZQlBZXJhdGlvbglHcm93dGggdGltZQlHcm93dGggcGhhc2Ugb3IgT0QJT3RoZXIgZ3Jvd3RoIGNvbmRpdGlvbnMJTWV0YWdlbm9tZSBkZXRhaWxzCU1ldGFnZW5vbWljIHNhbXBsZSBkZXNjcmlwdGlvbglTYW1wbGUgR3Jvd3RoIENvbmRpdGlvbnMgTGFiZWwJRXh0cmFjdGlvbiBzb2x2ZW50CU90aGVyIGV4dHJhY3Rpb24gZGV0YWlscwlFeHRyYWN0aW9uIE1ldGhvZCBMYWJlbAlJbnN0cnVtZW50YXRpb24JQ29sdW1uIGRldGFpbHMJSW5zdHJ1bWVudCBtb2RlCU1hc3MgcmFuZ2UJQ29sbGlzaW9uIGVuZXJneQlCdWZmZXJpbmcJT3RoZXIgaW5zdHJ1bWVudGF0aW9uIGluZm9ybWF0aW9uCUluc3RydW1lbnRhdGlvbiBNZXRob2QgTGFiZWw=';
+            const expected = 'data:text/tab-separated-values;base64,TG9jYXRpb24gb2YgbWV0YWJvbG9taWNzIGRhdGEgZmlsZQlHZW5vbWUgb3IgTWV0YWdlbm9tZQlHZW5CYW5rIGFjY2Vzc2lvbiBudW1iZXIJUmVmU2VxIGFjY2Vzc2lvbiBudW1iZXIJRU5BL05DQkkgYWNjZXNzaW9uIG51bWJlcglNR25pZnkgYWNjZXNzaW9uIG51bWJlcglCaW9TYW1wbGUgYWNjZXNzaW9uIG51bWJlcglLZXkgcHVibGljYXRpb25zCUdlbm9tZSBMYWJlbAlNZWRpdW0gdHlwZQlHcm93dGggbWVkaXVtCUdyb3d0aCB0ZW1wZXJhdHVyZQlBZXJhdGlvbglHcm93dGggdGltZQlHcm93dGggcGhhc2Ugb3IgT0QJT3RoZXIgZ3Jvd3RoIGNvbmRpdGlvbnMJTWV0YWdlbm9tZSBkZXRhaWxzCU1ldGFnZW5vbWljIHNhbXBsZSBkZXNjcmlwdGlvbglTYW1wbGUgR3Jvd3RoIENvbmRpdGlvbnMgTGFiZWwJRXh0cmFjdGlvbiBzb2x2ZW50CU90aGVyIGV4dHJhY3Rpb24gZGV0YWlscwlFeHRyYWN0aW9uIE1ldGhvZCBMYWJlbAlJbnN0cnVtZW50YXRpb24JQ29sdW1uIGRldGFpbHMJSW5zdHJ1bWVudCBtb2RlCU1hc3MgcmFuZ2UJQ29sbGlzaW9uIGVuZXJneQlCdWZmZXJpbmcJT3RoZXIgaW5zdHJ1bWVudGF0aW9uIGluZm9ybWF0aW9uCUluc3RydW1lbnRhdGlvbiBNZXRob2QgTGFiZWw=';
             expect(url).toEqual(expected);
         });
     })

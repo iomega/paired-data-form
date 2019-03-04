@@ -173,7 +173,7 @@ function collapseGenome(row: any) {
         genome_ID: {
             genome_type: row['Genome or Metagenome']
         },
-        genome_label: row['Genome label']
+        genome_label: row['Genome Label']
     };
     const genbankAccession = row['GenBank accession number'];
     if (genbankAccession) {
@@ -213,7 +213,7 @@ export function jsonDocument(schema: any, rows: any) {
     const instrumentationMethodLabels = new Set();
     const gmRows: any[] = rows.map((row: any) => {
         const metabolomicsFile = row['Location of metabolomics data file'];
-        const genomeLabel = row['Genome label'];
+        const genomeLabel = row['Genome Label'];
         if (!genomeLabels.has(genomeLabel)) {
             genomes.push(collapseGenome(row));
             genomeLabels.add(genomeLabel);
