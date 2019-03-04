@@ -12,7 +12,7 @@ import { PairedDataRecord } from "./PairedDataRecord";
 import "./App.css";
 import { jsonDocument } from './textTable';
 
-interface IState {
+export interface IState {
   schema: JSONSchema6;
   uiSchema: any;
   initDoc: any;
@@ -25,7 +25,26 @@ const formFields = {
   gmarray: GenomeMetabolomeLinksField,
 };
 
-class App extends React.Component<{}, IState> {
+export function injectForeignKeySearchMethods(uiSchema: any, app: App) {
+  // inject foreign key search method
+  uiSchema.genome_metabolome_links.items.genome_label.foreignKey.search = app.searchLabels.bind(
+    app
+  );
+  uiSchema.genome_metabolome_links.items.sample_preparation_label.foreignKey.search = app.searchLabels.bind(
+    app
+  );
+  uiSchema.genome_metabolome_links.items.extraction_method_label.foreignKey.search = app.searchLabels.bind(
+    app
+  );
+  uiSchema.genome_metabolome_links.items.instrumentation_method_label.foreignKey.search = app.searchLabels.bind(
+    app
+  );
+  uiSchema.BGC_MS2_links.items.MS2_URL.foreignKey.search = app.searchLabels.bind(
+    app
+  );
+}
+
+export class App extends React.Component<{}, IState> {
   public state: IState = { schema: {}, uiSchema: {}, initDoc: {}, validDoc: undefined };
   private uploadRef: React.RefObject<HTMLInputElement>;
   private formRef: React.RefObject<Form<any>>;
@@ -43,22 +62,7 @@ class App extends React.Component<{}, IState> {
     fetch("uischema.json")
       .then(r => r.json())
       .then(uiSchema => {
-        // inject foreign key search method
-        uiSchema.genome_metabolome_links.items.genome_label.foreignKey.search = this.searchLabels.bind(
-          this
-        );
-        uiSchema.genome_metabolome_links.items.sample_preparation_label.foreignKey.search = this.searchLabels.bind(
-          this
-        );
-        uiSchema.genome_metabolome_links.items.extraction_method_label.foreignKey.search = this.searchLabels.bind(
-          this
-        );
-        uiSchema.genome_metabolome_links.items.instrumentation_method_label.foreignKey.search = this.searchLabels.bind(
-          this
-        );
-        uiSchema.BGC_MS2_links.items.MS2_URL.foreignKey.search = this.searchLabels.bind(
-          this
-        );
+        injectForeignKeySearchMethods(uiSchema, this);
         this.setState({ uiSchema });
       });
   }
@@ -303,7 +307,7 @@ class App extends React.Component<{}, IState> {
       .then(this.fillForm);
   }
 
-  private fillForm = (doc: any) => {
+  public fillForm = (doc: any) => {
     this.setState({ initDoc: doc, validDoc: undefined }, () => {
       const form = this.formRef.current;
       if (form) {
@@ -314,5 +318,3 @@ class App extends React.Component<{}, IState> {
     });
   }
 }
-
-export default App;
