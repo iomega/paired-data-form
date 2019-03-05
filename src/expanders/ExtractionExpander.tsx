@@ -89,6 +89,7 @@ export class ExtractionExpander implements IExpander {
           );
         });
       }
+      return v;
     });
   }
 
