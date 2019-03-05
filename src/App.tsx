@@ -62,6 +62,13 @@ export class App extends React.Component<{}, IState> {
     this.setState({ initDoc: {}, validDoc: undefined });
   }
 
+  public onError = () => {
+    if (this.state.validDoc !== undefined) {
+      // Hide PairedDataRecord when form is invalid
+      this.setState({ validDoc: undefined });
+    }
+  }
+
   public uploadGenomeMetabolomeLinks = (rows: any[]) => {
     const doc = jsonDocument(this.state.schema, rows);
     const formData: any = this.state.initDoc;
@@ -101,6 +108,7 @@ export class App extends React.Component<{}, IState> {
               fields={formFields}
               formData={this.state.initDoc}
               onSubmit={this.onSubmit}
+              onError={this.onError}
               validate={validateDocument}
               formContext={formContext}
               ref={this.formRef}

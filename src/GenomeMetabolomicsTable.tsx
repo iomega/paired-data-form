@@ -14,7 +14,7 @@ interface IProps {
 }
 
 export const GenomeMetabolomicsTable = (props: IProps) => {
-    if (!props.data.genome_metabolome_links) {
+    if (!props.data.genome_metabolome_links || props.data.genome_metabolome_links.length === 0) {
         return <p>No links between (meta)genomes and metabolimics data files.</p>;
     }
     const genomeExpander = new GenomeExpander(props.schema, props.data);
