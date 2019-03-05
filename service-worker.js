@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/paired-data-form/precache-manifest.0f0e01324bd45e8a2262c4bf781c9435.js"
+  "/paired-data-form/precache-manifest.72089116d3e82902ab8158a170d62682.js"
 );
 
 workbox.clientsClaim();
