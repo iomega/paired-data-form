@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Table } from 'react-bootstrap';
+import { Table, Button, Glyphicon } from 'react-bootstrap';
 
 import { ExtractionExpander } from './expanders/ExtractionExpander';
 import { GenomeExpander } from './expanders/GenomeExpander';
@@ -44,7 +44,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
     headers = headers.concat(instrumentHeaders);
 
     const gmRows = props.data.genome_metabolome_links;
-    const rows = gmRows.map((row: any, i: number) => {
+    let rows = gmRows.map((row: any, i: number) => {
         let tds = cols.map((td, tdi) => {
             if (td === 'Metabolomics_Data_File') {
                 return (<td key={tdi}><a href={row[td]}>{row[td]}</a></td>);
@@ -67,12 +67,32 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         );
     });
     const genomemetabolometsvfn = 'paired-' + props.data.metabolomics.GNPSMassIVE_ID + '-genome-metabolome.tsv';
+
+    const [isCollapsed, changeCollapsing] = React.useState(true);
+    const columnIndexesToShowCollapsed = [0, 8, 18, 21, 29];
+    if (isCollapsed) {
+        // remove all columns not in columnIndexesToShowFolded
+        genomeHeaders.splice(0, genomeHeaders.length - 1);
+        sampleHeaders.splice(0, sampleHeaders.length - 1);
+        extractionHeaders.splice(0, extractionHeaders.length - 1);
+        instrumentHeaders.splice(0, instrumentHeaders.length - 1);
+        headers = columnIndexesToShowCollapsed.map(c => headers[c]);
+        rows = rows.map((r: any, i: number) => {
+            return <tr key={i}>
+                {columnIndexesToShowCollapsed.map(c => r.props.children[c])}
+            </tr>;
+        });
+    }
     return (
         <div>
             <Table condensed={true} striped={true} bordered={true}>
                 <thead>
                     <tr>
-                        <th colSpan={cols.length} />
+                        <th colSpan={cols.length}>
+                            <Button bsSize="xs" onClick={() => changeCollapsing(!isCollapsed)} title={isCollapsed ? 'Expand table, show all columns' : 'Collapse table, only show label columns'}>
+                                <Glyphicon glyph={isCollapsed ? 'plus' : 'minus'} /> {isCollapsed ? 'Expand' : 'Collapse'}
+                            </Button>
+                        </th>
                         <th colSpan={genomeHeaders.length}>{gmProps[genomeExpander.fk].title}</th>
                         <th colSpan={sampleHeaders.length}>{gmProps[sampleExpander.fk].title}</th>
                         <th colSpan={extractionHeaders.length}>{gmProps[extractionExpander.fk].title}</th>
