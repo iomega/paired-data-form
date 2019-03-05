@@ -5,9 +5,10 @@ import { shallow } from "enzyme";
 import Form from "react-jsonschema-form";
 import { Button } from "react-bootstrap";
 
-import { App, IState, injectForeignKeySearchMethods } from "./App";
+import { App, IState } from "./App";
 import { kitchenSinkDoc } from './test.fixtures';
 import { PairedDataRecord } from "./PairedDataRecord";
+import { injectForeignKeySearchMethods } from "./validate";
 
 describe('App', () => {
     describe('with schema and uischema loaded', () => {
