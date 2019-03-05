@@ -40,6 +40,11 @@ export class App extends React.Component<{}, IState> {
   public componentDidMount() {
     fetch("schema.json")
       .then(r => r.json())
+      .then(schema => {
+        // react-jsonschema-form does not like $schema key in the schema, it stops validating
+        delete schema['$schema'];
+        return schema;
+      })
       .then(schema => this.setState({ schema }));
     fetch("uischema.json")
       .then(r => r.json())
