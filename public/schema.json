@@ -391,7 +391,7 @@
               "other_growth_conditions": {
                 "type": "string",
                 "title": "Other growth conditions",
-                "description": "Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h (optional). If you selected Other for growth medium, please write your growth medium here."
+                "description": "Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h (optional)."
               },
               "metagenome_details": {
                 "type": "object",
@@ -400,7 +400,7 @@
                   "environment": {
                     "type": "string",
                     "title": "Metagenome host or isolation source",
-                    "description": "For metagenomic samples, please select the source host or isolation source. If it is not available, please write it in the metagenomic sample description below.",
+                    "description": "For metagenomic samples, please select the source host or isolation source. If it is not available, please select Other and type it in.",
                     "anyOf": [
                       {
                         "type": "string",
@@ -527,7 +527,7 @@
               "metagenomic_sample_description": {
                 "type": "string",
                 "title": "Metagenomic sample description",
-                "description": "Please describe your metagenomic sample preparation prior to extraction. If you answered Other in the question above, please also enter the host/isolation source here."
+                "description": "Please describe your metagenomic sample preparation prior to extraction."
               },
               "sample_preparation_method": {
                 "type": "string",
@@ -703,7 +703,7 @@
               "other_extraction_parameters": {
                 "type": "string",
                 "title": "Other extraction details",
-                "description": "Please describe any other relevant extraction methods, e.g. partitioned against water or fractionated with 20% acetonitrile. If you selected Other above, please write the extraction solvent here."
+                "description": "Please describe any other relevant extraction methods, e.g. partitioned against water or fractionated with 20% acetonitrile."
               },
               "extraction_method": {
                 "type": "string",
@@ -897,7 +897,7 @@
               "other_instrumentation": {
                 "type": "string",
                 "title": "Other instrumentation information",
-                "description": "Please enter any other relevant instrument details, e.g. collision energy. If you answered Other above, please provide instrument type here."
+                "description": "Please enter any other relevant instrument or method details."
               },
               "instrumentation_method": {
                 "type": "string",
