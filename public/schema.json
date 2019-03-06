@@ -914,7 +914,7 @@
     "genome_metabolome_links": {
       "type": "array",
       "title": "Links between genomes and metabolomics data",
-      "description": "Create a linked pair by selecting the genome/metagenome accession number as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.",
+      "description": "Create a linked pair by selecting the Genome Label as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.",
       "items": {
         "type": "object",
         "required": [
@@ -928,7 +928,7 @@
           "genome_label": {
             "type": "string",
             "title": "Genome/Metagenome",
-            "description": "Please select the Genome/Metagenome label to be linked to a metabolomics data file."
+            "description": "Please select the Genome Label to be linked to a metabolomics data file."
           },
           "metabolomics_file": {
             "type": "string",
