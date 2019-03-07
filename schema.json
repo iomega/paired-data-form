@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://iomega.github.io/paired-data-form/schema.json",
   "title": "iOMEGA Paired Data Platform",
-  "description": "This Paired Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer-readable manner to further the field of natural products discovery. The form below aims to capture sufficient metadata to create informative links between genome sequences on the one hand and metabolomics profiles on the other hand. Note that wherever we could, we have used existing ontology to define terms. When filling out the form below, at any time the inputted data can be saved and downloaded in json format to be reloaded when continuing with the entries. The form below first asks for some personal information to provide proper credits and allow the community to ask the right person information on the linked data. Then, overall information on the metabolomics experiment is captured, before all genomes or metagenomes can be detailed. Then the metabolomics metadata can be saved using labels for sample growth conditions, extraction, and instrument methods. Finally, the data links can be made with references to the actual mass spectral files in MaSSIVE. Optionally, you can save links between known biosynthesis gene clusters and mass spectra or molecular families in the second part of the form. We investigate the options for a direct csv upload as well. After saving your entries, a table below the form will appear filled with your data to review. Then you can download the filled json schema in which all links are recorded. We hope you will use our platform to capture your paired data links as this will allow you and the community to efficiently use your data in follow-up studies that rely on the combined use of genome and metabolome data.",
+  "description": "This Paired Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer-readable manner to further the field of natural products discovery. The form below aims to capture sufficient metadata to create informative links between genome sequences on the one hand and metabolomics profiles on the other hand. Note that wherever we could, we have used existing ontology to define terms. When filling out the form below, at any time the inputted data can be saved and downloaded in json format to be reloaded when continuing with the entries. The form below first asks for some personal information to provide proper credits and allow the community to ask the right person information on the linked data. Then, overall information on the metabolomics experiment is captured, before all genomes or metagenomes can be detailed, including creating a unique genome label for easy recall during linking. Then the metabolomics metadata can be saved using labels for sample growth conditions, extraction, and instrument methods. Finally, the data links can be made with references to the actual mass spectral files in MaSSIVE. Optionally, you can save links between known biosynthesis gene clusters and mass spectra or molecular families in the second part of the form. After saving your entries, a table below the form will appear filled with the links you created with experimental labels; you can also expand the table to see all information inputted. Then you can download the filled json schema in which all links are recorded. To accommodate inputting large datasets, you can download the TSV linking table, manually add new links, and re-upload the TSV file. It is important to note that all experimental labels need to be defined in the form and at least one link made before you download and edit the table. We hope you will use our platform to capture your paired data links as this will allow you and the community to efficiently use your data in follow-up studies that rely on the combined use of genome and metabolome data.",
   "type": "object",
   "required": [
     "version",
@@ -391,7 +391,7 @@
               "other_growth_conditions": {
                 "type": "string",
                 "title": "Other growth conditions",
-                "description": "Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h (optional). If you selected Other for growth medium, please write your growth medium here."
+                "description": "Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h (optional)."
               },
               "metagenome_details": {
                 "type": "object",
@@ -400,7 +400,7 @@
                   "environment": {
                     "type": "string",
                     "title": "Metagenome host or isolation source",
-                    "description": "For metagenomic samples, please select the source host or isolation source. If it is not available, please write it in the metagenomic sample description below.",
+                    "description": "For metagenomic samples, please select the source host or isolation source. If it is not available, please select Other and type it in.",
                     "anyOf": [
                       {
                         "type": "string",
@@ -527,7 +527,7 @@
               "metagenomic_sample_description": {
                 "type": "string",
                 "title": "Metagenomic sample description",
-                "description": "Please describe your metagenomic sample preparation prior to extraction. If you answered Other in the question above, please also enter the host/isolation source here."
+                "description": "Please describe your metagenomic sample preparation prior to extraction."
               },
               "sample_preparation_method": {
                 "type": "string",
@@ -703,7 +703,7 @@
               "other_extraction_parameters": {
                 "type": "string",
                 "title": "Other extraction details",
-                "description": "Please describe any other relevant extraction methods, e.g. partitioned against water or fractionated with 20% acetonitrile. If you selected Other above, please write the extraction solvent here."
+                "description": "Please describe any other relevant extraction methods, e.g. partitioned against water or fractionated with 20% acetonitrile."
               },
               "extraction_method": {
                 "type": "string",
@@ -897,7 +897,7 @@
               "other_instrumentation": {
                 "type": "string",
                 "title": "Other instrumentation information",
-                "description": "Please enter any other relevant instrument details, e.g. collision energy. If you answered Other above, please provide instrument type here."
+                "description": "Please enter any other relevant instrument or method details."
               },
               "instrumentation_method": {
                 "type": "string",
@@ -914,7 +914,7 @@
     "genome_metabolome_links": {
       "type": "array",
       "title": "Links between genomes and metabolomics data",
-      "description": "Create a linked pair by selecting the genome/metagenome accession number as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.",
+      "description": "Create a linked pair by selecting the Genome Label as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.",
       "items": {
         "type": "object",
         "required": [
@@ -928,7 +928,7 @@
           "genome_label": {
             "type": "string",
             "title": "Genome/Metagenome",
-            "description": "Please select the Genome/Metagenome label to be linked to a metabolomics data file."
+            "description": "Please select the Genome Label to be linked to a metabolomics data file."
           },
           "metabolomics_file": {
             "type": "string",
@@ -957,7 +957,7 @@
     },
     "BGC_MS2_links": {
       "type": "array",
-      "title": "Linked gene clusters and MS2 spectra.",
+      "title": "Linked gene clusters and MS2 spectra",
       "description": "If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide details in this section",
       "items": {
         "type": "object",
