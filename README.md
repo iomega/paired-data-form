@@ -12,6 +12,8 @@ Some information on how to perform common tasks is available in the [guide](http
 
 # Install
 
+Atfer cloning the repo, it's dependencies must be installed.
+
 Requires [nodejs](https://nodejs.org) and [yarn](https://yarnpkg.com/).
 
 ```
@@ -23,6 +25,10 @@ yarn install
 ```
 yarn start
 ```
+
+Runs the app in development mode. Open http://localhost:3000 to view it in the browser.
+
+The page will automatically reload if you make changes to the code. You will see the build errors and lint warnings in the console.
 
 # Deployment to Github pages
 
