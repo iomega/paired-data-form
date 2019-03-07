@@ -26,6 +26,8 @@ yarn start
 
 # Deployment to Github pages
 
+The https://iomega.github.io/paired-data-form site can be updated by running:
+
 ```
 yarn deploy
 ```
