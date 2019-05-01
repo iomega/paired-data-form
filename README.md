@@ -37,3 +37,17 @@ The https://iomega.github.io/paired-data-form site can be updated by running:
 ```
 yarn deploy
 ```
+
+# Docker
+
+Build with
+```
+docker build -t iomega/paired-data-form .
+```
+
+Run with
+```
+docker run -d -p 8887:80 -v $PWD/data:/data iomega/paired-data-form
+```
+
+Goto http://localhost:8887

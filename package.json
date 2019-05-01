@@ -40,7 +40,7 @@
     "enzyme-adapter-react-16": "^1.10.0",
     "gh-pages": "^2.0.1"
   },
-  "homepage": "https://iomega.github.io/paired-data-form",
+  "homepage": ".",
   "eslintConfig": {
     "extends": "react-app"
   },
