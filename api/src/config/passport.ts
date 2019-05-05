@@ -1,16 +1,13 @@
 import passport from 'passport';
-import passportLocal from 'passport-local';
-
-const LocalStrategy = passportLocal.Strategy;
+import { Strategy } from 'passport-http-bearer';
 
 /**
  * Sign in using Email and Password.
  */
-passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
-  if (password == 'foobar') {
-    return done(undefined, {'username': 'someone'});
+passport.use(new Strategy((token, done) => {
+  if (token === 'foobar') { // TODO use TOKEN_SECRET
+    return done(undefined, {'username': 'admin'});
   } else {
-    return done(undefined, false, { message: 'Incorrect password.' });
+    return done('Incorrect token.');
   }
 }));
-

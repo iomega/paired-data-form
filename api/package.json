@@ -19,6 +19,7 @@
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
   },
   "dependencies": {
+    "ajv": "^6.10.0",
     "async": "^2.6.0",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.2",
@@ -26,12 +27,9 @@
     "dotenv": "^4.0.0",
     "errorhandler": "^1.5.0",
     "express": "^4.16.2",
-    "express-flash": "0.0.2",
-    "express-session": "^1.15.6",
-    "express-validator": "^4.3.0",
     "lusca": "^1.5.2",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
+    "passport-http-bearer": "^1.0.0",
     "winston": "^2.4.0"
   },
   "devDependencies": {
@@ -48,8 +46,7 @@
     "@types/lusca": "^1.5.0",
     "@types/node": "^9.4.6",
     "@types/passport": "^0.4.3",
-    "@types/passport-facebook": "^2.1.7",
-    "@types/passport-local": "^1.0.32",
+    "@types/passport-http-bearer": "^1.0.32",
     "concurrently": "^3.5.1",
     "jest": "^22.0.4",
     "nodemon": "^1.13.0",
