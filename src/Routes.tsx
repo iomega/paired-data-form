@@ -10,7 +10,8 @@ import { EditProject } from "./pages/EditProject";
 import { PendingProjects } from "./pages/PendingProjects";
 import { ReviewProject } from "./pages/ReviewProject";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, NavItem } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 
 export function Routes() {
     return (
@@ -22,15 +23,21 @@ export function Routes() {
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Nav>
-                    <li><Link to="/projects">List</Link></li>
-                    <li><Link to="/projects/add">Add</Link></li>
-                    <li><Link to="/pending">Review</Link></li>
+                    <LinkContainer to="/projects">
+                        <NavItem>List</NavItem>
+                    </LinkContainer>
+                    <LinkContainer to="/add">
+                        <NavItem>Add</NavItem>
+                    </LinkContainer>
+                    <LinkContainer to="/pending">
+                        <NavItem>Review</NavItem>
+                    </LinkContainer>
                 </Nav>
             </Navbar>
             <Switch>
                 <Route path="/" exact component={Welcome} />
                 <Route path="/projects" exact component={Projects} />
-                <Route path="/projects/add" exact component={AddProject} />
+                <Route path="/add" exact component={AddProject} />
                 <Route path="/projects/:id/edit" component={EditProject} />
                 <Route path="/projects/:id" component={Project} />
                 <ProtectedRoute path="/pending" exact component={PendingProjects} />
