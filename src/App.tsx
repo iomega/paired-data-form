@@ -38,7 +38,7 @@ export class App extends React.Component<{}, IState> {
   }
 
   public componentDidMount() {
-    fetch("schema.json")
+    fetch("/schema.json")
       .then(r => r.json())
       .then(schema => {
         // react-jsonschema-form does not like $schema key in the schema, it stops validating
@@ -46,7 +46,7 @@ export class App extends React.Component<{}, IState> {
         return schema;
       })
       .then(schema => this.setState({ schema }));
-    fetch("uischema.json")
+    fetch("/uischema.json")
       .then(r => r.json())
       .then(uiSchema => {
         injectForeignKeySearchMethods(uiSchema, this);
@@ -173,7 +173,7 @@ export class App extends React.Component<{}, IState> {
 
 
   public loadExample1 = () => {
-    fetch('examples/paired_datarecord_MSV000078839_example.json')
+    fetch('/examples/paired_datarecord_MSV000078839_example.json')
       .then(r => r.json())
       .then(this.fillForm);
   }
