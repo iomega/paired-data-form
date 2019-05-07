@@ -16,7 +16,7 @@ const data = [{
 
 export function Projects() {
     const rows = data.map(d => (
-        <tr>
+        <tr key={d._id}>
             <td><Link to={d._id}>{d.gnps}</Link></td>
             <td>{d.pi}</td>
             <td>{d.nr_genomes}</td>

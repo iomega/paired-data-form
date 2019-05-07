@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button } from "react-bootstrap";
 
-interface IProps {
+export interface IProps {
     onLogout(): void
 }
 

@@ -7,7 +7,7 @@ export interface Credentials {
     password: string;
 }
 
-interface IProps {
+export interface IProps {
     onLogin(credentials: Credentials): void
 }
 

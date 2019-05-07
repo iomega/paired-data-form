@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ButtonGroup, Button, Glyphicon } from "react-bootstrap";
 
-interface IProps {
+export interface IProps {
     onApprove(): void
     onDeny(): void
 }
