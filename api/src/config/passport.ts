@@ -1,5 +1,6 @@
 import passport from 'passport';
 import { Strategy } from 'passport-http-bearer';
+import { Request, Response } from 'express';
 
 import { SHARED_TOKEN } from '../util/secrets';
 
@@ -13,3 +14,8 @@ passport.use(new Strategy((token, done) => {
     return done(undefined, false);
   }
 }));
+
+export const authenticate = (req: Request, res: Response) => {
+  const message = 'OK';
+  res.json({message});
+};
