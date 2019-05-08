@@ -4,14 +4,17 @@ node_js:
 cache:
   directories:
     - node_modules
+install: []
 script:
-  - ajv compile -s public/schema.json
+  - npx -p ajv-cli ajv compile -s public/schema.json
   # API
   - cd api
+  - npm install
   - npm run build
   - npm test -- --coverage
   - cd ..
   # Frontend
+  - yarn
   - npm run build
   - npm test -- --coverage
   - sonar-scanner -Dsonar.login=$SONAR_TOKEN
