@@ -10,12 +10,16 @@ if (fs.existsSync('.env')) {
     dotenv.config({ path: '.env.example' });  // you can delete this after you create your own .env file!
 }
 export const ENVIRONMENT = process.env.NODE_ENV;
-const prod = ENVIRONMENT === 'production'; // Anything else is treated as 'dev'
 
 export const SHARED_TOKEN = process.env['SHARED_TOKEN'];
-export const DATADIR = './data';
 
 if (!SHARED_TOKEN) {
     logger.error('No client secret. Set SHARED_TOKEN environment variable.');
+    process.exit(1);
+}
+
+export const DATADIR = process.env['DATADIR'];
+if (!DATADIR) {
+    logger.error('No data directory. Set DATADIR environment variable.');
     process.exit(1);
 }
