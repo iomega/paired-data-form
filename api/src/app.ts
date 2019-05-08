@@ -1,6 +1,5 @@
 import express from 'express';
 import compression from 'compression';  // compresses requests
-import bodyParser from 'body-parser';
 import lusca from 'lusca';
 import dotenv from 'dotenv';
 import passport from 'passport';
@@ -23,7 +22,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('db', new Db(DATADIR));
 app.set('validator', new Validator());
 app.use(compression());
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(passport.initialize());
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
