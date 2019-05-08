@@ -8,8 +8,9 @@ import asyncHandler from 'express-async-handler';
 import { DATADIR } from './util/secrets';
 import { Db } from './db';
 import * as controller from './controller';
-import { authenticate } from './config/passport';
+import { authenticate as healthcheck } from './config/passport';
 import { Validator } from './validate';
+import logger from './util/logger';
 
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config({ path: '.env.example' });
@@ -19,7 +20,8 @@ const app = express();
 
 // Express configuration
 app.set('port', process.env.PORT || 3000);
-app.set('db', new Db(DATADIR));
+const db = new Db(DATADIR);
+app.set('db', db);
 app.set('validator', new Validator());
 app.use(compression());
 app.use(express.json());
@@ -30,16 +32,16 @@ app.use(lusca.xssProtection(true));
 // Public api
 app.get('/api/projects', controller.listProjects);
 app.get('/api/projects/:id', controller.getProject);
-app.post('/api/projects', controller.createProject);
-app.post('/api/projects/:id', controller.editProject);
+app.post('/api/projects', asyncHandler(controller.createProject));
+app.post('/api/projects/:id', asyncHandler(controller.editProject));
 app.get('/api/projects/:id/history', asyncHandler(controller.getProjectHistory));
 // Protected api
 const protected_api = passport.authenticate('bearer', { session: false });
-app.post('/api/auth', protected_api, authenticate);
+app.post('/api/auth', protected_api, healthcheck);
 app.get('/api/pending/projects', protected_api, controller.listPendingProjects);
 app.get('/api/pending/projects/:id', protected_api, controller.getPendingProject);
-app.delete('/api/pending/projects/:id', protected_api, controller.denyProject);
-app.post('/api/pending/projects/:id', protected_api, controller.approveProject);
+app.delete('/api/pending/projects/:id', protected_api, asyncHandler(controller.denyProject));
+app.post('/api/pending/projects/:id', protected_api, asyncHandler(controller.approveProject));
 
 app.use(controller.notFoundHandler);
 

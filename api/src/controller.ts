@@ -11,7 +11,7 @@ function getValidator(req: Request) {
     return req.app.get('validator') as Validator;
 }
 
-export function createProject(req: Request, res: Response) {
+export async function createProject(req: Request, res: Response) {
     const project = req.body;
     const validator = getValidator(req);
     if (!validator.validate(project)) {
@@ -20,7 +20,7 @@ export function createProject(req: Request, res: Response) {
         return;
     }
     const db = getDb(req);
-    const project_id = db.createProject(project);
+    const project_id = await db.createProject(project);
     const location = req.baseUrl + '/api/pending/projects/' + project_id;
     res.set('Location', location);
     res.status(201);
@@ -39,20 +39,20 @@ export function getPendingProject(req: Request, res: Response) {
     res.json(project);
 }
 
-export function approveProject(req: Request, res: Response) {
+export async function approveProject(req: Request, res: Response) {
     const db = getDb(req);
     const project_id = req.params.id;
-    db.approveProject(project_id);
+    await db.approveProject(project_id);
     const location = req.baseUrl + '/api/projects/' + project_id;
     res.set('Location', location);
     res.status(200);
     res.json({'message': 'Approved pending project', location});
 }
 
-export function denyProject(req: Request, res: Response) {
+export async function denyProject(req: Request, res: Response) {
     const db = getDb(req);
     const project_id = req.params.id;
-    db.denyProject(project_id);
+    await db.denyProject(project_id);
     res.status(200);
     res.json({'message': 'Denied pending project'});
 }
@@ -76,7 +76,7 @@ export async function getProjectHistory(req: Request, res: Response) {
     res.json(history);
 }
 
-export function editProject(req: Request, res: Response) {
+export async function editProject(req: Request, res: Response) {
     const project = req.body;
     const validator = getValidator(req);
     if (!validator.validate(project)) {
@@ -86,7 +86,7 @@ export function editProject(req: Request, res: Response) {
     }
     const db = getDb(req);
     const project_id = req.params.id;
-    const new_project_id = db.editProject(project_id, project);
+    const new_project_id = await db.editProject(project_id, project);
     const location = req.baseUrl + '/api/pending/projects/' + new_project_id;
     res.set('Location', location);
     res.status(201);
