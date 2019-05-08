@@ -1,11 +1,17 @@
 language: node_js
 node_js:
-  - '10'
+  - '12'
 cache:
   directories:
     - node_modules
 script:
   - ajv compile -s public/schema.json
+  # API
+  - cd api
+  - npm run build
+  - npm test -- --coverage
+  - cd ..
+  # Frontend
   - npm run build
   - npm test -- --coverage
   - sonar-scanner -Dsonar.login=$SONAR_TOKEN
