@@ -18,9 +18,8 @@ describe('Validator', () => {
         expect(result).toBeFalsy();
     });
 
-    test('proper document', () => {
-        const data = loadJSONDocument('../public/examples/paired_datarecord_MSV000078839_example.json');
-
+    test('proper document', async () => {
+        const data = await loadJSONDocument('../public/examples/paired_datarecord_MSV000078839_example.json');
         const result = validator.validate(data);
 
         expect(validator.errors).toBeFalsy();
