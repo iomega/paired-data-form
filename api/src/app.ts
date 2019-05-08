@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import lusca from 'lusca';
 import dotenv from 'dotenv';
 import passport from 'passport';
+import asyncHandler from 'express-async-handler';
 
 import { DATADIR } from './util/secrets';
 import { Db } from './db';
@@ -32,7 +33,7 @@ app.get('/api/projects', controller.listProjects);
 app.get('/api/projects/:id', controller.getProject);
 app.post('/api/projects', controller.createProject);
 app.post('/api/projects/:id', controller.editProject);
-app.get('/api/projects/:id/history', controller.getProjectHistory);
+app.get('/api/projects/:id/history', asyncHandler(controller.getProjectHistory));
 // Protected api
 const protected_api = passport.authenticate('bearer', { session: false });
 app.post('/api/auth', protected_api, authenticate);

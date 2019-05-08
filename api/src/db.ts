@@ -197,20 +197,19 @@ export class Db {
         );
     }
 
-    projectHistory(project_id: string) {
+    async projectHistory(project_id: string) {
         const current = this.getProject(project_id);
         const project_accession = toAccession(project_id);
         logger.info('Reading history of ' + project_accession + 'project from ' + this.archiveDir);
-        const archived = fs.readdirSync(this.archiveDir)
-            .filter(fn => fn.startsWith(project_accession + '.') && fn.endsWith('.json'))
-            .sort()
-            .map(fn => {
-                const afn = path.join(this.archiveDir, fn);
-                const project_id = parseProjectFilename(fn);
-                const project = loadJSONDocument(afn);
-                return [project_id, project];
-            })
-        ;
+        const files = await fs.promises.readdir(this.archiveDir);
+        const checkFilename = (fn: string) => fn.startsWith(project_accession + '.') && fn.endsWith('.json');
+        const loadProject = (fn: string) => {
+            const afn = path.join(this.archiveDir, fn);
+            const project_id = parseProjectFilename(fn);
+            const project = loadJSONDocument(afn);
+            return [project_id, project];
+        };
+        const archived = files.filter(checkFilename).sort().map(loadProject);
         logger.info(archived.length + ' old revisions of project found');
         return {
             current,

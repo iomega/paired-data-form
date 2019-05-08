@@ -69,10 +69,10 @@ export function getProject(req: Request, res: Response) {
     res.json(project);
 }
 
-export function getProjectHistory(req: Request, res: Response) {
+export async function getProjectHistory(req: Request, res: Response) {
     const db = getDb(req);
     const project_id = req.params.id;
-    const history = db.projectHistory(project_id);
+    const history = await db.projectHistory(project_id);
     res.json(history);
 }
 
