@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { Db } from './db';
+import { Db, NotFoundException } from './db';
 import { Validator } from './validate';
 
 function getDb(req: Request) {
@@ -36,11 +36,6 @@ export function getPendingProject(req: Request, res: Response) {
     const db = getDb(req);
     const project_id = req.params.id;
     const project = db.getPendingProject(project_id);
-    // if (!project) {
-    //     res.status(404);
-    //     const message = project_id + ' not found';
-    //     res.json({message});
-    // }
     res.json(project);
 }
 
@@ -71,11 +66,6 @@ export function getProject(req: Request, res: Response) {
     const db = getDb(req);
     const project_id = req.params.id;
     const project = db.getProject(project_id);
-    // if (!project) {
-    //     res.status(404);
-    //     const message = project_id + ' not found';
-    //     res.json({message});
-    // }
     res.json(project);
 }
 
@@ -101,4 +91,13 @@ export function editProject(req: Request, res: Response) {
     res.set('Location', location);
     res.status(201);
     res.json({'message': 'Created pending project', location});
+}
+
+export function notFoundHandler(error: any, req: Request, res: Response, next: any) {
+    if (error instanceof NotFoundException) {
+        res.status(404);
+        const message = error.message;
+        res.json({message});
+    }
+    next(error);
 }

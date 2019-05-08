@@ -5,7 +5,7 @@ import uuid from 'uuid/v4';
 import logger from './util/logger';
 import { loadJSONDocument } from './util/io';
 
-class NotFoundException extends Error {
+export class NotFoundException extends Error {
 }
 
 interface ProjectId {

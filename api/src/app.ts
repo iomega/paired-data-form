@@ -41,4 +41,6 @@ app.get('/api/pending/projects/:id', protected_api, controller.getPendingProject
 app.delete('/api/pending/projects/:id', protected_api, controller.denyProject);
 app.post('/api/pending/projects/:id', protected_api, controller.approveProject);
 
+app.use(controller.notFoundHandler);
+
 export default app;
