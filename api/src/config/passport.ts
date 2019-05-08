@@ -1,13 +1,15 @@
 import passport from 'passport';
 import { Strategy } from 'passport-http-bearer';
 
+import { SHARED_TOKEN } from '../util/secrets';
+
 /**
- * Sign in using Email and Password.
+ * Sign in using token.
  */
 passport.use(new Strategy((token, done) => {
-  if (token === 'foobar') { // TODO use TOKEN_SECRET
+  if (token === SHARED_TOKEN) {
     return done(undefined, {'username': 'admin'});
   } else {
-    return done('Incorrect token.');
+    return done(undefined, false);
   }
 }));
