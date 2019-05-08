@@ -25,3 +25,17 @@ http localhost:3000/api/pending/projects 'Authorization: Bearer ashdfjhasdlkjfha
 http localhost:3000/api/projects
 http -j -p HBhb localhost:3000/api/projects < ../public/examples/paired_datarecord_MSV000078839_example.json 
 ```
+
+## Docker
+
+Build with
+```bash
+cd ..
+docker build -t iomega/podp-api -f api/Dockerfile .
+```
+
+Run using `./data` dir as datadir with
+```bash
+docker run -d -p 8886:3000 --user $(id -u) -v $PWD/data:/data iomega/podp-api
+```
+Will start api web service on http://localhost:8887

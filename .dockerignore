@@ -2,3 +2,7 @@ node_modules
 build
 coverage
 .scannerwork
+api/node_modules
+api/dist
+api/coverage
+api/data
