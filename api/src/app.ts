@@ -10,7 +10,6 @@ import { Db } from './db';
 import * as controller from './controller';
 import { authenticate as healthcheck } from './config/passport';
 import { Validator } from './validate';
-import logger from './util/logger';
 
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config({ path: '.env.example' });
@@ -20,8 +19,7 @@ const app = express();
 
 // Express configuration
 app.set('port', process.env.PORT || 3000);
-const db = new Db(DATADIR);
-app.set('db', db);
+app.set('db', new Db(DATADIR));
 app.set('validator', new Validator());
 app.use(compression());
 app.use(express.json());
