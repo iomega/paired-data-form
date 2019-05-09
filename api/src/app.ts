@@ -8,7 +8,7 @@ import asyncHandler from 'express-async-handler';
 import { DATADIR } from './util/secrets';
 import { Db } from './db';
 import * as controller from './controller';
-import { authenticate as healthcheck } from './config/passport';
+import { okHandler } from './config/passport';
 import { Validator } from './validate';
 
 // Load environment variables from .env file, where API keys and passwords are configured
@@ -35,7 +35,7 @@ app.post('/api/projects/:id', asyncHandler(controller.editProject));
 app.get('/api/projects/:id/history', asyncHandler(controller.getProjectHistory));
 // Protected api
 const protected_api = passport.authenticate('bearer', { session: false });
-app.post('/api/auth', protected_api, healthcheck);
+app.post('/api/auth', protected_api, okHandler);
 app.get('/api/pending/projects', protected_api, controller.listPendingProjects);
 app.get('/api/pending/projects/:id', protected_api, controller.getPendingProject);
 app.delete('/api/pending/projects/:id', protected_api, asyncHandler(controller.denyProject));

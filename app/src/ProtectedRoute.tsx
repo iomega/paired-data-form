@@ -5,13 +5,26 @@ import { AuthContext, IAuth } from './auth';
 import { useState } from 'react';
 import { Logout } from './pages/Logout';
 
+async function checkToken(token: string) {
+    const url = '/api/auth';
+    const headers = new Headers({
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+    });
+    const init = {headers, method: 'POST'};
+    await fetch(url, init);
+}
+
 export const ProtectedRoute = (props: RouteProps) => {
     const storageKey = 'pdb-token';
     const defaultToken = localStorage.getItem(storageKey) ? localStorage.getItem(storageKey) as string: '';
     const [token, setToken] = useState<string>(defaultToken);
-    const onLogin = (creds: Credentials) => {
-        setToken(creds.password);
-        localStorage.setItem(storageKey, creds.password);
+    const onLogin = async (creds: Credentials) => {
+        const token = creds.password;
+        const response = await checkToken(token);
+        // TODO check response is 200
+        setToken(token);
+        localStorage.setItem(storageKey, token);
     }
     const onLogout = () => {
         setToken('');

@@ -15,7 +15,7 @@ passport.use(new Strategy((token, done) => {
   }
 }));
 
-export const authenticate = (req: Request, res: Response) => {
+export const okHandler = (req: Request, res: Response) => {
   const message = 'OK';
   res.json({message});
 };
