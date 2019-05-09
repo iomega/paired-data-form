@@ -1,24 +1,56 @@
 import * as React from "react";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { IOMEGAPairedDataPlatform } from "../schema";
 
-const data = [{
-    _id: '/projects/MSV000078839.1',
-    gnps: 'MSV000078839',
-    pi: 'Justin van der Hooft',
-    nr_genomes: 3,
-    nr_growth_conditions: 3,
-    nr_extraction_methods: 3,
-    nr_instrumentation_methods: 1,
-    nr_genome_metabolmics_links: 21,
-    nr_genecluster_mspectra_links: 0,
-}];
+interface ProjectSummary {
+    _id: string
+    GNPSMassIVE_ID: string
+    PI_name: string
+    nr_genomes: number
+    nr_growth_conditions: number
+    nr_extraction_methods: number
+    nr_instrumentation_methods: number
+    nr_genome_metabolmics_links: number
+    nr_genecluster_mspectra_links: number
+}
+
+type ProjectListItem = [string, IOMEGAPairedDataPlatform];
+
+const summarizeProject = (d: ProjectListItem): ProjectSummary => {
+    return {
+        _id: d[0],
+        GNPSMassIVE_ID: d[1]['metabolomics']['GNPSMassIVE_ID'],
+        PI_name: d[1]['personal']['PI_name']!,
+        nr_genomes: d[1]['genomes'].length,
+        nr_growth_conditions: d[1]['experimental']['sample_preparation']!.length,
+        nr_extraction_methods: d[1]['experimental']['extraction_methods']!.length,
+        nr_instrumentation_methods: d[1]['experimental']['instrumentation_methods']!.length,
+        nr_genome_metabolmics_links: d[1]['genome_metabolome_links'].length,
+        nr_genecluster_mspectra_links: d[1]['BGC_MS2_links']!.length,
+    }
+}
+
+const useProjects = () => {
+    const url = '/api/projects';
+    const [data, setData] = useState<ProjectSummary[]>([]);
+    async function fetchData() {
+        const response = await fetch(url);
+        const json = await response.json();
+        const project_summaries = json.entries.map(summarizeProject);
+        setData(project_summaries);
+    }
+    useEffect(() => { fetchData(); }, [url]);
+    return data;
+};
 
 export function Projects() {
-    const rows = data.map(d => (
+    const projects = useProjects();
+    const rows = projects.map(d => (
         <tr key={d._id}>
-            <td><Link to={d._id}>{d.gnps}</Link></td>
-            <td>{d.pi}</td>
+            <td><Link to={`/projects/${d._id}`}>{d.GNPSMassIVE_ID}</Link></td>
+            <td>{d.PI_name}</td>
             <td>{d.nr_genomes}</td>
             <td>{d.nr_growth_conditions}</td>
             <td>{d.nr_extraction_methods}</td>

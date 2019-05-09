@@ -45,3 +45,11 @@ docker run -d -p 8887:80 -v $PWD/data:/data iomega/paired-data-form
 ```
 
 Goto http://localhost:8887
+
+# Propagate schema changes
+
+When `public/schema.json` changes the `src/schema.ts` must also be updated using
+
+```bash
+npm run schema2ts
+```
