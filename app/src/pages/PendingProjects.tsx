@@ -1,32 +1,58 @@
 import * as React from "react";
 import { Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { useContext } from "react";
+import { useState, useEffect } from "react";
+
 import { Decide } from "../Decide";
 import { AuthContext } from "../auth";
-import { useContext } from "react";
+import { ProjectSummary, summarizeProject } from "../summarize";
+import { deny, approve } from "../review";
 
-const data = [{
-    _id: '/pending/MSV000078839.1',
-    gnps: 'MSV000078839',
-    pi: 'Justin van der Hooft',
-    nr_genomes: 3,
-    nr_growth_conditions: 3,
-    nr_extraction_methods: 3,
-    nr_instrumentation_methods: 1,
-    nr_genome_metabolmics_links: 21,
-    nr_genecluster_mspectra_links: 0,
-}];
+const usePendingProjects = (): [ProjectSummary[], React.Dispatch<React.SetStateAction<ProjectSummary[]>>] => {
+    const {token} = useContext(AuthContext);
+    const headers = new Headers({
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+    });
+    const init = {headers};
+    const url = '/api/pending/projects';
+    const [data, setData] = useState<ProjectSummary[]>([]);
+    async function fetchData() {
+        const response = await fetch(url, init);
+        const json = await response.json();
+        const project_summaries = json.entries.map(summarizeProject);
+        setData(project_summaries);
+    }
+    useEffect(() => { fetchData(); }, [url]);
+    return [data, setData];
+};
 
+function dropProject(id: string, list: ProjectSummary[]) {
+    const updated = [...list];
+    const index = updated.findIndex(p => p._id === id);
+    updated.splice(index, 1);
+    return updated;
+}
 
 export function PendingProjects() {
+    const [pending_projects, setPendingProjects] = usePendingProjects();
     const {token} = useContext(AuthContext);
-    const rows = data.map(d => (
+    const onDeny = (project_id: string) => async () => {
+        await deny(project_id, token);
+        setPendingProjects(dropProject(project_id, pending_projects));
+    };
+    const onApprove = (project_id: string) => async () => {
+        await approve(project_id, token);
+        setPendingProjects(dropProject(project_id, pending_projects));
+    };
+    const rows = pending_projects.map(d => (
         <tr key={d._id}>
             <td>
-                <Decide onDeny={()=> {}} onApprove={()=> {}}/>
+                <Decide onDeny={onDeny(d._id)} onApprove={onApprove(d._id)}/>
             </td>
-            <td><Link to={d._id}>{d.gnps}</Link></td>
-            <td>{d.pi}</td>
+            <td><Link to={`/pending/${d._id}`}>{d.GNPSMassIVE_ID}</Link></td>
+            <td>{d.PI_name}</td>
             <td>{d.nr_genomes}</td>
             <td>{d.nr_growth_conditions}</td>
             <td>{d.nr_extraction_methods}</td>
@@ -56,7 +82,6 @@ export function PendingProjects() {
                     {rows}
                 </tbody>
             </Table>
-            <span>API Token = {token}</span>
         </div>
     );
 }
