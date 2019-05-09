@@ -1,7 +1,7 @@
 FROM node:12-alpine
 LABEL maintainer='s.verhoeven@esciencecenter.nl'
 
-EXPOSE 3000
+EXPOSE 3001
 
 WORKDIR /code
 
