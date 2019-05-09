@@ -6,7 +6,7 @@ import { PairedDataRecord } from "../PairedDataRecord";
 import { useFetch } from "../useFetch";
 import { IOMEGAPairedDataPlatform } from "../schema";
 
-const useProject = (project_id: string): IOMEGAPairedDataPlatform | null => {
+export const useProject = (project_id: string): IOMEGAPairedDataPlatform | null => {
     const url = '/api/projects/' + project_id;
     const [data, setData] = useState(null);
     async function fetchData() {

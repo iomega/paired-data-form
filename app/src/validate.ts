@@ -1,14 +1,14 @@
-export function injectForeignKeySearchMethods(uiSchema: any, app: any) {
-  uiSchema.genome_metabolome_links.items.genome_label.foreignKey.search = foreignKeySearch(app, "genome_label", genomeLabels);
-  uiSchema.genome_metabolome_links.items.sample_preparation_label.foreignKey.search = foreignKeySearch(app, "sample_preparation_label", sampleLabels);
-  uiSchema.genome_metabolome_links.items.extraction_method_label.foreignKey.search = foreignKeySearch(app, "extraction_method_label", extractionLabels);
-  uiSchema.genome_metabolome_links.items.instrumentation_method_label.foreignKey.search = foreignKeySearch(app, "instrumentation_method_label", instrumentLabels);
-  uiSchema.BGC_MS2_links.items.MS2_URL.foreignKey.search = foreignKeySearch(app, "MS2_URL", ms2Labels);
+export function injectForeignKeySearchMethods(uiSchema: any, formRef: any) {
+  uiSchema.genome_metabolome_links.items.genome_label.foreignKey.search = foreignKeySearch(formRef, "genome_label", genomeLabels);
+  uiSchema.genome_metabolome_links.items.sample_preparation_label.foreignKey.search = foreignKeySearch(formRef, "sample_preparation_label", sampleLabels);
+  uiSchema.genome_metabolome_links.items.extraction_method_label.foreignKey.search = foreignKeySearch(formRef, "extraction_method_label", extractionLabels);
+  uiSchema.genome_metabolome_links.items.instrumentation_method_label.foreignKey.search = foreignKeySearch(formRef, "instrumentation_method_label", instrumentLabels);
+  uiSchema.BGC_MS2_links.items.MS2_URL.foreignKey.search = foreignKeySearch(formRef, "MS2_URL", ms2Labels);
 }
 
-export function foreignKeySearch(app: any, requiredProp: String, labelSearcher: (doc: any) => string[]) {
+export function foreignKeySearch(formRef: any, requiredProp: String, labelSearcher: (doc: any) => string[]) {
   return (prop: string) => {
-    const form = app.formRef.current;
+    const form = formRef.current;
     if (!form) {
       return [];
     }

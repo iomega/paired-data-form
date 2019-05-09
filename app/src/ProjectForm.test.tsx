@@ -5,36 +5,31 @@ import { shallow } from "enzyme";
 import Form from "react-jsonschema-form";
 import { Button } from "react-bootstrap";
 
-import { App, IState } from "./App";
+import { ProjectForm } from "./ProjectForm";
 import { kitchenSinkDoc } from './test.fixtures';
 import { PairedDataRecord } from "./PairedDataRecord";
-import { injectForeignKeySearchMethods } from "./validate";
+import { IOMEGAPairedDataPlatform } from "./schema";
 
-describe('App', () => {
+describe('ProjectForm', () => {
     describe('with schema and uischema loaded', () => {
         let wrapper: any;
-        beforeEach((cb) => {
-            wrapper = shallow<App, {}, IState>(<App />, { disableLifecycleMethods: true });
-            const schema = require('../public/schema.json');
-            const uiSchema = require('../public/uischema.json');
-            const app: App = wrapper.instance();
-            injectForeignKeySearchMethods(uiSchema, app);
-            wrapper.setState({
-                schema, uiSchema
-            }, cb);
+        let onSubmit: (project: IOMEGAPairedDataPlatform) => void;
+        beforeEach(() => {
+            onSubmit = jest.fn();
+            wrapper = shallow(<ProjectForm onSubmit={onSubmit} />);
         });
 
         it('should render a Form', () => {
             expect(wrapper.find(Form)).toBeTruthy();
         });
 
-        it('should render 4 buttons', () => {
-            expect(wrapper.find(Button).length).toBe(4);
+        it('should render 5 buttons', () => {
+            expect(wrapper.find(Button).length).toBe(5);
         })
 
         describe('filled with kitchen sink sample document using fillForm()', () => {
             beforeEach(() => {
-                wrapper.instance().fillForm(kitchenSinkDoc);
+                wrapper = shallow(<ProjectForm onSubmit={onSubmit} formData={kitchenSinkDoc as IOMEGAPairedDataPlatform} />);
             });
 
             it('should render PairedDataRecord', () => {

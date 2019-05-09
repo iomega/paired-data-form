@@ -33,7 +33,7 @@ export const PairedDataRecord = (props: IProps) => {
     const filename = `paired_datarecord_${GNPSMassIVE_ID}.json`;
     return (
         <div>
-            <h3>iOMEGA Paired data record:</h3>
+            <h3>iOMEGA Paired data project:</h3>
             <Button href={dataUrl} download={filename}><Glyphicon glyph="download" /> Download</Button>
             <h2>Submitter Information</h2>
             <ul>
