@@ -11,7 +11,7 @@ npm install
 Create `.env` file. 
 Use `.env.example` as example.
 
-## Run
+## Build & Run
 
 ```bash
 npm run build && npm run serve

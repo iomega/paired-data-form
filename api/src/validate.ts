@@ -8,7 +8,7 @@ export class Validator {
     schema: object;
     compiled: Ajv.ValidateFunction;
 
-    constructor(schema_fn = '../../public/schema.json') { // TODO use path relative to this file
+    constructor(schema_fn = '../../app/public/schema.json') { // TODO use path relative to this file
         this.ajv = new Ajv();
         this.schema = this.loadSchema(schema_fn);
         this.compiled = this.ajv.compile(this.schema);

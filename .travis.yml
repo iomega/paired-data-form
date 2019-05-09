@@ -3,12 +3,12 @@ node_js:
   - '12'
 cache:
   directories:
-    - node_modules
+    - app/node_modules
     - api/node_modules
 install: []
 script:
   # Schema validation
-  - npx -p ajv-cli ajv compile -s public/schema.json
+  - npx -p ajv-cli ajv compile -s app/public/schema.json
   # API
   - cd api
   - npm install
@@ -16,9 +16,11 @@ script:
   - npm test -- --coverage
   - cd ..
   # Frontend
+  - cd app
   - npm install
   - npm run build
   - npm test -- --coverage
+  - cd ..
   - sonar-scanner -Dsonar.login=$SONAR_TOKEN
 addons:
   sonarcloud:
