@@ -12,6 +12,7 @@ import { ReviewProject } from "./pages/ReviewProject";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { CloneProject } from "./pages/CloneProject";
 
 export function Routes() {
     return (
@@ -39,6 +40,7 @@ export function Routes() {
                 <Route path="/projects" exact component={Projects} />
                 <Route path="/add" exact component={AddProject} />
                 <Route path="/projects/:id/edit" component={EditProject} />
+                <Route path="/projects/:id/clone" component={CloneProject} />
                 <Route path="/projects/:id" component={Project} />
                 <ProtectedRoute path="/pending" exact component={PendingProjects} />
                 <ProtectedRoute path="/pending/:id" component={ReviewProject} />
