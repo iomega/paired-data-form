@@ -6,7 +6,7 @@ EXPOSE 3001
 WORKDIR /code
 
 COPY api /code
-COPY public/schema.json /public/
+COPY app/public/schema.json /app/public/
 
 RUN npm install && \
     npm run build && \

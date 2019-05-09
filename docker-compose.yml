@@ -1,0 +1,22 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    image: iomega/podp-api
+    restart: always
+    volumes:
+     - datadir:/data
+    environment:
+       SHARED_TOKEN: ${SHAREDTOKEN:-ashdfjhasdlkjfhalksdjhflak}
+  app:
+    build: app
+    image: "iomega/paired-data-form"
+    restart: always
+    ports:
+     - "${PORT:-3000}:80"
+    depends_on:
+     - api
+volumes:
+  datadir:

@@ -41,7 +41,7 @@ docker build -t iomega/paired-data-form app
 
 Run with
 ```
-docker run -d -p 8887:80 -v $PWD/data:/data iomega/paired-data-form
+docker run -d -p 8887:80 iomega/paired-data-form
 ```
 
 Goto http://localhost:8887
