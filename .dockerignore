@@ -5,3 +5,4 @@ coverage
 api/node_modules
 api/dist
 api/coverage
+api/data
