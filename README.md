@@ -15,16 +15,16 @@ Some information on how to perform common tasks is available in the [guide](http
 
 Atfer cloning the repo, it's dependencies must be installed.
 
-Requires [nodejs](https://nodejs.org) and [yarn](https://yarnpkg.com/).
+Requires [nodejs](https://nodejs.org) v10 or higher.
 
 ```
-yarn install
+npm install
 ```
 
 # Development
 
 ```
-yarn start
+npm start
 ```
 
 Runs the app in development mode. Open http://localhost:3000 to view it in the browser.
@@ -36,7 +36,7 @@ The page will automatically reload if you make changes to the code. You will see
 The https://iomega.github.io/paired-data-form site can be updated by running:
 
 ```
-yarn deploy
+npm run deploy
 ```
 
 # Docker

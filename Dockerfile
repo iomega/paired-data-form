@@ -4,7 +4,7 @@ LABEL maintainer="s.verhoeven@esciencecenter.nl"
 
 COPY . /code/
 
-RUN cd /code && yarn install && yarn build
+RUN cd /code && npm install && npm run build
 
 FROM nginx:alpine
 
