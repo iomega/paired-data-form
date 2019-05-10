@@ -14,6 +14,7 @@ interface IProps {
 }
 
 export const GenomeMetabolomicsTable = (props: IProps) => {
+    const [isCollapsed, changeCollapsing] = React.useState(true);
     if (!props.data.genome_metabolome_links || props.data.genome_metabolome_links.length === 0) {
         return <p>No links between (meta)genomes and metabolimics data files.</p>;
     }
@@ -68,7 +69,6 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
     });
     const genomemetabolometsvfn = 'paired-' + props.data.metabolomics.GNPSMassIVE_ID + '-genome-metabolome.tsv';
 
-    const [isCollapsed, changeCollapsing] = React.useState(true);
     const columnIndexesToShowCollapsed = [0, 8, 18, 21, 29];
     if (isCollapsed) {
         // remove all columns not in columnIndexesToShowFolded

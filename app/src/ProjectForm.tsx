@@ -21,15 +21,6 @@ export interface IProps {
     formData?: IOMEGAPairedDataPlatform;
 }
 
-function useSchema() {
-    const schema = useFetch('/schema.json');
-    if (schema) {
-        // react-jsonschema-form does not like $schema key in the schema, it stops validating
-        delete schema['$schema'];
-    }
-    return schema;
-}
-
 const formFields = {
     collapsible: CollapsibleField,
     foreignKey: ForeignKeyField,
@@ -37,7 +28,7 @@ const formFields = {
 };
 
 export function ProjectForm({ onSubmit, formData }: IProps) {
-    const schema = useSchema();
+    const schema = useFetch('/schema.json')
     const uiSchema = useFetch('/uischema.json');
     const [initDoc, setInitDoc] = useState(formData ? formData : undefined);
     const [validDoc, setValidDoc] = useState<IOMEGAPairedDataPlatform | undefined>(undefined);
