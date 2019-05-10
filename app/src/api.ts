@@ -6,6 +6,19 @@ import { ProjectSummary, summarizeProject } from "./summarize";
 
 const API_BASE_URL = '/api';
 
+export const useProjects = () => {
+    const url = '/api/projects';
+    const [data, setData] = useState<ProjectSummary[]>([]);
+    async function fetchData() {
+        const response = await fetch(url);
+        const json = await response.json();
+        const project_summaries = json.entries.map(summarizeProject);
+        setData(project_summaries);
+    }
+    useEffect(() => { fetchData(); }, [url]);
+    return data;
+};
+
 export async function checkToken(token: string) {
     const url = API_BASE_URL + '/auth';
     const headers = new Headers({

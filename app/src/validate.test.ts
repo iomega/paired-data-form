@@ -1,32 +1,25 @@
 import { kitchenSinkDoc } from './test.fixtures';
 import { injectForeignKeySearchMethods, validateDocument } from './validate';
-import { FormValidation } from 'react-jsonschema-form';
-
-function mockApp() {
-    return {
-        formRef: {
-            current: {
-                state: {
-                    formData: kitchenSinkDoc
-                }
-            }
-        }
-    };
-}
 
 describe('with uischema loaded', () => {
     let uiSchema: any;
     beforeEach(() => {
         uiSchema = require('../public/uischema.json');
     });
-    let app: any;
+    let formRef: any;
     beforeEach(() => {
-        app = mockApp();
+        formRef = {
+            current: {
+                state: {
+                    formData: kitchenSinkDoc
+                }
+            }
+        };
     })
 
     describe('injectForeignKeySearchMethods()', () => {
         beforeEach(() => {
-            injectForeignKeySearchMethods(uiSchema, app);
+            injectForeignKeySearchMethods(uiSchema, formRef);
         })
 
         it('should fetch genome labels', () => {

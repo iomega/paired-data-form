@@ -1,22 +1,8 @@
 import * as React from "react";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 
-import { ProjectSummary, summarizeProject } from "../summarize";
-
-const useProjects = () => {
-    const url = '/api/projects';
-    const [data, setData] = useState<ProjectSummary[]>([]);
-    async function fetchData() {
-        const response = await fetch(url);
-        const json = await response.json();
-        const project_summaries = json.entries.map(summarizeProject);
-        setData(project_summaries);
-    }
-    useEffect(() => { fetchData(); }, [url]);
-    return data;
-};
+import { useProjects } from "../api";
 
 export function Projects() {
     const projects = useProjects();
