@@ -24,3 +24,5 @@ yarn-error.log*
 .scannerwork/
 node_modules
 package-lock.json
+
+/data

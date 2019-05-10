@@ -7,14 +7,26 @@ services:
     image: iomega/podp-api
     restart: always
     volumes:
-     - ./data:/data
+      - ./data:/data
     environment:
        SHARED_TOKEN: ${SHAREDTOKEN:-ashdfjhasdlkjfhalksdjhflak}
   app:
     build: app
     image: "iomega/paired-data-form"
     restart: always
+  proxy:
+    image: abiosoft/caddy
+    restart: always
+    volumes:
+      - caddy:/root/.caddy
+      - ./app/dockerfiles/Caddyfile:/etc/Caddyfile
     ports:
-     - "${PORT:-3000}:80"
+      - "${PORT:-443}:2015"
+    environment:
+       TLS_MODE: ${TLS_MODE:-self_signed}
+       DOMAIN: ${DOMAIN:-pairedomicsdata.bioinformatics.nl}
     depends_on:
-     - api
+      - app
+      - api
+volumes:
+  caddy:
