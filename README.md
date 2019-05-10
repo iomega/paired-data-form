@@ -20,5 +20,5 @@ The application can be configured using environment variables:
 docker-compose up --build
 ```
 
-Starts application and api webservice on http://localhost:3000
+Starts application, api webservice and reverse proxy on https://<DOMAIN> .
 Project JSON files are stored in a `./data/` directory.
