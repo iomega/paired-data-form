@@ -10,13 +10,13 @@ The schema ([app/public/schema.json](app/public/schema.json)) describes the form
 
 # Run using Docker compose
 
+The application can be configured using environment variables:
+* PORT, http port application is running on. Default is 3000.
+* SHARED_TOKEN, token required to login to review area.
+
 ```bash
 docker-compose up --build
 ```
 
 Starts application and api webservice on http://localhost:3000
-Project JSON files are stored in a Docker volume.
-
-The application can be configured using environment variables:
-* PORT, http port application is running on. Default is 3000.
-* SHARED_TOKEN, token required to login to review area.
+Project JSON files are stored in a `./data/` directory.

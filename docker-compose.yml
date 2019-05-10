@@ -7,7 +7,7 @@ services:
     image: iomega/podp-api
     restart: always
     volumes:
-     - datadir:/data
+     - ./data:/data
     environment:
        SHARED_TOKEN: ${SHAREDTOKEN:-ashdfjhasdlkjfhalksdjhflak}
   app:
@@ -18,5 +18,3 @@ services:
      - "${PORT:-3000}:80"
     depends_on:
      - api
-volumes:
-  datadir:
