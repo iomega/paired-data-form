@@ -7,7 +7,7 @@ import { Button } from "react-bootstrap";
 
 import { ProjectForm } from "./ProjectForm";
 import { kitchenSinkDoc } from './test.fixtures';
-import { PairedDataRecord } from "./PairedDataRecord";
+import { PairedDataProject } from "./PairedDataProject";
 import { IOMEGAPairedDataPlatform } from "./schema";
 
 describe('ProjectForm', () => {
@@ -33,7 +33,7 @@ describe('ProjectForm', () => {
             });
 
             it('should render PairedDataRecord', () => {
-                expect(wrapper.find(PairedDataRecord)).toBeTruthy();
+                expect(wrapper.find(PairedDataProject)).toBeTruthy();
             });
         });
 
@@ -75,7 +75,7 @@ describe('ProjectForm', () => {
             });
 
             it('should render PairedDataRecord', () => {
-                expect(wrapper.find(PairedDataRecord)).toBeTruthy();
+                expect(wrapper.find(PairedDataProject)).toBeTruthy();
             });
         });
 

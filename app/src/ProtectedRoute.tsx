@@ -31,7 +31,7 @@ export const ProtectedRoute = (props: RouteProps) => {
             token,
             setToken
         }}>
-            {(token) ? <div><Route {...props} /><Logout onLogout={onLogout} /></div> : <Login onLogin={onLogin} error={loginError} />}
+            {(token) ? <><Route {...props} /><Logout onLogout={onLogout} /></> : <Login onLogin={onLogin} error={loginError} />}
         </AuthContext.Provider>
     );
 }

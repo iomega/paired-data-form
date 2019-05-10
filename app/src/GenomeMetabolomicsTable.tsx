@@ -84,7 +84,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         });
     }
     return (
-        <div>
+        <>
             <Table condensed={true} striped={true} bordered={true}>
                 <thead>
                     <tr>
@@ -107,6 +107,6 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                 </tbody>
             </Table>
             <a href={tsvUrl(props.schema, props.data)} download={genomemetabolometsvfn}>tab delimited downoad</a>
-        </div>
+        </>
     );
 }

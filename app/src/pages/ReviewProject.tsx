@@ -2,7 +2,7 @@ import * as React from "react";
 import { useContext, useState } from "react";
 import { RouteComponentProps, Redirect } from "react-router";
 import { Decide } from "../Decide";
-import { PairedDataRecord } from "../PairedDataRecord";
+import { PairedDataProject } from "../PairedDataProject";
 import { useFetch } from "../useFetch";
 import { AuthContext } from "../auth";
 import { usePendingProject, denyPendingProject, approvePendingProject } from "../api";
@@ -31,11 +31,11 @@ export function ReviewProject({ match }: RouteComponentProps<TParams>) {
     }
     if (data && schema) {
         record = (
-            <div>
+            <>
                 <Decide onDeny={onDeny} onApprove={onApprove} />
-                <PairedDataRecord data={data} schema={schema} />
+                <PairedDataProject data={data} schema={schema} />
                 <Decide onDeny={onDeny} onApprove={onApprove} />
-            </div>
+            </>
         );
     }
     return record;

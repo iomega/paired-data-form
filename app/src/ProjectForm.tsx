@@ -11,7 +11,7 @@ import { GenomeMetabolomeLinksField } from './GenomeMetabolomeLinksField';
 
 import Form, { ISubmitEvent } from "react-jsonschema-form";
 import { useState, useRef } from "react";
-import { PairedDataRecord } from "./PairedDataRecord";
+import { PairedDataProject } from "./PairedDataProject";
 
 import './ProjectForm.css';
 import { jsonDocument } from "./textTable";
@@ -159,13 +159,13 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
                     </ButtonToolbar>
                 </Form>
                 {validDoc && (
-                    <div>
+                    <>
                         <h3>Preview</h3>
-                        <PairedDataRecord
+                        <PairedDataProject
                             data={validDoc}
                             schema={schema}
                         />
-                    </div>
+                    </>
                 )}
             </div>
         );

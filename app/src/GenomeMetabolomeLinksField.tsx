@@ -30,7 +30,7 @@ export const GenomeMetabolomeLinksField = (props: FieldProps) => {
     }
 
     return (
-        <div>
+        <>
             <ArrayField {...props}/>
             <Button onClick={onClick} title="Upload links from tab delimited file, will replace existing links, (meta)genomes and metabolomics experimental details">
                 <Glyphicon glyph="upload"/> Upload links
@@ -42,6 +42,6 @@ export const GenomeMetabolomeLinksField = (props: FieldProps) => {
                     style={{ display: "none" }}
                 />
             </Button>
-        </div>
+        </>
     );
 }

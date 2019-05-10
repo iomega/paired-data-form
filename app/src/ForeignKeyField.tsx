@@ -41,11 +41,11 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
       );
     }
     return (
-      <div>
+      <>
         <label>{this.props.schema.title}</label>
         <p>{this.props.schema.description}</p>
         {field}
-      </div>
+      </>
     );
   }
 
