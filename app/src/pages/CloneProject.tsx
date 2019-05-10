@@ -1,10 +1,8 @@
 import * as React from "react";
-import { useState } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 
 import { ProjectForm } from "../ProjectForm";
-import { IOMEGAPairedDataPlatform } from "../schema";
-import { useProject } from "./Project";
+import { useProject, useSubmitProject } from "../api";
 
 interface TParams {
     id: string
@@ -13,21 +11,7 @@ interface TParams {
 export function CloneProject({ match }: RouteComponentProps<TParams>) {
     const project_id = match.params.id;
     const data = useProject(project_id);
-    const [submitted, setSubmitted] = useState(false);
-    const onSubmit = async (project: IOMEGAPairedDataPlatform) => {
-        const url = '/api/projects';
-        const headers = new Headers({
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        });
-        const init = {
-            headers,
-            body: JSON.stringify(project),
-            method: 'POST'
-        }
-        await fetch(url, init);
-        setSubmitted(true);
-    }
+    const [submitted, onSubmit] = useSubmitProject();
     if (submitted) {
         // TODO thank submitter and explain follow up by reviewers
         return <Redirect to="/"/>;

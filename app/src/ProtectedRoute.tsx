@@ -1,22 +1,11 @@
 import * as React from 'react';
 import { Route, RouteProps } from 'react-router';
+import { useState } from 'react';
+
 import { Login, Credentials } from './pages/Login';
 import { AuthContext } from './auth';
-import { useState } from 'react';
 import { Logout } from './pages/Logout';
-
-async function checkToken(token: string) {
-    const url = '/api/auth';
-    const headers = new Headers({
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`
-    });
-    const init = { headers, method: 'POST' };
-    const response = await fetch(url, init);
-    if (!response.ok) {
-        throw Error(response.statusText);
-    }
-}
+import { checkToken } from './api';
 
 export const ProtectedRoute = (props: RouteProps) => {
     const storageKey = 'pdb-token';

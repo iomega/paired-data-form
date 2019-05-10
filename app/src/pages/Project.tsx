@@ -1,22 +1,9 @@
 import * as React from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 import { PairedDataRecord } from "../PairedDataRecord";
 import { useFetch } from "../useFetch";
-import { IOMEGAPairedDataPlatform } from "../schema";
-
-export const useProject = (project_id: string): IOMEGAPairedDataPlatform | null => {
-    const url = '/api/projects/' + project_id;
-    const [data, setData] = useState(null);
-    async function fetchData() {
-        const response = await fetch(url);
-        const json = await response.json();
-        setData(json);
-    }
-    useEffect(() => { fetchData(); }, [url]);
-    return data;
-};
+import { useProject } from "../api";
 
 interface TParams {
     id: string

@@ -1,32 +1,12 @@
 import * as React from "react";
 import { Table } from "react-bootstrap";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { useState, useEffect } from "react";
 
 import { Decide } from "../Decide";
 import { AuthContext } from "../auth";
-import { ProjectSummary, summarizeProject } from "../summarize";
-import { deny, approve } from "../review";
-
-const usePendingProjects = (): [ProjectSummary[], React.Dispatch<React.SetStateAction<ProjectSummary[]>>] => {
-    const {token} = useContext(AuthContext);
-    const headers = new Headers({
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`
-    });
-    const init = {headers};
-    const url = '/api/pending/projects';
-    const [data, setData] = useState<ProjectSummary[]>([]);
-    async function fetchData() {
-        const response = await fetch(url, init);
-        const json = await response.json();
-        const project_summaries = json.entries.map(summarizeProject);
-        setData(project_summaries);
-    }
-    useEffect(() => { fetchData(); }, [url]);
-    return [data, setData];
-};
+import { ProjectSummary } from "../summarize";
+import { usePendingProjects, denyPendingProject, approvePendingProject } from "../api";
 
 function dropProject(id: string, list: ProjectSummary[]) {
     const updated = [...list];
@@ -37,19 +17,19 @@ function dropProject(id: string, list: ProjectSummary[]) {
 
 export function PendingProjects() {
     const [pending_projects, setPendingProjects] = usePendingProjects();
-    const {token} = useContext(AuthContext);
+    const { token } = useContext(AuthContext);
     const onDeny = (project_id: string) => async () => {
-        await deny(project_id, token);
+        await denyPendingProject(project_id, token);
         setPendingProjects(dropProject(project_id, pending_projects));
     };
     const onApprove = (project_id: string) => async () => {
-        await approve(project_id, token);
+        await approvePendingProject(project_id, token);
         setPendingProjects(dropProject(project_id, pending_projects));
     };
     const rows = pending_projects.map(d => (
         <tr key={d._id}>
             <td>
-                <Decide onDeny={onDeny(d._id)} onApprove={onApprove(d._id)}/>
+                <Decide onDeny={onDeny(d._id)} onApprove={onApprove(d._id)} />
             </td>
             <td><Link to={`/pending/${d._id}`}>{d.GNPSMassIVE_ID}</Link></td>
             <td>{d.PI_name}</td>

@@ -1,31 +1,11 @@
 import * as React from "react";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
+import { RouteComponentProps, Redirect } from "react-router";
 import { Decide } from "../Decide";
-
 import { PairedDataRecord } from "../PairedDataRecord";
 import { useFetch } from "../useFetch";
 import { AuthContext } from "../auth";
-import { IOMEGAPairedDataPlatform } from "../schema";
-import { RouteComponentProps, Redirect } from "react-router";
-import { deny } from "../review";
-
-const usePendingProject = (project_id: string) => {
-    const { token } = useContext(AuthContext);
-    const headers = new Headers({
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`
-    });
-    const init = { headers };
-    const url = `/api/pending/projects/${project_id}`;
-    const [data, setData] = useState<IOMEGAPairedDataPlatform | null>(null);
-    async function fetchData() {
-        const response = await fetch(url, init);
-        const json = await response.json();
-        setData(json);
-    }
-    useEffect(() => { fetchData(); }, [url]);
-    return data;
-};
+import { usePendingProject, denyPendingProject, approvePendingProject } from "../api";
 
 interface TParams {
     id: string
@@ -39,11 +19,11 @@ export function ReviewProject({ match }: RouteComponentProps<TParams>) {
     let record = <span>Loading ...</span>;
     const [reviewed, setReviewed] = useState(false);
     const onDeny = async () => {
-        await deny(project_id, token);
+        await denyPendingProject(project_id, token);
         setReviewed(true);
     }
     const onApprove = async () => {
-        await deny(project_id, token);
+        await approvePendingProject(project_id, token);
         setReviewed(true);
     }
     if (reviewed) {
