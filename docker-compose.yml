@@ -21,10 +21,11 @@ services:
       - caddy:/root/.caddy
       - ./app/dockerfiles/Caddyfile:/etc/Caddyfile
     ports:
-      - "${PORT:-443}:2015"
+      - "${PORT:-8443}:2015"
     environment:
        TLS_MODE: ${TLS_MODE:-self_signed}
        DOMAIN: ${DOMAIN:-pairedomicsdata.bioinformatics.nl}
+       ACME_AGREE: 'true'
     depends_on:
       - app
       - api

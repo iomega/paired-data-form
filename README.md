@@ -11,7 +11,7 @@ The schema ([app/public/schema.json](app/public/schema.json)) describes the form
 # Run using Docker compose
 
 The application can be configured using environment variables:
-* PORT, https port application is running on. Default is 443.
+* PORT, https port application is running on. Default is 8443.
 * SHARED_TOKEN, token required to login to review area.
 * DOMAIN, domain the service is listening for and domain for which certificates are made
 * TLS_MODE, use email for proper cert when Internet facing. If not set uses self signed certificate, see https://caddyserver.com/docs/tls
@@ -20,5 +20,5 @@ The application can be configured using environment variables:
 docker-compose up --build
 ```
 
-Starts application, api webservice and reverse proxy on https://<DOMAIN> .
+Starts application, api webservice and reverse proxy on https://<DOMAIN>:8443 .
 Project JSON files are stored in a `./data/` directory.
