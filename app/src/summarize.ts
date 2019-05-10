@@ -1,4 +1,5 @@
 import { IOMEGAPairedDataPlatform } from "./schema";
+
 export interface ProjectSummary {
     _id: string;
     GNPSMassIVE_ID: string;
@@ -10,7 +11,9 @@ export interface ProjectSummary {
     nr_genome_metabolmics_links: number;
     nr_genecluster_mspectra_links: number;
 }
+
 type ProjectListItem = [string, IOMEGAPairedDataPlatform];
+
 export const summarizeProject = (d: ProjectListItem): ProjectSummary => {
     return {
         _id: d[0],

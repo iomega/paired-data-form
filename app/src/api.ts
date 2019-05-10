@@ -90,7 +90,7 @@ export const usePendingProjects = (): [ProjectSummary[], React.Dispatch<React.Se
 export const useSubmitProject = (project_id?: string): [boolean, (project: IOMEGAPairedDataPlatform) => Promise<void>] => {
     const [submitted, setSubmitted] = useState(false);
     const onSubmit = async (project: IOMEGAPairedDataPlatform) => {
-        const url = API_BASE_URL + project_id ? `/projects/${project_id}` : '/projects';
+        const url = API_BASE_URL + (project_id ? `/projects/${project_id}` : '/projects');
         const headers = new Headers({
             Accept: 'application/json',
             'Content-Type': 'application/json'
