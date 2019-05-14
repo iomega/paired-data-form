@@ -46,3 +46,11 @@ Run using `./data` dir as datadir with
 docker run -d -p 8886:3001 --user $(id -u) -v $PWD/data:/data iomega/podp-api
 ```
 Will start api web service on http://localhost:8887
+
+# Propagate schema changes
+
+When `../app/public/schema.json` changes the `src/schema.ts` must also be updated using
+
+```bash
+npm run schema2ts
+```
