@@ -2,7 +2,6 @@ interface ProjectId {
     accession: string;
     revision: number;
 }
-
 export function parseProjectId(project_id: string): ProjectId {
     const parts = project_id.split('.');
     return {
