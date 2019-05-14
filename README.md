@@ -14,7 +14,7 @@ The application can be configured using environment variables:
 * PORT, https port application is running on. Default is 8443.
 * SHARED_TOKEN, token required to login to review area.
 * DOMAIN, domain the service is listening for and domain for which certificates are made
-* TLS_MODE, use email for proper cert when Internet facing. If not set uses self signed certificate, see https://caddyserver.com/docs/tls
+* TLS_MODE, use email for proper cert when Internet facing. By default traffice is unencrypted, see https://caddyserver.com/docs/tls
 
 ```bash
 docker-compose up --build

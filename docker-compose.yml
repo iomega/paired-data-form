@@ -23,8 +23,8 @@ services:
     ports:
       - "${PORT:-8443}:2015"
     environment:
-       TLS_MODE: ${TLS_MODE:-self_signed}
-       DOMAIN: ${DOMAIN:-pairedomicsdata.bioinformatics.nl}
+       TLS_MODE: ${TLS_MODE:-off}
+       DOMAIN: ${DOMAIN:-*}
        ACME_AGREE: 'true'
     depends_on:
       - app

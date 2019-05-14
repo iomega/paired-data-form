@@ -78,7 +78,8 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         const theform: any = formRef!.current;
         // The form can not be validated (excluding submit) using it's public API
         // Duplicate code from https://github.com/mozilla-services/react-jsonschema-form/blob/master/src/components/Form.js#L166-L167
-        const { errors,errorSchema } = theform.validate(theform.state.formData);
+        const { errors, errorSchema } = theform.validate(theform.state.formData);
+        validateDocument(theform.state.formData, errors);
         if (Object.keys(errors).length === 0) {
             setValidDoc(theform.state.formData);
         } else {
