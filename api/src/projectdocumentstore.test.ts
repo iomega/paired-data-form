@@ -4,14 +4,14 @@ import path from 'path';
 
 import rimraf from 'rimraf';
 
-import { Db } from './db';
+import { ProjectDocumentStore } from './projectdocumentstore';
 
-describe('Db', () => {
+describe('ProjectDocumentStore', () => {
     let datadir: string;
-    let db: Db;
+    let store: ProjectDocumentStore;
     beforeEach(() => {
         datadir = fs.mkdtempSync(path.join(os.tmpdir(), 'pdp'));
-        db = new Db(datadir);
+        store = new ProjectDocumentStore(datadir);
     });
 
     afterEach(() => {
@@ -22,13 +22,13 @@ describe('Db', () => {
         it('should have zero approved documents', () => {
             const entries: [string, object][] = [];
             const expected = {entries};
-            expect(db.listProjects()).toEqual(expected);
+            expect(store.listProjects()).toEqual(expected);
         });
 
         it('should have zero pending documents', () => {
             const entries: [string, object][] = [];
             const expected = {entries};
-            expect(db.listPendingProjects()).toEqual(expected);
+            expect(store.listPendingProjects()).toEqual(expected);
         });
     });
 });

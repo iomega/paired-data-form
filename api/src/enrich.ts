@@ -12,11 +12,16 @@ interface GenomeEnrichment {
    species?: Species;
 }
 
-interface ProjectEnrichments {
+export interface ProjectEnrichments {
     genomes: GenomeEnrichment[];
 }
 
 export async function enrich(project: IOMEGAPairedDataPlatform) {
+    /**
+     * Retrieve, calculate enrichments for a project.
+     *
+     * For example will retrieve species names based on genome identifier.
+     */
     const enrichment: ProjectEnrichments = {
         genomes: []
     };

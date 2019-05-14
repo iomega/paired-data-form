@@ -4,50 +4,15 @@ import uuid from 'uuid/v4';
 
 import logger from './util/logger';
 import { loadJSONDocument, mkdirDirOptional } from './util/io';
+import { IOMEGAPairedDataPlatform } from './schema';
+import { parseProjectFilename, bumpRevision, parseProjectId, unbumpRevision, toAccession } from './util/id';
 
 export class NotFoundException extends Error {
 }
 
-interface ProjectId {
-    accession: string;
-    revision: number;
-}
-
-function parseProjectId(project_id: string): ProjectId {
-    const parts = project_id.split('.');
-    return {
-        accession: parts[0],
-        revision: Number.parseInt(parts[1])
-    };
-}
-
-function parseProjectFilename(fn: string) {
-    return fn.replace('.json', '');
-}
-
-function dumpProjectId(id: ProjectId) {
-    return id.accession + '.' + id.revision;
-}
-
-function bumpRevision(old: string) {
-    const id = parseProjectId(old);
-    id.revision += 1;
-    return dumpProjectId(id);
-}
-
-function unbumpRevision(old: string) {
-    const id = parseProjectId(old);
-    id.revision -= 1;
-    return dumpProjectId(id);
-}
-
-function toAccession(project_id: string) {
-    return parseProjectId(project_id).accession;
-}
-
-export class Db {
-    pending: Map<string, object> = new Map();
-    approved: Map<string, object> = new Map();
+export class ProjectDocumentStore {
+    pending: Map<string, IOMEGAPairedDataPlatform> = new Map();
+    approved: Map<string, IOMEGAPairedDataPlatform> = new Map();
     pendingDir: string;
     approvedDir: string;
     archiveDir: string;
@@ -115,7 +80,7 @@ export class Db {
         ]);
     }
 
-    async createProject(project: object) {
+    async createProject(project: IOMEGAPairedDataPlatform) {
         const project_id = uuid() + '.1';
         this.pending.set(project_id, project);
         const fn = project_id + '.json';
@@ -124,7 +89,7 @@ export class Db {
     }
 
 
-    async editProject(old_project_id: string, project: object) {
+    async editProject(old_project_id: string, project: IOMEGAPairedDataPlatform) {
         this.getProject(old_project_id); // Check project exists
         const new_project_id = bumpRevision(old_project_id);
         this.pending.set(new_project_id, project);

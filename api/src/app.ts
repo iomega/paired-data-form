@@ -6,7 +6,7 @@ import passport from 'passport';
 import asyncHandler from 'express-async-handler';
 
 import { DATADIR } from './util/secrets';
-import { Db } from './db';
+import { ProjectDocumentStore } from './projectdocumentstore';
 import * as controller from './controller';
 import { okHandler } from './config/passport';
 import { Validator } from './validate';
@@ -19,7 +19,7 @@ const app = express();
 
 // Express configuration
 app.set('port', process.env.PORT || 3000);
-app.set('db', new Db(DATADIR));
+app.set('store', new ProjectDocumentStore(DATADIR));
 app.set('validator', new Validator());
 app.use(compression());
 app.use(express.json());
