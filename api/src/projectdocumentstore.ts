@@ -80,8 +80,8 @@ export class ProjectDocumentStore {
         ]);
     }
 
-    async createProject(project: IOMEGAPairedDataPlatform) {
-        const project_id = uuid() + '.1';
+    async createProject(project: IOMEGAPairedDataPlatform, accession = uuid()) {
+        const project_id = accession + '.1';
         this.pending.set(project_id, project);
         const fn = project_id + '.json';
         await this.writePendingProject(project, fn);
