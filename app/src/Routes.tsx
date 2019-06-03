@@ -13,6 +13,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { CloneProject } from "./pages/CloneProject";
+import { HistoryProject } from "./pages/HistoryProject";
 
 export function Routes() {
     return (
@@ -41,6 +42,7 @@ export function Routes() {
                 <Route path="/add" exact component={AddProject} />
                 <Route path="/projects/:id/edit" component={EditProject} />
                 <Route path="/projects/:id/clone" component={CloneProject} />
+                <Route path="/projects/:id/history" component={HistoryProject} />
                 <Route path="/projects/:id" component={Project} />
                 <ProtectedRoute path="/pending" exact component={PendingProjects} />
                 <ProtectedRoute path="/pending/:id" component={ReviewProject} />

@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 
-import { IOMEGAPairedDataPlatform } from "./schema";
+import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
 import { AuthContext } from "./auth";
 import { ProjectSummary, summarizeProject } from "./summarize";
 
@@ -34,7 +34,7 @@ export async function checkToken(token: string) {
 
 export const usePendingProject = (project_id: string) => {
     const { token } = useContext(AuthContext);
-    const [data, setData] = useState<IOMEGAPairedDataPlatform | null>(null);
+    const [data, setData] = useState<ProjectDocument | null>(null);
     useEffect(() => {
         const headers = new Headers({
             Accept: 'application/json',
@@ -52,8 +52,41 @@ export const usePendingProject = (project_id: string) => {
     return data;
 };
 
-export const useProject = (project_id: string): IOMEGAPairedDataPlatform | null => {
-    const url = `${API_BASE_URL}/projects/${project_id}`
+export const useProject = (project_id: string): ProjectDocument | null => {
+    const url = `${API_BASE_URL}/projects/${project_id}`;
+    const [data, setData] = useState(null);
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch(url);
+            const json = await response.json();
+            setData(json);
+        }
+        fetchData();
+    }, [url]);
+    return data;
+};
+
+export const useAlternateProject = (project_id: string): ProjectDocument | null => {
+    const url = `${API_BASE_URL}/projects/${project_id}`;
+    const [data, setData] = useState(null);
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch(url);
+            const json = await response.json();
+            setData(json);
+        }
+        fetchData();
+    }, [url]);
+    return data;
+};
+
+interface ProjectHistory {
+    current: ProjectDocument;
+    archived: [string, ProjectDocument][];
+}
+
+export const useProjectHistory = (project_id: string): ProjectHistory | null => {
+    const url = `${API_BASE_URL}/projects/${project_id}/history`;
     const [data, setData] = useState(null);
     useEffect(() => {
         async function fetchData() {
@@ -87,9 +120,9 @@ export const usePendingProjects = (): [ProjectSummary[], React.Dispatch<React.Se
     return [data, setData];
 };
 
-export const useSubmitProject = (project_id?: string): [boolean, (project: IOMEGAPairedDataPlatform) => Promise<void>] => {
+export const useSubmitProject = (project_id?: string): [boolean, (project: ProjectDocument) => Promise<void>] => {
     const [submitted, setSubmitted] = useState(false);
-    const onSubmit = async (project: IOMEGAPairedDataPlatform) => {
+    const onSubmit = async (project: ProjectDocument) => {
         const url = API_BASE_URL + (project_id ? `/projects/${project_id}` : '/projects');
         const headers = new Headers({
             Accept: 'application/json',
