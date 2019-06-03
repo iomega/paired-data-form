@@ -1,7 +1,10 @@
+import uuid from 'uuid/v4';
+
 interface ProjectId {
     accession: string;
     revision: number;
 }
+
 export function parseProjectId(project_id: string): ProjectId {
     const parts = project_id.split('.');
     return {
@@ -32,4 +35,8 @@ export function unbumpRevision(old: string) {
 
 export function toAccession(project_id: string) {
     return parseProjectId(project_id).accession;
+}
+
+export function generateId(accession = uuid(), revision = '1') {
+    return accession + '.' + revision;
 }

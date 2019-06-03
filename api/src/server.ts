@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'development') {
  */
 const server = app.listen(app.get('port'), async () => {
   const store: ProjectDocumentStore = app.get('store');
-  await store.intialize();
+  await store.initialize();
   console.log(
     '  App is running at http://localhost:%d in %s mode',
     app.get('port'),

@@ -1,8 +1,10 @@
 import fs from 'fs';
 
+import { IOMEGAPairedDataPlatform as ProjectDocument } from '../schema';
+
 export async function loadJSONDocument(fn: string) {
     const body = await fs.promises.readFile(fn, 'utf-8');
-    return JSON.parse(body as string);
+    return JSON.parse(body as string) as ProjectDocument;
 }
 
 export async function mkdirDirOptional(dir: string) {
