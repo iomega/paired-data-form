@@ -66,20 +66,6 @@ export const useProject = (project_id: string): ProjectDocument | null => {
     return data;
 };
 
-export const useAlternateProject = (project_id: string): ProjectDocument | null => {
-    const url = `${API_BASE_URL}/projects/${project_id}`;
-    const [data, setData] = useState(null);
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(url);
-            const json = await response.json();
-            setData(json);
-        }
-        fetchData();
-    }, [url]);
-    return data;
-};
-
 interface ProjectHistory {
     current: ProjectDocument;
     archived: [string, ProjectDocument][];
