@@ -2,9 +2,9 @@ import * as React from "react";
 import { useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { ButtonGroup, Radio } from "react-bootstrap";
-import { ReactGhLikeDiff } from 'react-gh-like-diff';
-
-import 'react-gh-like-diff/lib/diff2html.min.css';
+import { unifiedDiff } from 'difflib';
+import { Diff2Html } from "diff2html";
+import "diff2html/dist/diff2html.min.css";
 
 import { useProjectHistory } from "../api";
 
@@ -48,21 +48,29 @@ export function HistoryProject({ match }: RouteComponentProps<TParams>) {
     const curr_project = project_history.current;
     const prev_id = previous === -1 ? project_id : project_history.archived[previous][0];
     const prev_project = previous === -1 ? curr_project : project_history.archived[previous][1];
+    const diff = unifiedDiff(
+        JSON.stringify(prev_project, null, 4).split(/\n/),
+        JSON.stringify(curr_project, null, 4).split(/\n/),
+        {
+            fromfile: prev_id,
+            tofile: project_id,
+            lineterm: ''
+        }
+    ).join('\n');
+    const htmlified_diff = Diff2Html.getPrettyHtml(
+        diff, {
+            outputFormat: 'side-by-side'
+        }
+    );
     return (
         <div style={style}>
-            History of <Link to={`/projects/${project_id}`}>{project_id}</Link> project.
-            <h2>Revisions</h2>
-            {revisions}
-            (Latest revision first)
-            <h2>Difference</h2>
-            <ReactGhLikeDiff
-                options={{
-                    originalFileName: prev_id,
-                    updatedFileName: project_id,
-                }}
-                past={JSON.stringify(prev_project, null, 4)}
-                current={JSON.stringify(curr_project, null, 4)}
-            />
+            <h3>
+            Compare <Link to={`/projects/${project_id}`}>{project_id}</Link> project to previous revision
+            </h3>
+            <ul>
+                {revisions}
+            </ul>
+            <div dangerouslySetInnerHTML={{ __html: htmlified_diff}}/>
             {nav}
         </div>
     );
