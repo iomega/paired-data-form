@@ -6,7 +6,13 @@ import { useProjects } from "../api";
 
 export function Projects() {
     const projects = useProjects();
-    const rows = projects.map(d => (
+    if (projects.loading) {
+        return <span>Loading ...</span>;
+    }
+    if (projects.error) {
+        return <span>Error: {projects.error}</span>
+    }
+    const rows = projects.data.map(d => (
         <tr key={d._id}>
             <td><Link to={`/projects/${d._id}`}>{d.GNPSMassIVE_ID}</Link></td>
             <td>{d.PI_name}</td>

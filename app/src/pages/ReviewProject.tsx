@@ -3,9 +3,8 @@ import { useContext, useState } from "react";
 import { RouteComponentProps, Redirect } from "react-router";
 import { Decide } from "../Decide";
 import { PairedDataProject } from "../PairedDataProject";
-import { useFetch } from "../useFetch";
 import { AuthContext } from "../auth";
-import { usePendingProject, denyPendingProject, approvePendingProject } from "../api";
+import { usePendingProject, denyPendingProject, approvePendingProject, useSchema } from "../api";
 
 interface TParams {
     id: string
@@ -13,10 +12,9 @@ interface TParams {
 
 export function ReviewProject({ match }: RouteComponentProps<TParams>) {
     const project_id = match.params.id;
-    const data = usePendingProject(project_id);
-    const schema = useFetch('/schema.json');
+    const project = usePendingProject(project_id);
+    const schema = useSchema();
     const { token } = useContext(AuthContext);
-    let record = <span>Loading ...</span>;
     const [reviewed, setReviewed] = useState(false);
     const onDeny = async () => {
         await denyPendingProject(project_id, token);
@@ -29,14 +27,20 @@ export function ReviewProject({ match }: RouteComponentProps<TParams>) {
     if (reviewed) {
         return <Redirect to="/pending" />;
     }
-    if (data && schema) {
-        record = (
-            <>
-                <Decide onDeny={onDeny} onApprove={onApprove} />
-                <PairedDataProject data={data} schema={schema} />
-                <Decide onDeny={onDeny} onApprove={onApprove} />
-            </>
-        );
+    if (project.loading || schema.loading) {
+        return <span>Loading ...</span>;
     }
-    return record;
+    if (!project.data) {
+        return <span>Error: {project.error}</span>;
+    }
+    if (!schema.data) {
+        return <span>Error: {schema.error}</span>;
+    }
+    return (
+        <>
+            <Decide onDeny={onDeny} onApprove={onApprove} />
+            <PairedDataProject data={project.data} schema={schema.data} />
+            <Decide onDeny={onDeny} onApprove={onApprove} />
+        </>
+    );
 }

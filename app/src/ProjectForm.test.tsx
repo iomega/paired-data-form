@@ -6,13 +6,20 @@ import Form from "react-jsonschema-form";
 import { Button } from "react-bootstrap";
 
 // Mock useFetch so it returns data immediately
-jest.mock('./useFetch', () => ({
-    useFetch: (url: string) => {
-        if (url === '/schema.json') {
-            return require('../public/schema.json');
-        } else if (url === '/uischema.json') {
-            return require('../public/uischema.json');
-        }
+jest.mock('./api', () => ({
+    useSchema: () => {
+        return {
+            loading: false,
+            error: null,
+            data: require('../public/schema.json')
+        };
+    },
+    useUiSchema: () => {
+        return {
+            loading: false,
+            error: null,
+            data: require('../public/uischema.json')
+        };
     }
 }));
 

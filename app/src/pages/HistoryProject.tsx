@@ -18,15 +18,20 @@ export function HistoryProject({ match }: RouteComponentProps<TParams>) {
     const project_id = match.params.id;
     const project_history = useProjectHistory(project_id);
     const [previous, setPrevious] = useState(0);
-    if (!project_history) {
-        return <span>Loading ...</span>;
+    if (project_history.loading) {
+        return <div style={style}>Loading...</div>;
     }
+    if (!project_history.data && project_history.error) {
+        return <div style={style}>Error: {project_history.error.message}</div>;
+    }
+    const archived = project_history.data!.archived;
+    const current = project_history.data!.current;
     const nav = (
         <ButtonGroup>
             <Link className="btn btn-default" to={`/projects/${project_id}`}>Back to project view</Link>
         </ButtonGroup>
     );
-    if (project_history.archived.length === 0) {
+    if (archived.length === 0) {
         return (
             <>
                 <span>Project has no history. It has not been edited after submission</span>
@@ -34,7 +39,7 @@ export function HistoryProject({ match }: RouteComponentProps<TParams>) {
             </>
         );
     }
-    const revisions = project_history.archived.map((d, i) => {
+    const revisions = archived.map((d, i) => {
         const prev_project_id = d[0];
         const checked = previous === i;
         return (
@@ -45,12 +50,11 @@ export function HistoryProject({ match }: RouteComponentProps<TParams>) {
             </li>
         );
     });
-    const curr_project = project_history.current;
-    const prev_id = previous === -1 ? project_id : project_history.archived[previous][0];
-    const prev_project = previous === -1 ? curr_project : project_history.archived[previous][1];
+    const prev_id = previous === -1 ? project_id : archived[previous][0];
+    const prev_project = previous === -1 ? current : archived[previous][1];
     const diff = unifiedDiff(
         JSON.stringify(prev_project, null, 4).split(/\n/),
-        JSON.stringify(curr_project, null, 4).split(/\n/),
+        JSON.stringify(current, null, 4).split(/\n/),
         {
             fromfile: prev_id,
             tofile: project_id,

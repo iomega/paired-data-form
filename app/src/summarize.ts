@@ -12,7 +12,7 @@ export interface ProjectSummary {
     nr_genecluster_mspectra_links: number;
 }
 
-type ProjectListItem = [string, IOMEGAPairedDataPlatform];
+export type ProjectListItem = [string, IOMEGAPairedDataPlatform];
 
 export const summarizeProject = (d: ProjectListItem): ProjectSummary => {
     return {

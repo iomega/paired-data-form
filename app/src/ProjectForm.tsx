@@ -1,6 +1,5 @@
 import * as React from "react";
 import { IOMEGAPairedDataPlatform } from "./schema";
-import { useFetch } from "./useFetch";
 import { Button, ButtonGroup, ButtonToolbar, Glyphicon } from "react-bootstrap";
 
 import { injectForeignKeySearchMethods, validateDocument } from "./validate";
@@ -16,6 +15,8 @@ import { PairedDataProject } from "./PairedDataProject";
 import './ProjectForm.css';
 import { jsonDocument } from "./textTable";
 
+import { useSchema, useUiSchema } from "./api";
+
 export interface IProps {
     onSubmit(project: IOMEGAPairedDataPlatform): void;
     formData?: IOMEGAPairedDataPlatform;
@@ -28,8 +29,8 @@ const formFields = {
 };
 
 export function ProjectForm({ onSubmit, formData }: IProps) {
-    const schema = useFetch('/schema.json')
-    const uiSchema = useFetch('/uischema.json');
+    const schema = useSchema();
+    const uiSchema = useUiSchema();
     const [initDoc, setInitDoc] = useState(formData ? formData : undefined);
     const [validDoc, setValidDoc] = useState<IOMEGAPairedDataPlatform | undefined>(undefined);
     const onReset = () => {
@@ -71,8 +72,8 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         onSubmit(formData);
     }
     const formRef = useRef<Form<IOMEGAPairedDataPlatform>>(null);
-    if (uiSchema) {
-        injectForeignKeySearchMethods(uiSchema, formRef);
+    if (uiSchema.data) {
+        injectForeignKeySearchMethods(uiSchema.data, formRef);
     }
     const onPreview = () => {
         const theform: any = formRef!.current;
@@ -116,13 +117,13 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
     const formContext = {
         uploadGenomeMetabolomeLinks
     };
-    if (schema && uiSchema) {
+    if (schema.data && uiSchema.data) {
         return (
             <div className="projectform">
                 <Form
-                    schema={schema}
-                    uiSchema={uiSchema}
-                    formData={initDoc}
+                    schema={schema.data}
+                    uiSchema={uiSchema.data}
+                    formData={initDoc ? initDoc : undefined}
                     fields={formFields}
                     validate={validateDocument}
                     onSubmit={onWrappedSubmit}

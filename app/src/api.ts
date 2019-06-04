@@ -1,30 +1,30 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 
 import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
 import { AuthContext } from "./auth";
-import { ProjectSummary, summarizeProject } from "./summarize";
+import { ProjectSummary, summarizeProject, ProjectListItem } from "./summarize";
+import { useFetch } from "./useFetch";
+import { JSONSchema6 } from "json-schema";
+import { UiSchema } from "react-jsonschema-form";
 
 const API_BASE_URL = '/api';
 
 export const useProjects = () => {
-    const url = '/api/projects';
-    const [data, setData] = useState<ProjectSummary[]>([]);
-    async function fetchData() {
-        const response = await fetch(url);
-        const json = await response.json();
-        const project_summaries = json.entries.map(summarizeProject);
-        setData(project_summaries);
+    const url = API_BASE_URL + '/projects';
+    const response = useFetch<{entries: ProjectListItem[]}>(url);
+    let data: ProjectSummary[] = [];
+    if (response.data) {
+        data = response.data.entries.map(summarizeProject);
     }
-    useEffect(() => { fetchData(); }, [url]);
-    return data;
+    return {
+        ...response,
+        data
+    };
 };
 
 export async function checkToken(token: string) {
     const url = API_BASE_URL + '/auth';
-    const headers = new Headers({
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`
-    });
+    const headers = authHeaders(token);
     const init = { headers, method: 'POST' };
     const response = await fetch(url, init);
     if (!response.ok) {
@@ -32,78 +32,53 @@ export async function checkToken(token: string) {
     }
 }
 
-export const usePendingProject = (project_id: string) => {
+const authHeaders = (token: string) => {
+    return {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+    };
+}
+
+const useAuthHeaders = () => {
     const { token } = useContext(AuthContext);
-    const [data, setData] = useState<ProjectDocument | null>(null);
-    useEffect(() => {
-        const headers = new Headers({
-            Accept: 'application/json',
-            Authorization: `Bearer ${token}`
-        });
-        const init = { headers };
-        const url = `${API_BASE_URL}/pending/projects/${project_id}`;
-        async function fetchData() {
-            const response = await fetch(url, init);
-            const json = await response.json();
-            setData(json);
-        }
-        fetchData();
-    }, [project_id, token]);
-    return data;
+    return authHeaders(token);
+}
+
+export const usePendingProject = (project_id: string) => {
+    const url = `${API_BASE_URL}/pending/projects/${project_id}`;
+    const headers = useAuthHeaders();
+    const init = { headers };
+    return useFetch<ProjectDocument>(url, init);
 };
 
-export const useProject = (project_id: string): ProjectDocument | null => {
+export const useProject = (project_id: string) => {
     const url = `${API_BASE_URL}/projects/${project_id}`;
-    const [data, setData] = useState(null);
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(url);
-            const json = await response.json();
-            setData(json);
-        }
-        fetchData();
-    }, [url]);
-    return data;
+    return useFetch<ProjectDocument>(url);
 };
+
+export const useSchema = () => {
+    return useFetch<JSONSchema6>('/schema.json');
+};
+
+export const useUiSchema = () => {
+    return useFetch<UiSchema>('/uischema.json');
+}
 
 interface ProjectHistory {
     current: ProjectDocument;
     archived: [string, ProjectDocument][];
 }
 
-export const useProjectHistory = (project_id: string): ProjectHistory | null => {
+export const useProjectHistory = (project_id: string) => {
     const url = `${API_BASE_URL}/projects/${project_id}/history`;
-    const [data, setData] = useState(null);
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(url);
-            const json = await response.json();
-            setData(json);
-        }
-        fetchData();
-    }, [url]);
-    return data;
+    return useFetch<ProjectHistory>(url);
 };
 
-export const usePendingProjects = (): [ProjectSummary[], React.Dispatch<React.SetStateAction<ProjectSummary[]>>] => {
-    const { token } = useContext(AuthContext);
-    const [data, setData] = useState<ProjectSummary[]>([]);
-    useEffect(() => {
-        const headers = new Headers({
-            Accept: 'application/json',
-            Authorization: `Bearer ${token}`
-        });
-        const init = { headers };
-        const url = API_BASE_URL + '/pending/projects';
-        async function fetchData() {
-            const response = await fetch(url, init);
-            const json = await response.json();
-            const project_summaries = json.entries.map(summarizeProject);
-            setData(project_summaries);
-        }
-        fetchData();
-    }, [token]);
-    return [data, setData];
+export const usePendingProjects = () => {
+    const url = API_BASE_URL + '/pending/projects';
+    const headers = useAuthHeaders();
+    const init = {headers};
+    return useFetch<{entries: ProjectListItem[]}>(url, init);
 };
 
 export const useSubmitProject = (project_id?: string): [boolean, (project: ProjectDocument) => Promise<void>] => {
@@ -126,20 +101,14 @@ export const useSubmitProject = (project_id?: string): [boolean, (project: Proje
 }
 
 export const denyPendingProject = async (project_id: string, token: string) => {
-    const headers = new Headers({
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`
-    });
+    const headers = authHeaders(token);
     const init = {headers, method: 'DELETE'};
     const url = `${API_BASE_URL}/pending/projects/${project_id}`;
     await fetch(url, init);
 }
 
 export const approvePendingProject = async (project_id: string, token: string) => {
-    const headers = new Headers({
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`
-    });
+    const headers = authHeaders(token);
     const init = {headers, method: 'POST'};
     const url = `${API_BASE_URL}/pending/projects/${project_id}`;
     const response = await fetch(url, init);

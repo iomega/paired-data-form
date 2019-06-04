@@ -7,12 +7,18 @@ import { MemoryRouter } from "react-router";
 // Mock useFetch so it returns data immediately
 jest.mock('../api', () => ({
     useProject: () => {
-        return require('../../public/examples/paired_datarecord_MSV000078839_example.json');
-    }
-}));
-jest.mock('../useFetch', () => ({
-    useFetch: () => {
-        return require('../../public/schema.json');
+        return {
+            loading: false,
+            error: null,
+            data: require('../../public/examples/paired_datarecord_MSV000078839_example.json')
+        };
+    },
+    useSchema: () => {
+        return {
+            loading: false,
+            error: null,
+            data: require('../../public/schema.json')
+        }
     }
 }));
 

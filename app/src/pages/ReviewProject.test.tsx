@@ -4,12 +4,18 @@ import { shallow, ShallowWrapper } from "enzyme";
 
 jest.mock('../api', () => ({
     usePendingProject: () => {
-        return require('../../public/examples/paired_datarecord_MSV000078839_example.json');
-    }
-}));
-jest.mock('../useFetch', () => ({
-    useFetch: () => {
-        return require('../../public/schema.json');
+        return {
+            loading: false,
+            error: null,
+            data: require('../../public/examples/paired_datarecord_MSV000078839_example.json')
+        };
+    },
+    useSchema: () => {
+        return {
+            loading: false,
+            error: null,
+            data: require('../../public/schema.json')
+        }
     }
 }));
 

@@ -5,28 +5,36 @@ import { useContext } from "react";
 
 import { Decide } from "../Decide";
 import { AuthContext } from "../auth";
-import { ProjectSummary } from "../summarize";
+import { summarizeProject, ProjectListItem } from "../summarize";
 import { usePendingProjects, denyPendingProject, approvePendingProject } from "../api";
 
-function dropProject(id: string, list: ProjectSummary[]) {
+function dropProject(id: string, list: ProjectListItem[]) {
     const updated = [...list];
-    const index = updated.findIndex(p => p._id === id);
+    const index = updated.findIndex(p => p[0] === id);
     updated.splice(index, 1);
     return updated;
 }
 
 export function PendingProjects() {
-    const [pending_projects, setPendingProjects] = usePendingProjects();
+    const projects = usePendingProjects();
     const { token } = useContext(AuthContext);
+    if (projects.loading) {
+        return <span>Loading ...</span>;
+    }
+    if (projects.error && !projects.data) {
+        return <span>Error: {projects.error}</span>
+    }
     const onDeny = (project_id: string) => async () => {
         await denyPendingProject(project_id, token);
-        setPendingProjects(dropProject(project_id, pending_projects));
+        const pruned_projects = dropProject(project_id, projects.data!.entries)
+        projects.setData({entries: pruned_projects});
     };
     const onApprove = (project_id: string) => async () => {
         await approvePendingProject(project_id, token);
-        setPendingProjects(dropProject(project_id, pending_projects));
+        const pruned_projects = dropProject(project_id, projects.data!.entries)
+        projects.setData({entries: pruned_projects});
     };
-    const rows = pending_projects.map(d => (
+    const rows = projects.data!.entries.map(summarizeProject).map(d => (
         <tr key={d._id}>
             <td>
                 <Decide onDeny={onDeny(d._id)} onApprove={onApprove(d._id)} />

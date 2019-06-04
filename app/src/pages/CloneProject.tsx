@@ -10,14 +10,17 @@ interface TParams {
 
 export function CloneProject({ match }: RouteComponentProps<TParams>) {
     const project_id = match.params.id;
-    const data = useProject(project_id);
+    const project = useProject(project_id);
     const [submitted, onSubmit] = useSubmitProject();
+    if (project.loading) {
+        return <span>Loading...</span>;
+    }
+    if (!project.data) {
+        return <span>Fetch failure: {project.error}</span>;
+    }
     if (submitted) {
         // TODO thank submitter and explain follow up by reviewers
         return <Redirect to="/"/>;
     }
-    if (!data) {
-        return <span>Loading ...</span>;
-    }
-    return <ProjectForm onSubmit={onSubmit} formData={data}/>;
+    return <ProjectForm onSubmit={onSubmit} formData={project.data}/>;
 }

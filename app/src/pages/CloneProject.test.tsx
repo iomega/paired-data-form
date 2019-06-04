@@ -4,7 +4,11 @@ import { shallow, ShallowWrapper } from "enzyme";
 
 jest.mock('../api', () => ({
     useProject: () => {
-        return require('../../public/examples/paired_datarecord_MSV000078839_example.json');
+        return {
+            loading: false,
+            error: null,
+            data: require('../../public/examples/paired_datarecord_MSV000078839_example.json')
+        };
     },
     useSubmitProject: () => {
         return [false, jest.fn()];
