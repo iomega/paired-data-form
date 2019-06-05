@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs';
 
-
 import logger from '../util/logger';
 import { loadJSONDocument, mkdirDirOptional } from '../util/io';
 import { parseProjectFilename, toAccession } from '../util/id';

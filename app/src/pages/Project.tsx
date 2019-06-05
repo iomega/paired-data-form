@@ -26,7 +26,7 @@ export function Project({ match }: RouteComponentProps<TParams>) {
     }
     return (
         <div style={style}>
-            <PairedDataProject data={project.data} schema={schema.data} />
+            <PairedDataProject data={project.data!.project} schema={schema.data} />
             <ButtonGroup>
                 <Link className="btn btn-default" to={`/projects/${project_id}/history`}>History</Link>
                 <Link className="btn btn-default" to={`/projects/${project_id}/edit`}>Edit</Link>

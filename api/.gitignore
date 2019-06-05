@@ -5,3 +5,4 @@ coverage
 data
 Pipfile
 Pipfile.lock
+.env

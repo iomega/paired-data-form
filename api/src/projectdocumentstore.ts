@@ -3,12 +3,21 @@ import { ProjectDocumentMemoryStore, NotFoundException as MemoryNotFoundExceptio
 import { ProjectDocumentDiskStore } from './store/Disk';
 import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
 import logger from './util/logger';
+import { ProjectEnrichmentStore } from './store/enrichments';
+import { ProjectEnrichments } from './enrich';
 
 export const NotFoundException = MemoryNotFoundException;
+
+export interface EnrichedProjectDocument {
+    _id: string;
+    project: ProjectDocument;
+    enrichments?: ProjectEnrichments;
+}
 
 export class ProjectDocumentStore {
     memory_store = new ProjectDocumentMemoryStore();
     disk_store: ProjectDocumentDiskStore;
+    enrichment_store = new ProjectEnrichmentStore();
 
     constructor(datadir: string) {
         this.disk_store = new ProjectDocumentDiskStore(datadir);
@@ -28,7 +37,6 @@ export class ProjectDocumentStore {
         return project_id;
     }
 
-
     async editProject(old_project_id: string, project: ProjectDocument) {
         this.getProject(old_project_id); // Check project exists
         const new_project_id = bumpRevision(old_project_id);
@@ -37,13 +45,36 @@ export class ProjectDocumentStore {
         return new_project_id;
     }
 
-    listProjects() {
+    async listProjects() {
         const entries = this.memory_store.listProjects();
-        return { entries };
+        const data = [];
+        for (const entry of entries) {
+            const project_id = entry[0];
+            try {
+                const enrichments = await this.enrichment_store.get(project_id);
+                data.push({
+                    _id: project_id,
+                    project: entry[1],
+                    enrichments
+                });
+            } catch (err) {
+                data.push({
+                    _id: project_id,
+                    project: entry[1]
+                });
+            }
+        }
+        return { data };
     }
 
-    getProject(project_id: string) {
-        return this.memory_store.getProject(project_id);
+    async getProject(project_id: string): Promise<EnrichedProjectDocument> {
+        const project = this.memory_store.getProject(project_id);
+        const enrichments = await this.enrichment_store.get(project_id);
+        return {
+            _id: project_id,
+            project,
+            enrichments
+        };
     }
 
     listPendingProjects() {

@@ -10,6 +10,9 @@ services:
       - ./data:/data
     environment:
        SHARED_TOKEN: ${SHAREDTOKEN:-ashdfjhasdlkjfhalksdjhflak}
+       REDIS_URL: redis://redis:6379
+    depends_on:
+      - redis
   app:
     build: app
     image: "iomega/paired-data-form"
@@ -29,5 +32,7 @@ services:
     depends_on:
       - app
       - api
+  redis:
+    image: "redis:alpine"
 volumes:
   caddy:

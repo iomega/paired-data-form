@@ -20,6 +20,12 @@ Use `.env.example` as example.
 
 ## Build & Run
 
+The web service uses Redis as a cache for enrichments and job queue.
+It can be started using docker or using docker-compose to run the whole stack.
+```
+docker run --name some-redis -d -p 6379:6379 redis
+```
+
 ```bash
 npm run build && npm run serve
 ```

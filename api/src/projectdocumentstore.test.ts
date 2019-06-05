@@ -4,7 +4,7 @@ import path from 'path';
 
 import rimraf from 'rimraf';
 
-import { ProjectDocumentStore } from './projectdocumentstore';
+import { ProjectDocumentStore, EnrichedProjectDocument } from './projectdocumentstore';
 
 describe('ProjectDocumentStore', () => {
     let datadir: string;
@@ -19,10 +19,10 @@ describe('ProjectDocumentStore', () => {
     });
 
     describe('empty database', () => {
-        it('should have zero approved documents', () => {
-            const entries: [string, object][] = [];
-            const expected = {entries};
-            expect(store.listProjects()).toEqual(expected);
+        it('should have zero approved documents', async () => {
+            const data: EnrichedProjectDocument[] = [];
+            const expected = {data};
+            expect(await store.listProjects()).toEqual(expected);
         });
 
         it('should have zero pending documents', () => {

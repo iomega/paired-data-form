@@ -11,16 +11,22 @@ import * as controller from './controller';
 import { okHandler } from './config/passport';
 import { Validator } from './validate';
 
+import { buildEnrichQueue } from './enrich';
+
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config({ path: '.env.example' });
 
 // Create Express server
 const app = express();
 
+const store = new ProjectDocumentStore(DATADIR);
+const enrichqueue = buildEnrichQueue(store.enrichment_store);
+
 // Express configuration
 app.set('port', process.env.PORT || 3000);
-app.set('store', new ProjectDocumentStore(DATADIR));
+app.set('store', store);
 app.set('validator', new Validator());
+app.set('enrichqueue', enrichqueue);
 app.use(compression());
 app.use(express.json());
 app.use(passport.initialize());
@@ -28,8 +34,8 @@ app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 
 // Public api
-app.get('/api/projects', controller.listProjects);
-app.get('/api/projects/:id', controller.getProject);
+app.get('/api/projects', asyncHandler(controller.listProjects));
+app.get('/api/projects/:id', asyncHandler(controller.getProject));
 app.post('/api/projects', asyncHandler(controller.createProject));
 app.post('/api/projects/:id', asyncHandler(controller.editProject));
 app.get('/api/projects/:id/history', asyncHandler(controller.getProjectHistory));

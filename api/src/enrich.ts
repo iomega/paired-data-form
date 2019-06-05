@@ -1,5 +1,9 @@
 import fetch from 'node-fetch';
-import { IOMEGAPairedDataPlatform, GenomeOrMetagenome } from './schema';
+import Bull from 'bull';
+
+import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
+import { REDIS_URL } from './util/secrets';
+import { ProjectEnrichmentStore } from './store/enrichments';
 
 interface Species {
     tax_id: number;
@@ -16,7 +20,22 @@ export interface ProjectEnrichments {
     genomes: GenomeEnrichment[];
 }
 
-export async function enrich(project: IOMEGAPairedDataPlatform) {
+export function buildEnrichQueue(store: ProjectEnrichmentStore) {
+    const enrichqueue = new Bull<[string, ProjectDocument]>('enrichqueue', REDIS_URL);
+    enrichqueue.process(async (job) => {
+        return await enrichProject(store, job.data[0], job.data[1]);
+    });
+    enrichqueue.on('error', (e) => console.log(e));
+    enrichqueue.on('failed', (e) => console.log(e));
+    return enrichqueue;
+}
+
+export const enrichProject = async (store: ProjectEnrichmentStore, project_id: string, project: ProjectDocument) => {
+    const enrichments = await enrich(project);
+    store.set(project_id, enrichments);
+};
+
+export async function enrich(project: ProjectDocument) {
     /**
      * Retrieve, calculate enrichments for a project.
      *
@@ -31,15 +50,15 @@ export async function enrich(project: IOMEGAPairedDataPlatform) {
     return enrichment;
 }
 
-function enrich_genome(genome: any) {
+async function enrich_genome(genome: any) {
     if ('GenBank_accession' in genome.genome_ID) {
-        return enrich_genbank(genome.genome_ID.GenBank_accession);
+        return await enrich_genbank(genome.genome_ID.GenBank_accession);
     }
     return {};
 }
 
-function enrich_genbank(genbank_id: string) {
-    return esummary('nuccore', genbank_id);
+async function enrich_genbank(genbank_id: string) {
+    return await esummary('nuccore', genbank_id);
 }
 
 async function esummary(db: string, id: string): Promise<GenomeEnrichment> {
