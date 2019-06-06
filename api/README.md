@@ -26,8 +26,19 @@ It can be started using docker or using docker-compose to run the whole stack.
 docker run --name some-redis -d -p 6379:6379 redis
 ```
 
+Build with
+```
+npm run build
+```
+
+Run web service
 ```bash
-npm run build && npm run serve
+npm run serve
+```
+
+The enrichments can be recreated by running
+```
+npm run enrich
 ```
 
 ## Interact

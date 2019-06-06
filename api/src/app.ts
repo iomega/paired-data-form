@@ -1,26 +1,16 @@
 import express from 'express';
 import compression from 'compression';  // compresses requests
 import lusca from 'lusca';
-import dotenv from 'dotenv';
 import passport from 'passport';
 import asyncHandler from 'express-async-handler';
 
-import { DATADIR, REDIS_URL } from './util/secrets';
-import { ProjectDocumentStore } from './projectdocumentstore';
 import * as controller from './controller';
 import { okHandler } from './config/passport';
 import { Validator } from './validate';
-
-import { buildEnrichQueue } from './enrich';
-
-// Load environment variables from .env file, where API keys and passwords are configured
-dotenv.config({ path: '.env.example' });
+import { store, enrichqueue } from './init';
 
 // Create Express server
 const app = express();
-
-const store = new ProjectDocumentStore(DATADIR, REDIS_URL);
-const enrichqueue = buildEnrichQueue(store.enrichment_store);
 
 // Express configuration
 app.set('port', process.env.PORT || 3000);

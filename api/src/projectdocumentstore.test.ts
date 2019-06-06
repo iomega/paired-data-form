@@ -21,14 +21,12 @@ describe('ProjectDocumentStore', () => {
 
     describe('empty database', () => {
         it('should have zero approved documents', async () => {
-            const data: EnrichedProjectDocument[] = [];
-            const expected = {data};
+            const expected: EnrichedProjectDocument[] = [];
             expect(await store.listProjects()).toEqual(expected);
         });
 
         it('should have zero pending documents', async () => {
-            const data: EnrichedProjectDocument[] = [];
-            const expected = {data};
+            const expected: EnrichedProjectDocument[] = [];
             expect(await store.listPendingProjects()).toEqual(expected);
         });
     });

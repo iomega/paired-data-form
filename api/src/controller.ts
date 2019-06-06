@@ -40,7 +40,7 @@ export async function createProject(req: Request, res: Response) {
 
 export async function listPendingProjects(req: Request, res: Response) {
     const store = getStore(req);
-    res.json(await store.listPendingProjects());
+    res.json({data: await store.listPendingProjects()});
 }
 
 export async function getPendingProject(req: Request, res: Response) {
@@ -71,7 +71,7 @@ export async function denyProject(req: Request, res: Response) {
 
 export async function listProjects(req: Request, res: Response) {
     const store = getStore(req);
-    res.json(await store.listProjects());
+    res.json({data: await store.listProjects()});
 }
 
 export async function getProject(req: Request, res: Response) {

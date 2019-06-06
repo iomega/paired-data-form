@@ -1,9 +1,6 @@
 import fetch from 'node-fetch';
-import Bull from 'bull';
 
 import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
-import { REDIS_URL } from './util/secrets';
-import { ProjectEnrichmentStore } from './store/enrichments';
 
 interface Species {
     tax_id: number;
@@ -23,21 +20,6 @@ interface GenomeEnrichments {
 export interface ProjectEnrichments {
     genomes: GenomeEnrichments;
 }
-
-export function buildEnrichQueue(store: ProjectEnrichmentStore) {
-    const enrichqueue = new Bull<[string, ProjectDocument]>('enrichqueue', REDIS_URL);
-    enrichqueue.process(async (job) => {
-        return await enrichProject(store, job.data[0], job.data[1]);
-    });
-    enrichqueue.on('error', (e) => console.log(e));
-    enrichqueue.on('failed', (e) => console.log(e));
-    return enrichqueue;
-}
-
-export const enrichProject = async (store: ProjectEnrichmentStore, project_id: string, project: ProjectDocument) => {
-    const enrichments = await enrich(project);
-    store.set(project_id, enrichments);
-};
 
 export async function enrich(project: ProjectDocument): Promise<ProjectEnrichments> {
     /**

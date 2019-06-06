@@ -43,8 +43,7 @@ export class ProjectDocumentStore {
 
     async listProjects() {
         const entries = this.memory_store.listProjects();
-        const data = await this.enrichment_store.mergeMany(entries);
-        return { data };
+        return await this.enrichment_store.mergeMany(entries);
     }
 
     async getProject(project_id: string): Promise<EnrichedProjectDocument> {
@@ -54,8 +53,7 @@ export class ProjectDocumentStore {
 
     async listPendingProjects() {
         const entries = this.memory_store.listPendingProjects();
-        const data = await this.enrichment_store.mergeMany(entries);
-        return { data };
+        return await this.enrichment_store.mergeMany(entries);
     }
 
     async getPendingProject(project_id: string) {
