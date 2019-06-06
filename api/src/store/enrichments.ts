@@ -32,13 +32,18 @@ export class ProjectEnrichmentStore {
 
     async merge(project_id: string, project: ProjectDocument): Promise<EnrichedProjectDocument> {
         try {
+            console.log('Retrieving enrichment for ' + project_id);
             const enrichments = await this.get(project_id);
+            if (!enrichments) {
+                throw Error('Enrichment not found for ' + project_id);
+            }
             return {
                 _id: project_id,
                 project: project,
                 enrichments
             };
         } catch (err) {
+            console.log('Enrichment not found for ' + project_id, err);
             return {
                 _id: project_id,
                 project: project

@@ -74,7 +74,7 @@ export class ProjectDocumentDiskStore {
 
     async archivedVersions(project_id: string) {
         const project_accession = toAccession(project_id);
-        logger.info('Reading history of ' + project_accession + 'project from ' + this.archiveDir);
+        logger.info('Reading history of ' + project_accession + ' project from ' + this.archiveDir);
         const files = await fs.promises.readdir(this.archiveDir);
         const checkFilename = (fn: string) => fn.startsWith(project_accession + '.') && fn.endsWith('.json');
         return await Promise.all(files.filter(checkFilename).sort().reverse().map(loadProject(this.archiveDir)));

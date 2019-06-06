@@ -4,7 +4,6 @@ import { ProjectDocumentDiskStore } from './store/Disk';
 import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
 import logger from './util/logger';
 import { ProjectEnrichmentStore, EnrichedProjectDocument } from './store/enrichments';
-import { REDIS_URL } from './util/secrets';
 
 export const NotFoundException = MemoryNotFoundException;
 
@@ -82,7 +81,7 @@ export class ProjectDocumentStore {
     }
 
     async projectHistory(project_id: string) {
-        const current = this.getProject(project_id);
+        const current = (await this.getProject(project_id)).project;
         const archived = await this.disk_store.archivedVersions(project_id);
         logger.info(archived.length + ' old revisions of project found');
         return {

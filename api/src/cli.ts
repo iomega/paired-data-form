@@ -8,6 +8,8 @@ yargs.command(
     'Enriches all non enriched projects', 
     (args) => (args), 
     () => {
-        enrichAllProjects(store).then(() => process.exit());
+        store.initialize().then(() => {
+            enrichAllProjects(store);
+        }).catch(e => console.error(e)).then(() => process.exit());
     }
 ).help().version().argv;
