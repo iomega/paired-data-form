@@ -10,22 +10,25 @@ export function buildEnrichQueue(store: ProjectEnrichmentStore) {
     enrichqueue.process(async (job) => {
         return await enrichProject(store, job.data[0], job.data[1]);
     });
-    enrichqueue.on('error', (e) => console.log(e));
-    enrichqueue.on('failed', (e) => console.log(e));
+    enrichqueue
+        .on('error', (e) => console.log('bull error', e))
+        .on('failed', (e) => console.log('bull failed', e))
+        .on('stalled', (e) => console.log('bull stalled', e))
+    ;
     return enrichqueue;
 }
 
 export const enrichProject = async (store: ProjectEnrichmentStore, project_id: string, project: ProjectDocument) => {
     console.log('Enriching project ' + project_id);
     const enrichments = await enrich(project);
-    store.set(project_id, enrichments);
+    await store.set(project_id, enrichments);
 };
 
 export async function enrichAllProjects(store: ProjectDocumentStore) {
     console.log('Finding approved projects without enrichments');
     const all_approved_projects = await store.listProjects();
     const projects = all_approved_projects.filter(p => !p.enrichments);
-    console.log(`Found ${projects.length} projects without enrichments`);
+    console.log(`Found ${projects.length} approved projects without enrichments`);
     for (const project of projects) {
         console.log(`Enriching ${project._id}`);
         await enrichProject(store.enrichment_store, project._id, project.project);
@@ -34,7 +37,7 @@ export async function enrichAllProjects(store: ProjectDocumentStore) {
 
     console.log('Finding pending projects without enrichments');
     const pending_projects = (await store.listPendingProjects()).filter(p => !p.enrichments);
-    console.log(`Found ${pending_projects.length} projects without enrichments`);
+    console.log(`Found ${pending_projects.length} pending projects without enrichments`);
     for (const project of pending_projects) {
         console.log(`Enriching ${project._id}`);
         await enrichProject(store.enrichment_store, project._id, project.project);

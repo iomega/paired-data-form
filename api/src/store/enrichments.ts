@@ -14,8 +14,9 @@ export interface EnrichedProjectDocument {
 export class ProjectEnrichmentStore {
     store: Keyv<ProjectEnrichments>;
 
-    constructor(redis_url: string) {
+    constructor(private redis_url: string) {
         this.store = new Keyv<ProjectEnrichments>(redis_url);
+        this.store.on('error', err => console.log('Connection Error', err));
     }
 
     async set(project_id: string, enrichment: ProjectEnrichments) {
@@ -32,10 +33,13 @@ export class ProjectEnrichmentStore {
 
     async merge(project_id: string, project: ProjectDocument): Promise<EnrichedProjectDocument> {
         try {
-            console.log('Retrieving enrichment for ' + project_id);
             const enrichments = await this.get(project_id);
             if (!enrichments) {
-                throw Error('Enrichment not found for ' + project_id);
+                console.log('Enrichment not found for ' + project_id);
+                return {
+                    _id: project_id,
+                    project: project
+                };
             }
             return {
                 _id: project_id,
@@ -43,7 +47,7 @@ export class ProjectEnrichmentStore {
                 enrichments
             };
         } catch (err) {
-            console.log('Enrichment not found for ' + project_id, err);
+            console.log('Error retrieving enrichment for ' + project_id, err);
             return {
                 _id: project_id,
                 project: project

@@ -28,20 +28,21 @@ export async function enrich(project: ProjectDocument): Promise<ProjectEnrichmen
      * For example will retrieve species names based on genome identifier.
      */
 
+    // Mock response
     // return {
-    //     "genomes": {
-    //         "Streptomyces sp. CNB091": {
-    //             "url": "https://www.ncbi.nlm.nih.gov/nuccore/ARJI01000000",
-    //             "title": "Streptomyces sp. CNB091, whole genome shotgun sequencing project",
-    //             "species": { "tax_id": 1169156, "scientific_name": "Streptomyces sp. CNB091" }
-    //         }, "Streptomyces sp. CNH099": {
-    //             "url": "https://www.ncbi.nlm.nih.gov/nuccore/AZWL01000000",
-    //             "title": "Streptomyces sp. CNH099, whole genome shotgun sequencing project",
-    //             "species": { "tax_id": 1137269, "scientific_name": "Streptomyces sp. CNH099" }
-    //         }, "Salinispora arenicola CNB527": {
-    //             "url": "https://www.ncbi.nlm.nih.gov/nuccore/AZXI01000001",
-    //             "title": "Salinispora arenicola CNB527 B033DRAFT_scaffold_0.1_C, whole genome shotgun sequence",
-    //             "species": { "tax_id": 1137250, "scientific_name": "Salinispora arenicola CNB527" }
+    //     'genomes': {
+    //         'Streptomyces sp. CNB091': {
+    //             'url': 'https://www.ncbi.nlm.nih.gov/nuccore/ARJI01000000',
+    //             'title': 'Streptomyces sp. CNB091, whole genome shotgun sequencing project',
+    //             'species': { 'tax_id': 1169156, 'scientific_name': 'Streptomyces sp. CNB091' }
+    //         }, 'Streptomyces sp. CNH099': {
+    //             'url': 'https://www.ncbi.nlm.nih.gov/nuccore/AZWL01000000',
+    //             'title': 'Streptomyces sp. CNH099, whole genome shotgun sequencing project',
+    //             'species': { 'tax_id': 1137269, 'scientific_name': 'Streptomyces sp. CNH099' }
+    //         }, 'Salinispora arenicola CNB527': {
+    //             'url': 'https://www.ncbi.nlm.nih.gov/nuccore/AZXI01000001',
+    //             'title': 'Salinispora arenicola CNB527 B033DRAFT_scaffold_0.1_C, whole genome shotgun sequence',
+    //             'species': { 'tax_id': 1137250, 'scientific_name': 'Salinispora arenicola CNB527' }
     //         }
     //     }
     // };
