@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { shallow } from "enzyme";
 
-import { kitchenSinkDoc } from './test.fixtures';
+import { kitchenSinkEnrichedDoc } from './test.fixtures';
 import { GeneSpectraTable } from "./GeneSpectraTable";
 
 describe('GenomeMetabolomicsTable', ()=> {
@@ -11,7 +11,7 @@ describe('GenomeMetabolomicsTable', ()=> {
         let comp: any;
         beforeEach(() => {
             schema = require('../public/schema.json');
-            comp = shallow(<GeneSpectraTable schema={schema} data={kitchenSinkDoc}/>);
+            comp = shallow(<GeneSpectraTable schema={schema} data={kitchenSinkEnrichedDoc}/>);
         });
 
         it('should show warning if there are no links', () => {

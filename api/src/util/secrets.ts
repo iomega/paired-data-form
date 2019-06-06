@@ -25,7 +25,7 @@ if (!DATADIR) {
 }
 
 export const REDIS_URL = process.env['REDIS_URL'];
-if (!DATADIR) {
+if (!REDIS_URL) {
     logger.error('No redis url. Set REDIS_URL environment variable.');
     process.exit(1);
 }

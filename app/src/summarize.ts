@@ -25,31 +25,21 @@ interface GenomeEnrichment {
    species?: Species;
 }
 
+interface GenomeEnrichments {
+    [key: string]: GenomeEnrichment;
+}
+
 export interface ProjectEnrichments {
-    genomes: GenomeEnrichment[];
+    genomes: GenomeEnrichments;
 }
 
 export interface EnrichedProjectDocument {
     _id: string;
     project: ProjectDocument;
-    enrichments: ProjectEnrichments;
+    enrichments?: ProjectEnrichments;
 }
 
-export const summarizeProject = (d: ProjectListItem): ProjectSummary => {
-    return {
-        _id: d[0],
-        GNPSMassIVE_ID: d[1]['metabolomics']['GNPSMassIVE_ID'],
-        PI_name: d[1]['personal']['PI_name']!,
-        nr_genomes: d[1]['genomes'].length,
-        nr_growth_conditions: d[1]['experimental']['sample_preparation']!.length,
-        nr_extraction_methods: d[1]['experimental']['extraction_methods']!.length,
-        nr_instrumentation_methods: d[1]['experimental']['instrumentation_methods']!.length,
-        nr_genome_metabolmics_links: d[1]['genome_metabolome_links'].length,
-        nr_genecluster_mspectra_links: d[1]['BGC_MS2_links']!.length,
-    };
-};
-
-export const summarizeEnrichedProject = (d: EnrichedProjectDocument): ProjectSummary => {
+export const summarizeProject = (d: EnrichedProjectDocument): ProjectSummary => {
     const project = d.project;
     return {
         _id: d._id,

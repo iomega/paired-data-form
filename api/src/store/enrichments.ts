@@ -1,22 +1,56 @@
-import path from 'path';
+import Keyv from 'keyv';
 
-import Redis from 'ioredis';
-
+import { IOMEGAPairedDataPlatform as ProjectDocument } from '../schema';
 import { ProjectEnrichments } from '../enrich';
-import { REDIS_URL } from '../util/secrets';
+
+const PREFIX = 'enrichment:';
+
+export interface EnrichedProjectDocument {
+    _id: string;
+    project: ProjectDocument;
+    enrichments?: ProjectEnrichments;
+}
 
 export class ProjectEnrichmentStore {
-    redis: Redis.Redis;
+    store: Keyv<ProjectEnrichments>;
 
-    constructor(redis_url = REDIS_URL) {
-        this.redis = new Redis(redis_url);
+    constructor(redis_url: string) {
+        this.store = new Keyv<ProjectEnrichments>(redis_url);
     }
 
     async set(project_id: string, enrichment: ProjectEnrichments) {
-        await this.redis.set(project_id, JSON.stringify(enrichment));
+        await this.store.set(PREFIX + project_id, enrichment);
     }
 
     async get(project_id: string) {
-        return JSON.parse(await this.redis.get(project_id));
+        return await this.store.get(PREFIX + project_id);
+    }
+
+    async delete(project_id: string) {
+        await this.store.delete(PREFIX + project_id);
+    }
+
+    async merge(project_id: string, project: ProjectDocument): Promise<EnrichedProjectDocument> {
+        try {
+            const enrichments = await this.get(project_id);
+            return {
+                _id: project_id,
+                project: project,
+                enrichments
+            };
+        } catch (err) {
+            return {
+                _id: project_id,
+                project: project
+            };
+        }
+    }
+
+    async mergeMany(entries: [string, ProjectDocument][]): Promise<EnrichedProjectDocument[]> {
+        const data = [];
+        for (const entry of entries) {
+            data.push(await this.merge(entry[0], entry[1]));
+        }
+        return data;
     }
 }

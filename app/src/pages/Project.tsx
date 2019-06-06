@@ -18,15 +18,15 @@ export function Project({ match }: RouteComponentProps<TParams>) {
     if (project.loading || schema.loading) {
         return <div style={style}>Loading...</div>;
     }
-    if (!project.data && project.error) {
-        return <div style={style}>Error: {project.error.message}</div>;
+    if (!project.data || project.error) {
+        return <div style={style}>Error: {project.error!.message}</div>;
     }
     if (!schema.data && schema.error) {
         return <div style={style}>Error: {schema.error.message}</div>;
     }
     return (
         <div style={style}>
-            <PairedDataProject data={project.data!.project} schema={schema.data} />
+            <PairedDataProject project={project.data} schema={schema.data} />
             <ButtonGroup>
                 <Link className="btn btn-default" to={`/projects/${project_id}/history`}>History</Link>
                 <Link className="btn btn-default" to={`/projects/${project_id}/edit`}>Edit</Link>

@@ -39,7 +39,7 @@ export function ReviewProject({ match }: RouteComponentProps<TParams>) {
     return (
         <>
             <Decide onDeny={onDeny} onApprove={onApprove} />
-            <PairedDataProject data={project.data} schema={schema.data} />
+            <PairedDataProject project={project.data} schema={schema.data} />
             <Decide onDeny={onDeny} onApprove={onApprove} />
         </>
     );

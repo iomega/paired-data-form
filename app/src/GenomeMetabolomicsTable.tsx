@@ -15,13 +15,14 @@ interface IProps {
 
 export const GenomeMetabolomicsTable = (props: IProps) => {
     const [isCollapsed, changeCollapsing] = React.useState(true);
-    if (!props.data.genome_metabolome_links || props.data.genome_metabolome_links.length === 0) {
+    const pure_project: any = props.data.project;
+    if (!pure_project.genome_metabolome_links || pure_project.genome_metabolome_links.length === 0) {
         return <p>No links between (meta)genomes and metabolimics data files.</p>;
     }
-    const genomeExpander = new GenomeExpander(props.schema, props.data);
-    const sampleExpander = new SampleGrowthConditionsExpander(props.schema, props.data);
-    const extractionExpander = new ExtractionExpander(props.schema, props.data);
-    const instrumentExpander = new InstrumentExpander(props.schema, props.data);
+    const genomeExpander = new GenomeExpander(props.schema, pure_project);
+    const sampleExpander = new SampleGrowthConditionsExpander(props.schema, pure_project);
+    const extractionExpander = new ExtractionExpander(props.schema, pure_project);
+    const instrumentExpander = new InstrumentExpander(props.schema, pure_project);
     const gmProps = props.schema.properties.genome_metabolome_links.items.properties;
     const foreignKeys = new Set([
         genomeExpander.fk,
@@ -44,7 +45,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
     const instrumentHeaders = instrumentExpander.ths(headers.length);
     headers = headers.concat(instrumentHeaders);
 
-    const gmRows = props.data.genome_metabolome_links;
+    const gmRows = pure_project.genome_metabolome_links;
     let rows = gmRows.map((row: any, i: number) => {
         let tds = cols.map((td, tdi) => {
             if (td === 'Metabolomics_Data_File') {
@@ -67,7 +68,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             </tr>
         );
     });
-    const genomemetabolometsvfn = 'paired-' + props.data.metabolomics.GNPSMassIVE_ID + '-genome-metabolome.tsv';
+    const genomemetabolometsvfn = 'paired-' + props.data._id + '-genome-metabolome.tsv';
 
     const columnIndexesToShowCollapsed = [0, 8, 18, 21, 29];
     if (isCollapsed) {
@@ -106,7 +107,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                     {rows}
                 </tbody>
             </Table>
-            <a href={tsvUrl(props.schema, props.data)} download={genomemetabolometsvfn}>tab delimited downoad</a>
+            <a href={tsvUrl(props.schema, pure_project)} download={genomemetabolometsvfn}>tab delimited downoad</a>
         </>
     );
 }

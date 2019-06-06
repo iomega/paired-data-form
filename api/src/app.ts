@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import passport from 'passport';
 import asyncHandler from 'express-async-handler';
 
-import { DATADIR } from './util/secrets';
+import { DATADIR, REDIS_URL } from './util/secrets';
 import { ProjectDocumentStore } from './projectdocumentstore';
 import * as controller from './controller';
 import { okHandler } from './config/passport';
@@ -19,7 +19,7 @@ dotenv.config({ path: '.env.example' });
 // Create Express server
 const app = express();
 
-const store = new ProjectDocumentStore(DATADIR);
+const store = new ProjectDocumentStore(DATADIR, REDIS_URL);
 const enrichqueue = buildEnrichQueue(store.enrichment_store);
 
 // Express configuration
@@ -42,8 +42,8 @@ app.get('/api/projects/:id/history', asyncHandler(controller.getProjectHistory))
 // Protected api
 const protected_api = passport.authenticate('bearer', { session: false });
 app.post('/api/auth', protected_api, okHandler);
-app.get('/api/pending/projects', protected_api, controller.listPendingProjects);
-app.get('/api/pending/projects/:id', protected_api, controller.getPendingProject);
+app.get('/api/pending/projects', protected_api, asyncHandler(controller.listPendingProjects));
+app.get('/api/pending/projects/:id', protected_api, asyncHandler(controller.getPendingProject));
 app.delete('/api/pending/projects/:id', protected_api, asyncHandler(controller.denyProject));
 app.post('/api/pending/projects/:id', protected_api, asyncHandler(controller.approveProject));
 

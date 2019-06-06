@@ -38,15 +38,15 @@ export async function createProject(req: Request, res: Response) {
     res.json({'message': 'Created pending project', location});
 }
 
-export function listPendingProjects(req: Request, res: Response) {
+export async function listPendingProjects(req: Request, res: Response) {
     const store = getStore(req);
-    res.json(store.listPendingProjects());
+    res.json(await store.listPendingProjects());
 }
 
-export function getPendingProject(req: Request, res: Response) {
+export async function getPendingProject(req: Request, res: Response) {
     const store = getStore(req);
     const project_id = req.params.id;
-    const project = store.getPendingProject(project_id);
+    const project = await store.getPendingProject(project_id);
     res.json(project);
 }
 

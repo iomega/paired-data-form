@@ -4,14 +4,15 @@ import path from 'path';
 
 import rimraf from 'rimraf';
 
-import { ProjectDocumentStore, EnrichedProjectDocument } from './projectdocumentstore';
+import { ProjectDocumentStore } from './projectdocumentstore';
+import { EnrichedProjectDocument } from './store/enrichments';
 
 describe('ProjectDocumentStore', () => {
     let datadir: string;
     let store: ProjectDocumentStore;
     beforeEach(() => {
         datadir = fs.mkdtempSync(path.join(os.tmpdir(), 'pdp'));
-        store = new ProjectDocumentStore(datadir);
+        store = new ProjectDocumentStore(datadir, undefined);
     });
 
     afterEach(() => {
@@ -25,10 +26,10 @@ describe('ProjectDocumentStore', () => {
             expect(await store.listProjects()).toEqual(expected);
         });
 
-        it('should have zero pending documents', () => {
-            const entries: [string, object][] = [];
-            const expected = {entries};
-            expect(store.listPendingProjects()).toEqual(expected);
+        it('should have zero pending documents', async () => {
+            const data: EnrichedProjectDocument[] = [];
+            const expected = {data};
+            expect(await store.listPendingProjects()).toEqual(expected);
         });
     });
 });
