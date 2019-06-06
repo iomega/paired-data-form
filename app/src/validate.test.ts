@@ -24,7 +24,11 @@ describe('with uischema loaded', () => {
 
         it('should fetch genome labels', () => {
             const labels = uiSchema.genome_metabolome_links.items.genome_label.foreignKey.search('genome_label');
-            const expected: string[] = ["Streptomyces coelicolor A3(2)"];
+            const expected: string[] = [
+                "Streptomyces sp. CNB091",
+                "Streptomyces sp. CNH099",
+                "Salinispora arenicola CNB527"
+            ];
             expect(labels).toEqual(expected);
         })
 
@@ -59,6 +63,8 @@ describe('validateDocument', () => {
         const errors = {
             genomes: [
                 { genome_label: { addError: jest.fn() } },
+                { genome_label: { addError: jest.fn() } },
+                { genome_label: { addError: jest.fn() } },
                 { genome_label: { addError: jest.fn() } }
             ]
         };
@@ -68,6 +74,8 @@ describe('validateDocument', () => {
 
         validateDocument(doc, errors);
         expect(errors.genomes[0].genome_label.addError).toHaveBeenCalledTimes(0);
-        expect(errors.genomes[1].genome_label.addError).toHaveBeenCalledWith('Non-unique label');
+        expect(errors.genomes[1].genome_label.addError).toHaveBeenCalledTimes(0);
+        expect(errors.genomes[2].genome_label.addError).toHaveBeenCalledTimes(0);
+        expect(errors.genomes[3].genome_label.addError).toHaveBeenCalledWith('Non-unique label');
     })
 });

@@ -139,14 +139,14 @@ export const kitchenSinkDoc = {
     },
     "genome_metabolome_links": [
         {
-            "genome_label": "Streptomyces coelicolor A3(2)",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML",
             "sample_preparation_label": "agar",
             "extraction_method_label": "meth",
             "instrumentation_method_label": "quad"
         },
         {
-            "genome_label": "Streptomyces coelicolor A3(2)",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML2",
             "sample_preparation_label": "blod",
             "extraction_method_label": "beer",
