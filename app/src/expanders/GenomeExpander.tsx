@@ -73,14 +73,14 @@ export class GenomeExpander implements IExpander {
         }
       });
     });
-    debugger
     const lvl1 = Object.keys(this.schema)
       .filter(k => k !== nestedProp)
       .map(k => {
-        const enrichment = this.enrichments[row[k]];
-        if (k === this.labelField && enrichment && enrichment.species) {
-          return row[k] + '(' + enrichment.species.scientific_name + '/' + enrichment.species.tax_id + ')';
-        };
+        // Inject enrichment into table
+        // const enrichment = this.enrichments[row[k]];
+        // if (k === this.labelField && enrichment && enrichment.species) {
+        //   return row[k] + '(' + enrichment.species.scientific_name + '/' + enrichment.species.tax_id + ')';
+        // };
         return row[k];
       });
     return nestedValues.concat(lvl1);
