@@ -14,18 +14,18 @@ export interface ProjectSummary {
 
 export type ProjectListItem = [string, ProjectDocument];
 
-interface Species {
+export interface Species {
     tax_id: number;
     scientific_name: string;
 }
 
-interface GenomeEnrichment {
+export interface GenomeEnrichment {
    url?: string;
    title?: string;
    species?: Species;
 }
 
-interface GenomeEnrichments {
+export interface GenomeEnrichments {
     [key: string]: GenomeEnrichment;
 }
 

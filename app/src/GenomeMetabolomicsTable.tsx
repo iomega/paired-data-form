@@ -19,7 +19,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
     if (!pure_project.genome_metabolome_links || pure_project.genome_metabolome_links.length === 0) {
         return <p>No links between (meta)genomes and metabolimics data files.</p>;
     }
-    const genomeExpander = new GenomeExpander(props.schema, pure_project);
+    const genomeExpander = new GenomeExpander(props.schema, pure_project, props.data.enrichments.genomes);
     const sampleExpander = new SampleGrowthConditionsExpander(props.schema, pure_project);
     const extractionExpander = new ExtractionExpander(props.schema, pure_project);
     const instrumentExpander = new InstrumentExpander(props.schema, pure_project);
