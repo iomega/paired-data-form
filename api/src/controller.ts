@@ -100,6 +100,11 @@ export async function editProject(req: Request, res: Response) {
     const project_id = req.params.id;
     const new_project_id = await store.editProject(project_id, project);
     const location = req.baseUrl + '/api/pending/projects/' + new_project_id;
+
+    // Fire and forget enrichment job
+    const queue = getEnrichQueue(req);
+    queue.add([new_project_id, project]);
+
     res.set('Location', location);
     res.status(201);
     res.json({'message': 'Created pending project', location});
