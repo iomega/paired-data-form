@@ -8,6 +8,8 @@ The paired omics data platform api web service use a directories to store projec
 * approved/, all public visible projects. Once a project is approved it is moved from the `pending/` directory to the `approved/` directory.
 * archive/, when an existing project has been edited and approve, the previously approved project file is moved here.
 
+Extra information is gathered for some of the identifiers and urls in a project json files. This extra information is called an enrichment. Redis is used to store enrichments and as job queue.
+
 ## Install
 
 ```bash
@@ -20,8 +22,7 @@ Use `.env.example` as example.
 
 ## Build & Run
 
-The web service uses Redis as a cache for enrichments and job queue.
-It can be started using docker or using docker-compose to run the whole stack.
+Redis can be started using docker or using docker-compose to run the whole stack.
 ```
 docker run --name some-redis -d -p 6379:6379 redis
 ```

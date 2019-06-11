@@ -16,6 +16,7 @@ import './ProjectForm.css';
 import { jsonDocument } from "./textTable";
 
 import { useSchema, useUiSchema } from "./api";
+import { MyTitleField } from "./fields/TitleField";
 
 export interface IProps {
     onSubmit(project: IOMEGAPairedDataPlatform): void;
@@ -26,6 +27,7 @@ const formFields = {
     collapsible: CollapsibleField,
     foreignKey: ForeignKeyField,
     gmarray: GenomeMetabolomeLinksField,
+    TitleField: MyTitleField,
 };
 
 export function ProjectForm({ onSubmit, formData }: IProps) {
