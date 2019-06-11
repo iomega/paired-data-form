@@ -18,8 +18,7 @@ jest.mock('../api', () => ({
                 nr_instrumentation_methods: 2,
                 nr_genome_metabolmics_links: 123,
                 nr_genecluster_mspectra_links: 42,
-            }],
-            setData: jest.fn()
+            }]
         };
         return ;
     }

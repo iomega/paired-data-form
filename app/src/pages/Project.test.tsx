@@ -10,7 +10,11 @@ jest.mock('../api', () => ({
         return {
             loading: false,
             error: null,
-            data: require('../../public/examples/paired_datarecord_MSV000078839_example.json')
+            data: {
+                _id: 'project_id1',
+                project: require('../../public/examples/paired_datarecord_MSV000078839_example.json'),
+                enrichments: null
+            }
         };
     },
     useSchema: () => {

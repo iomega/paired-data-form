@@ -23,3 +23,9 @@ if (!DATADIR) {
     logger.error('No data directory. Set DATADIR environment variable.');
     process.exit(1);
 }
+
+export const REDIS_URL = process.env['REDIS_URL'];
+if (!REDIS_URL) {
+    logger.error('No redis url. Set REDIS_URL environment variable.');
+    process.exit(1);
+}

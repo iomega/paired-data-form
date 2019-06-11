@@ -3,15 +3,18 @@ import { ProjectDocumentMemoryStore, NotFoundException as MemoryNotFoundExceptio
 import { ProjectDocumentDiskStore } from './store/Disk';
 import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
 import logger from './util/logger';
+import { ProjectEnrichmentStore, EnrichedProjectDocument } from './store/enrichments';
 
 export const NotFoundException = MemoryNotFoundException;
 
 export class ProjectDocumentStore {
     memory_store = new ProjectDocumentMemoryStore();
     disk_store: ProjectDocumentDiskStore;
+    enrichment_store: ProjectEnrichmentStore;
 
-    constructor(datadir: string) {
+    constructor(datadir: string, redis_url: string) {
         this.disk_store = new ProjectDocumentDiskStore(datadir);
+        this.enrichment_store = new ProjectEnrichmentStore(redis_url);
     }
 
     async initialize() {
@@ -20,6 +23,7 @@ export class ProjectDocumentStore {
             await this.disk_store.readApprovedProjects(),
             await this.disk_store.readPendingProjects()
         );
+        // TODO enrich unenriched projects
     }
 
     async createProject(project: ProjectDocument, project_id = generateId()) {
@@ -27,7 +31,6 @@ export class ProjectDocumentStore {
         await this.disk_store.writePendingProject(project_id, project);
         return project_id;
     }
-
 
     async editProject(old_project_id: string, project: ProjectDocument) {
         this.getProject(old_project_id); // Check project exists
@@ -37,27 +40,30 @@ export class ProjectDocumentStore {
         return new_project_id;
     }
 
-    listProjects() {
+    async listProjects() {
         const entries = this.memory_store.listProjects();
-        return { entries };
+        return await this.enrichment_store.mergeMany(entries);
     }
 
-    getProject(project_id: string) {
-        return this.memory_store.getProject(project_id);
+    async getProject(project_id: string): Promise<EnrichedProjectDocument> {
+        const project = this.memory_store.getProject(project_id);
+        return await this.enrichment_store.merge(project_id, project);
     }
 
-    listPendingProjects() {
+    async listPendingProjects() {
         const entries = this.memory_store.listPendingProjects();
-        return { entries };
+        return await this.enrichment_store.mergeMany(entries);
     }
 
-    getPendingProject(project_id: string) {
-        return this.memory_store.getPendingProject(project_id);
+    async getPendingProject(project_id: string) {
+        const project = this.memory_store.getPendingProject(project_id);
+        return await this.enrichment_store.merge(project_id, project);
     }
 
     async denyProject(project_id: string) {
         await this.disk_store.denyProject(project_id);
         this.memory_store.denyProject(project_id);
+        await this.enrichment_store.delete(project_id);
     }
 
     async approveProject(project_id: string) {
@@ -75,7 +81,7 @@ export class ProjectDocumentStore {
     }
 
     async projectHistory(project_id: string) {
-        const current = this.getProject(project_id);
+        const current = (await this.getProject(project_id)).project;
         const archived = await this.disk_store.archivedVersions(project_id);
         logger.info(archived.length + ' old revisions of project found');
         return {

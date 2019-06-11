@@ -129,7 +129,7 @@ describe('enrich()', () => {
 
             const enrichment = await enrich(project);
 
-            const enriched_genome = enrichment.genomes[0];
+            const enriched_genome = enrichment.genomes['Streptomyces sp. CNB091'];
             const expected = {
                 'species': {
                     'scientific_name': 'Streptomyces sp. CNB091',
@@ -185,11 +185,7 @@ describe('enrich()', () => {
             expect.assertions(1);
 
             const enrichment = await enrich(project);
-
-            const enriched_genome = enrichment.genomes[0];
-            const expected = {
-            };
-            expect(enriched_genome).toEqual(expected);
+            expect(enrichment.genomes).toEqual({});
         });
     });
 });

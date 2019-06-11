@@ -2,8 +2,9 @@ import * as React from "react";
 
 import { shallow } from "enzyme";
 
-import { kitchenSinkDoc } from './test.fixtures';
+import { kitchenSinkEnrichedDoc } from './test.fixtures';
 import { PairedDataProject } from "./PairedDataProject";
+import { EnrichedProjectDocument } from "./summarize";
 
 describe('PairedDataRecord', ()=> {
     describe('with schema loaded and kitchen sick sample document rendered', () => {
@@ -11,7 +12,7 @@ describe('PairedDataRecord', ()=> {
         let comp: any;
         beforeEach(() => {
             schema = require('../public/schema.json');
-            comp = shallow(<PairedDataProject schema={schema} data={kitchenSinkDoc}/>);
+            comp = shallow(<PairedDataProject schema={schema} project={kitchenSinkEnrichedDoc as EnrichedProjectDocument}/>);
         });
 
         it('should contain header', ()=> {

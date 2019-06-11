@@ -15,22 +15,43 @@ export const minimalDoc = {
 export const kitchenSinkDoc = {
     "version": "1",
     "personal": {
-        "submitter_name": "Stefan Verhoeven"
+        "submitter_name": "Justin van der Hooft",
+        "submitter_institution": "Wageningen University",
+        "submitter_email": "justin.vanderhooft@wur.nl",
+        "PI_name": "Marnix Medema",
+        "PI_institution": "Wageningen University & Research",
+        "PI_email": "marnix.medema@wur.nl"
     },
     "metabolomics": {
         "GNPSMassIVE_ID": "MSV000078839",
-        "MaSSIVE_URL": "https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view"
+        "MaSSIVE_URL": "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?task=a507232a787243a5afd69a6c6fa1e508",
+        "publications": "28335604",
+        "molecular_network": "http://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9"
     },
     "genomes": [
         {
             "genome_ID": {
                 "genome_type": "genome",
-                "GenBank_accession": "AL645882",
-                "RefSeq_accession": "NC_003888.3"
+                "GenBank_accession": "ARJI01000000"
             },
-            "BioSample_accession": "SAMEA3648350",
-            "publications": "12000953",
-            "genome_label": "Streptomyces coelicolor A3(2)"
+            "publications": "28335604",
+            "genome_label": "Streptomyces sp. CNB091"
+        },
+        {
+            "genome_ID": {
+                "genome_type": "genome",
+                "GenBank_accession": "AZWL01000000"
+            },
+            "publications": "28335604",
+            "genome_label": "Streptomyces sp. CNH099"
+        },
+        {
+            "genome_ID": {
+                "genome_type": "genome",
+                "GenBank_accession": "AZXI01000001"
+            },
+            "publications": "28335604",
+            "genome_label": "Salinispora arenicola CNB527"
         }
     ],
     "experimental": {
@@ -118,14 +139,14 @@ export const kitchenSinkDoc = {
     },
     "genome_metabolome_links": [
         {
-            "genome_label": "Streptomyces coelicolor A3(2)",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML",
             "sample_preparation_label": "agar",
             "extraction_method_label": "meth",
             "instrumentation_method_label": "quad"
         },
         {
-            "genome_label": "Streptomyces coelicolor A3(2)",
+            "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML2",
             "sample_preparation_label": "blod",
             "extraction_method_label": "beer",
@@ -133,3 +154,25 @@ export const kitchenSinkDoc = {
         }
     ]
 };
+
+export const kitchenSinkEnrichedDoc = {
+    _id: 'kitchen-sink-id',
+    project: kitchenSinkDoc,
+    enrichments: {
+            "genomes": {
+                "Streptomyces sp. CNB091": {
+                    "url": "https://www.ncbi.nlm.nih.gov/nuccore/ARJI01000000",
+                    "title": "Streptomyces sp. CNB091, whole genome shotgun sequencing project",
+                    "species": { "tax_id": 1169156, "scientific_name": "Streptomyces sp. CNB091" }
+                }, "Streptomyces sp. CNH099": {
+                    "url": "https://www.ncbi.nlm.nih.gov/nuccore/AZWL01000000",
+                    "title": "Streptomyces sp. CNH099, whole genome shotgun sequencing project",
+                    "species": { "tax_id": 1137269, "scientific_name": "Streptomyces sp. CNH099" }
+                }, "Salinispora arenicola CNB527": {
+                    "url": "https://www.ncbi.nlm.nih.gov/nuccore/AZXI01000001",
+                    "title": "Salinispora arenicola CNB527 B033DRAFT_scaffold_0.1_C, whole genome shotgun sequence",
+                    "species": { "tax_id": 1137250, "scientific_name": "Salinispora arenicola CNB527" }
+                }
+            }
+        }
+}

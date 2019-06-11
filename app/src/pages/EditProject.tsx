@@ -22,5 +22,5 @@ export function EditProject({ match }: RouteComponentProps<TParams>) {
     if (!project.data) {
         return <span>Fetch failure: {project.error}</span>;
     }
-    return <ProjectForm onSubmit={onSubmit} formData={project.data}/>;
+    return <ProjectForm onSubmit={onSubmit} formData={project.data.project}/>;
 }

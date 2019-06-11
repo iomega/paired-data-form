@@ -51,7 +51,7 @@ function label2value(label: string, oneOf: any[]) {
 }
 
 function collapseSamplePreparation(row: any, schema: any) {
-     const sample: any = {
+    const sample: any = {
         sample_preparation_method: row['Sample Growth Conditions Label'],
         medium_details: {}
     }
@@ -59,7 +59,7 @@ function collapseSamplePreparation(row: any, schema: any) {
     if (type) {
         sample.medium_details.medium_type = type;
     }
-     const mediumLabel = row['Growth medium'];
+    const mediumLabel = row['Growth medium'];
     if (mediumLabel) {
         const mediumValue = label2value(mediumLabel, schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.properties.medium.anyOf);
         if (mediumValue) {
@@ -171,7 +171,7 @@ function collapseInstrumentationMethod(row: any, schema: any) {
 function collapseGenome(row: any) {
     const genome: any = {
         genome_ID: {
-            genome_type: row['Genome or Metagenome']
+            genome_type: row['Genome type']
         },
         genome_label: row['Genome Label']
     };

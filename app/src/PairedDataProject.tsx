@@ -4,9 +4,10 @@ import { Button, Glyphicon } from "react-bootstrap";
 
 import { GeneSpectraTable } from "./GeneSpectraTable";
 import { GenomeMetabolomicsTable } from "./GenomeMetabolomicsTable";
+import { EnrichedProjectDocument } from "./summarize";
 
 interface IProps {
-  data: any;
+  project: EnrichedProjectDocument;
   schema: any;
 }
 
@@ -15,40 +16,31 @@ function record2dataUrl(data: object, mimeType = "application/json") {
   return `data:${mimeType};base64,${bj}`;
 }
 
-export const PairedDataProject = (props: IProps) => {
-    const dataUrl = record2dataUrl(props.data);
-    const submitterProps = props.schema.properties.personal.properties;
-    const submitter = Object.keys(submitterProps).map((s: string) => {
-        const field = submitterProps[s];
-        return <li key={s}>{field.title}: {props.data.personal[s]}</li>;
-    });
-
-    const metabolomeProps = props.schema.properties.metabolomics.properties;
-    const metabolome = Object.keys(metabolomeProps).map((s: string) => {
-        const field = metabolomeProps[s];
-        return <li key={s}>{field.title}: {props.data.metabolomics[s]}</li>;
-    });
-
-    const GNPSMassIVE_ID = props.data.metabolomics.GNPSMassIVE_ID;
-    const filename = `paired_datarecord_${GNPSMassIVE_ID}.json`;
+export const PairedDataProject = ({project, schema}: IProps) => {
+    const pure_project = project.project;
+    const dataUrl = record2dataUrl(pure_project);
+    const filename = `paired_datarecord_${project._id}.json`;
     return (
         <div>
             <h3>iOMEGA Paired data project:</h3>
             <Button href={dataUrl} download={filename}><Glyphicon glyph="download" /> Download</Button>
             <h2>Submitter Information</h2>
             <ul>
-                {submitter}
+                <li>Submitter: <a href={"mailto:" + pure_project.personal.submitter_email}>{pure_project.personal.submitter_name}</a> of {pure_project.personal.submitter_institution}</li>
+                <li>Principal investigator: <a href={"mailto:" + pure_project.personal.PI_email}>{pure_project.personal.PI_name}</a> of {pure_project.personal.PI_institution}</li>
             </ul>
             <h2>Metabolomics project details</h2>
             <ul>
-                {metabolome}
+                <li>GNPS-MassIVE identifier: <a href={pure_project.metabolomics.MaSSIVE_URL}>{pure_project.metabolomics.GNPSMassIVE_ID}</a></li>
+                <li>Publications: {pure_project.metabolomics.publications}</li>
+                <li>Molecular Network Task ID: {pure_project.metabolomics.molecular_network}</li>
             </ul>
 
             <h2>Links between genomes and metabolomics data</h2>
-            <GenomeMetabolomicsTable data={props.data} schema={props.schema} />
+            <GenomeMetabolomicsTable data={project} schema={schema} />
 
             <h2>Linked gene clusters and MS2 spectra</h2>
-            <GeneSpectraTable data={props.data} schema={props.schema} />
+            <GeneSpectraTable data={project} schema={schema} />
         </div>
     );
 };

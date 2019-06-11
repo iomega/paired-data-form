@@ -8,9 +8,10 @@ jest.mock('../api', () => ({
             loading: false,
             error: null,
             data: {
-                entries: [
-                    ['someid',  require('../../public/examples/paired_datarecord_MSV000078839_example.json')]
-                ]
+                data: [{
+                    _id:'someid',
+                    project: require('../../public/examples/paired_datarecord_MSV000078839_example.json')
+                }]
             },
             setData: jest.fn()
         };

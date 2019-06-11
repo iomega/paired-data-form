@@ -22,5 +22,5 @@ export function CloneProject({ match }: RouteComponentProps<TParams>) {
         // TODO thank submitter and explain follow up by reviewers
         return <Redirect to="/"/>;
     }
-    return <ProjectForm onSubmit={onSubmit} formData={project.data}/>;
+    return <ProjectForm onSubmit={onSubmit} formData={project.data.project}/>;
 }

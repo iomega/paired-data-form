@@ -9,7 +9,8 @@ interface IProps {
 }
 
 export const GeneSpectraTable = (props: IProps) => {
-  if (!props.data.BGC_MS2_links) {
+  const pure_project = props.data.project;
+  if (!pure_project.BGC_MS2_links) {
     return <p>No links between gene clusters and MS2 spectra.</p>;
   }
   const mySchema = props.schema.properties.BGC_MS2_links.items;
@@ -39,7 +40,7 @@ export const GeneSpectraTable = (props: IProps) => {
   const depCols = Array.from(depSplat.keys());
   headers = headers.concat(Array.from(depSplat.values()));
 
-  const rows = props.data.BGC_MS2_links.map((r: any, i: number) => {
+  const rows = pure_project.BGC_MS2_links.map((r: any, i: number) => {
     let tds = cols.map((c: any, ci: number) => {
       if (c === "verification") {
         return <td key={ci}>{r[c].join(";")}</td>;
