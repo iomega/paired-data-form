@@ -1,3 +1,14 @@
 .projectform {
   padding: 10px;
 }
+
+label .required {
+  visibility: hidden;
+}
+
+label .required:after {
+  display: inline;
+  content: '(required)';
+  visibility: visible;
+  color: sienna;
+}
