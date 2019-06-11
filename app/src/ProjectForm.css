@@ -10,5 +10,5 @@ label .required:after {
   display: inline;
   content: '(required)';
   visibility: visible;
-  color: sienna;
+  color: dimgrey;
 }
