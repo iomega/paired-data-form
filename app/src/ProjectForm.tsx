@@ -90,7 +90,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         }
     }
     const uploadGenomeMetabolomeLinks = (rows: any[]) => {
-        const doc = jsonDocument(schema, rows);
+        const doc = jsonDocument(schema.data, rows);
         const theform: any = formRef!.current;
         const currentData: any = {...theform.state.formData};
         currentData.genomes = doc.genomes;
