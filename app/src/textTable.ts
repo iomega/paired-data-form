@@ -171,7 +171,7 @@ function collapseInstrumentationMethod(row: any, schema: any) {
 function collapseGenome(row: any) {
     const genome: any = {
         genome_ID: {
-            genome_type: row['Genome or Metagenome']
+            genome_type: row['Genome type']
         },
         genome_label: row['Genome Label']
     };
