@@ -16,13 +16,23 @@ export class GenomeExpander implements IExpander {
   }
 
   public ths(offset: number) {
-    return this.headers().map((s, i) => <th key={i + offset}>{s}</th>);
+    return this.headers().map((s, i) => {
+      return (<th key={i + offset}>{s}</th>);
+    });
   }
 
   public tds(row: any, offset: number) {
     const foreignItem = this.find(row);
     const foreignCols = this.cols(foreignItem);
     return foreignCols.map((td, tdi) => {
+      if (tdi === 7) {
+        if (td) {
+          const tax_url = 'http://purl.bioontology.org/ontology/NCBITAXON/' + td.tax_id;
+          return (<td key={tdi + offset}><a href={tax_url}>{td.scientific_name}</a></td>);
+        } else {
+          return (<td key={tdi + offset}></td>);
+        }
+      }
       return <td key={tdi + offset}>{td}</td>;
     });
   }
@@ -37,16 +47,21 @@ export class GenomeExpander implements IExpander {
       oneOfs[1].properties.MGnify_accession.title,
       this.schema.BioSample_accession.title,
       this.schema.publications.title,
+      'Species',
       this.schema.genome_label.title,
     ];
   }
-
+  
   public textCols(row: any): string[] {
     const foreignItem = this.find(row);
     return this.cols(foreignItem);
   }
 
   private cols(row: any) {
+    let species;
+    if (this.enrichments[row.genome_label]) {
+      species = this.enrichments[row.genome_label].species;
+    }
     return [
       row.genome_ID.genome_type,
       row.genome_ID.GenBank_accession,
@@ -55,6 +70,7 @@ export class GenomeExpander implements IExpander {
       row.genome_ID.MGnify_accession,
       row.BioSample_accession,
       row.publications,
+      species,
       row.genome_label,
     ];
   }

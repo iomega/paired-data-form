@@ -71,7 +71,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
     });
     const genomemetabolometsvfn = 'paired-' + props.data._id + '-genome-metabolome.tsv';
 
-    const columnIndexesToShowCollapsed = [0, 8, 18, 21, 29];
+    const columnIndexesToShowCollapsed = [0, 9, 19, 22, 30];
     if (isCollapsed) {
         // remove all columns not in columnIndexesToShowFolded
         genomeHeaders.splice(0, genomeHeaders.length - 1);
