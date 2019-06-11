@@ -1,0 +1,38 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    image: iomega/podp-api
+    restart: always
+    volumes:
+      - ./data:/data
+    environment:
+       SHARED_TOKEN: ${SHAREDTOKEN:-ashdfjhasdlkjfhalksdjhflak}
+       REDIS_URL: redis://redis:6379
+    depends_on:
+      - redis
+  app:
+    build: app
+    image: "iomega/paired-data-form"
+    restart: always
+  proxy:
+    image: abiosoft/caddy
+    restart: always
+    volumes:
+      - caddy:/root/.caddy
+      - ./app/dockerfiles/Caddyfile:/etc/Caddyfile
+    ports:
+      - "${PORT:-8443}:2015"
+    environment:
+       TLS_MODE: ${TLS_MODE:-off}
+       DOMAIN: ${DOMAIN:-*}
+       ACME_AGREE: 'true'
+    depends_on:
+      - app
+      - api
+  redis:
+    image: "redis:alpine"
+volumes:
+  caddy:

@@ -1,4 +1,8 @@
-node_modules
-build
-coverage
+app/node_modules
+app/build
+app/coverage
 .scannerwork
+api/node_modules
+api/dist
+api/coverage
+api/data

@@ -1,54 +1,24 @@
 Web form for paired data for mapping between genomic and metabolomic (mass spectra) datasets.
 
-The schema ([public/schema.json](public/schema.json)) describes the form.
+The schema ([app/public/schema.json](app/public/schema.json)) describes the form.
 
 [![Build Status](https://travis-ci.org/iomega/paired-data-form.svg?branch=master)](https://travis-ci.org/iomega/paired-data-form)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=iomega_paired-data-form&metric=alert_status)](https://sonarcloud.io/dashboard?id=iomega_paired-data-form)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=iomega_paired-data-form&metric=coverage)](https://sonarcloud.io/dashboard?id=iomega_paired-data-form)
 [![DOI](https://zenodo.org/badge/155896083.svg)](https://zenodo.org/badge/latestdoi/155896083)
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-Some information on how to perform common tasks is available in the [guide](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+# Run using Docker compose
 
-# Install
+The application can be configured using environment variables:
+* PORT, https port application is running on. Default is 8443.
+* SHARED_TOKEN, token required to login to review area.
+* DOMAIN, domain the service is listening for and domain for which certificates are made
+* TLS_MODE, use email for proper cert when Internet facing. By default traffice is unencrypted, see https://caddyserver.com/docs/tls
 
-Atfer cloning the repo, it's dependencies must be installed.
-
-Requires [nodejs](https://nodejs.org) and [yarn](https://yarnpkg.com/).
-
-```
-yarn install
-```
-
-# Development
-
-```
-yarn start
+```bash
+docker-compose up --build
 ```
 
-Runs the app in development mode. Open http://localhost:3000 to view it in the browser.
-
-The page will automatically reload if you make changes to the code. You will see the build errors and lint warnings in the console.
-
-# Deployment to Github pages
-
-The https://iomega.github.io/paired-data-form site can be updated by running:
-
-```
-yarn deploy
-```
-
-# Docker
-
-Build with
-```
-docker build -t iomega/paired-data-form .
-```
-
-Run with
-```
-docker run -d -p 8887:80 -v $PWD/data:/data iomega/paired-data-form
-```
-
-Goto http://localhost:8887
+Starts application, api webservice and reverse proxy on https://<DOMAIN>:8443 .
+Project JSON files are stored in a `./data/` directory.
