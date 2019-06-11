@@ -42,7 +42,9 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
     }
     return (
       <>
-        <label>{this.props.schema.title}</label>
+        <label>{this.props.schema.title}
+        {this.props.required && <span className="required">*</span>}
+        </label>
         <p>{this.props.schema.description}</p>
         {field}
       </>
