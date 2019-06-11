@@ -2,17 +2,17 @@ import * as React from "react";
 
 import { IExpander } from "./AbstractExpander";
 import { GenomeEnrichments } from "../summarize";
+import { IOMEGAPairedDataPlatform } from "../schema";
 
 export class GenomeExpander implements IExpander {
   public fk = "genome_label";
-  private foreignTable = "genomes";
   private labelField = "genome_label";
   private schema: any;
   private lookup: any[];
 
-  constructor(schema: any, data: any, private enrichments: GenomeEnrichments = {}) {
-    this.schema = schema.properties[this.foreignTable].items.properties;
-    this.lookup = data[this.foreignTable];
+  constructor(schema: any, data: IOMEGAPairedDataPlatform, private enrichments: GenomeEnrichments = {}) {
+    this.schema = schema.properties.genomes.items.properties;
+    this.lookup = data.genomes;
   }
 
   public ths(offset: number) {
@@ -28,25 +28,17 @@ export class GenomeExpander implements IExpander {
   }
 
   public headers() {
-    const nestedProp = "genome_ID";
-    const oneOfProp = "genome_type";
-    const oneOfs = this.schema[nestedProp].dependencies[oneOfProp].oneOf;
-    const nested: string[] = [];
-    oneOfs.forEach((oneOf: any) => {
-      Object.keys(oneOf.properties).forEach(k => {
-        if (k === oneOfProp) {
-          if (nested.indexOf(this.schema[nestedProp].title) === -1) {
-            nested.push(this.schema[nestedProp].title);
-          }
-        } else if (nested.indexOf(oneOf.properties[k].title) === -1) {
-          nested.push(oneOf.properties[k].title);
-        }
-      });
-    });
-    const lvl1 = Object.keys(this.schema)
-      .filter(k => k !== nestedProp)
-      .map(k => this.schema[k].title);
-    return nested.concat(lvl1);
+    const oneOfs = this.schema.genome_ID.dependencies.genome_type.oneOf;
+    return [
+      this.schema.genome_ID.properties.genome_type.title,
+      oneOfs[0].properties.GenBank_accession.title,
+      oneOfs[0].properties.RefSeq_accession.title,
+      oneOfs[1].properties.ENA_NCBI_accession.title,
+      oneOfs[1].properties.MGnify_accession.title,
+      this.schema.BioSample_accession.title,
+      this.schema.publications.title,
+      this.schema.genome_label.title,
+    ];
   }
 
   public textCols(row: any): string[] {
@@ -55,35 +47,16 @@ export class GenomeExpander implements IExpander {
   }
 
   private cols(row: any) {
-    const nestedProp = "genome_ID";
-    const oneOfProp = "genome_type";
-    const oneOfs = this.schema[nestedProp].dependencies[oneOfProp].oneOf;
-    const nested: string[] = [];
-    const nestedValues: string[] = [];
-    oneOfs.forEach((oneOf: any) => {
-      Object.keys(oneOf.properties).forEach(k => {
-        if (k === oneOfProp) {
-          if (nested.indexOf(nestedProp) === -1) {
-            nested.push(nestedProp);
-            nestedValues.push(row[nestedProp][k]);
-          }
-        } else if (nested.indexOf(k) === -1) {
-          nested.push(k);
-          nestedValues.push(row[nestedProp][k]);
-        }
-      });
-    });
-    const lvl1 = Object.keys(this.schema)
-      .filter(k => k !== nestedProp)
-      .map(k => {
-        // Inject enrichment into table
-        // const enrichment = this.enrichments[row[k]];
-        // if (k === this.labelField && enrichment && enrichment.species) {
-        //   return row[k] + '(' + enrichment.species.scientific_name + '/' + enrichment.species.tax_id + ')';
-        // };
-        return row[k];
-      });
-    return nestedValues.concat(lvl1);
+    return [
+      row.genome_ID.genome_type,
+      row.genome_ID.GenBank_accession,
+      row.genome_ID.RefSeq_accession,
+      row.genome_ID.ENA_NCBI_accession,
+      row.genome_ID.MGnify_accession,
+      row.BioSample_accession,
+      row.publications,
+      row.genome_label,
+    ];
   }
 
   private find(row: any) {
