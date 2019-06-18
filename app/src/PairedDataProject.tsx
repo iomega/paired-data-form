@@ -6,6 +6,7 @@ import { GeneSpectraTable } from "./GeneSpectraTable";
 import { GenomeMetabolomicsTable } from "./GenomeMetabolomicsTable";
 import { EnrichedProjectDocument } from "./summarize";
 import { MetabolomicsProjectDetails } from "./MetabolomicsProjectDetails";
+import { Orcid } from "./Orcid";
 
 interface IProps {
   project: EnrichedProjectDocument;
@@ -27,7 +28,7 @@ export const PairedDataProject = ({project, schema}: IProps) => {
             <Button href={dataUrl} download={filename}><Glyphicon glyph="download" /> Download</Button>
             <h2>Submitter Information</h2>
             <ul>
-                <li>Submitter: <a href={"mailto:" + pure_project.personal.submitter_email}>{pure_project.personal.submitter_name}</a> of {pure_project.personal.submitter_institution}</li>
+                <li>Submitter: <a href={"mailto:" + pure_project.personal.submitter_email}>{pure_project.personal.submitter_name}</a> <Orcid iD={pure_project.personal.submitter_orcid!}/></li>
                 <li>Principal investigator: <a href={"mailto:" + pure_project.personal.PI_email}>{pure_project.personal.PI_name}</a> of {pure_project.personal.PI_institution}</li>
             </ul>
             <h2>Metabolomics project details</h2>

@@ -10,9 +10,9 @@
  */
 export type NameOfContactForCorrespondence = string;
 /**
- * Please use the full, official name of your institute in English. E.g., 'Harvard University'.
+ * ORCID identifier of person who is point of contact. Please use full ORCID iD, e.g. https://orcid.org/0000-0002-1825-0097 .
  */
-export type AcademicInstitutionOrCompanyName = string;
+export type ORCIDIdentifier = string;
 export type SubmitterContactEMailAddress = string;
 /**
  * This person is contacted in case the submitter has moved institution
@@ -21,7 +21,7 @@ export type NameOfThePrincipalInvestigatorOfTheSubmitter = string;
 /**
  * Please use the full, official name of your institute in English. E.g., 'Harvard University'.
  */
-export type AcademicInstitutionOrCompanyName1 = string;
+export type AcademicInstitutionOrCompanyName = string;
 export type PIContactEMailAddress = string;
 /**
  * Please provide the GNPS-MassIVE identifier of your metabolomics data set, e.g., MSV000078839.
@@ -380,10 +380,10 @@ export interface IOMEGAPairedDataPlatform {
 }
 export interface SubmitterInformation {
   submitter_name?: NameOfContactForCorrespondence;
-  submitter_institution?: AcademicInstitutionOrCompanyName;
+  submitter_orcid?: ORCIDIdentifier;
   submitter_email?: SubmitterContactEMailAddress;
   PI_name?: NameOfThePrincipalInvestigatorOfTheSubmitter;
-  PI_institution?: AcademicInstitutionOrCompanyName1;
+  PI_institution?: AcademicInstitutionOrCompanyName;
   PI_email?: PIContactEMailAddress;
 }
 /**

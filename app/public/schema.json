@@ -27,10 +27,12 @@
           "title": "Name of contact for correspondence",
           "description": "This person will be the point of contact for any communication related to this entry."
         },
-        "submitter_institution": {
+        "submitter_orcid": {
           "type": "string",
-          "title": "Academic institution or company name",
-          "description": "Please use the full, official name of your institute in English. E.g., 'Harvard University'."
+          "title": "ORCID identifier",
+          "description": "ORCID identifier of person who is point of contact. Please use full ORCID iD, e.g. https://orcid.org/0000-0002-1825-0097 .",
+          "format": "uri",
+          "pattern": "^https://orcid.org/[0-9]{4}-?[0-9]{4}-?[0-9]{4}-?[0-9]{3}[0-9X]$"
         },
         "submitter_email": {
           "type": "string",
