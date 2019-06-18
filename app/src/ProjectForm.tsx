@@ -108,7 +108,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
             PI_institution: undefined,
             PI_name: undefined,
             submitter_email: undefined,
-            submitter_institution: undefined,
+            submitter_orcid: undefined,
             submitter_name: undefined,
             };
         }
