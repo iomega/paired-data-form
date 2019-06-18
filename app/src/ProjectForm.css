@@ -12,3 +12,7 @@ label .required:after {
   visibility: visible;
   color: dimgrey;
 }
+
+#root_metabolomics_project__title, .control-label[for=root_metabolomics_project] {
+  display: none;
+}

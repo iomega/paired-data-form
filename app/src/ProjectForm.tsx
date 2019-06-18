@@ -110,8 +110,10 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         }
         if (!currentData.metabolomics) {
             currentData.metabolomics = {
-                GNPSMassIVE_ID: undefined,
-                 MaSSIVE_URL: undefined
+                project: {
+                    GNPSMassIVE_ID: undefined,
+                    MaSSIVE_URL: undefined
+                }
             }
         }
         setInitDoc(currentData);
@@ -166,7 +168,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
                     <>
                         <h3>Preview</h3>
                         <PairedDataProject
-                            project={{ _id: 'preview_id' ,project:validDoc}}
+                            project={{ _id: 'preview_id', project:validDoc}}
                             schema={schema.data}
                         />
                     </>
