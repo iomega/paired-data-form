@@ -5,6 +5,7 @@ import { Button, Glyphicon } from "react-bootstrap";
 import { GeneSpectraTable } from "./GeneSpectraTable";
 import { GenomeMetabolomicsTable } from "./GenomeMetabolomicsTable";
 import { EnrichedProjectDocument } from "./summarize";
+import { MetabolomicsProjectDetails } from "./MetabolomicsProjectDetails";
 
 interface IProps {
   project: EnrichedProjectDocument;
@@ -30,11 +31,7 @@ export const PairedDataProject = ({project, schema}: IProps) => {
                 <li>Principal investigator: <a href={"mailto:" + pure_project.personal.PI_email}>{pure_project.personal.PI_name}</a> of {pure_project.personal.PI_institution}</li>
             </ul>
             <h2>Metabolomics project details</h2>
-            <ul>
-                <li>GNPS-MassIVE identifier: <a href={pure_project.metabolomics.MaSSIVE_URL}>{pure_project.metabolomics.GNPSMassIVE_ID}</a></li>
-                <li>Publications: {pure_project.metabolomics.publications}</li>
-                <li>Molecular Network Task ID: {pure_project.metabolomics.molecular_network}</li>
-            </ul>
+            <MetabolomicsProjectDetails data={pure_project.metabolomics}/>
 
             <h2>Links between genomes and metabolomics data</h2>
             <GenomeMetabolomicsTable data={project} schema={schema} />

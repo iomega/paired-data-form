@@ -32,13 +32,17 @@ export type GNPSMassIVEIdentifier = string;
  */
 export type LinkToMassIVEUpload = string;
 /**
- * Publications describing the metabolomics experiment and samples. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')
- */
-export type KeyPublications = string;
-/**
  * If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9 (optional).
  */
 export type MolecularNetworkTaskID = string;
+/**
+ * Please provide the MetaboLights study identifier of your metabolomics data set, e.g. MTBLS307.
+ */
+export type MetaboLightsStudyIdentifier = string;
+/**
+ * Publications describing the metabolomics experiment and samples. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')
+ */
+export type KeyPublications = string;
 export type GenomeType = 'genome' | 'metagenome' | 'metagenome-assembled genome';
 /**
  * If publicly available metadata is available at BioSamples, please provide the BioSample accession number, e.g. SAMEA3648350, here. We encourage depositing metadata following a standardized ontology to enable proper reuse of the data (optional).
@@ -303,7 +307,7 @@ export type InstrumentationMethods = {
  */
 export type GenomeMetagenome = string;
 /**
- * Please provide a direct link to the metabolomics data file location, e.g., ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML, that provides access to CNB091_R5_M.mzXML.
+ * Please provide a direct link to the metabolomics data file location, e.g., ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML, that provides access to CNB091_R5_M.mzXML or https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML.
  */
 export type LocationOfMetabolomicsDataFile = string;
 /**
@@ -383,13 +387,21 @@ export interface SubmitterInformation {
   PI_email?: PIContactEMailAddress;
 }
 /**
- * Please provide basic information on the publicly available metabolomics project from which paired data is available. Currently, we allow for links to mass spectrometry data deposited in GNPS-MaSSIVE.
+ * Please provide basic information on the publicly available metabolomics project from which paired data is available. Currently, we allow for links to mass spectrometry data deposited in GNPS-MaSSIVE or MetaboLights.
  */
 export interface OverallMetabolomicsProjectDetails {
+  project: GNPSMassIVE | MetaboLights;
+  publications?: KeyPublications;
+}
+export interface GNPSMassIVE {
   GNPSMassIVE_ID: GNPSMassIVEIdentifier;
   MaSSIVE_URL: LinkToMassIVEUpload;
-  publications?: KeyPublications;
   molecular_network?: MolecularNetworkTaskID;
+  [k: string]: any;
+}
+export interface MetaboLights {
+  metabolights_study_id: MetaboLightsStudyIdentifier;
+  [k: string]: any;
 }
 /**
  * Please select genome (microbial isolate grown in pure culture), metagenome (microbial mixture or environmental sample), or metagenome-assembled genome (genome assembled from a metagenome with no isolate grown in culture).

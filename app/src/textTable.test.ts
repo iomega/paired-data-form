@@ -318,8 +318,10 @@ describe('with schema loaded', () => {
                 "version": "1",
                 "personal": {},
                 "metabolomics": {
-                    "GNPSMassIVE_ID": "MSV000078839",
-                    "MaSSIVE_URL": "https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view"
+                    "project": {
+                        "GNPSMassIVE_ID": "MSV000078839",
+                        "MaSSIVE_URL": "https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view"
+                    }
                 },
                 "genomes": [],
                 "experimental": {},

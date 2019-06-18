@@ -14,7 +14,7 @@ export function Projects() {
     }
     const rows = projects.data.map(d => (
         <tr key={d._id}>
-            <td><Link to={`/projects/${d._id}`}>{d.GNPSMassIVE_ID}</Link></td>
+            <td><Link to={`/projects/${d._id}`}>{ d.GNPSMassIVE_ID ? d.GNPSMassIVE_ID : d.metabolights_study_id }</Link></td>
             <td>{d.PI_name}</td>
             <td>{d.nr_genomes}</td>
             <td>{d.nr_growth_conditions}</td>
@@ -30,7 +30,7 @@ export function Projects() {
             <Table>
                 <thead>
                     <tr>
-                        <th>GNPS Massive identifier</th>
+                        <th>Metabolomics project identifier</th>
                         <th>Principal investigator</th>
                         <th>Nr of (meta)genomes</th>
                         <th>Nr of growth conditions</th>

@@ -4,8 +4,10 @@ export const minimalDoc = {
     "version": "1",
     "personal": {},
     "metabolomics": {
-        "GNPSMassIVE_ID": "MSV000078839",
-        "MaSSIVE_URL": "https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view"
+        "project": {
+            "GNPSMassIVE_ID": "MSV000078839",
+            "MaSSIVE_URL": "https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view"
+        }
     },
     "genomes": [],
     "experimental": {},
@@ -23,10 +25,12 @@ export const kitchenSinkDoc = {
         "PI_email": "marnix.medema@wur.nl"
     },
     "metabolomics": {
-        "GNPSMassIVE_ID": "MSV000078839",
-        "MaSSIVE_URL": "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?task=a507232a787243a5afd69a6c6fa1e508",
-        "publications": "28335604",
-        "molecular_network": "http://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9"
+        "project": {
+            "GNPSMassIVE_ID": "MSV000078839",
+            "MaSSIVE_URL": "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?task=a507232a787243a5afd69a6c6fa1e508",
+            "molecular_network": "http://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9"
+        },
+        "publications": "28335604"
     },
     "genomes": [
         {
