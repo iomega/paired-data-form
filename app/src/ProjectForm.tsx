@@ -84,9 +84,13 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         const { errors, errorSchema } = theform.validate(theform.state.formData);
         validateDocument(theform.state.formData, errors);
         if (Object.keys(errors).length === 0) {
-            setValidDoc(theform.state.formData);
+            theform.setState({errors, errorSchema}, () => {
+                setInitDoc(theform.state.formData);
+                setValidDoc(theform.state.formData);
+            });
         } else {
             theform.setState({errors, errorSchema}, () => {
+                setInitDoc(theform.state.formData);
                 onError();
             });
         }
