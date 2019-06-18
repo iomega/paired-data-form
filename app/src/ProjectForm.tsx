@@ -167,7 +167,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
                         <h3>Preview</h3>
                         <PairedDataProject
                             project={{ _id: 'preview_id' ,project:validDoc}}
-                            schema={schema}
+                            schema={schema.data}
                         />
                     </>
                 )}
