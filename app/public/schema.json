@@ -58,56 +58,55 @@
     "metabolomics": {
       "type": "object",
       "title": "2. Overall metabolomics project details",
-      "description": "Please provide basic information on the publicly available metabolomics project from which paired data is available. Currently, we allow for links to mass spectrometry data deposited in GNPS-MaSSIVE or metabolights.",
-      "anyOf": [{
-        "type": "object",
-        "required": ["GNPSMassIVE_ID", "MaSSIVE_URL"],
-        "title": "GNPS-MassIVE",
-        "properties": {
-          "GNPSMassIVE_ID": {
-            "type": "string",
-            "title": "GNPS-MassIVE identifier",
-            "description": "Please provide the GNPS-MassIVE identifier of your metabolomics data set, e.g., MSV000078839.",
-            "pattern": "(^MSV)[0-9]{9}"
-          },
-          "MaSSIVE_URL": {
-            "type": "string",
-            "title": "Link to MassIVE upload",
-            "description": "Please provide the link to the MassIVE upload, e.g., https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view.",
-            "format": "uri"
-          },
-          "molecular_network": {
-            "type": "string",
-            "pattern": "[0-9a-z]{32}",
-            "title": "Molecular Network Task ID",
-            "description": "If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9 (optional)."
-          },
-          "publications": {
-            "type": "string",
-            "pattern": "[0-9]{1,}",
-            "title": "Key publications",
-            "description": "Publications describing the metabolomics experiment and samples. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')"
-          }
+      "description": "Please provide basic information on the publicly available metabolomics project from which paired data is available. Currently, we allow for links to mass spectrometry data deposited in GNPS-MaSSIVE or MetaboLights.",
+      "properties": {
+        "project": {
+          "oneOf": [{
+            "type": "object",
+            "required": ["GNPSMassIVE_ID", "MaSSIVE_URL"],
+            "title": "GNPS-MassIVE",
+            "properties": {
+              "GNPSMassIVE_ID": {
+                "type": "string",
+                "title": "GNPS-MassIVE identifier",
+                "description": "Please provide the GNPS-MassIVE identifier of your metabolomics data set, e.g., MSV000078839.",
+                "pattern": "(^MSV)[0-9]{9}"
+              },
+              "MaSSIVE_URL": {
+                "type": "string",
+                "title": "Link to MassIVE upload",
+                "description": "Please provide the link to the MassIVE upload, e.g., https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view.",
+                "format": "uri"
+              },
+              "molecular_network": {
+                "type": "string",
+                "pattern": "[0-9a-z]{32}",
+                "title": "Molecular Network Task ID",
+                "description": "If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9 (optional)."
+              }
+            }
+          }, {
+            "type": "object",
+            "title": "MetaboLights",
+            "required": ["metabolights_study_id"],
+            "properties": {
+              "metabolights_study_id": {
+                "type": "string",
+                "title": "MetaboLights study identifier",
+                "pattern": "(^MTBLS)[0-9]{1,}",
+                "description": "Please provide the MetaboLights study identifier of your metabolomics data set, e.g. MTBLS307."
+              }
+            }
+          }]
+        },
+        "publications": {
+          "type": "string",
+          "pattern": "[0-9]{1,}",
+          "title": "Key publications",
+          "description": "Publications describing the metabolomics experiment and samples. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')"
         }
-      }, {
-        "type": "object",
-        "title": "MetaboLights",
-        "required": ["metabolights_study_id"],
-        "properties": {
-          "metabolights_study_id": {
-            "type": "string",
-            "title": "MetaboLights study identifier",
-            "pattern": "MTBLS[0-9]{1,}",
-            "description": "Please provide the MetaboLights study identifier of your metabolomics data set, e.g. MTBLS307."
-          },
-          "publications": {
-            "type": "string",
-            "pattern": "[0-9]{1,}",
-            "title": "Key publications",
-            "description": "Publications describing the metabolomics experiment and samples. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')"
-          }
-        }
-      }],
+      },
+      "required": ["project"],
       "additionalProperties": false
     },
     "genomes": {
@@ -955,7 +954,7 @@
           "metabolomics_file": {
             "type": "string",
             "title": "Location of metabolomics data file",
-            "description": "Please provide a direct link to the metabolomics data file location, e.g., ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML, that provides access to CNB091_R5_M.mzXML.",
+            "description": "Please provide a direct link to the metabolomics data file location, e.g., ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML, that provides access to CNB091_R5_M.mzXML or https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML.",
             "format": "uri"
           },
           "sample_preparation_label": {

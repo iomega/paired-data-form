@@ -21,8 +21,10 @@ describe('enrich()', () => {
                     'genome_label': 'Streptomyces sp. CNB091'
                 }],
                 metabolomics: {
-                    GNPSMassIVE_ID: 'MSV000078839',
-                    MaSSIVE_URL: 'https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?task=a507232a787243a5afd69a6c6fa1e508'
+                    project: {
+                        GNPSMassIVE_ID: 'MSV000078839',
+                        MaSSIVE_URL: 'https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?task=a507232a787243a5afd69a6c6fa1e508'
+                    }
                 },
                 experimental: {},
                 genome_metabolome_links: []
@@ -156,8 +158,10 @@ describe('enrich()', () => {
                     'genome_label': 'Some label'
                 }],
                 metabolomics: {
-                    GNPSMassIVE_ID: 'MSV000078839',
-                    MaSSIVE_URL: 'https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?task=a507232a787243a5afd69a6c6fa1e508'
+                    project: {
+                        GNPSMassIVE_ID: 'MSV000078839',
+                        MaSSIVE_URL: 'https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?task=a507232a787243a5afd69a6c6fa1e508'
+                    }
                 },
                 experimental: {},
                 genome_metabolome_links: []

@@ -39,7 +39,7 @@ export function PendingProjects() {
             <td>
                 <Decide onDeny={onDeny(d._id)} onApprove={onApprove(d._id)} />
             </td>
-            <td><Link to={`/pending/${d._id}`}>{d.GNPSMassIVE_ID}</Link></td>
+            <td><Link to={`/pending/${d._id}`}>{ d.GNPSMassIVE_ID ? d.GNPSMassIVE_ID : d.metabolights_study_id }</Link></td>
             <td>{d.PI_name}</td>
             <td>{d.nr_genomes}</td>
             <td>{d.nr_growth_conditions}</td>
@@ -56,7 +56,7 @@ export function PendingProjects() {
                 <thead>
                     <tr>
                         <th>Approve/Deny</th>
-                        <th>GNPS Massive identifier</th>
+                        <th>Metabolomics project identifier</th>
                         <th>Principal investigator</th>
                         <th>Nr of (meta)genomes</th>
                         <th>Nr of growth conditions</th>

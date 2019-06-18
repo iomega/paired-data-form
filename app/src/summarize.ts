@@ -1,8 +1,10 @@
 import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
+import { isMetaboLights } from './typeguards';
 
 export interface ProjectSummary {
     _id: string;
     GNPSMassIVE_ID: string;
+    metabolights_study_id: string;
     PI_name: string;
     nr_genomes: number;
     nr_growth_conditions: number;
@@ -41,9 +43,10 @@ export interface EnrichedProjectDocument {
 
 export const summarizeProject = (d: EnrichedProjectDocument): ProjectSummary => {
     const project = d.project;
-    return {
+    const summary = {
         _id: d._id,
-        GNPSMassIVE_ID:project['metabolomics']['GNPSMassIVE_ID'],
+        metabolights_study_id: '',
+        GNPSMassIVE_ID: '',
         PI_name: project['personal']['PI_name']!,
         nr_genomes: project['genomes'].length,
         nr_growth_conditions: project['experimental']['sample_preparation']!.length,
@@ -52,4 +55,10 @@ export const summarizeProject = (d: EnrichedProjectDocument): ProjectSummary => 
         nr_genome_metabolmics_links: project['genome_metabolome_links'].length,
         nr_genecluster_mspectra_links: project['BGC_MS2_links']!.length,
     };
+    if (isMetaboLights(project.metabolomics.project)) {
+        summary.metabolights_study_id = project.metabolomics.project.metabolights_study_id;
+    } else {
+        summary.GNPSMassIVE_ID = project.metabolomics.project.GNPSMassIVE_ID;
+    }
+    return summary;
 };
