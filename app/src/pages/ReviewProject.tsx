@@ -28,18 +28,18 @@ export function ReviewProject({ match }: RouteComponentProps<TParams>) {
         return <Redirect to="/pending" />;
     }
     if (project.loading || schema.loading) {
-        return <span>Loading ...</span>;
+        return <div>Loading ...</div>;
     }
-    if (!project.data) {
-        return <span>Error: {project.error}</span>;
+    if (project.error && !project.data) {
+        return <div>Error: {project.error.message}</div>;
     }
-    if (!schema.data) {
-        return <span>Error: {schema.error}</span>;
+    if (schema.error && !schema.data) {
+        return <div>Error: {schema.error.message}</div>;
     }
     return (
         <>
             <Decide onDeny={onDeny} onApprove={onApprove} />
-            <PairedDataProject project={project.data} schema={schema.data} />
+            <PairedDataProject project={project.data!} schema={schema.data} />
             <Decide onDeny={onDeny} onApprove={onApprove} />
         </>
     );

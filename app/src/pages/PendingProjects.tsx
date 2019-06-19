@@ -19,10 +19,10 @@ export function PendingProjects() {
     const projects = usePendingProjects();
     const { token } = useContext(AuthContext);
     if (projects.loading) {
-        return <span>Loading ...</span>;
+        return <div>Loading ...</div>;
     }
     if (projects.error && !projects.data) {
-        return <span>Error: {projects.error}</span>
+        return <div>Error: {projects.error.message}</div>;
     }
     const onDeny = (project_id: string) => async () => {
         await denyPendingProject(project_id, token);
