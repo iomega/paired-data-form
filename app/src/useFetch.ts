@@ -15,8 +15,8 @@ export function useFetch<T>(url: string, init?: RequestInit): Response<T> {
         async function fetchData() {
             try {
                 const response = await fetch(url, init);
-                const json = await response.json();
                 if (response.ok) {
+                    const json = await response.json();
                     setData(json);
                 } else {
                     throw TypeError(response.statusText);
