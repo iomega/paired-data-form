@@ -34,5 +34,9 @@ services:
       - api
   redis:
     image: "redis:alpine"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis:/data
 volumes:
   caddy:
+  redis:

@@ -17,8 +17,25 @@ The application can be configured using environment variables:
 * TLS_MODE, use email for proper cert when Internet facing. By default traffice is unencrypted, see https://caddyserver.com/docs/tls
 
 ```bash
-docker-compose up --build
+docker-compose up -d --build
 ```
 
 Starts application, api webservice and reverse proxy on https://<DOMAIN>:8443 .
 Project JSON files are stored in a `./data/` directory.
+
+## Rebuild
+
+When schema has changed the documents in `./data` directory need to be migrated.
+
+```bash
+# Login to api server
+docker-compose exec api sh
+# Perform migration
+...
+```
+
+When the code has changed the Docker images has been rebuild and restarted with
+```bash
+docker-compose stop
+docker-compose up -d --build
+```
