@@ -178,6 +178,12 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
             </div>
         );
     } else {
+        if (schema.error) {
+            return <div>Error loading JSON schema: {schema.error.message}</div>;
+        }
+        if (uiSchema.error) {
+            return <div>Error loading UI schema: {uiSchema.error.message}</div>;
+        }
         return <span>Loading ...</span>;
     }
 }
