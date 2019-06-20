@@ -676,6 +676,7 @@
                     "ratio": {
                       "type": "number",
                       "title": "Ratio",
+                      "description": "When a mixture of solvents was used, specify in which ratio each solvent was used. The ratios should sum up to 1.",
                       "default": 1,
                       "exclusiveMinimum": 0,
                       "maximum": 1
