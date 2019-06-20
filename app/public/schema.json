@@ -956,7 +956,7 @@
           "metabolomics_file": {
             "type": "string",
             "title": "Location of metabolomics data file",
-            "description": "Please provide a direct link to the metabolomics data file location, e.g., ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML, that provides access to CNB091_R5_M.mzXML or https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML.",
+            "description": "Please provide a direct link to the metabolomics data file location, e.g. ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML found in the FTP download of a MassIVE dataset or https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML found in the Files section of a MetaboLights study.",
             "format": "uri"
           },
           "sample_preparation_label": {
