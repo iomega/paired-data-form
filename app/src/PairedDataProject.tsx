@@ -18,6 +18,17 @@ function record2dataUrl(data: object, mimeType = "application/json") {
   return `data:${mimeType};base64,${bj}`;
 }
 
+function mailToSubmitter(project: EnrichedProjectDocument) {
+  const subject = "Regarding paired omics data platform project: " + project._id;
+  return "mailto:" + project.project.personal.submitter_email + "?subject=" + subject;
+}
+
+function mailToPrincipalInvestigator(project: EnrichedProjectDocument) {
+  const subject = "Regarding paired omics data platform project: " + project._id;
+  return "mailto:" + project.project.personal.PI_email + "?subject=" + subject;
+}
+
+
 export const PairedDataProject = ({project, schema}: IProps) => {
     const pure_project = project.project;
     const dataUrl = record2dataUrl(pure_project);
@@ -28,8 +39,8 @@ export const PairedDataProject = ({project, schema}: IProps) => {
             <Button href={dataUrl} download={filename}><Glyphicon glyph="download" /> Download</Button>
             <h2>Submitter Information</h2>
             <ul>
-                <li>Submitter: <a href={"mailto:" + pure_project.personal.submitter_email}>{pure_project.personal.submitter_name}</a> <Orcid iD={pure_project.personal.submitter_orcid!}/></li>
-                <li>Principal investigator: <a href={"mailto:" + pure_project.personal.PI_email}>{pure_project.personal.PI_name}</a> of {pure_project.personal.PI_institution}</li>
+                <li>Submitter: <a href={mailToSubmitter(project)}>{pure_project.personal.submitter_name}</a> <Orcid iD={pure_project.personal.submitter_orcid!}/></li>
+                <li>Principal investigator: <a href={mailToPrincipalInvestigator(project)}>{pure_project.personal.PI_name}</a> of {pure_project.personal.PI_institution}</li>
             </ul>
             <h2>Metabolomics project details</h2>
             <MetabolomicsProjectDetails data={pure_project.metabolomics}/>
