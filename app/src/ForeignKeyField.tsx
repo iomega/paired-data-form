@@ -3,9 +3,20 @@ import * as React from "react";
 import { Glyphicon } from "react-bootstrap";
 import { FieldProps } from "react-jsonschema-form";
 import Select from "react-select";
+import { OptionsType } from "react-select/lib/types";
+
+interface LabelValue {
+  label: string;
+  value: string;
+}
+
+interface IState {
+  open: boolean;
+  options: OptionsType<LabelValue>;
+}
 
 export class ForeignKeyField extends React.Component<FieldProps, {}> {
-  public state = {
+  public state: IState = {
     open: false,
     options: []
   };
@@ -31,9 +42,10 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
       </span>
     );
     if (this.state.open && this.state.options.length > 0) {
+      const value = {value: this.props.formData, label: this.props.formData};
       field = (
         <Select
-          defaultValue={this.props.formData}
+          value={value}
           onChange={this.onClose}
           options={this.state.options}
           menuIsOpen={true}
