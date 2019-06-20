@@ -1,22 +1,20 @@
 import * as React from "react";
-import { IOMEGAPairedDataPlatform } from "./schema";
+
 import { Button, ButtonGroup, ButtonToolbar, Glyphicon } from "react-bootstrap";
-
-import { injectForeignKeySearchMethods, validateDocument } from "./validate";
-import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField";
-
-import { ForeignKeyField } from "./ForeignKeyField";
-import { GenomeMetabolomeLinksField } from './GenomeMetabolomeLinksField';
-
 import Form, { ISubmitEvent } from "react-jsonschema-form";
 import { useState, useRef } from "react";
-import { PairedDataProject } from "./PairedDataProject";
-
-import './ProjectForm.css';
-import { jsonDocument } from "./textTable";
+import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField";
 
 import { useSchema, useUiSchema } from "./api";
+import { ForeignKeyField } from "./fields/ForeignKeyField";
+import { GenomeMetabolomeLinksField } from './fields/GenomeMetabolomeLinksField';
 import { MyTitleField } from "./fields/TitleField";
+import { PairedDataProject } from "./PairedDataProject";
+import { IOMEGAPairedDataPlatform } from "./schema";
+import { jsonDocument } from "./textTable";
+import { injectForeignKeySearchMethods, validateDocument } from "./validate";
+
+import './ProjectForm.css';
 
 export interface IProps {
     onSubmit(project: IOMEGAPairedDataPlatform): void;
