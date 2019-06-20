@@ -84,7 +84,7 @@
                 "type": "string",
                 "pattern": "[0-9a-z]{32}",
                 "title": "Molecular Network Task ID",
-                "description": "If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9 (optional)."
+                "description": "If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9."
               }
             }
           }, {
@@ -176,7 +176,7 @@
           "BioSample_accession": {
             "type": "string",
             "title": "BioSample accession number",
-            "description": "If publicly available metadata is available at BioSamples, please provide the BioSample accession number, e.g. SAMEA3648350, here. We encourage depositing metadata following a standardized ontology to enable proper reuse of the data (optional)."
+            "description": "If publicly available metadata is available at BioSamples, please provide the BioSample accession number, e.g. SAMEA3648350, here. We encourage depositing metadata following a standardized ontology to enable proper reuse of the data."
           },
           "publications": {
             "type": "string",
@@ -403,18 +403,18 @@
               "growing_time": {
                 "type": "number",
                 "title": "Growth time",
-                "description": "Please enter the length of growth time in hours (optional).",
+                "description": "Please enter the length of growth time in hours.",
                 "pattern": "[0-9]{1,}"
               },
               "growth_phase_OD": {
                 "type": "string",
                 "title": "Growth phase or OD",
-                "description": "Please enter the growth phase or OD if you know it (optional)."
+                "description": "Please enter the growth phase or OD if you know it."
               },
               "other_growth_conditions": {
                 "type": "string",
                 "title": "Other growth conditions",
-                "description": "Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h (optional)."
+                "description": "Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h."
               },
               "metagenome_details": {
                 "type": "object",
@@ -905,17 +905,17 @@
               "range": {
                 "type": "string",
                 "title": "Mass range",
-                "description": "Please enter the mass range collected (optional)."
+                "description": "Please enter the mass range collected in Da. For example `100-800` for a range from 100 Da to 800 Da"
               },
               "collision_energy": {
                 "type": "string",
                 "title": "Collision energy",
-                "description": "Please enter the collision energy (optional)."
+                "description": "Please enter the collision energy."
               },
               "buffering": {
                 "type": "string",
                 "title": "Buffering",
-                "description": "Did you add anything to your instrument running buffers, e.g. 0.1% formic acid (optional)."
+                "description": "Did you add anything to your instrument running buffers, e.g. 0.1% formic acid."
               },
               "other_instrumentation": {
                 "type": "string",
