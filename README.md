@@ -74,4 +74,5 @@ npm version x.y.z
 
 5. Commit & push changes
 6. Create a GitHub release
-7. Update version & release date in CITATION.cff
+7. Update author list on https://doi.org/10.5281/zenodo.2656630
+8. Update version & release date in CITATION.cff
