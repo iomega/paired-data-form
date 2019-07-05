@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * original form is now for adding a project for review ([#45](https://github.com/iomega/paired-data-form/issues/45))
 * Added metabolights study id to genome ([#54](https://github.com/iomega/paired-data-form/issues/54))
 * Made which fields are required more clear ([#42](https://github.com/iomega/paired-data-form/issues/42))
-* Replaced run command from `npm` to `docker-compose`
+* Replaced run command from `yarn` to `docker-compose`
 
 ## [0.1.0] - 2019-05-01
 

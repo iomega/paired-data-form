@@ -3,7 +3,7 @@
 cff-version: 1.0.3
 message: If you use this software, please cite it using these metadata.
 title: 'Integrated Omics for MEtabolomics and Genomics Annotation: Paired omics data platform'
-doi: 10.5281/zenodo.2656631
+doi: 10.5281/zenodo.2656630
 authors:
 - given-names: Stefan
   family-names: Verhoeven
