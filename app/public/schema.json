@@ -212,55 +212,93 @@
                     "type": "string",
                     "title": "Medium type",
                     "description": "Please select liquid or solid medium.",
-                    "enum": ["liquid", "solid"],
-                    "default": "liquid"
+                    "@context": {
+                      "oneOf": {
+                        "enum": {
+                          "@id": "http://purl.bioontology.org/ontology/gmo",
+                          "@type": "@id"
+                        }
+                      }
+                    },
+                    "oneOf": [{
+                      "type": "string",
+                      "title": "Liquid",
+                      "enum": [
+                        "http://purl.bioontology.org/ontology/gmo/GMO_000024"
+                      ]
+                    },{
+                      "type": "string",
+                      "title": "Solid",
+                      "enum": [
+                        "http://purl.bioontology.org/ontology/gmo/GMO_000025"
+                      ]
+                    }],
+                    "default": "http://purl.bioontology.org/ontology/gmo/GMO_000024"
                   },
                   "medium": {
                     "type": "string",
                     "title": "Growth medium",
                     "description": "Please select a growth medium used in the experiment. If it is not present, please select Other and type it in.",
-                    "anyOf": [
+                    "@context": {
+                      "oneOf": {
+                        "enum": {
+                          "@id": "http://purl.bioontology.org/ontology/gmo",
+                          "@type": "@id"
+                        }
+                      }
+                    },
+                    "oneOf": [
                       {
                         "type": "string",
                         "title": "LB (Luria-Bertani) medium",
                         "enum": [
-                          "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium381.pdf"
-                        ]
+                          "http://purl.bioontology.org/ontology/gmo/GMO_001843"
+                        ],
+                        "comment": "Acording to https://en.wikipedia.org/wiki/Lysogeny_broth dsmz entry is Lysogeny broth with LB-Miller formula",
+                        "info": "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium381.pdf"
                       },
                       {
                         "type": "string",
                         "title": "Tryptic-Soy Broth (TSB)",
                         "enum": [
-                          "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium545.pdf"
-                        ]
+                          "http://purl.bioontology.org/ontology/gmo/GMO_001672"
+                        ],
+                        "comment": "See also https://en.wikipedia.org/wiki/Tryptic_soy_broth",
+                        "info": "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium545.pdf"
                       },
                       {
                         "type": "string",
                         "title": "Nutrient Agar",
                         "enum": [
-                          "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1.pdf"
-                        ]
+                          "http://purl.bioontology.org/ontology/gmo/GMO_001302"
+                        ],
+                        "comment": "https://en.wikipedia.org/wiki/Nutrient_agar has NaCl added and slightly lower pH",
+                        "info": "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1.pdf"
                       },
                       {
                         "type": "string",
                         "title": "Oat Flake agar",
                         "enum": [
-                          "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium189.pdf"
-                        ]
+                          "http://purl.bioontology.org/ontology/gmo/GMO_001134"
+                        ],
+                        "comment": "bioportal calls it Oatmeal, while https://wiki.bugwood.org/Oatmeal_agar calls it Oatmeal agar",
+                        "info": "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium189.pdf"
                       },
                       {
                         "type": "string",
                         "title": "Marine Broth (Difco 2216)",
                         "enum": [
-                          "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium514.pdf"
-                        ]
+                          "http://purl.jp/bio/10/gmo/GMO_001095"
+                        ],
+                        "info": "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium514.pdf"
                       },
                       {
                         "type": "string",
                         "title": "Mannitol Yeast extract Peptone (MYE)",
                         "enum": [
                           "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1087.pdf"
-                        ]
+                        ],
+                        "comment": "http://purl.jp/bio/10/gmo/GMO_001135 is pure mannitol and is only mannitol medium in ontology"
                       },
                       {
                         "type": "string",
@@ -268,6 +306,7 @@
                         "enum": [
                           "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium987.pdf"
                         ]
+                        ,"comment": "Not found in gmo ontology"
                       },
                       {
                         "type": "string",
@@ -275,6 +314,7 @@
                         "enum": [
                           "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium547.pdf"
                         ]
+                        ,"comment": "Not found in gmo ontology"
                       },
                       {
                         "type": "string",
@@ -421,6 +461,12 @@
                 "title": "Metagenome details",
                 "properties": {
                   "environment": {
+                    "@context": {
+                      "anyOf": {
+                        "@id": "http://purl.bioontology.org/ontology/meo",
+                        "@type": "@id"
+                      }
+                    },
                     "type": "string",
                     "title": "Metagenome host or isolation source",
                     "description": "For metagenomic samples, please select the source host or isolation source. If it is not available, please select Other and type it in.",
@@ -429,77 +475,77 @@
                         "type": "string",
                         "title": "Human",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000393"
+                          "http://purl.bioontology.org/ontology/meo/MEO_0000393"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Other mammal",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000395"
+                          "http://purl.bioontology.org/ontology/meo/MEO_0000395"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Aquatic invertebrate",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000871"
+                          "http://purl.bioontology.org/ontology/meo/MEO_0000871"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Insect",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000058"
+                          "http://purl.bioontology.org/ontology/meo/MEO_0000058"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Other animal",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000421"
+                          "http://purl.bioontology.org/ontology/meo/MEO_0000421"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Biofilm / Microbial mat",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000116"
+                          "http://purl.bioontology.org/ontology/meo/MEO_0000116"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Plant",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000057"
+                          "http://purl.bioontology.org/ontology/meo/MEO_0000057"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Soil",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000007"
+                          "http://purl.bioontology.org/ontology/meo/MEO_0000007"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Sediment",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000066"
+                          "http://purl.bioontology.org/ontology/meo/MEO_0000066"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Ocean",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000022"
+                          "http://purl.bioontology.org/ontology/meo/MEO_0000022"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Air",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000006"
+                          "http://purl.bioontology.org/ontology/meo/MEO_0000006"
                         ]
                       },
                       {
@@ -517,17 +563,17 @@
                         "properties": {
                           "environment": {
                             "enum": [
-                              "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000393",
-                              "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000395",
-                              "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000871",
-                              "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000058",
-                              "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000421",
-                              "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000116",
-                              "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000057",
-                              "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000007",
-                              "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000066",
-                              "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000022",
-                              "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000006"
+                              "http://purl.bioontology.org/ontology/meo/MEO_0000393",
+                              "http://purl.bioontology.org/ontology/meo/MEO_0000395",
+                              "http://purl.bioontology.org/ontology/meo/MEO_0000871",
+                              "http://purl.bioontology.org/ontology/meo/MEO_0000058",
+                              "http://purl.bioontology.org/ontology/meo/MEO_0000421",
+                              "http://purl.bioontology.org/ontology/meo/MEO_0000116",
+                              "http://purl.bioontology.org/ontology/meo/MEO_0000057",
+                              "http://purl.bioontology.org/ontology/meo/MEO_0000007",
+                              "http://purl.bioontology.org/ontology/meo/MEO_0000066",
+                              "http://purl.bioontology.org/ontology/meo/MEO_0000022",
+                              "http://purl.bioontology.org/ontology/meo/MEO_0000006"
                             ]
                           }
                         }
@@ -579,96 +625,102 @@
                     "solvent": {
                       "title": "Solvent",
                       "type": "string",
+                      "@context": {
+                        "anyOf": {
+                          "@id": "http://purl.obolibrary.org/obo/chebi.owl",
+                          "@type": "@id"
+                        }
+                      },
                       "anyOf": [
                         {
                           "type": "string",
                           "title": "Methanol",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17790"
+                            "http://purl.obolibrary.org/obo/CHEBI_17790"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Methylene Chloride / Dichloromethane",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15767"
+                            "http://purl.obolibrary.org/obo/CHEBI_15767"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Ethyl acetate",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:27750"
+                            "http://purl.obolibrary.org/obo/CHEBI_27750"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Chloroform",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35255"
+                            "http://purl.obolibrary.org/obo/CHEBI_35255"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Acetone",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15347"
+                            "http://purl.obolibrary.org/obo/CHEBI_15347"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Isopropanol",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17824"
+                            "http://purl.obolibrary.org/obo/CHEBI_17824"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Butanol",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:28885"
+                            "http://purl.obolibrary.org/obo/CHEBI_28885"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Acetonitrile",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:38472"
+                            "http://purl.obolibrary.org/obo/CHEBI_38472"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Ethanol",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:16236"
+                            "http://purl.obolibrary.org/obo/CHEBI_16236"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Diethyl ether",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35702"
+                            "http://purl.obolibrary.org/obo/CHEBI_35702"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Hexane",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:29021"
+                            "http://purl.obolibrary.org/obo/CHEBI_29021"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Water",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15377"
+                            "http://purl.obolibrary.org/obo/CHEBI_15377"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Other solvent",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787"
+                            "http://purl.obolibrary.org/obo/CHEBI_46787"
                           ]
                         }
                       ]
@@ -689,18 +741,18 @@
                           "properties": {
                             "solvent": {
                               "enum": [
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17790",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15767",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:27750",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35255",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15347",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17824",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:28885",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:38472",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:16236",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35702",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:29021",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15377"
+                                "http://purl.obolibrary.org/obo/CHEBI_17790",
+                                "http://purl.obolibrary.org/obo/CHEBI_15767",
+                                "http://purl.obolibrary.org/obo/CHEBI_27750",
+                                "http://purl.obolibrary.org/obo/CHEBI_35255",
+                                "http://purl.obolibrary.org/obo/CHEBI_15347",
+                                "http://purl.obolibrary.org/obo/CHEBI_17824",
+                                "http://purl.obolibrary.org/obo/CHEBI_28885",
+                                "http://purl.obolibrary.org/obo/CHEBI_38472",
+                                "http://purl.obolibrary.org/obo/CHEBI_16236",
+                                "http://purl.obolibrary.org/obo/CHEBI_35702",
+                                "http://purl.obolibrary.org/obo/CHEBI_29021",
+                                "http://purl.obolibrary.org/obo/CHEBI_15377"
                               ]
                             }
                           }
@@ -709,7 +761,7 @@
                           "properties": {
                             "solvent": {
                               "enum": [
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787"
+                                "http://purl.obolibrary.org/obo/CHEBI_46787"
                               ]
                             },
                             "Other_solvent": {
