@@ -1,13 +1,10 @@
 import * as React from "react";
 
-import { Table, Button, Glyphicon, Panel, PanelGroup } from 'react-bootstrap';
+import { Table, Button, Popover, OverlayTrigger } from 'react-bootstrap';
 
-import { ExtractionExpander } from './expanders/ExtractionExpander';
-import { GenomeExpander } from './expanders/GenomeExpander';
-import { InstrumentExpander } from './expanders/InstrumentExpander';
-import { SampleGrowthConditionsExpander } from './expanders/SampleGrowthConditionsExpander';
 import { tsvUrl } from './textTable';
 import { IOMEGAPairedDataPlatform } from "./schema";
+import { Publications } from "./Publications";
 
 interface IProps {
     data: any;
@@ -15,92 +12,225 @@ interface IProps {
 }
 
 export const GenomeMetabolomicsTable = (props: IProps) => {
-    const [isCollapsed, changeCollapsing] = React.useState(true);
     const pure_project: IOMEGAPairedDataPlatform = props.data.project;
     if (!pure_project.genome_metabolome_links || pure_project.genome_metabolome_links.length === 0) {
         return <p>No links between (meta)genomes and metabolimics data files.</p>;
     }
     const genome_enrichments = props.data.enrichments && props.data.enrichments.genomes ? props.data.enrichments.genomes : {};
-    const genomeExpander = new GenomeExpander(props.schema, pure_project, genome_enrichments);
-    const sampleExpander = new SampleGrowthConditionsExpander(props.schema, pure_project);
-    const extractionExpander = new ExtractionExpander(props.schema, pure_project);
-    const instrumentExpander = new InstrumentExpander(props.schema, pure_project);
     const gmProps = props.schema.properties.genome_metabolome_links.items.properties;
-    const foreignKeys = new Set([
-        genomeExpander.fk,
-        sampleExpander.fk,
-        extractionExpander.fk,
-        instrumentExpander.fk,
-    ]);
-    const cols = Object.keys(gmProps).filter(k => !foreignKeys.has(k));
+    const cols = Object.keys(gmProps);
 
     let headers = cols.map((s) => {
         const field = gmProps[s];
         return <th key={s}>{field.title}</th>;
     });
-    const genomeHeaders = genomeExpander.ths(headers.length);
-    headers = headers.concat(genomeHeaders);
-    const sampleHeaders = sampleExpander.ths(headers.length);
-    headers = headers.concat(sampleHeaders);
-    const extractionHeaders = extractionExpander.ths(headers.length);
-    headers = headers.concat(extractionHeaders);
-    const instrumentHeaders = instrumentExpander.ths(headers.length);
-    headers = headers.concat(instrumentHeaders);
-
-    const gmRows = pure_project.genome_metabolome_links;
-    let rows = gmRows.map((row: any, i: number) => {
-        let tds = cols.map((td, tdi) => {
-            if (td === 'Metabolomics_Data_File') {
-                return (<td key={tdi}><a href={row[td]}>{row[td]}</a></td>);
-            }
-            return (<td key={tdi}>{row[td]}</td>);
-        });
-
-        const genomeTds = genomeExpander.tds(row, tds.length);
-        tds = tds.concat(genomeTds);
-        const sampleTds = sampleExpander.tds(row, tds.length);
-        tds = tds.concat(sampleTds);
-        const extractionTds = extractionExpander.tds(row, tds.length);
-        tds = tds.concat(extractionTds);
-        const instrumentTds = instrumentExpander.tds(row, tds.length);
-        tds = tds.concat(instrumentTds);
-        return (
-            <tr key={i}>
-                {tds}
-            </tr>
-        );
-    });
     const genomemetabolometsvfn = 'paired-' + props.data._id + '-genome-metabolome.tsv';
 
-    const columnIndexesToShowCollapsed = [0, 9, 19, 22, 30];
-    if (isCollapsed) {
-        // remove all columns not in columnIndexesToShowFolded
-        genomeHeaders.splice(0, genomeHeaders.length - 1);
-        sampleHeaders.splice(0, sampleHeaders.length - 1);
-        extractionHeaders.splice(0, extractionHeaders.length - 1);
-        instrumentHeaders.splice(0, instrumentHeaders.length - 1);
-        headers = columnIndexesToShowCollapsed.map(c => headers[c]);
-        rows = rows.map((r: any, i: number) => {
-            return <tr key={i}>
-                {columnIndexesToShowCollapsed.map(c => r.props.children[c])}
-            </tr>;
-        });
-    }
+    const genome_popovers: any = {};
+    pure_project.genomes.forEach((g) => {
+        let species = <></>;
+        const s = genome_enrichments[g.genome_label];
+        if (s) {
+            const tax_url = 'http://purl.bioontology.org/ontology/NCBITAXON/' + s.species.tax_id;
+            species = <a href={tax_url}>{s.species.scientific_name}</a>;
+        }
+        if (g.genome_ID.genome_type === 'metagenome') {
+            const popover = (
+                <Popover id={g.genome_label} title="Metagenome">
+                    <p>ENA/NCBI accession number: {g.genome_ID.ENA_NCBI_accession}</p> 
+                    <p>MGnify accession number: {g.genome_ID.MGnify_accession}</p> 
+                    <p>Biosample: {g.BioSample_accession}</p>
+                    <p>Key publications: <Publications publications={g.publications!}/></p>
+                    <p>Species: {species}</p>
+                </Popover>
+            );
+            genome_popovers[g.genome_label] = popover;
+        } else {
+            const popover = (
+                <Popover id={g.genome_label} title="Genome or metagenome-assembled genome">
+                    <p>GenBank: <a href="https://www.ncbi.nlm.nih.gov/nuccore/{g.genome_ID.GenBank_accession}">{g.genome_ID.GenBank_accession}</a></p> 
+                    <p>RefSeq: {g.genome_ID.RefSeq_accession}</p> 
+                    <p>Biosample: {g.BioSample_accession}</p>
+                    <p>Key publications: <Publications publications={g.publications!}/></p>
+                    <p>Species: {species}</p>
+                </Popover>
+            );
+            genome_popovers[g.genome_label] = popover;
+        }
+    });
+
+    const sample_popovers: any = {};
+    pure_project.experimental.sample_preparation!.forEach((s) => {
+        let environment = <></>;
+        if (s.metagenome_details!.environment === 'other') {
+            environment = s.metagenome_details!.Other_environment;
+        } else if (s.metagenome_details!.environment) {
+            const any_env = props.schema.properties.experimental.properties.sample_preparation.items.properties.metagenome_details.properties.environment.anyOf;
+            const env_title = any_env.find((r: any) => r.enum[0] === s.metagenome_details!.environment).title;
+            environment = <a href={s.metagenome_details!.environment}>{env_title}</a>;
+        }
+        const metagenome = (
+            <>
+                <h4>Metagenome details</h4>
+                <p>Host or isolation source: {environment}</p>
+                <p>Sample description: {s.metagenomic_sample_description}</p>
+            </>
+        );
+        let medium = <></>;
+        if (s.medium_details!.medium === 'other') {
+            medium = s.medium_details!.Other_medium;
+        } else {
+            const any_medium = props.schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.properties.medium.anyOf;
+            const medium_title = any_medium.find((r: any) => r.enum[0] === s.medium_details!.medium).title;
+            medium = <a href={s.medium_details!.medium}>{medium_title}</a>
+        }
+        const popover = (
+            <Popover id={s.sample_preparation_method} title="Sample growth conditions">
+                <p>Medium type: {s.medium_details!.medium_type}</p>
+                <p>Growth mediun: {medium}</p>
+                <p>Growth temperature (&deg;C): {s.growth_temperature}</p>
+                <p>Aeration: {s.aeration}</p>
+                <p>Growth time (hours): {s.growing_time}</p>
+                <p>Growth phase or OD: {s.growth_phase_OD}</p>
+                <p>Other conditions: {s.other_growth_conditions}</p>
+                {s.metagenome_details!.environment || s.metagenomic_sample_description ? metagenome : <></>}
+            </Popover>
+        );
+        sample_popovers[s.sample_preparation_method] = popover;
+    });
+
+    const extraction_popovers: any = {};
+    pure_project.experimental.extraction_methods!.forEach((e) => {
+        let solvent_table = <></>;
+        const any_solvent = props.schema.properties.experimental.properties.extraction_methods.items.properties.solvents.items.properties.solvent.anyOf;
+        if (e.solvents!.length == 1 && e.solvents![0].ratio === 1) {
+            const s = e.solvents![0];
+            const solvent_title = any_solvent.find((r: any) => s.solvent === r.enum[0]).title;
+            solvent_table = <p>Solvent: <a href={s.solvent}>{solvent_title}</a></p>
+        } else {
+            const solvents = e.solvents!.map(s => {
+                let solvent = <></>;
+                if (s.solvent === 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787') {
+                    solvent = s.Other_solvent;
+                } else {
+                    const solvent_title = any_solvent.find((r: any) => s.solvent === r.enum[0]).title;
+                    solvent = <a href={s.solvent}>{solvent_title}</a>;
+                }
+                return (
+                    <tr key={s.solvent!}>
+                        <td>{solvent}</td>
+                        <td>{s.ratio}</td>
+                    </tr>
+                );
+            });
+            solvent_table = (
+                <Table condensed={true} striped={true} bordered={true}>
+                    <thead>
+                        <tr>
+                            <th>Solvent</th>
+                            <th>Ratio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {solvents}
+                    </tbody>
+                </Table>
+            );
+        }
+
+        const popover = (
+            <Popover id={e.extraction_method} title="Extraction method">
+                {solvent_table}
+                <p>Other extraction details: {e.other_extraction_parameters}</p>
+            </Popover>
+        );
+        extraction_popovers[e.extraction_method] = popover;
+    });
+
+    const instrument_popovers: any = {};
+    pure_project.experimental.instrumentation_methods!.forEach(i => {
+        const any_instrument = props.schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf;
+        let instrument = <></>;
+        if (i.instrumentation!.instrument === 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000443') {
+            instrument = i.instrumentation!.other_instrument;
+        } else {
+            const instrument_title = any_instrument.find((r: any) => r.enum[0] === i.instrumentation!.instrument).title;
+            instrument = <a href={i.instrumentation!.instrument}>{instrument_title}</a>;
+        }
+        const any_mode = props.schema.properties.experimental.properties.instrumentation_methods.items.properties.mode.anyOf;
+        const mode_title = any_mode.find((r: any) => r.enum[0] === i.mode).title;
+        const popover = (
+            <Popover id={i.instrumentation_method} title="Instrumentation method">
+                <p>Type: {instrument}</p>
+                <p>Column: {i.column}</p>
+                <p>Mode: <a href={i.mode}>{mode_title}</a></p>
+                <p>Mass range (Da): {i.range}</p>
+                <p>Collision energy: {i.collision_energy}</p>
+                <p>Buffering: {i.buffering}</p>
+                <p>Other: {i.other_instrumentation}</p>
+            </Popover>
+        );
+        instrument_popovers[i.instrumentation_method] = popover;
+    });
+
+    const rows = pure_project.genome_metabolome_links.map((r) => (
+        <tr key={r.metabolomics_file}>
+            <td>
+                <OverlayTrigger
+                    trigger="click"
+                    rootClose
+                    placement="bottom"
+                    overlay={genome_popovers[r.genome_label]}
+                >
+                    <Button bsStyle="link">
+                        {r.genome_label}
+                    </Button>
+                </OverlayTrigger>
+            </td>
+            <td><Button bsStyle="link" href={r.metabolomics_file}>{r.metabolomics_file}</Button></td>
+            <td>
+                <OverlayTrigger
+                    trigger="click"
+                    rootClose
+                    placement="bottom"
+                    overlay={sample_popovers[r.sample_preparation_label]}
+                >
+                    <Button bsStyle="link">
+                        {r.sample_preparation_label}
+                    </Button>
+                </OverlayTrigger>
+            </td>
+            <td>
+                <OverlayTrigger
+                    trigger="click"
+                    rootClose
+                    placement="bottom"
+                    overlay={extraction_popovers[r.extraction_method_label]}
+                >
+                    <Button bsStyle="link">
+                        {r.extraction_method_label}
+                    </Button>
+                </OverlayTrigger>
+            </td>
+            <td>
+            <OverlayTrigger
+                    trigger="click"
+                    rootClose
+                    placement="bottom"
+                    overlay={instrument_popovers[r.instrumentation_method_label]}
+                >
+                    <Button bsStyle="link">
+                        {r.instrumentation_method_label}
+                    </Button>
+                </OverlayTrigger>         
+            </td>
+        </tr>
+    ));
+
     return (
         <>
             <Table condensed={true} striped={true} bordered={true}>
                 <thead>
-                    <tr>
-                        <th colSpan={cols.length}>
-                            <Button bsSize="xs" onClick={() => changeCollapsing(!isCollapsed)} title={isCollapsed ? 'Expand table, show all columns' : 'Collapse table, only show label columns'}>
-                                <Glyphicon glyph={isCollapsed ? 'plus' : 'minus'} /> {isCollapsed ? 'Expand' : 'Collapse'}
-                            </Button>
-                        </th>
-                        <th colSpan={genomeHeaders.length}>{gmProps[genomeExpander.fk].title}</th>
-                        <th colSpan={sampleHeaders.length}>{gmProps[sampleExpander.fk].title}</th>
-                        <th colSpan={extractionHeaders.length}>{gmProps[extractionExpander.fk].title}</th>
-                        <th colSpan={instrumentHeaders.length}>{gmProps[instrumentExpander.fk].title}</th>
-                    </tr>
                     <tr>
                         {headers}
                     </tr>
@@ -110,28 +240,6 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                 </tbody>
             </Table>
 
-            <h2 id="genomes">(meta) Genomes</h2>
-            <PanelGroup accordion id="genomes" defaultActiveKey={pure_project.genomes[0].genome_label}>
-                {pure_project.genomes.map((g)=> (
-                    <Panel eventKey={g.genome_label}>
-                        <Panel.Heading>
-                            <Panel.Title toggle>{g.genome_label}</Panel.Title>
-                        </Panel.Heading>
-                        <Panel.Body collapsible>
-                            {g.genome_ID.genome_type === 'genome' ? 
-                                <span>
-                                    <p>GenBank: <a href="https://www.ncbi.nlm.nih.gov/nuccore/{g.genome_ID.GenBank_accession}">{g.genome_ID.GenBank_accession}</a></p> 
-                                    <p>RefSeq: {g.genome_ID.RefSeq_accession}</p> 
-                                </span>
-                                : 
-                                <p></p>
-                            }
-                            <p>Biosample: {g.BioSample_accession}</p>
-                            <p>Key publications: {g.publications}</p>
-                        </Panel.Body>
-                    </Panel>
-                ))}
-            </PanelGroup>
             <a href={tsvUrl(props.schema, pure_project)} download={genomemetabolometsvfn}>tab delimited downoad</a>
         </>
     );

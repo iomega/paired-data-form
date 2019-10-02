@@ -1,6 +1,8 @@
 import * as React from 'react';
+
 import { OverallMetabolomicsProjectDetails } from './schema';
 import { isMetaboLights } from './typeguards';
+import { Publications } from './Publications';
 
 interface IProps {
   data: OverallMetabolomicsProjectDetails;
@@ -20,7 +22,7 @@ export const MetabolomicsProjectDetails = ({ data }: IProps) => {
     <ul>
       <li>GNPS-MassIVE identifier: <a href={project.MaSSIVE_URL}>{project.GNPSMassIVE_ID}</a></li>
       <li>Molecular Network Task ID: <a href="http://gnps.ucsd.edu/ProteoSAFe/status.jsp?task={project.molecular_network}">{project.molecular_network}</a></li>
-      <li>Publications: {data.publications}</li>
+      <li>Publications: <Publications publications={data.publications!}/></li>
     </ul>
   );
 }
