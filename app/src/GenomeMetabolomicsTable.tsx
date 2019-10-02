@@ -1,12 +1,13 @@
 import * as React from "react";
 
-import { Table, Button, Glyphicon } from 'react-bootstrap';
+import { Table, Button, Glyphicon, Panel, PanelGroup } from 'react-bootstrap';
 
 import { ExtractionExpander } from './expanders/ExtractionExpander';
 import { GenomeExpander } from './expanders/GenomeExpander';
 import { InstrumentExpander } from './expanders/InstrumentExpander';
 import { SampleGrowthConditionsExpander } from './expanders/SampleGrowthConditionsExpander';
 import { tsvUrl } from './textTable';
+import { IOMEGAPairedDataPlatform } from "./schema";
 
 interface IProps {
     data: any;
@@ -15,7 +16,7 @@ interface IProps {
 
 export const GenomeMetabolomicsTable = (props: IProps) => {
     const [isCollapsed, changeCollapsing] = React.useState(true);
-    const pure_project: any = props.data.project;
+    const pure_project: IOMEGAPairedDataPlatform = props.data.project;
     if (!pure_project.genome_metabolome_links || pure_project.genome_metabolome_links.length === 0) {
         return <p>No links between (meta)genomes and metabolimics data files.</p>;
     }
@@ -108,6 +109,29 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                     {rows}
                 </tbody>
             </Table>
+
+            <h2 id="genomes">(meta) Genomes</h2>
+            <PanelGroup accordion id="genomes" defaultActiveKey={pure_project.genomes[0].genome_label}>
+                {pure_project.genomes.map((g)=> (
+                    <Panel eventKey={g.genome_label}>
+                        <Panel.Heading>
+                            <Panel.Title toggle>{g.genome_label}</Panel.Title>
+                        </Panel.Heading>
+                        <Panel.Body collapsible>
+                            {g.genome_ID.genome_type === 'genome' ? 
+                                <span>
+                                    <p>GenBank: <a href="https://www.ncbi.nlm.nih.gov/nuccore/{g.genome_ID.GenBank_accession}">{g.genome_ID.GenBank_accession}</a></p> 
+                                    <p>RefSeq: {g.genome_ID.RefSeq_accession}</p> 
+                                </span>
+                                : 
+                                <p></p>
+                            }
+                            <p>Biosample: {g.BioSample_accession}</p>
+                            <p>Key publications: {g.publications}</p>
+                        </Panel.Body>
+                    </Panel>
+                ))}
+            </PanelGroup>
             <a href={tsvUrl(props.schema, pure_project)} download={genomemetabolometsvfn}>tab delimited downoad</a>
         </>
     );

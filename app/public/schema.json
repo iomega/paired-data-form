@@ -72,7 +72,7 @@
                 "type": "string",
                 "title": "GNPS-MassIVE identifier",
                 "description": "Please provide the GNPS-MassIVE identifier of your metabolomics data set, e.g., MSV000078839.",
-                "pattern": "(^MSV)[0-9]{9}"
+                "pattern": "^MSV[0-9]{9}$"
               },
               "MaSSIVE_URL": {
                 "type": "string",
@@ -82,7 +82,7 @@
               },
               "molecular_network": {
                 "type": "string",
-                "pattern": "[0-9a-z]{32}",
+                "pattern": "^[0-9a-z]{32}$",
                 "title": "Molecular Network Task ID",
                 "description": "If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9."
               }
@@ -95,7 +95,7 @@
               "metabolights_study_id": {
                 "type": "string",
                 "title": "MetaboLights study identifier",
-                "pattern": "(^MTBLS)[0-9]{1,}",
+                "pattern": "^MTBLS[0-9]{1,}$",
                 "description": "Please provide the MetaboLights study identifier of your metabolomics data set, e.g. MTBLS307."
               }
             }

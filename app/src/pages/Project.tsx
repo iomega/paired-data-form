@@ -1,9 +1,8 @@
 import * as React from "react";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 
 import { PairedDataProject } from "../PairedDataProject";
 import { useProject, useSchema } from "../api";
-import { ButtonGroup } from "react-bootstrap";
 
 interface TParams {
     id: string
@@ -27,11 +26,6 @@ export function Project({ match }: RouteComponentProps<TParams>) {
     return (
         <div style={style}>
             <PairedDataProject project={project.data} schema={schema.data} />
-            <ButtonGroup>
-                <Link className="btn btn-default" to={`/projects/${project_id}/history`}>History</Link>
-                <Link className="btn btn-default" to={`/projects/${project_id}/edit`}>Edit</Link>
-                <Link className="btn btn-default" to={`/projects/${project_id}/clone`}>Clone</Link>
-            </ButtonGroup>
         </div>
     );
 }

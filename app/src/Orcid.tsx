@@ -13,13 +13,13 @@ export const Orcid = ({ iD }: IProps) => (
             target="orcid.widget"
             rel="noopener noreferrer"
             style={{ verticalAlign: 'top' }}
+            title="ORCID iD"
         >
             <img
                 src="https://orcid.org/sites/default/files/images/orcid_16x16.png"
                 style={{ width: '1em', marginRight: '.5em' }}
-                alt="ORCID iD icon"
+                alt="ORCID iD"
             />
-            {iD}
         </a>
     </span>
 )

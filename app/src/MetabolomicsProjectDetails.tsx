@@ -19,7 +19,7 @@ export const MetabolomicsProjectDetails = ({ data }: IProps) => {
   return (
     <ul>
       <li>GNPS-MassIVE identifier: <a href={project.MaSSIVE_URL}>{project.GNPSMassIVE_ID}</a></li>
-      <li>Molecular Network Task ID: {project.molecular_network}</li>
+      <li>Molecular Network Task ID: <a href="http://gnps.ucsd.edu/ProteoSAFe/status.jsp?task={project.molecular_network}">{project.molecular_network}</a></li>
       <li>Publications: {data.publications}</li>
     </ul>
   );

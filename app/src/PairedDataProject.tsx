@@ -1,12 +1,13 @@
 import * as React from "react";
 
-import { Button, Glyphicon } from "react-bootstrap";
+import { Button, Glyphicon, Panel, ButtonGroup } from "react-bootstrap";
+import { Link} from "react-router-dom";
 
 import { GeneSpectraTable } from "./GeneSpectraTable";
 import { GenomeMetabolomicsTable } from "./GenomeMetabolomicsTable";
 import { EnrichedProjectDocument } from "./summarize";
 import { MetabolomicsProjectDetails } from "./MetabolomicsProjectDetails";
-import { Orcid } from "./Orcid";
+import { SubmitterInformation } from "./SubmitterInformation";
 
 interface IProps {
   project: EnrichedProjectDocument;
@@ -18,38 +19,38 @@ function record2dataUrl(data: object, mimeType = "application/json") {
   return `data:${mimeType};base64,${bj}`;
 }
 
-function mailToSubmitter(project: EnrichedProjectDocument) {
-  const subject = "Regarding paired omics data platform project: " + project._id;
-  return "mailto:" + project.project.personal.submitter_email + "?subject=" + subject;
-}
-
-function mailToPrincipalInvestigator(project: EnrichedProjectDocument) {
-  const subject = "Regarding paired omics data platform project: " + project._id;
-  return "mailto:" + project.project.personal.PI_email + "?subject=" + subject;
-}
-
-
 export const PairedDataProject = ({project, schema}: IProps) => {
-    const pure_project = project.project;
-    const dataUrl = record2dataUrl(pure_project);
-    const filename = `paired_datarecord_${project._id}.json`;
-    return (
-        <div>
-            <h3>iOMEGA Paired data project:</h3>
-            <Button href={dataUrl} download={filename}><Glyphicon glyph="download" /> Download</Button>
-            <h2>Submitter Information</h2>
-            <ul>
-                <li>Submitter: <a href={mailToSubmitter(project)}>{pure_project.personal.submitter_name}</a> <Orcid iD={pure_project.personal.submitter_orcid!}/></li>
-                <li>Principal investigator: <a href={mailToPrincipalInvestigator(project)}>{pure_project.personal.PI_name}</a> of {pure_project.personal.PI_institution}</li>
-            </ul>
-            <h2>Metabolomics project details</h2>
-            <MetabolomicsProjectDetails data={pure_project.metabolomics}/>
+  const project_id = project._id;
+  const pure_project = project.project;
+  const dataUrl = record2dataUrl(pure_project);
+  const filename = `paired_datarecord_${project_id}.json`;
+  return (
+      <div>
+          <h3>iOMEGA Paired data project: {project_id}</h3>
 
-            <h2>Links between genomes and metabolomics data</h2>
-            <GenomeMetabolomicsTable data={project} schema={schema} />
-
-            <h2>Linked gene clusters and MS2 spectra</h2>
-            <GeneSpectraTable data={project} schema={schema} />
-        </div>
-    );
+          <Panel>
+            <Panel.Heading>Submitter Information</Panel.Heading>
+            <Panel.Body><SubmitterInformation project_id={project._id} personal={pure_project.personal}/></Panel.Body>
+          </Panel>
+          <Panel>
+            <Panel.Heading>Metabolomics project details</Panel.Heading>
+            <Panel.Body><MetabolomicsProjectDetails data={pure_project.metabolomics}/></Panel.Body>
+          </Panel>
+          <Panel>
+            <Panel.Heading>Links between genomes and metabolomics data</Panel.Heading>
+            <Panel.Body><GenomeMetabolomicsTable data={project} schema={schema} /></Panel.Body>
+          </Panel>
+          <Panel>
+            <Panel.Heading>Linked gene clusters and MS2 spectra</Panel.Heading>
+            <Panel.Body style={{overflowY: 'auto'}}><GeneSpectraTable data={project} schema={schema} /></Panel.Body>
+          </Panel>
+          
+          <ButtonGroup>
+              <Button href={dataUrl} download={filename} ><Glyphicon glyph="download" /> Download</Button>
+              <Link title="View history of project" className="btn btn-default" to={`/projects/${project_id}/history`}><Glyphicon glyph="sort" /> History</Link>
+              <Link title="Edit project" className="btn btn-default" to={`/projects/${project_id}/edit`}><Glyphicon glyph="edit" /> Edit</Link>
+              <Link title="Create new project based on this one" className="btn btn-default" to={`/projects/${project_id}/clone`}><Glyphicon glyph="retweet"/> Clone</Link>
+          </ButtonGroup>
+      </div>
+  );
 };

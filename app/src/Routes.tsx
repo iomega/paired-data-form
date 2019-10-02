@@ -2,6 +2,9 @@ import * as React from "react";
 
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
+import { Navbar, Nav, NavItem } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+
 import { Welcome } from './pages/Welcome';
 import { Projects } from "./pages/Projects";
 import { Project } from "./pages/Project";
@@ -10,8 +13,6 @@ import { EditProject } from "./pages/EditProject";
 import { PendingProjects } from "./pages/PendingProjects";
 import { ReviewProject } from "./pages/ReviewProject";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { Navbar, Nav, NavItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
 import { CloneProject } from "./pages/CloneProject";
 import { HistoryProject } from "./pages/HistoryProject";
 
