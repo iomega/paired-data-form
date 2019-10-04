@@ -36,7 +36,7 @@ export const GeneSpectraTable = (props: IProps) => {
       link = <span>GNPS molecular family <a href={r.network_nodes_URL}>{family}</a> in <a href={task_url}>{network}</a> network</span>
     } else {
       const filename = new URL(r.MS2_URL).pathname.split('/').pop();
-      link = <span>molecule of MS2 scan {r.MS2_scan} in <a href={r.MS2_URL}>{filename}</a></span>
+      link = <span>molecule of MS2 scan {r.MS2_scan} in <a href={r.MS2_URL}>&hellip;/{filename}</a></span>
     }
     return (
       <tr key={i}>
