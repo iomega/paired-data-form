@@ -19,8 +19,8 @@ describe('GenomeMetabolomicsTable', () => {
             expect(comp.find(`[download="${fn}"]`)).toBeTruthy();
         });
 
-        it('should be collapsed', () => {
-            expect(comp.find('th').length).toBe(10);
+        it('should have 5 columns', () => {
+            expect(comp.find('th').length).toBe(5);
         });
     });
 });

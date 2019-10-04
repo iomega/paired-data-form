@@ -16,7 +16,7 @@ describe('PairedDataRecord', ()=> {
         });
 
         it('should contain header', ()=> {
-            const header = <h3>iOMEGA Paired data project:</h3>;
+            const header = <h3>iOMEGA Paired data project: kitchen-sink-id</h3>;
             expect(comp.contains(header)).toBeTruthy();
         });
     });

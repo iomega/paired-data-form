@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { shallow, ShallowWrapper } from "enzyme";
+import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('../api', () => ({
     usePendingProject: () => {
@@ -25,6 +26,7 @@ jest.mock('../api', () => ({
 import { ReviewProject } from "./ReviewProject";
 import { createMemoryHistory } from "history";
 import { PairedDataProject } from "../PairedDataProject";
+import { Decide } from "../Decide";
 
 describe('<ReviewProject>', () => {
     let wrapper: ShallowWrapper;
@@ -39,18 +41,18 @@ describe('<ReviewProject>', () => {
             path: '/projects/project_id1',
             url: 'http://localhost:3000/pending/projects/project_id1',
         }
-        wrapper = shallow(<ReviewProject history={history} match={match} location={history.location}/>);
+        const context = {
+            router: {}
+        }
+        wrapper = shallow(<ReviewProject history={history} match={match} location={history.location}/>, {context});
     });
 
     it('should render project', () => {
         expect(wrapper.find(PairedDataProject)).toHaveLength(1);
     })
 
-    it('should render a deny button', () => {
-        expect(wrapper.html()).toContain('Deny');
+    it('should render a deny and approve buttons', () => {
+        expect(wrapper.find(Decide)).toHaveLength(2);
     });
 
-    it('should render a approve button', () => {
-        expect(wrapper.html()).toContain('Approve');
-    });
 });
