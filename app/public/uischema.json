@@ -145,6 +145,12 @@
       "orderable": false
     },
     "items": {
+      "known_link": {
+        "ui:widget": "textarea",
+        "ui:options": {
+          "rows": 3
+        }
+      },
       "verification": {
         "ui:widget": "checkboxes"
       },

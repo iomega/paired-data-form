@@ -17,58 +17,50 @@ export const GeneSpectraTable = (props: IProps) => {
   const myProps = mySchema.properties;
   const depKey = "link";
   const bgcKey = "BGC_ID";
-  const cols = Object.keys(myProps).filter(v => v !== depKey && v !== bgcKey);
-  let headers: JSX.Element[] = [];
-  cols.forEach((v: any, i: number) => {
-    const prop = myProps[v];
-    if (prop.title) {
-      headers.push(<th key={i}>{prop.title}</th>);
-    } else {
-      headers.push(<th key={i}>{v}</th>);
-    }
-  });
-
-  const bgcSplat = oneOfSplat(
-    mySchema.properties.BGC_ID,
-    "BGC",
-    headers.length
-  );
-  const bgcCols = Array.from(bgcSplat.keys());
-  headers = headers.concat(Array.from(bgcSplat.values()));
-
-  const depSplat = oneOfSplat(mySchema, depKey, headers.length);
-  const depCols = Array.from(depSplat.keys());
-  headers = headers.concat(Array.from(depSplat.values()));
 
   const rows = pure_project.BGC_MS2_links.map((r: any, i: number) => {
-    let tds = cols.map((c: any, ci: number) => {
-      if (c === "verification") {
-        return <td key={ci}>{r[c].join(";")}</td>;
-      }
-      return <td key={ci}>{r[c]}</td>;
-    });
-
-    const bgcTds = bgcCols.map((c: string, ci: number) => {
-      return <td key={tds.length + ci}>{r.BGC_ID[c]}</td>;
-    });
-    tds = tds.concat(bgcTds);
-
-    const depTds = depCols.map((c: string, ci: number) => {
-      return <td key={tds.length + ci}>{r[c]}</td>;
-    });
-    tds = tds.concat(depTds);
-    return <tr key={i}>{tds}</tr>;
+    let bgc = <></>;
+    const bgc_id = 'BGC' + r.BGC_ID.MIBiG_number.toString().padStart(7, '0');
+    const bgc_url = `https://mibig.secondarymetabolites.org/repository/{bgc_id}/index.html`;
+    const bgc_a = <a title="Exact BGC" href={bgc_url}>{ bgc_id }</a>;
+    if (r.BGC_ID.BGC === 'MIBiG number associated with this exact BGC') {
+      bgc = bgc_a;
+    } else {
+      bgc = <span>Similar to {bgc_a} in strain {r.BGC_ID.strain} at {r.BGC_ID.coordinates} coordinates</span>;
+    }
+    let link = <></>;
+    if (r.link === 'GNPS molecular family') {
+      const network = new URL(r.network_nodes_URL).searchParams.get('task');
+      const task_url = 'https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=' + network;
+      const family = new URL(r.network_nodes_URL).searchParams.get('componentindex');
+      link = <span>GNPS molecular family <a href={r.network_nodes_URL}>{family}</a> in <a href={task_url}>{network}</a> network</span>
+    } else {
+      const filename = new URL(r.MS2_URL).pathname.split('/').pop();
+      link = <span>molecule of MS2 scan {r.MS2_scan} in <a href={r.MS2_URL}>{filename}</a></span>
+    }
+    return (
+      <tr key={i}>
+        <td>{r.known_link}</td>
+        <td>{r.verification.join(', ')}</td>
+        <td>{r.SMILES}</td>
+        <td>{r.IUPAC}</td>
+        <td>{bgc}</td>
+        <td>{link}</td>
+      </tr>
+    );
   });
 
   return (
     <Table condensed={true} striped={true} bordered={true}>
       <thead>
         <tr>
-          <td colSpan={cols.length} />
-          <td colSpan={bgcCols.length}>{myProps[bgcKey].title}</td>
-          <td colSpan={depCols.length}>{myProps[depKey].title}</td>
+          <td>{myProps['known_link'].title}</td>
+          <td>{myProps['verification'].title}</td>
+          <td title={myProps['SMILES'].title}>SMILES</td>
+          <td title={myProps['IUPAC'].title}>IUPAC</td>
+          <td>{myProps[bgcKey].title}</td>
+          <td>{myProps[depKey].title}</td>
         </tr>
-        <tr>{headers}</tr>
       </thead>
       <tbody>{rows}</tbody>
     </Table>
