@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { Table } from "react-bootstrap";
-import { oneOfSplat } from "./oneOfSplat";
 
 interface IProps {
   data: any;

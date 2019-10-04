@@ -36,24 +36,28 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             const tax_url = 'http://purl.bioontology.org/ontology/NCBITAXON/' + s.species.tax_id;
             species = <a href={tax_url}>{s.species.scientific_name}</a>;
         }
+        const bs_url = `https://www.ncbi.nlm.nih.gov/biosample/{g.BioSample_accession}`;
         if (g.genome_ID.genome_type === 'metagenome') {
+            const ena_url = `https://www.ebi.ac.uk/ena/browser/view/{g.genome_ID.ENA_NCBI_accession}`;
+            const mgnify_url = `https://www.ebi.ac.uk/metagenomics/studies/{g.genome_ID.MGnify_accession}`;
             const popover = (
                 <Popover id={g.genome_label} title="Metagenome">
-                    <p>ENA/NCBI accession number: {g.genome_ID.ENA_NCBI_accession}</p> 
-                    <p>MGnify accession number: {g.genome_ID.MGnify_accession}</p> 
-                    <p>Biosample: {g.BioSample_accession}</p>
-                    <p>Key publications: <Publications publications={g.publications!}/></p>
+                    <p>ENA/NCBI accession number: <a href={ena_url}>{g.genome_ID.ENA_NCBI_accession}</a></p>
+                    <p>MGnify accession number: <a href={mgnify_url}>{g.genome_ID.MGnify_accession}</a></p>
+                    <p>Biosample: <a href={bs_url}>{g.BioSample_accession}</a></p>
+                    <p>Key publications: <Publications publications={g.publications!} /></p>
                     <p>Species: {species}</p>
                 </Popover>
             );
             genome_popovers[g.genome_label] = popover;
         } else {
+            const gb_url = `https://www.ncbi.nlm.nih.gov/nuccore/{g.genome_ID.GenBank_accession}`;
+            const rs_url = `https://www.ncbi.nlm.nih.gov/nuccore/{g.genome_ID.RefSeq_accession}`;
             const popover = (
                 <Popover id={g.genome_label} title="Genome or metagenome-assembled genome">
-                    <p>GenBank: <a href="https://www.ncbi.nlm.nih.gov/nuccore/{g.genome_ID.GenBank_accession}">{g.genome_ID.GenBank_accession}</a></p> 
-                    <p>RefSeq: {g.genome_ID.RefSeq_accession}</p> 
-                    <p>Biosample: {g.BioSample_accession}</p>
-                    <p>Key publications: <Publications publications={g.publications!}/></p>
+                    <p>GenBank: <a href={gb_url}>{g.genome_ID.GenBank_accession}</a></p>
+                    <p>RefSeq: <a href={rs_url}>{g.genome_ID.RefSeq_accession}</a></p>
+                    <p>Key publications: <Publications publications={g.publications!} /></p>
                     <p>Species: {species}</p>
                 </Popover>
             );
@@ -215,7 +219,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                 </OverlayTrigger>
             </td>
             <td>
-            <OverlayTrigger
+                <OverlayTrigger
                     trigger="click"
                     rootClose
                     placement="bottom"
@@ -224,7 +228,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                     <Button bsStyle="link">
                         {r.instrumentation_method_label}
                     </Button>
-                </OverlayTrigger>         
+                </OverlayTrigger>
             </td>
         </tr>
     ));

@@ -22,6 +22,7 @@
                 "genome_type": "genome",
                 "GenBank_accession": "ARJI01000000"
             },
+            "BioSample_accession": "PRJNA178488",
             "publications": "28335604",
             "genome_label": "Streptomyces sp. CNB091"
         },
@@ -30,6 +31,7 @@
                 "genome_type": "genome",
                 "GenBank_accession": "AZWL01000000"
             },
+            "BioSample_accession": "SAMN02597242",
             "publications": "28335604",
             "genome_label": "Streptomyces sp. CNH099"
         },
