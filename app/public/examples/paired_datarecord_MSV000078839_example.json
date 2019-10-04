@@ -40,6 +40,7 @@
                 "genome_type": "genome",
                 "GenBank_accession": "AZXI01000001"
             },
+            "BioSample_accession": "SAMN02597265",
             "publications": "28335604",
             "genome_label": "Salinispora arenicola CNB527"
         }

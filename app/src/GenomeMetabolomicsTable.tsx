@@ -57,6 +57,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                 <Popover id={g.genome_label} title="Genome or metagenome-assembled genome">
                     <p>GenBank: <a href={gb_url}>{g.genome_ID.GenBank_accession}</a></p>
                     <p>RefSeq: <a href={rs_url}>{g.genome_ID.RefSeq_accession}</a></p>
+                    <p>Biosample: <a href={bs_url}>{g.BioSample_accession}</a></p>
                     <p>Key publications: <Publications publications={g.publications!} /></p>
                     <p>Species: {species}</p>
                 </Popover>
