@@ -56,8 +56,8 @@ export const GeneSpectraTable = (props: IProps) => {
         <tr>
           <td>{myProps['known_link'].title}</td>
           <td>{myProps['verification'].title}</td>
-          <td title={myProps['SMILES'].title}>SMILES</td>
-          <td title={myProps['IUPAC'].title}>IUPAC</td>
+          <td title={myProps['SMILES'].title}>SMILES string</td>
+          <td title={myProps['IUPAC'].title}>IUPAC name</td>
           <td>{myProps[bgcKey].title}</td>
           <td>{myProps[depKey].title}</td>
         </tr>
