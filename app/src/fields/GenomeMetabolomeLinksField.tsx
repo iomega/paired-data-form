@@ -3,7 +3,7 @@ import * as React from "react";
 import { tsvParse } from 'd3-dsv';
 import { Button, Glyphicon } from 'react-bootstrap';
 import { FieldProps } from 'react-jsonschema-form';
-import ArrayField from 'react-jsonschema-form/lib/components/fields/ArrayField';
+import { TableField } from "./TableField";
 
 export const GenomeMetabolomeLinksField = (props: FieldProps) => {
     const uploadRef = React.useRef<HTMLInputElement>(null);
@@ -29,9 +29,11 @@ export const GenomeMetabolomeLinksField = (props: FieldProps) => {
           reader.readAsText(file);
     }
 
+    const table = <TableField {...props}/>
+
     return (
         <>
-            <ArrayField {...props}/>
+            {table}
             <Button onClick={onClick} title="Upload links from tab delimited file, will replace existing links, (meta)genomes and metabolomics experimental details">
                 <Glyphicon glyph="upload"/> Upload links
                 <input
