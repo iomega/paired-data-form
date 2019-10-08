@@ -7,7 +7,8 @@ import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 
 import { useSchema, useUiSchema } from "./api";
 import { ForeignKeyField } from "./fields/ForeignKeyField";
-import { GenomeMetabolomeLinksField } from './fields/GenomeMetabolomeLinksField';
+import { TableField } from './fields/TableField';
+import { GenomeMetabolomeLinksField } from "./fields/GenomeMetabolomeLinksField";
 import { MyTitleField } from "./fields/TitleField";
 import { PairedDataProject } from "./PairedDataProject";
 import { IOMEGAPairedDataPlatform } from "./schema";
@@ -24,7 +25,8 @@ export interface IProps {
 const formFields = {
     collapsible: CollapsibleField,
     foreignKey: ForeignKeyField,
-    gmarray: GenomeMetabolomeLinksField,
+    gmtable: GenomeMetabolomeLinksField,
+    table: TableField,
     TitleField: MyTitleField,
 };
 

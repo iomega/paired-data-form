@@ -1,0 +1,7 @@
+.table-field .control-label, .table-field .field-description, .table-field legend {
+    display: none;
+}
+ 
+.table-field .form-group {
+    margin-bottom: 1px;
+}

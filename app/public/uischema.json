@@ -61,6 +61,7 @@
       "ui:options": {
         "orderable": false
       },
+      "ui:field": "object",
       "items": {
         "medium_details": {
           "medium_type": {
@@ -79,8 +80,10 @@
       "ui:options": {
         "orderable": false
       },
+      "ui:field": "object",
       "items": {
         "solvents": {
+          "ui:field": "object",
           "ui:options": {
             "orderable": false
           }
@@ -94,6 +97,7 @@
       "ui:options": {
         "orderable": false
       },
+      "ui:field": "object",
       "items": {
         "column": {
           "ui:widget": "radio"
@@ -110,11 +114,12 @@
   "genome_metabolome_links": {
     "ui:field": "collapsible",
     "collapse": {
-      "field": "gmarray",
+      "field": "gmtable",
       "collapsed": true
     },
     "ui:options": {
-      "orderable": false
+      "orderable": false,
+      "widths": {"1": "50%"}
     },
     "items": {
       "genome_label": {

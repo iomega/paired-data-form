@@ -156,7 +156,7 @@ export function validateDocument(doc: any, errors: any) {
       errors.genome_metabolome_links[d].metabolomics_file.addError('Non-unique label');
     });
     doc.BGC_MS2_links.forEach((geneSpectraLink: any, i: number) => {
-      if (geneSpectraLink.MS2_URL && !msUrls.includes(geneSpectraLink.MS2_URL)) {
+      if (geneSpectraLink.MS2_URL && !msUrls.includes(geneSpectraLink.MS2_URL) && errors.BGC_MS2_links && errors.BGC_MS2_links[i]) {
         errors.BGC_MS2_links[i].MS2_URL.addError("Invalid selection");
       }
     });
