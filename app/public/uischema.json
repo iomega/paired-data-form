@@ -22,7 +22,7 @@
   "genomes": {
     "ui:field": "collapsible",
     "collapse": {
-      "field": "ArrayField",
+      "field": "table",
       "collapsed": true
     },
     "ui:options": {
@@ -61,7 +61,7 @@
       "ui:options": {
         "orderable": false
       },
-      "ui:field": "object",
+      "ui:field": "table",
       "items": {
         "medium_details": {
           "medium_type": {
@@ -80,10 +80,10 @@
       "ui:options": {
         "orderable": false
       },
-      "ui:field": "object",
+      "ui:field": "table",
       "items": {
         "solvents": {
-          "ui:field": "object",
+          "ui:field": "table",
           "ui:options": {
             "orderable": false
           }
@@ -97,7 +97,7 @@
       "ui:options": {
         "orderable": false
       },
-      "ui:field": "object",
+      "ui:field": "table",
       "items": {
         "column": {
           "ui:widget": "radio"
@@ -143,7 +143,7 @@
   "BGC_MS2_links": {
     "ui:field": "collapsible",
     "collapse": {
-      "field": "ArrayField",
+      "field": "table",
       "collapsed": true
     },
     "ui:options": {
