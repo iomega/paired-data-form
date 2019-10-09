@@ -83,7 +83,6 @@
       "ui:field": "table",
       "items": {
         "solvents": {
-          "ui:field": "table",
           "ui:options": {
             "orderable": false
           }
@@ -143,7 +142,7 @@
   "BGC_MS2_links": {
     "ui:field": "collapsible",
     "collapse": {
-      "field": "table",
+      "field": "ArrayField",
       "collapsed": true
     },
     "ui:options": {
