@@ -119,7 +119,7 @@
     },
     "ui:options": {
       "orderable": false,
-      "widths": {"1": "50%"}
+      "widths": {"1": "40%"}
     },
     "items": {
       "genome_label": {
