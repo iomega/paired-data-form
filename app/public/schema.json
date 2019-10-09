@@ -696,16 +696,72 @@
                 "additionalProperties": false
               },
               "aeration": {
-                "type": "string",
+                "type": "object",
                 "title": "Aeration",
-                "description": "Please select aeration type.",
-                "enum": [
-                  "shaking",
-                  "shaking in spring flask",
-                  "shaking in baffled flask",
-                  "fermenter",
-                  "not shaking"
-                ]
+                "properties": {
+                  "aeration_type": {
+                    "type": "string",
+                    "title": "Type",
+                    "description": "Please select aeration type.",
+                    "enum": [
+                      "shaking",
+                      "fermenter",
+                      "not shaking"
+                    ]
+                  }
+                },
+                "dependencies": {
+                  "aeration_type": {
+                    "oneOf": [{
+                      "properties": {
+                        "aeration_type": {
+                          "enum": ["shaking"]
+                        },
+                        "aeration_vessel": {
+                          "type": "string",
+                          "title": "Vessel",
+                          "description": "Select vessel used for shaking",
+                          "enum": [
+                            "spring flask",
+                            "baffled flask",
+                            "conical tubes", 
+                            "deep-well plates",
+                            "other"
+                          ]
+                        },
+                        "aeration_rpm": {
+                          "type": "number",
+                          "title": "RPM",
+                          "description": "Rotations per minute of shaker or fermenter"
+                        }
+                      }
+                    }, {
+                      "properties": {
+                        "aeration_type": {
+                          "enum": ["fermenter"]
+                        },
+                        "aeration_rpm": {
+                          "type": "number",
+                          "title": "RPM",
+                          "description": "Rotations per minute of shaker or fermenter"
+                        }
+                      }
+                    }]
+                  },
+                  "aeration_vessel": {
+                    "oneOf": [{
+                      "properties": {
+                        "aeration_vessel": {
+                          "enum": ["other"]
+                        },
+                        "aeration_other_vessel": {
+                          "type": "string",
+                          "title": "Other vessel"
+                        }
+                      }
+                    }]
+                  }
+                }
               },
               "other_growth_conditions": {
                 "type": "string",
