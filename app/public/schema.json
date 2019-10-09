@@ -724,10 +724,27 @@
                   }
                 }
               },
+              "extracted_material": {
+                "title": "Extracted material",
+                "type": "string",
+                "oneOf": [{
+                  "title": "Cells",
+                  "enum": ["cells"]
+                }, {
+                    "title": "Supernatant",
+                    "enum": ["supernatant"]
+                }, {
+                  "title": "Cells & supernatant",
+                  "enum": ["cells_supernatant"]
+                }, {
+                  "title": "Complex mixture (metagenome)",
+                  "enum": ["complex"]
+                }]
+              },
               "other_extraction_parameters": {
                 "type": "string",
                 "title": "Other extraction details",
-                "description": "Please describe any other relevant extraction methods, e.g. partitioned against water or fractionated with 20% acetonitrile."
+                "description": "Please describe any other relevant extraction methods, e.g. partitioned against water, fractionated with 20% acetonitrile, sequential extractions, used resins or storage manner (dried, liquid)."
               },
               "extraction_method": {
                 "type": "string",

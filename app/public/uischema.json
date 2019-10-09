@@ -87,6 +87,9 @@
             "orderable": false
           }
         },
+        "extracted_material": {
+          "ui:widget": "radio"
+        },
         "other_extraction_parameters": {
           "ui:widget": "textarea"
         }
