@@ -149,6 +149,11 @@
                         "type": "string",
                         "title": "RefSeq accession number",
                         "description": "If the publicly available genome got a RefSeq accession number assigned, e.g., NC_003888.3, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records."
+                      },
+					  "JGI_Genome_ID": {
+                        "type": "string",
+                        "title": "JGI Genome ID number",
+                        "description": "If the publicly available genome got a JGI Genome ID assigned, e.g., 641228474, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ/JGI (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records."
                       }
                     }
                   },
@@ -166,6 +171,11 @@
                         "type": "string",
                         "title": "MGnify accession number",
                         "description": "If the publicly available metagenome got a ENA/NCBI accession number assigned, e.g., MGYA00067671, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify (and an accession number must be received) before this form can be filled out."
+                      },
+					  "JGI_ID": {
+                        "type": "string",
+                        "title": "JGI ID number",
+                        "description": "If the publicly available metagenome got a JGI ID number assigned, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify/JGI (and an accession number must be received) before this form can be filled out."
                       }
                     }
                   }
