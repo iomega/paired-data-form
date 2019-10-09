@@ -122,7 +122,7 @@
           "genome_ID": {
             "type": "object",
             "title": "Genome or Metagenome",
-            "description": "Please select genome (microbial isolate grown in pure culture), metagenome (microbial mixture or environmental sample), or metagenome-assembled genome (genome assembled from a metagenome with no isolate grown in culture).",
+            "description": "Please select genome (microbial isolate grown in pure culture), metagenome (microbial mixture or environmental sample), or metagenome-assembled genome (genome assembled from a metagenome with no isolate grown in culture). All genome sequences must first be submitted to a public database with a unique identifier. In the case of a whole genome sequence, please use master records. At least one identifier must be entered.",
             "required": ["genome_type"],
             "properties": {
               "genome_type": {
@@ -143,17 +143,17 @@
                       "GenBank_accession": {
                         "type": "string",
                         "title": "GenBank accession number",
-                        "description": "If the publicly available genome got a GenBank accession number assigned, e.g., AL645882, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records. At least one identifier must be entered."
+                        "description": "For example: AL645882"
                       },
                       "RefSeq_accession": {
                         "type": "string",
                         "title": "RefSeq accession number",
-                        "description": "If the publicly available genome got a RefSeq accession number assigned, e.g., NC_003888.3, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records."
+                        "description": "For example: NC_003888.3"
                       },
 					  "JGI_Genome_ID": {
                         "type": "string",
                         "title": "JGI Genome ID number",
-                        "description": "If the publicly available genome got a JGI Genome ID assigned, e.g., 641228474, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ/JGI (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records."
+                        "description": "For example: 641228474"
                       }
                     }
                   },
@@ -165,17 +165,17 @@
                       "ENA_NCBI_accession": {
                         "type": "string",
                         "title": "ENA/NCBI accession number",
-                        "description": "If the publicly available metagenome got a ENA/NCBI accession number assigned, e.g., GCA_900283375, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify (and an accession number must be received) before this form can be filled out."
+                        "description": "For example: GCA_900283375"
                       },
                       "MGnify_accession": {
                         "type": "string",
                         "title": "MGnify accession number",
-                        "description": "If the publicly available metagenome got a ENA/NCBI accession number assigned, e.g., MGYA00067671, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify (and an accession number must be received) before this form can be filled out."
+                        "description": "For example: MGYA00067671"
                       },
 					  "JGI_ID": {
                         "type": "string",
                         "title": "JGI ID number",
-                        "description": "If the publicly available metagenome got a JGI ID number assigned, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify/JGI (and an accession number must be received) before this form can be filled out."
+                        "description": "For example: "
                       }
                     }
                   }

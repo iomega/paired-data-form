@@ -34,16 +34,22 @@
           "ui:widget": "radio"
         },
         "GenBank_accession": {
-          "ui:placeholder": "None, there is a RefSeq ID"
+          "ui:placeholder": "At least one accession/ID should be entered"
         },
         "RefSeq_accession": {
-          "ui:placeholder": "None, there is a GenBank ID"
+          "ui:placeholder": "At least one accession/ID should be entered"
         },
         "ENA_NCBI_accession": {
-          "ui:placeholder": "None, there is a MGnify ID"
+          "ui:placeholder": "At least one accession/ID should be entered"
         },
         "MGnify_accession": {
-          "ui:placeholder": "None, there is a ENA/NCBI ID"
+          "ui:placeholder": "At least one accession/ID should be entered"
+        },
+		 "JGI_Genome_ID": {
+          "ui:placeholder": "At least one accession/ID should be entered"
+        },
+		 "JGI_ID": {
+          "ui:placeholder": "At least one accession/ID should be entered"
         }
       },
       "BioSample_accession": {
