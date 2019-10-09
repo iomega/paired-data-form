@@ -1,0 +1,16 @@
+/* .table-field .control-label, .table-field .field-description, .table-field legend {
+    display: none;
+} */
+ 
+.table-field .form-group {
+    margin-bottom: 1px;
+}
+
+.table-cell-field > div > fieldset > legend,
+.table-cell-field > div > fieldset > div > .field-description,
+.table-cell-field > div > fieldset > .field-description,
+.table-cell-field > div > .control-label,
+.table-cell-field > div > .field-description
+{
+    display: none;
+}

@@ -22,7 +22,7 @@
   "genomes": {
     "ui:field": "collapsible",
     "collapse": {
-      "field": "ArrayField",
+      "field": "table",
       "collapsed": true
     },
     "ui:options": {
@@ -61,6 +61,7 @@
       "ui:options": {
         "orderable": false
       },
+      "ui:field": "table",
       "items": {
         "medium_details": {
           "medium_type": {
@@ -79,6 +80,7 @@
       "ui:options": {
         "orderable": false
       },
+      "ui:field": "table",
       "items": {
         "solvents": {
           "ui:options": {
@@ -94,6 +96,7 @@
       "ui:options": {
         "orderable": false
       },
+      "ui:field": "table",
       "items": {
         "column": {
           "ui:widget": "radio"
@@ -110,11 +113,12 @@
   "genome_metabolome_links": {
     "ui:field": "collapsible",
     "collapse": {
-      "field": "gmarray",
+      "field": "gmtable",
       "collapsed": true
     },
     "ui:options": {
-      "orderable": false
+      "orderable": false,
+      "widths": {"1": "40%"}
     },
     "items": {
       "genome_label": {
