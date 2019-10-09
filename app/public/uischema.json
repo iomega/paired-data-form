@@ -1,4 +1,7 @@
 {
+  "id": {
+    "ui:widget": "hidden"
+  },
   "version": {
     "ui:widget": "hidden"
   },

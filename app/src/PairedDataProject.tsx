@@ -22,7 +22,7 @@ function record2dataUrl(data: object, mimeType = "application/json") {
 export const PairedDataProject = ({ project, schema }: IProps) => {
   const project_id = project._id;
   const pure_project = project.project;
-  const dataUrl = record2dataUrl(pure_project);
+  const data_url = record2dataUrl({ id: project_id, ...pure_project });
   const filename = `paired_datarecord_${project_id}.json`;
   return (
     <div>

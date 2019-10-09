@@ -64,6 +64,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         reader.onload = () => {
             if (reader.result) {
                 const project: IOMEGAPairedDataPlatform = JSON.parse(reader.result as string);
+                delete project.id;
                 setInitDoc(project);
                 setValidDoc(undefined);
             }
