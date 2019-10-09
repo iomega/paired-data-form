@@ -69,7 +69,10 @@
           }
         },
         "other_growth_conditions": {
-          "ui:widget": "textarea"
+          "ui:widget": "textarea",
+          "ui:options": {
+            "rows": 8
+          }
         },
         "metagenomic_sample_description": {
           "ui:widget": "textarea"

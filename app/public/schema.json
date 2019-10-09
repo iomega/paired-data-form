@@ -467,7 +467,7 @@
                           },
                           "medium_volume": {
                             "type": "number",
-                            "title": "Volume of culture (milli liter)"
+                            "title": "Volume of culture (millilitre)"
                           },
                           "medium": {
                             "type": "string",
@@ -671,11 +671,29 @@
                   }
                 }
               },
-              "growth_temperature": {
-                "type": "number",
-                "title": "Growth temperature",
-                "description": "Please enter the temperature of growth in degrees Celsius.",
-                "pattern": "[0-9]{1,}"
+              "growth_parameters": {
+                "type": "object",
+                "title": "Growth parameters",
+                "properties": {
+                  "growth_temperature": {
+                    "type": "number",
+                    "title": "Temperature (℃)",
+                    "description": "Please enter the temperature of growth in degrees Celsius.",
+                    "pattern": "[0-9]{1,}"
+                  },
+                  "growth_duration": {
+                    "type": "number",
+                    "title": "Duration (h)",
+                    "description": "Please enter the growth duration in hours.",
+                    "pattern": "[0-9]{1,}"
+                  },
+                  "growth_phase_OD": {
+                    "type": "string",
+                    "title": "Phase or OD",
+                    "description": "Please enter the growth phase or optical density (OD) if you know it."
+                  }
+                },
+                "additionalProperties": false
               },
               "aeration": {
                 "type": "string",
@@ -689,17 +707,6 @@
                   "not shaking"
                 ]
               },
-              "growing_time": {
-                "type": "number",
-                "title": "Growth time",
-                "description": "Please enter the length of growth time in hours.",
-                "pattern": "[0-9]{1,}"
-              },
-              "growth_phase_OD": {
-                "type": "string",
-                "title": "Growth phase or OD",
-                "description": "Please enter the growth phase or OD if you know it."
-              },
               "other_growth_conditions": {
                 "type": "string",
                 "title": "Other growth conditions",
@@ -711,7 +718,7 @@
                 "description": "Please assign a Sample Growth Conditions Label for this set of sample preparation details. If more than one sample growth conditions was used, please create a new Sample Growth Conditions Label for each condition by clicking on the plus."
               }
             },
-            "required": ["sample_preparation_method"]
+            "required": ["sample_preparation_method", "medium_details", "growth_parameters"]
           }
         },
         "extraction_methods": {
