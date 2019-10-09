@@ -751,7 +751,7 @@
         "instrumentation_methods": {
           "type": "array",
           "title": "Instrumentation Methods",
-          "description": "Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment.",
+          "description": "Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment. More detailed information can go in the 'Other' box.",
           "items": {
             "type": "object",
             "properties": {
@@ -884,34 +884,111 @@
               },
               "column": {
                 "type": "string",
-                "title": "Column details",
-                "description": "Please select reverse or normal phase. You can add additional column details in the Other Instrumentation Information section below.",
-                "enum": ["Reverse Phase", "Normal Phase"],
+                "title": "Column Phase",
+                "description": "Please select column phase. You can add additional column details in the Other Instrumentation Information section below.",
+                "enum": ["Reverse Phase", "Normal Phase", "HILIC"],
                 "default": "Reverse Phase"
               },
               "mode": {
                 "type": "string",
-                "title": "Instrument mode",
-                "description": "Please select positive or negative mode.",
+                "title": "Ionization Mode",
+                "description": "Please select ionization mode.",
                 "anyOf": [
                   {
                     "type": "string",
                     "title": "Positive",
                     "enum": [
-                      "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000130"
+                      "http://purl.obolibrary.org/obo/MS_1000130"
                     ]
                   },
                   {
                     "type": "string",
                     "title": "Negative",
                     "enum": [
-                      "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000129"
+                      "http://purl.obolibrary.org/obo/MS_1000129"
+                    ]
+                  },
+				  {
+                    "type": "string",
+                    "title": "Both",
+                    "enum": [
+                      "http://purl.obolibrary.org/obo/CHMO_0002262"
                     ]
                   }
                 ],
                 "default": [
-                  "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000130"
+                  "http://purl.obolibrary.org/obo/MS_1000129"
                 ]
+              },
+			    "Ionization": {
+					"type": "object",
+					"properties": {
+				 "ionization_type": {
+                    "type": "string",
+                    "title": "Ionization type",
+                    "description": "Please select the type of ionization used. If your ionization type is not listed here, please select Other and specify.",
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "title": "Electrospray Ionization (ESI)",
+                        "enum": [
+                          "http://purl.obolibrary.org/obo/MS_1000073"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Matrix-assisted laser desorption ionization (MALDI)",
+                        "enum": [
+                          "http://purl.obolibrary.org/obo/MS_1000075"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Atmospheric pressure chemical ionization (APCI)",
+                        "enum": [
+                          "http://purl.obolibrary.org/obo/MS_1000070"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Other ionization type",
+                        "enum": [
+                          "http://purl.obolibrary.org/obo/MS_1000008"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "dependencies": {
+                  "ionization_type": {
+                    "oneOf": [
+                      {
+                        "properties": {
+                          "ionization_type": {
+                            "enum": [
+                              "http://purl.obolibrary.org/obo/MS_1000073",
+                              "http://purl.obolibrary.org/obo/MS_1000075",
+                              "http://purl.obolibrary.org/obo/MS_1000070"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "ionization_type": {
+                            "enum": [
+                              "http://purl.obolibrary.org/obo/MS_1000008"
+                            ]
+                          },
+                          "other_ionization_type": {
+                            "type": "string",
+                            "title": "Name of other ionization type"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
               },
               "range": {
                 "type": "string",
@@ -925,13 +1002,13 @@
               },
               "buffering": {
                 "type": "string",
-                "title": "Buffering",
-                "description": "Did you add anything to your instrument running buffers, e.g. 0.1% formic acid."
+                "title": "Mobile phase conditions",
+                "description": "Did you add anything to your mobile phase, e.g. 0.1% formic acid."
               },
               "other_instrumentation": {
                 "type": "string",
                 "title": "Other instrumentation information",
-                "description": "Please enter any other relevant instrument or method details."
+                "description": "Please enter any other relevant instrument or method details, such as gradient used, more column details, or any other relevant information."
               },
               "instrumentation_method": {
                 "type": "string",
