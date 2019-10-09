@@ -104,13 +104,13 @@
         "related_GNPSMassIVE_ID": {
           "type": "string",
           "title": "Related GNPS-Massive identifiers",
-          "description": "Add other associated GNPS-MassIVE identifiers here, eg. MSV000078836,MSV000078839. For example, if you have data spread out over multiple MASSIVE projects, reported in the same publication, you can add those related IDs here. If you used the same assays (\"Sample Preparation,\" \"Extraction Methods,\" and/or \"Instrumentation Methods\"), you can clone one project and make slight modifications (e.g. different Genome IDs) instead of entering the assay information again.",
+          "description": "Add other associated GNPS-MassIVE identifiers here, eg. MSV000078836,MSV000078839. For example, if you have data spread out over multiple MASSIVE datasets, reported in the same publication, you can add those related IDs here. If you used the same assays (\"Sample Preparation,\" \"Extraction Methods,\" and/or \"Instrumentation Methods\"), you can clone one project and make slight modifications (e.g. different Genome IDs) instead of entering the assay information again.",
           "pattern": "^MSV[0-9]{9}(,\\s*MSV[0-9]{9})*$"
         },
         "related_metabolights_study_id": {
           "type": "string",
-          "title": "Related GNPS-Massive identifiers",
-          "description": "Add other associated MetaboLights study identifiers here, eg. MTBLS727,MTBLS728. For example, if you have data spread out over multiple MetaboLights studies, reported in the same publication, you can add those related IDs here. If you used the same assays (\"Sample Preparation,\" \"Extraction Methods,\" and/or \"Instrumentation Methods\"), you can clone one project and make slight modifications (e.g. different Genome IDs) instead of entering the assay information again.",
+          "title": "Related Metabolights study identifiers",
+          "description": "Add other associated MetaboLights study identifiers here, eg. MTBLS727,MTBLS728. Similar to the related GNPS-Massive identifiers.",
           "pattern": "^MTBLS[0-9]{1,}(,\\s*MTBLS[0-9]{1,})*$"
         },
         "publications": {
