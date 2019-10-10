@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Table, Button, Popover, OverlayTrigger } from 'react-bootstrap';
+import { Table, Button, Popover, OverlayTrigger, Glyphicon } from 'react-bootstrap';
 
 import { tsvUrl } from './textTable';
 import { IOMEGAPairedDataPlatform } from "./schema";
@@ -194,7 +194,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                     </Button>
                 </OverlayTrigger>
             </td>
-            <td><Button bsStyle="link" href={r.metabolomics_file}>{r.metabolomics_file}</Button></td>
+            <td>{r.metabolomics_file}<Button bsStyle="link" href={r.metabolomics_file}><Glyphicon style={{color:"gray"}} glyph="download-alt"/></Button></td>
             <td>
                 <OverlayTrigger
                     trigger="click"
