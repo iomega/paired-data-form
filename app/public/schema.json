@@ -791,7 +791,7 @@
                 "description": "Please assign a Sample Growth Conditions Label for this set of sample preparation details. If more than one sample growth conditions was used, please create a new Sample Growth Conditions Label for each condition by clicking on the plus."
               }
             },
-            "required": ["sample_preparation_method", "medium_details", "growth_parameters"]
+            "required": ["sample_preparation_method", "medium_details", "growth_parameters", "aeration"]
           }
         },
         "extraction_methods": {
