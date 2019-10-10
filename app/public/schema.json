@@ -724,7 +724,7 @@
                           "enum": [
                             "spring flask",
                             "baffled flask",
-                            "conical tubes", 
+                            "conical tubes",
                             "deep-well plates",
                             "other"
                           ]
@@ -746,6 +746,12 @@
                           "description": "Rotations per minute of shaker or fermenter"
                         }
                       }
+                    }, {
+                      "properties": {
+                        "aeration_type": {
+                          "enum": ["not shaking"]
+                        }
+                      }
                     }]
                   },
                   "aeration_vessel": {
@@ -757,6 +763,17 @@
                         "aeration_other_vessel": {
                           "type": "string",
                           "title": "Other vessel"
+                        }
+                      }
+                    }, {
+                      "properties": {
+                        "aeration_vessel": {
+                          "enum": [
+                            "spring flask",
+                            "baffled flask",
+                            "conical tubes",
+                            "deep-well plates"
+                          ]
                         }
                       }
                     }]
