@@ -69,13 +69,20 @@
         "medium_details": {
           "medium_type": {
             "ui:widget": "radio"
-          }
+          },
+          "ui:order": ["medium_type", "medium", "Other_medium", "medium_volume", "metagenomic_environment", "metagenomic_other_environment", "metagenomic_sample_description"]
         },
         "other_growth_conditions": {
-          "ui:widget": "textarea"
+          "ui:widget": "textarea",
+          "ui:options": {
+            "rows": 8
+          }
         },
         "metagenomic_sample_description": {
           "ui:widget": "textarea"
+        },
+        "aeration": {
+          "ui:order": ["aeration_type", "aeration_vessel", "aeration_other_vessel", "aeration_rpm"]
         }
       }
     },
