@@ -95,31 +95,11 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
             });
         }
     }
-    const uploadGenomeMetabolomeLinks = (rows: any[]) => {
-        const doc = jsonDocument(schema.data, rows);
+    const uploadGenomeMetabolomeLinks = (gmrows: any[]) => {
         const theform: any = formRef!.current;
         const currentData: any = {...theform.state.formData};
-        currentData.genomes = doc.genomes;
-        currentData.experimental = doc.experimental;
-        currentData.genome_metabolome_links = doc.genome_metabolome_links;
-        if (!currentData.personal) {
-            currentData.personal = {
-            PI_email: undefined,
-            PI_institution: undefined,
-            PI_name: undefined,
-            submitter_email: undefined,
-            submitter_orcid: undefined,
-            submitter_name: undefined,
-            };
-        }
-        if (!currentData.metabolomics) {
-            currentData.metabolomics = {
-                project: {
-                    GNPSMassIVE_ID: undefined,
-                    MaSSIVE_URL: undefined
-                }
-            }
-        }
+        const genome_metabolome_links = jsonDocument(currentData, gmrows);
+        currentData.genome_metabolome_links = genome_metabolome_links;
         setInitDoc(currentData);
     };
     const formContext = {

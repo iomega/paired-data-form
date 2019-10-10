@@ -63,16 +63,17 @@ export const kitchenSinkDoc = {
             {
                 "medium_details": {
                     "medium_type": "liquid",
-                    "medium": "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1.pdf"
+                    "medium": "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1.pdf",
                 },
-                "growth_temperature": 37,
-                "aeration": "shaking",
-                "growing_time": 24,
-                "metagenome_details": {
-                    "environment": "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000395"
+                "growth_parameters": {
+                    "growth_temperature": 37,
+                    "growth_duration": 24,
+                    "growth_phase_OD": "odbla",
+                },
+                "aeration": {
+                    "aeration_type": "shaking"
                 },
                 "sample_preparation_method": "agar",
-                "growth_phase_OD": "odbla",
                 "other_growth_conditions": "otrhergrotcondf",
                 "metagenomic_sample_description": "metagen samp desc"
             },
@@ -82,12 +83,12 @@ export const kitchenSinkDoc = {
                     "medium": "other",
                     "Other_medium": "blood"
                 },
-                "growth_temperature": 1,
-                "aeration": "not shaking",
-                "metagenome_details": {
-                    "environment": "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000393"
+                "growth_parameters": {
+                    "growth_temperature": 1
                 },
-                "metagenomic_sample_description": "met sam desc",
+                "aeration": {
+                    "aeration_type": "not shaking"
+                },
                 "sample_preparation_method": "blod"
             }
         ],

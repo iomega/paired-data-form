@@ -15,8 +15,8 @@ describe('PairedDataRecord', ()=> {
             comp = shallow(<PairedDataProject schema={schema} project={kitchenSinkEnrichedDoc as EnrichedProjectDocument}/>);
         });
 
-        it('should contain header', ()=> {
-            const header = <h3>iOMEGA Paired data project: kitchen-sink-id</h3>;
+        it('should contain project identifier', ()=> {
+            const header = <div>Project identifier: kitchen-sink-id</div>;
             expect(comp.contains(header)).toBeTruthy();
         });
     });
