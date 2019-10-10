@@ -92,6 +92,9 @@
         "solvents": {
           "ui:options": {
             "orderable": false
+          },
+          "items": {
+            "ui:order": ["solvent", "Other_solvent", "ratio"]
           }
         },
         "extracted_material": {
