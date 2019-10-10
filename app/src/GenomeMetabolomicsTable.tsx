@@ -69,19 +69,20 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
     const sample_popovers: any = {};
     pure_project.experimental.sample_preparation!.forEach((s) => {
         let environment = <></>;
-        if (s.medium_details!.metagenomic_environment === 'other') {
+        if (s.medium_details.metagenomic_environment === 'other') {
             environment = s.medium_details!.metagenomic_other_environment;
-        } else if (s.medium_details!.environment) {
-            const any_env = props.schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.properties.metagenomic_environment.anyOf;
+        } else if (s.medium_details!.metagenomic_environment) {
+            const any_env = props.schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[0].properties.metagenomic_environment.oneOf;
             const env_title = any_env.find((r: any) => r.enum[0] === s.medium_details!.metagenomic_environment).title;
             environment = <a href={s.medium_details!.metagenomic_environment}>{env_title}</a>;
         }
         const metagenome = (
-            <>
-                <h4>Metagenome details</h4>
-                <p>Host or isolation source: {environment}</p>
-                <p>Sample description: {s.medium_details.metagenomic_sample_description}</p>
-            </>
+            <p>Metagenome details
+                <ul>
+                    <li>Host or isolation source: {environment}</li>
+                    <li>Sample description: {s.medium_details.metagenomic_sample_description}</li>
+                </ul>
+            </p>
         );
         let medium = <></>;
         if (s.medium_details!.medium === 'other') {
@@ -94,10 +95,16 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         const popover = (
             <Popover id={s.sample_preparation_method} title="Sample growth conditions">
                 <p>Medium type: {s.medium_details!.medium_type}</p>
-                {metagenome}
                 <p>Growth medium: {medium}</p>
                 {s.medium_details.medium_volume && <p>Volume of culture (ml): {s.medium_details.medium_volume}</p> }
-                <p>Growth temperature (&deg;C): {s.growth_temperature}</p>
+                {s.medium_details.metagenomic_environment && metagenome}
+                <p>Growth parameters
+                    <ul>
+                        <li>Temperature (&deg;C): {s.growth_parameters.growth_temperature}</li>
+                        <li>Duration (hours): {s.growth_parameters.growth_duration}</li>
+                        <li>Growth phase or OD: {s.growth_parameters.growth_phase_OD}</li>
+                    </ul>
+                </p>
                 <p>Aeration:
                     <ul>
                         <li>Type: {s.aeration.aeration_type}</li>
@@ -106,8 +113,6 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                         {s.aeration.aeration_rpm && <li>RPM: {s.aeration.aeration_rpm}</li>}
                     </ul>
                 </p>
-                <p>Growth time (hours): {s.growing_time}</p>
-                <p>Growth phase or OD: {s.growth_phase_OD}</p>
                 <p>Other conditions: {s.other_growth_conditions}</p>
             </Popover>
         );
@@ -120,8 +125,12 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         const any_solvent = props.schema.properties.experimental.properties.extraction_methods.items.properties.solvents.items.properties.solvent.anyOf;
         if (e.solvents!.length === 1 && e.solvents![0].ratio === 1) {
             const s = e.solvents![0];
-            const solvent_title = any_solvent.find((r: any) => s.solvent === r.enum[0]).title;
-            solvent_table = <p>Solvent: <a href={s.solvent}>{solvent_title}</a></p>
+            if (s.solvent === 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787') {
+                solvent_table = <p>Solvent: {s.Other_solvent}</p>
+            } else {
+                const solvent_title = any_solvent.find((r: any) => s.solvent === r.enum[0]).title;
+                solvent_table = <p>Solvent: <a href={s.solvent}>{solvent_title}</a></p>
+            }
         } else {
             const solvents = e.solvents!.map(s => {
                 let solvent = <></>;
