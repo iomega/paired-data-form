@@ -52,10 +52,13 @@
                     "medium_type": "solid",
                     "medium": "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1054.pdf"
                 },
-                "growth_temperature": 30,
-                "aeration": "not shaking",
-                "growing_time": 168,
-                "metagenome_details": {},
+                "growth_parameters": {
+                    "growth_duration": 168,
+                    "growth_temperature": 30
+                },
+                "aeration": {
+                    "aeration_type": "not shaking"
+                },
                 "sample_preparation_method": "A1"
             },
             {
@@ -63,10 +66,13 @@
                     "medium_type": "solid",
                     "medium": "https://www.elabprotocols.com/protocols/#!protocol=486"
                 },
-                "growth_temperature": 30,
-                "aeration": "not shaking",
-                "growing_time": 168,
-                "metagenome_details": {},
+                "growth_parameters": {
+                    "growth_duration": 168,
+                    "growth_temperature": 30
+                },
+                "aeration": {
+                    "aeration_type": "not shaking"
+                },
                 "sample_preparation_method": "R5"
             },
             {
@@ -74,10 +80,13 @@
                     "medium_type": "solid",
                     "medium": "https://www.elabprotocols.com/protocols/#!protocol=469"
                 },
-                "growth_temperature": 30,
-                "aeration": "not shaking",
-                "growing_time": 168,
-                "metagenome_details": {},
+                "growth_parameters": {
+                    "growth_duration": 168,
+                    "growth_temperature": 30
+                },
+                "aeration": {
+                    "aeration_type": "not shaking"
+                },
                 "sample_preparation_method": "MS"
             }
         ],
