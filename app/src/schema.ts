@@ -32,7 +32,7 @@ export type GNPSMassIVEIdentifier = string;
  */
 export type LinkToMassIVEUpload = string;
 /**
- * If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9 (optional).
+ * If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9.
  */
 export type MolecularNetworkTaskID = string;
 /**
@@ -40,12 +40,20 @@ export type MolecularNetworkTaskID = string;
  */
 export type MetaboLightsStudyIdentifier = string;
 /**
+ * Add other associated GNPS-MassIVE identifiers here, eg. MSV000078836,MSV000078839. For example, if you have data spread out over multiple MASSIVE datasets, reported in the same publication, you can add those related IDs here. If you used the same assays ("Sample Preparation," "Extraction Methods," and/or "Instrumentation Methods"), you can clone one project and make slight modifications (e.g. different Genome IDs) instead of entering the assay information again.
+ */
+export type RelatedGNPSMassiveIdentifiers = string;
+/**
+ * Add other associated MetaboLights study identifiers here, eg. MTBLS727,MTBLS728. Similar to the related GNPS-Massive identifiers.
+ */
+export type RelatedMetabolightsStudyIdentifiers = string;
+/**
  * Publications describing the metabolomics experiment and samples. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')
  */
 export type KeyPublications = string;
 export type GenomeType = 'genome' | 'metagenome' | 'metagenome-assembled genome';
 /**
- * If publicly available metadata is available at BioSamples, please provide the BioSample accession number, e.g. SAMEA3648350, here. We encourage depositing metadata following a standardized ontology to enable proper reuse of the data (optional).
+ * If publicly available metadata is available at BioSamples, please provide the BioSample accession number, e.g. SAMEA3648350, here. We encourage depositing metadata following a standardized ontology to enable proper reuse of the data.
  */
 export type BioSampleAccessionNumber = string;
 /**
@@ -69,97 +77,27 @@ export type AllMetagenomeGenomes = {
 /**
  * Please select liquid or solid medium.
  */
-export type MediumType = 'liquid' | 'solid';
-/**
- * Please select a growth medium used in the experiment. If it is not present, please select Other and type it in.
- */
-export type GrowthMedium =
-  | LBLuriaBertaniMedium
-  | TrypticSoyBrothTSB
-  | NutrientAgar
-  | OatFlakeAgar
-  | MarineBrothDifco2216
-  | MannitolYeastExtractPeptoneMYE
-  | ISP2Medium
-  | ISP4Medium
-  | A1Medium
-  | MannitolSoyFlourMediumMS
-  | R5Medium
-  | YeastExtractMaltExtractYEMEMedium
-  | MinimalMediumMM
-  | SupplementedMinimalMediumSMM
-  | MaltoseYeastMaltMediaMYM
-  | R2YEMedium
-  | Other;
-export type LBLuriaBertaniMedium = 'http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium381.pdf';
-export type TrypticSoyBrothTSB = 'http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium545.pdf';
-export type NutrientAgar = 'http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1.pdf';
-export type OatFlakeAgar = 'http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium189.pdf';
-export type MarineBrothDifco2216 = 'http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium514.pdf';
-export type MannitolYeastExtractPeptoneMYE = 'http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1087.pdf';
-export type ISP2Medium = 'http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium987.pdf';
-export type ISP4Medium = 'http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium547.pdf';
-export type A1Medium = 'http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1054.pdf';
-export type MannitolSoyFlourMediumMS = 'https://www.elabprotocols.com/protocols/#!protocol=469';
-export type R5Medium = 'https://www.elabprotocols.com/protocols/#!protocol=486';
-export type YeastExtractMaltExtractYEMEMedium = 'https://www.elabprotocols.com/protocols/#!protocol=464';
-export type MinimalMediumMM = 'https://www.elabprotocols.com/protocols/#!protocol=484';
-export type SupplementedMinimalMediumSMM = 'https://openwetware.org/wiki/M9_medium/minimal';
-export type MaltoseYeastMaltMediaMYM = 'https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/1805982/MYMmedium.pdf';
-export type R2YEMedium = 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2950629/pdf/nihms234294.pdf';
-export type Other = 'other';
+export type MediumType = 'liquid' | 'solid' | 'metagenome';
 /**
  * Please enter the temperature of growth in degrees Celsius.
  */
-export type GrowthTemperature = number;
+export type Temperature = number;
+/**
+ * Please enter the growth duration in hours.
+ */
+export type DurationH = number;
+/**
+ * Please enter the growth phase or optical density (OD) if you know it.
+ */
+export type PhaseOrOD = string;
 /**
  * Please select aeration type.
  */
-export type Aeration = 'shaking' | 'shaking in spring flask' | 'shaking in baffled flask' | 'fermenter' | 'not shaking';
+export type Type = 'shaking' | 'fermenter' | 'not shaking';
 /**
- * Please enter the length of growth time in hours (optional).
- */
-export type GrowthTime = number;
-/**
- * Please enter the growth phase or OD if you know it (optional).
- */
-export type GrowthPhaseOrOD = string;
-/**
- * Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h (optional).
+ * Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h.
  */
 export type OtherGrowthConditions = string;
-/**
- * For metagenomic samples, please select the source host or isolation source. If it is not available, please select Other and type it in.
- */
-export type MetagenomeHostOrIsolationSource =
-  | Human
-  | OtherMammal
-  | AquaticInvertebrate
-  | Insect
-  | OtherAnimal
-  | BiofilmMicrobialMat
-  | Plant
-  | Soil
-  | Sediment
-  | Ocean
-  | Air
-  | Other1;
-export type Human = 'https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000393';
-export type OtherMammal = 'https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000395';
-export type AquaticInvertebrate = 'https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000871';
-export type Insect = 'https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000058';
-export type OtherAnimal = 'https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000421';
-export type BiofilmMicrobialMat = 'https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000116';
-export type Plant = 'https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000057';
-export type Soil = 'https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000007';
-export type Sediment = 'https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000066';
-export type Ocean = 'https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000022';
-export type Air = 'https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000006';
-export type Other1 = 'other';
-/**
- * Please describe your metagenomic sample preparation prior to extraction.
- */
-export type MetagenomicSampleDescription = string;
 /**
  * Please assign a Sample Growth Conditions Label for this set of sample preparation details. If more than one sample growth conditions was used, please create a new Sample Growth Conditions Label for each condition by clicking on the plus.
  */
@@ -168,14 +106,10 @@ export type SampleGrowthConditionsLabel = string;
  * For strains grown in culture, please fill in the first five sections. For metagenomic samples, only metagenomic source is necessary.
  */
 export type SampleGrowthConditions = {
-  medium_details?: MediumDetails;
-  growth_temperature?: GrowthTemperature;
-  aeration?: Aeration;
-  growing_time?: GrowthTime;
-  growth_phase_OD?: GrowthPhaseOrOD;
+  medium_details: MediumDetails;
+  growth_parameters: GrowthParameters;
+  aeration: Aeration;
   other_growth_conditions?: OtherGrowthConditions;
-  metagenome_details?: MetagenomeDetails;
-  metagenomic_sample_description?: MetagenomicSampleDescription;
   sample_preparation_method: SampleGrowthConditionsLabel;
   [k: string]: any;
 }[];
@@ -206,6 +140,9 @@ export type DiethylEther = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEB
 export type Hexane = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:29021';
 export type Water = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15377';
 export type OtherSolvent = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787';
+/**
+ * When a mixture of solvents was used, specify in which ratio each solvent was used. The ratios should sum up to 1.
+ */
 export type Ratio = number;
 /**
  * Please select the organic solvent used to extract the sample. If your sovent is not listed, please select Other and specify the solvent. If you used multiple solvents, please select them all and indicate the ratio.
@@ -215,8 +152,13 @@ export type ExtractionSolvent = {
   ratio: Ratio;
   [k: string]: any;
 }[];
+export type ExtractedMaterial = Cells | Supernatant | CellsSupernatant | ComplexMixtureMetagenome;
+export type Cells = 'cells';
+export type Supernatant = 'supernatant';
+export type CellsSupernatant = 'cells_supernatant';
+export type ComplexMixtureMetagenome = 'complex';
 /**
- * Please describe any other relevant extraction methods, e.g. partitioned against water or fractionated with 20% acetonitrile.
+ * Please describe any other relevant extraction methods, e.g. partitioned against water, fractionated with 20% acetonitrile, sequential extractions, used resins or storage manner (dried, liquid).
  */
 export type OtherExtractionDetails = string;
 /**
@@ -228,6 +170,7 @@ export type ExtractionMethodLabel = string;
  */
 export type ExtractionMethods = {
   solvents?: ExtractionSolvent;
+  extracted_material?: ExtractedMaterial;
   other_extraction_parameters?: OtherExtractionDetails;
   extraction_method: ExtractionMethodLabel;
   [k: string]: any;
@@ -269,15 +212,15 @@ export type InstrumentMode = Positive | Negative;
 export type Positive = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000130';
 export type Negative = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000129';
 /**
- * Please enter the mass range collected (optional).
+ * Please enter the mass range collected in Da. For example `100-800` for a range from 100 Da to 800 Da
  */
 export type MassRange = string;
 /**
- * Please enter the collision energy (optional).
+ * Please enter the collision energy.
  */
 export type CollisionEnergy = string;
 /**
- * Did you add anything to your instrument running buffers, e.g. 0.1% formic acid (optional).
+ * Did you add anything to your instrument running buffers, e.g. 0.1% formic acid.
  */
 export type Buffering = string;
 /**
@@ -307,7 +250,7 @@ export type InstrumentationMethods = {
  */
 export type GenomeMetagenome = string;
 /**
- * Please provide a direct link to the metabolomics data file location, e.g., ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML, that provides access to CNB091_R5_M.mzXML or https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML.
+ * Please provide a direct link to the metabolomics data file location, e.g. ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML found in the FTP download of a MassIVE dataset or https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML found in the Files section of a MetaboLights study.
  */
 export type LocationOfMetabolomicsDataFile = string;
 /**
@@ -391,6 +334,8 @@ export interface SubmitterInformation {
  */
 export interface OverallMetabolomicsProjectDetails {
   project: GNPSMassIVE | MetaboLights;
+  related_GNPSMassIVE_ID?: RelatedGNPSMassiveIdentifiers;
+  related_metabolights_study_id?: RelatedMetabolightsStudyIdentifiers;
   publications?: KeyPublications;
 }
 export interface GNPSMassIVE {
@@ -420,11 +365,15 @@ export interface MetabolomicsExperimentalDetails {
 }
 export interface MediumDetails {
   medium_type?: MediumType;
-  medium?: GrowthMedium;
   [k: string]: any;
 }
-export interface MetagenomeDetails {
-  environment?: MetagenomeHostOrIsolationSource;
+export interface GrowthParameters {
+  growth_temperature?: Temperature;
+  growth_duration?: DurationH;
+  growth_phase_OD?: PhaseOrOD;
+}
+export interface Aeration {
+  aeration_type?: Type;
   [k: string]: any;
 }
 export interface Instrumentation {
