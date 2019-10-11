@@ -228,7 +228,7 @@
                   "medium": {
                     "type": "string",
                     "title": "Growth medium",
-                    "description": "Please select a growth medium used in the experiment. If it is not present, please select Other and type it in.",
+                    "description": "Please select a growth medium used in the experiment. If it is not present, please select Other and provide a name and a link to a definition/ontology for your medium. Custom media can be defined in the Other Growth Conditions box.",
                     "anyOf": [
                       {
                         "type": "string",
@@ -342,6 +342,41 @@
                           "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2950629/pdf/nihms234294.pdf"
                         ]
                       },
+					  {
+                        "type": "string",
+                        "title": "Bottromycin Production Medium (BPM)",
+                        "enum": [
+                          "https://www.nature.com/articles/s41467-017-01975-6"
+                        ]
+                      },
+					  {
+                        "type": "string",
+                        "title": "Potato Dextrose (PD) medium",
+                        "enum": [
+                          "https://www.sigmaaldrich.com/catalog/product/sial/70139?lang=en&region=NL"
+                        ]
+                      },
+					  {
+                        "type": "string",
+                        "title": "Yeast Powder-Soluble Starch (YPSS) medium",
+                        "enum": [
+                          "http://www.mycobank.org/BioloMICS.aspx?TableKey=14682616000000058&Rec=254&Fields=All"
+                        ]
+                      },
+					   {
+                        "type": "string",
+                        "title": "Czapek-Dox medium",
+                        "enum": [
+                          "https://en.wikipedia.org/wiki/Czapek_medium"
+                        ]
+                      },
+					   {
+                        "type": "string",
+                        "title": "Malt Extract medium",
+                        "enum": [
+                          "http://cshprotocols.cshlp.org/content/2016/3/pdb.rec091454.full"
+                        ]
+                      },
                       {
                         "type": "string",
                         "title": "Other",
@@ -372,7 +407,12 @@
                               "https://www.elabprotocols.com/protocols/#!protocol=484",
                               "https://openwetware.org/wiki/M9_medium/minimal",
                               "https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/1805982/MYMmedium.pdf",
-                              "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2950629/pdf/nihms234294.pdf"
+                              "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2950629/pdf/nihms234294.pdf",
+							  "https://www.nature.com/articles/s41467-017-01975-6",
+							  "https://www.sigmaaldrich.com/catalog/product/sial/70139?lang=en&region=NL",
+							  "http://www.mycobank.org/BioloMICS.aspx?TableKey=14682616000000058&Rec=254&Fields=All",
+							  "https://en.wikipedia.org/wiki/Czapek_medium",
+							  "http://cshprotocols.cshlp.org/content/2016/3/pdb.rec091454.full"
                             ]
                           }
                         }
@@ -385,6 +425,10 @@
                           "Other_medium": {
                             "type": "string",
                             "title": "Name of other medium"
+                          },
+						  "Other_medium_link": {
+                            "type": "string",
+                            "title": "URL for definition of other medium"
                           }
                         }
                       }
@@ -424,7 +468,7 @@
               "other_growth_conditions": {
                 "type": "string",
                 "title": "Other growth conditions",
-                "description": "Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h."
+                "description": "Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h. You can also define custom media here, indicate if purity checks were made, and provide more specific details."
               },
               "metagenome_details": {
                 "type": "object",
@@ -560,7 +604,7 @@
               "metagenomic_sample_description": {
                 "type": "string",
                 "title": "Metagenomic sample description",
-                "description": "Please describe your metagenomic sample preparation prior to extraction."
+                "description": "Please describe your metagenomic sample preparation prior to extraction. This can include cell sorting or enrichment, drying, filtering, or other treatments."
               },
               "sample_preparation_method": {
                 "type": "string",
