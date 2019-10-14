@@ -124,7 +124,7 @@ export const kitchenSinkDoc = {
                     "instrument": "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000081"
                 },
                 "column": "Reverse Phase",
-                "mode": "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000130",
+                "mode": "http://purl.obolibrary.org/obo/MS_1000130",
                 "instrumentation_method": "quad",
                 "range": "1000-10000",
                 "collision_energy": "1234-56789",
@@ -137,7 +137,7 @@ export const kitchenSinkDoc = {
                     "other_instrument": "blackhole"
                 },
                 "column": "Reverse Phase",
-                "mode": "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000130",
+                "mode": "http://purl.obolibrary.org/obo/MS_1000130",
                 "instrumentation_method": "bh"
             }
         ]

@@ -203,9 +203,9 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         const any_mode = props.schema.properties.experimental.properties.instrumentation_methods.items.properties.mode.anyOf;
         const mode_title = any_mode.find((r: any) => r.enum[0] === i.mode).title;
         let type = <></>;
-        if (i.ionization && i.ionization!.ionization_type) {
-            if (i.ionization!.ionization_type === 'http://purl.obolibrary.org/obo/MS_1000008') {
-                type = i.ionization!.other_ionization_type;
+        if (i.ionization && i.ionization.ionization_type) {
+            if (i.ionization.ionization_type === 'http://purl.obolibrary.org/obo/MS_1000008') {
+                type = i.ionization.other_ionization_type;
             } else {
                 const any_type = props.schema.properties.experimental.properties.instrumentation_methods.items.properties.ionization.properties.ionization_type.anyOf;
                 const type_url = i.ionization!.ionization_type;
