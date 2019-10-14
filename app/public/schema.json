@@ -63,43 +63,51 @@
       "description": "Please provide basic information on the publicly available metabolomics project from which paired data is available. Currently, we allow for links to mass spectrometry data deposited in GNPS-MaSSIVE or MetaboLights.",
       "properties": {
         "project": {
-          "oneOf": [{
-            "type": "object",
-            "required": ["GNPSMassIVE_ID", "MaSSIVE_URL"],
-            "title": "GNPS-MassIVE",
-            "properties": {
-              "GNPSMassIVE_ID": {
-                "type": "string",
-                "title": "GNPS-MassIVE identifier",
-                "description": "Please provide the GNPS-MassIVE identifier of your metabolomics data set, e.g., MSV000078839.",
-                "pattern": "^MSV[0-9]{9}$"
-              },
-              "MaSSIVE_URL": {
-                "type": "string",
-                "title": "Link to MassIVE upload",
-                "description": "Please provide the link to the MassIVE upload, e.g., https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view.",
-                "format": "uri"
-              },
-              "molecular_network": {
-                "type": "string",
-                "pattern": "^[0-9a-z]{32}$",
-                "title": "Molecular Network Task ID",
-                "description": "If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9."
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "GNPSMassIVE_ID",
+                "MaSSIVE_URL"
+              ],
+              "title": "GNPS-MassIVE",
+              "properties": {
+                "GNPSMassIVE_ID": {
+                  "type": "string",
+                  "title": "GNPS-MassIVE identifier",
+                  "description": "Please provide the GNPS-MassIVE identifier of your metabolomics data set, e.g., MSV000078839.",
+                  "pattern": "^MSV[0-9]{9}$"
+                },
+                "MaSSIVE_URL": {
+                  "type": "string",
+                  "title": "Link to MassIVE upload",
+                  "description": "Please provide the link to the MassIVE upload, e.g., https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view.",
+                  "format": "uri"
+                },
+                "molecular_network": {
+                  "type": "string",
+                  "pattern": "^[0-9a-z]{32}$",
+                  "title": "Molecular Network Task ID",
+                  "description": "If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9."
+                }
+              }
+            },
+            {
+              "type": "object",
+              "title": "MetaboLights",
+              "required": [
+                "metabolights_study_id"
+              ],
+              "properties": {
+                "metabolights_study_id": {
+                  "type": "string",
+                  "title": "MetaboLights study identifier",
+                  "pattern": "^MTBLS[0-9]{1,}$",
+                  "description": "Please provide the MetaboLights study identifier of your metabolomics data set, e.g. MTBLS307."
+                }
               }
             }
-          }, {
-            "type": "object",
-            "title": "MetaboLights",
-            "required": ["metabolights_study_id"],
-            "properties": {
-              "metabolights_study_id": {
-                "type": "string",
-                "title": "MetaboLights study identifier",
-                "pattern": "^MTBLS[0-9]{1,}$",
-                "description": "Please provide the MetaboLights study identifier of your metabolomics data set, e.g. MTBLS307."
-              }
-            }
-          }]
+          ]
         },
         "related_GNPSMassIVE_ID": {
           "type": "string",
@@ -120,7 +128,9 @@
           "description": "Publications describing the metabolomics experiment and samples. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')"
         }
       },
-      "required": ["project"],
+      "required": [
+        "project"
+      ],
       "additionalProperties": false
     },
     "genomes": {
@@ -129,18 +139,27 @@
       "description": "Please add all genomes and/or metagenomes for which paired data is available as separate entries.",
       "items": {
         "type": "object",
-        "required": ["genome_ID", "genome_label"],
+        "required": [
+          "genome_ID",
+          "genome_label"
+        ],
         "properties": {
           "genome_ID": {
             "type": "object",
             "title": "Genome or Metagenome",
             "description": "Please select genome (microbial isolate grown in pure culture), metagenome (microbial mixture or environmental sample), or metagenome-assembled genome (genome assembled from a metagenome with no isolate grown in culture). All genome sequences must first be submitted to a public database with a unique identifier. In the case of a whole genome sequence, please use master records. At least one identifier must be entered.",
-            "required": ["genome_type"],
+            "required": [
+              "genome_type"
+            ],
             "properties": {
               "genome_type": {
                 "type": "string",
                 "title": "Genome type",
-                "enum": ["genome", "metagenome", "metagenome-assembled genome"],
+                "enum": [
+                  "genome",
+                  "metagenome",
+                  "metagenome-assembled genome"
+                ],
                 "default": "genome"
               }
             },
@@ -150,7 +169,10 @@
                   {
                     "properties": {
                       "genome_type": {
-                        "enum": ["genome", "metagenome-assembled genome"]
+                        "enum": [
+                          "genome",
+                          "metagenome-assembled genome"
+                        ]
                       },
                       "GenBank_accession": {
                         "type": "string",
@@ -162,7 +184,7 @@
                         "title": "RefSeq accession number",
                         "description": "For example: AL645882"
                       },
-                        "JGI_Genome_ID": {
+                      "JGI_Genome_ID": {
                         "type": "string",
                         "title": "JGI Genome ID number",
                         "description": "For example: 641228474"
@@ -172,7 +194,9 @@
                   {
                     "properties": {
                       "genome_type": {
-                        "enum": ["metagenome"]
+                        "enum": [
+                          "metagenome"
+                        ]
                       },
                       "ENA_NCBI_accession": {
                         "type": "string",
@@ -184,7 +208,7 @@
                         "title": "MGnify accession number",
                         "description": "For example: MGYA00067671"
                       },
-                        "JGI_ID": {
+                      "JGI_ID": {
                         "type": "string",
                         "title": "JGI ID number",
                         "description": "For example: 3300005805"
@@ -234,281 +258,298 @@
                     "type": "string",
                     "title": "Medium type",
                     "description": "Please select liquid or solid medium.",
-                    "enum": ["liquid", "solid", "metagenome"],
+                    "enum": [
+                      "liquid",
+                      "solid",
+                      "metagenome"
+                    ],
                     "default": "liquid"
                   }
                 },
                 "dependencies": {
                   "medium_type": {
-                    "oneOf": [{
-                      "properties": {
-                        "medium_type": {
-                          "enum": ["metagenome"]
-                        },
-                        "metagenomic_sample_description": {
-                          "type": "string",
-                          "title": "Metagenomic sample description",
-                          "description": "Please describe your metagenomic sample preparation prior to extraction. This can include cell sorting or enrichment, drying, filtering, or other treatments."
-                        },
-                        "metagenomic_environment": {
-                          "type": "string",
-                          "title": "Metagenome host or isolation source",
-                          "description": "For metagenomic samples, please select the source host or isolation source. If it is not available, please select Other and type it in.",
-                          "oneOf": [
-                            {
-                              "type": "string",
-                              "title": "Human",
-                              "enum": [
-                                "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000393"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Other mammal",
-                              "enum": [
-                                "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000395"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Aquatic invertebrate",
-                              "enum": [
-                                "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000871"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Insect",
-                              "enum": [
-                                "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000058"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Other animal",
-                              "enum": [
-                                "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000421"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Biofilm / Microbial mat",
-                              "enum": [
-                                "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000116"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Plant",
-                              "enum": [
-                                "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000057"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Soil",
-                              "enum": [
-                                "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000007"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Sediment",
-                              "enum": [
-                                "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000066"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Ocean",
-                              "enum": [
-                                "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000022"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Air",
-                              "enum": [
-                                "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000006"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Other",
-                              "enum": ["other"]
-                            }
-                          ]
-                        }
-                      }
-                    }, {
-                      "properties": {
-                        "medium_type": {
-                          "enum": ["solid"]
-                        },
-                        "medium": {
-                          "type": "string",
-                          "title": "Growth medium",
-                          "description": "Please select a growth medium used in the experiment. If it is not present, please select Other and type it in.",
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "title": "LB (Luria-Bertani) medium",
-                              "enum": [
-                                "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium381.pdf"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Tryptic-Soy Broth (TSB)",
-                              "enum": [
-                                "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium545.pdf"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Nutrient Agar",
-                              "enum": [
-                                "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1.pdf"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Oat Flake agar",
-                              "enum": [
-                                "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium189.pdf"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Marine Broth (Difco 2216)",
-                              "enum": [
-                                "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium514.pdf"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Mannitol Yeast extract Peptone (MYE)",
-                              "enum": [
-                                "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1087.pdf"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "ISP2 medium",
-                              "enum": [
-                                "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium987.pdf"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "ISP4 medium",
-                              "enum": [
-                                "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium547.pdf"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "A1 medium",
-                              "enum": [
-                                "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1054.pdf"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Mannitol soy flour medium (MS)",
-                              "enum": [
-                                "https://www.elabprotocols.com/protocols/#!protocol=469"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "R5 medium",
-                              "enum": [
-                                "https://www.elabprotocols.com/protocols/#!protocol=486"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Yeast extract-malt extract (YEME) medium",
-                              "enum": [
-                                "https://www.elabprotocols.com/protocols/#!protocol=464"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Minimal medium (MM)",
-                              "enum": [
-                                "https://www.elabprotocols.com/protocols/#!protocol=484"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Supplemented minimal medium (SMM)",
-                              "enum": [
-                                "https://openwetware.org/wiki/M9_medium/minimal"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "Maltose Yeast Malt media (MYM)",
-                              "enum": [
-                                "https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/1805982/MYMmedium.pdf"
-                              ]
-                            },
-                            {
-                              "type": "string",
-                              "title": "R2YE medium",
-                              "enum": [
-                                "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2950629/pdf/nihms234294.pdf"
-                              ]
-                            },
-                            {
-                                        "type": "string",
-                                        "title": "Bottromycin Production Medium (BPM)",
-                                        "enum": [
-                                          "https://www.nature.com/articles/s41467-017-01975-6"
-                                        ]
-                                      },
-                            {
-                                        "type": "string",
-                                        "title": "Potato Dextrose (PD) medium",
-                                        "enum": [
-                                          "https://www.sigmaaldrich.com/catalog/product/sial/70139?lang=en&region=NL"
-                                        ]
-                                      },
-                            {
-                                        "type": "string",
-                                        "title": "Yeast Powder-Soluble Starch (YPSS) medium",
-                                        "enum": [
-                                          "http://www.mycobank.org/BioloMICS.aspx?TableKey=14682616000000058&Rec=254&Fields=All"
-                                        ]
-                                      },
-                             {
-                                        "type": "string",
-                                        "title": "Czapek-Dox medium",
-                                        "enum": [
-                                          "https://en.wikipedia.org/wiki/Czapek_medium"
-                                        ]
-                                      },
-                             {
-                                        "type": "string",
-                                        "title": "Malt Extract medium",
-                                        "enum": [
-                                          "http://cshprotocols.cshlp.org/content/2016/3/pdb.rec091454.full"
-                                        ]                              
-                            },
-                            {
-                              "type": "string",
-                              "title": "Other",
-                              "enum": ["other"]
-                            }
-                          ]
-                        }
-                      }
-                      }, {
+                    "oneOf": [
+                      {
                         "properties": {
                           "medium_type": {
-                            "enum": ["liquid"]
+                            "enum": [
+                              "metagenome"
+                            ]
+                          },
+                          "metagenomic_sample_description": {
+                            "type": "string",
+                            "title": "Metagenomic sample description",
+                            "description": "Please describe your metagenomic sample preparation prior to extraction. This can include cell sorting or enrichment, drying, filtering, or other treatments."
+                          },
+                          "metagenomic_environment": {
+                            "type": "string",
+                            "title": "Metagenome host or isolation source",
+                            "description": "For metagenomic samples, please select the source host or isolation source. If it is not available, please select Other and type it in.",
+                            "oneOf": [
+                              {
+                                "type": "string",
+                                "title": "Human",
+                                "enum": [
+                                  "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000393"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Other mammal",
+                                "enum": [
+                                  "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000395"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Aquatic invertebrate",
+                                "enum": [
+                                  "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000871"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Insect",
+                                "enum": [
+                                  "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000058"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Other animal",
+                                "enum": [
+                                  "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000421"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Biofilm / Microbial mat",
+                                "enum": [
+                                  "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000116"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Plant",
+                                "enum": [
+                                  "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000057"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Soil",
+                                "enum": [
+                                  "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000007"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Sediment",
+                                "enum": [
+                                  "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000066"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Ocean",
+                                "enum": [
+                                  "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000022"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Air",
+                                "enum": [
+                                  "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000006"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Other",
+                                "enum": [
+                                  "other"
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "medium_type": {
+                            "enum": [
+                              "solid"
+                            ]
+                          },
+                          "medium": {
+                            "type": "string",
+                            "title": "Growth medium",
+                            "description": "Please select a growth medium used in the experiment. If it is not present, please select Other and type it in.",
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "title": "LB (Luria-Bertani) medium",
+                                "enum": [
+                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium381.pdf"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Tryptic-Soy Broth (TSB)",
+                                "enum": [
+                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium545.pdf"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Nutrient Agar",
+                                "enum": [
+                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1.pdf"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Oat Flake agar",
+                                "enum": [
+                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium189.pdf"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Marine Broth (Difco 2216)",
+                                "enum": [
+                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium514.pdf"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Mannitol Yeast extract Peptone (MYE)",
+                                "enum": [
+                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1087.pdf"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "ISP2 medium",
+                                "enum": [
+                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium987.pdf"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "ISP4 medium",
+                                "enum": [
+                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium547.pdf"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "A1 medium",
+                                "enum": [
+                                  "http://www.dsmz.de/microorganisms/medium/pdf/DSMZ_Medium1054.pdf"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Mannitol soy flour medium (MS)",
+                                "enum": [
+                                  "https://www.elabprotocols.com/protocols/#!protocol=469"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "R5 medium",
+                                "enum": [
+                                  "https://www.elabprotocols.com/protocols/#!protocol=486"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Yeast extract-malt extract (YEME) medium",
+                                "enum": [
+                                  "https://www.elabprotocols.com/protocols/#!protocol=464"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Minimal medium (MM)",
+                                "enum": [
+                                  "https://www.elabprotocols.com/protocols/#!protocol=484"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Supplemented minimal medium (SMM)",
+                                "enum": [
+                                  "https://openwetware.org/wiki/M9_medium/minimal"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Maltose Yeast Malt media (MYM)",
+                                "enum": [
+                                  "https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/1805982/MYMmedium.pdf"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "R2YE medium",
+                                "enum": [
+                                  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2950629/pdf/nihms234294.pdf"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Bottromycin Production Medium (BPM)",
+                                "enum": [
+                                  "https://www.nature.com/articles/s41467-017-01975-6"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Potato Dextrose (PD) medium",
+                                "enum": [
+                                  "https://www.sigmaaldrich.com/catalog/product/sial/70139?lang=en&region=NL"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Yeast Powder-Soluble Starch (YPSS) medium",
+                                "enum": [
+                                  "http://www.mycobank.org/BioloMICS.aspx?TableKey=14682616000000058&Rec=254&Fields=All"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Czapek-Dox medium",
+                                "enum": [
+                                  "https://en.wikipedia.org/wiki/Czapek_medium"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Malt Extract medium",
+                                "enum": [
+                                  "http://cshprotocols.cshlp.org/content/2016/3/pdb.rec091454.full"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Other",
+                                "enum": [
+                                  "other"
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "medium_type": {
+                            "enum": [
+                              "liquid"
+                            ]
                           },
                           "medium_volume": {
                             "type": "number",
@@ -632,50 +673,52 @@
                                 ]
                               },
                               {
-                                          "type": "string",
-                                          "title": "Bottromycin Production Medium (BPM)",
-                                          "enum": [
-                                            "https://www.nature.com/articles/s41467-017-01975-6"
-                                          ]
-                                        },
+                                "type": "string",
+                                "title": "Bottromycin Production Medium (BPM)",
+                                "enum": [
+                                  "https://www.nature.com/articles/s41467-017-01975-6"
+                                ]
+                              },
                               {
-                                          "type": "string",
-                                          "title": "Potato Dextrose (PD) medium",
-                                          "enum": [
-                                            "https://www.sigmaaldrich.com/catalog/product/sial/70139?lang=en&region=NL"
-                                          ]
-                                        },
+                                "type": "string",
+                                "title": "Potato Dextrose (PD) medium",
+                                "enum": [
+                                  "https://www.sigmaaldrich.com/catalog/product/sial/70139?lang=en&region=NL"
+                                ]
+                              },
                               {
-                                          "type": "string",
-                                          "title": "Yeast Powder-Soluble Starch (YPSS) medium",
-                                          "enum": [
-                                            "http://www.mycobank.org/BioloMICS.aspx?TableKey=14682616000000058&Rec=254&Fields=All"
-                                          ]
-                                        },
-                               {
-                                          "type": "string",
-                                          "title": "Czapek-Dox medium",
-                                          "enum": [
-                                            "https://en.wikipedia.org/wiki/Czapek_medium"
-                                          ]
-                                        },
-                               {
-                                          "type": "string",
-                                          "title": "Malt Extract medium",
-                                          "enum": [
-                                            "http://cshprotocols.cshlp.org/content/2016/3/pdb.rec091454.full"
-                                          ]                              
-  
+                                "type": "string",
+                                "title": "Yeast Powder-Soluble Starch (YPSS) medium",
+                                "enum": [
+                                  "http://www.mycobank.org/BioloMICS.aspx?TableKey=14682616000000058&Rec=254&Fields=All"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Czapek-Dox medium",
+                                "enum": [
+                                  "https://en.wikipedia.org/wiki/Czapek_medium"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "title": "Malt Extract medium",
+                                "enum": [
+                                  "http://cshprotocols.cshlp.org/content/2016/3/pdb.rec091454.full"
+                                ]
                               },
                               {
                                 "type": "string",
                                 "title": "Other",
-                                "enum": ["other"]
+                                "enum": [
+                                  "other"
+                                ]
                               }
                             ]
                           }
                         }
-                    }]
+                      }
+                    ]
                   },
                   "medium": {
                     "oneOf": [
@@ -711,7 +754,9 @@
                       {
                         "properties": {
                           "medium": {
-                            "enum": ["other"]
+                            "enum": [
+                              "other"
+                            ]
                           },
                           "Other_medium": {
                             "type": "string",
@@ -749,7 +794,9 @@
                       {
                         "properties": {
                           "metagenomic_environment": {
-                            "enum": ["other"]
+                            "enum": [
+                              "other"
+                            ]
                           },
                           "metagenomic_other_environment": {
                             "type": "string",
@@ -802,71 +849,86 @@
                 },
                 "dependencies": {
                   "aeration_type": {
-                    "oneOf": [{
-                      "properties": {
-                        "aeration_type": {
-                          "enum": ["shaking"]
-                        },
-                        "aeration_vessel": {
-                          "type": "string",
-                          "title": "Vessel",
-                          "description": "Select vessel used for shaking",
-                          "enum": [
-                            "spring flask",
-                            "baffled flask",
-                            "conical tubes",
-                            "deep-well plates",
-                            "other"
-                          ]
-                        },
-                        "aeration_rpm": {
-                          "type": "number",
-                          "title": "RPM",
-                          "description": "Rotations per minute of shaker or fermenter"
+                    "oneOf": [
+                      {
+                        "properties": {
+                          "aeration_type": {
+                            "enum": [
+                              "shaking"
+                            ]
+                          },
+                          "aeration_vessel": {
+                            "type": "string",
+                            "title": "Vessel",
+                            "description": "Select vessel used for shaking",
+                            "enum": [
+                              "spring flask",
+                              "baffled flask",
+                              "conical tubes",
+                              "deep-well plates",
+                              "other"
+                            ]
+                          },
+                          "aeration_rpm": {
+                            "type": "number",
+                            "title": "RPM",
+                            "description": "Rotations per minute of shaker or fermenter"
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "aeration_type": {
+                            "enum": [
+                              "fermenter"
+                            ]
+                          },
+                          "aeration_rpm": {
+                            "type": "number",
+                            "title": "RPM",
+                            "description": "Rotations per minute of shaker or fermenter"
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "aeration_type": {
+                            "enum": [
+                              "not shaking"
+                            ]
+                          }
                         }
                       }
-                    }, {
-                      "properties": {
-                        "aeration_type": {
-                          "enum": ["fermenter"]
-                        },
-                        "aeration_rpm": {
-                          "type": "number",
-                          "title": "RPM",
-                          "description": "Rotations per minute of shaker or fermenter"
-                        }
-                      }
-                    }, {
-                      "properties": {
-                        "aeration_type": {
-                          "enum": ["not shaking"]
-                        }
-                      }
-                    }]
+                    ]
                   },
                   "aeration_vessel": {
-                    "oneOf": [{
-                      "properties": {
-                        "aeration_vessel": {
-                          "enum": ["other"]
-                        },
-                        "aeration_other_vessel": {
-                          "type": "string",
-                          "title": "Other vessel"
+                    "oneOf": [
+                      {
+                        "properties": {
+                          "aeration_vessel": {
+                            "enum": [
+                              "other"
+                            ]
+                          },
+                          "aeration_other_vessel": {
+                            "type": "string",
+                            "title": "Other vessel"
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "aeration_vessel": {
+                            "enum": [
+                              "spring flask",
+                              "baffled flask",
+                              "conical tubes",
+                              "deep-well plates"
+                            ]
+                          }
                         }
                       }
-                    }, {
-                      "properties": {
-                        "aeration_vessel": {
-                          "enum": [
-                            "spring flask",
-                            "baffled flask",
-                            "conical tubes",
-                            "deep-well plates"
-                          ]
-                        }
-                      }
-                    }]
+                    ]
                   }
                 }
               },
@@ -881,7 +943,12 @@
                 "description": "Please assign a Sample Growth Conditions Label for this set of sample preparation details. If more than one sample growth conditions was used, please create a new Sample Growth Conditions Label for each condition by clicking on the plus."
               }
             },
-            "required": ["sample_preparation_method", "medium_details", "growth_parameters", "aeration"]
+            "required": [
+              "sample_preparation_method",
+              "medium_details",
+              "growth_parameters",
+              "aeration"
+            ]
           }
         },
         "extraction_methods": {
@@ -897,7 +964,10 @@
                 "description": "Please select the organic solvent used to extract the sample. If your sovent is not listed, please select Other and specify the solvent. If you used multiple solvents, please select them all and indicate the ratio.",
                 "items": {
                   "type": "object",
-                  "required": ["solvent", "ratio"],
+                  "required": [
+                    "solvent",
+                    "ratio"
+                  ],
                   "properties": {
                     "solvent": {
                       "title": "Solvent",
@@ -1040,7 +1110,9 @@
                               "title": "Name of other solvent"
                             }
                           },
-                          "required": ["Other_solvent"]
+                          "required": [
+                            "Other_solvent"
+                          ]
                         }
                       ]
                     }
@@ -1050,19 +1122,32 @@
               "extracted_material": {
                 "title": "Extracted material",
                 "type": "string",
-                "oneOf": [{
-                  "title": "Cells",
-                  "enum": ["cells"]
-                }, {
+                "oneOf": [
+                  {
+                    "title": "Cells",
+                    "enum": [
+                      "cells"
+                    ]
+                  },
+                  {
                     "title": "Supernatant",
-                    "enum": ["supernatant"]
-                }, {
-                  "title": "Cells & supernatant",
-                  "enum": ["cells_supernatant"]
-                }, {
-                  "title": "Complex mixture (metagenome)",
-                  "enum": ["complex"]
-                }]
+                    "enum": [
+                      "supernatant"
+                    ]
+                  },
+                  {
+                    "title": "Cells & supernatant",
+                    "enum": [
+                      "cells_supernatant"
+                    ]
+                  },
+                  {
+                    "title": "Complex mixture (metagenome)",
+                    "enum": [
+                      "complex"
+                    ]
+                  }
+                ]
               },
               "other_extraction_parameters": {
                 "type": "string",
@@ -1075,7 +1160,9 @@
                 "description": "Please assign an Extraction Method Label for this set of extraction details. If more than one extraction method was used, please create a new Extraction Method Label for each method by clicking on the plus."
               }
             },
-            "required": ["extraction_method"]
+            "required": [
+              "extraction_method"
+            ]
           }
         },
         "instrumentation_methods": {
@@ -1216,7 +1303,11 @@
                 "type": "string",
                 "title": "Column phase",
                 "description": "Please select column phase. You can add additional column details in the Other Instrumentation Information section below.",
-                "enum": ["Reverse Phase", "Normal Phase", "HILIC"],
+                "enum": [
+                  "Reverse Phase",
+                  "Normal Phase",
+                  "HILIC"
+                ],
                 "default": "Reverse Phase"
               },
               "mode": {
@@ -1250,11 +1341,11 @@
                   "http://purl.obolibrary.org/obo/MS_1000129"
                 ]
               },
-			    "ionization": {
-					"type": "object",
-          "title": "Ionization type",
-					"properties": {
-            "ionization_type": {
+              "ionization": {
+                "type": "object",
+                "title": "Ionization type",
+                "properties": {
+                  "ionization_type": {
                     "type": "string",
                     "title": "Ionization type",
                     "description": "Please select the type of ionization used. If your ionization type is not listed here, please select Other and specify.",
@@ -1347,7 +1438,9 @@
                 "description": "Please assign an Instrumentation Method Label for this set of instrumentation details. If more than one LCMS instrumentation method was used, please create a new Instrumentation Method Label for each condition by clicking on the plus."
               }
             },
-            "required": ["instrumentation_method"]
+            "required": [
+              "instrumentation_method"
+            ]
           }
         }
       },
@@ -1403,7 +1496,10 @@
       "description": "If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide details in this section",
       "items": {
         "type": "object",
-        "required": ["BGC_ID", "verification"],
+        "required": [
+          "BGC_ID",
+          "verification"
+        ],
         "properties": {
           "known_link": {
             "type": "string",
@@ -1454,7 +1550,9 @@
                   {
                     "properties": {
                       "BGC": {
-                        "enum": ["MIBiG number associated with this exact BGC"]
+                        "enum": [
+                          "MIBiG number associated with this exact BGC"
+                        ]
                       },
                       "MIBiG_number": {
                         "type": "number",
@@ -1492,7 +1590,10 @@
           "link": {
             "type": "string",
             "title": "What would you like to link?",
-            "enum": ["GNPS molecular family", "single molecule"],
+            "enum": [
+              "GNPS molecular family",
+              "single molecule"
+            ],
             "default": "single molecule"
           }
         },
@@ -1502,7 +1603,9 @@
               {
                 "properties": {
                   "link": {
-                    "enum": ["GNPS molecular family"]
+                    "enum": [
+                      "GNPS molecular family"
+                    ]
                   },
                   "network_nodes_URL": {
                     "type": "string",
@@ -1514,7 +1617,9 @@
               {
                 "properties": {
                   "link": {
-                    "enum": ["single molecule"]
+                    "enum": [
+                      "single molecule"
+                    ]
                   },
                   "MS2_URL": {
                     "type": "string",
@@ -1536,4 +1641,3 @@
   },
   "additionalProperties": false
 }
-

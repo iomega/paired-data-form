@@ -45,10 +45,10 @@
         "MGnify_accession": {
           "ui:placeholder": "At least one accession/ID should be entered"
         },
-		 "JGI_Genome_ID": {
+        "JGI_Genome_ID": {
           "ui:placeholder": "At least one accession/ID should be entered"
         },
-		 "JGI_ID": {
+        "JGI_ID": {
           "ui:placeholder": "At least one accession/ID should be entered"
         }
       },
@@ -73,7 +73,16 @@
           "medium_type": {
             "ui:widget": "radio"
           },
-          "ui:order": ["medium_type", "medium", "Other_medium", "Other_medium_link", "medium_volume", "metagenomic_environment", "metagenomic_other_environment", "metagenomic_sample_description"]
+          "ui:order": [
+            "medium_type",
+            "medium",
+            "Other_medium",
+            "Other_medium_link",
+            "medium_volume",
+            "metagenomic_environment",
+            "metagenomic_other_environment",
+            "metagenomic_sample_description"
+          ]
         },
         "other_growth_conditions": {
           "ui:widget": "textarea",
@@ -85,7 +94,12 @@
           "ui:widget": "textarea"
         },
         "aeration": {
-          "ui:order": ["aeration_type", "aeration_vessel", "aeration_other_vessel", "aeration_rpm"]
+          "ui:order": [
+            "aeration_type",
+            "aeration_vessel",
+            "aeration_other_vessel",
+            "aeration_rpm"
+          ]
         }
       }
     },
@@ -100,7 +114,11 @@
             "orderable": false
           },
           "items": {
-            "ui:order": ["solvent", "Other_solvent", "ratio"]
+            "ui:order": [
+              "solvent",
+              "Other_solvent",
+              "ratio"
+            ]
           }
         },
         "extracted_material": {
@@ -137,7 +155,9 @@
     },
     "ui:options": {
       "orderable": false,
-      "widths": {"1": "40%"}
+      "widths": {
+        "1": "40%"
+      }
     },
     "items": {
       "genome_label": {
@@ -192,4 +212,3 @@
     }
   }
 }
-

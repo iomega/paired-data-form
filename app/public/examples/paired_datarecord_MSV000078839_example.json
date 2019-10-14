@@ -126,8 +126,7 @@
                 },
                 "column": "Reverse Phase",
                 "mode": "http://purl.obolibrary.org/obo/MS_1000130",
-                "ionization": {
-                },
+                "ionization": {},
                 "range": "300 - 1700",
                 "collision_energy": "20 keV",
                 "buffering": "0.1% TFA",
