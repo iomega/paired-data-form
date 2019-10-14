@@ -174,8 +174,8 @@
                       },
 					  "JGI_ID": {
                         "type": "string",
-                        "title": "JGI ID number",
-                        "description": "For example: "
+                        "title": "JGI Genome ID number",
+                        "description": "For example: 3300024223"
                       }
                     }
                   }
