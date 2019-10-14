@@ -125,7 +125,9 @@
                     "instrument": "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000084"
                 },
                 "column": "Reverse Phase",
-                "mode": "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000130",
+                "mode": "http://purl.obolibrary.org/obo/MS_1000130",
+                "ionization": {
+                },
                 "range": "300 - 1700",
                 "collision_energy": "20 keV",
                 "buffering": "0.1% TFA",

@@ -187,7 +187,7 @@
                         "JGI_ID": {
                         "type": "string",
                         "title": "JGI ID number",
-                        "description": "For example: "
+                        "description": "For example: 3300005805"
                       }
                     }
                   }
@@ -208,7 +208,7 @@
           },
           "genome_label": {
             "type": "string",
-            "title": "Genome Label",
+            "title": "Genome label",
             "description": "Please assign a unique Genome Label for this genome or metagenome to help you recall it during the linking step."
           }
         }
@@ -724,105 +724,8 @@
                         }
                       }
                     ]
-                  }
-                }
-              },
-              "metagenome_details": {
-                "type": "object",
-                "title": "Metagenome details",
-                "properties": {
-                  "environment": {
-                    "type": "string",
-                    "title": "Metagenome host or isolation source",
-                    "description": "For metagenomic samples, please select the source host or isolation source. If it is not available, please select Other and type it in.",
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "title": "Human",
-                        "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000393"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "title": "Other mammal",
-                        "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000395"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "title": "Aquatic invertebrate",
-                        "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000871"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "title": "Insect",
-                        "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000058"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "title": "Other animal",
-                        "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000421"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "title": "Biofilm / Microbial mat",
-                        "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000116"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "title": "Plant",
-                        "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000057"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "title": "Soil",
-                        "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000007"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "title": "Sediment",
-                        "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000066"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "title": "Ocean",
-                        "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000022"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "title": "Air",
-                        "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000006"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "title": "Other",
-                        "enum": ["other"]
-                      }
-                    ]
-                  }
-                },
-                "dependencies": {
-                  "environment": {
+                  },
+                  "metagenomic_environment": {
                     "oneOf": [
                       {
                         "properties": {
@@ -1311,14 +1214,14 @@
               },
               "column": {
                 "type": "string",
-                "title": "Column Phase",
+                "title": "Column phase",
                 "description": "Please select column phase. You can add additional column details in the Other Instrumentation Information section below.",
                 "enum": ["Reverse Phase", "Normal Phase", "HILIC"],
                 "default": "Reverse Phase"
               },
               "mode": {
                 "type": "string",
-                "title": "Ionization Mode",
+                "title": "Ionization mode",
                 "description": "Please select ionization mode.",
                 "anyOf": [
                   {
@@ -1349,7 +1252,7 @@
               },
 			    "ionization": {
 					"type": "object",
-          "title": "Ionization",
+          "title": "Ionization type",
 					"properties": {
             "ionization_type": {
                     "type": "string",
@@ -1440,7 +1343,7 @@
               },
               "instrumentation_method": {
                 "type": "string",
-                "title": "Instrumentation Method Label",
+                "title": "Instrumentation method label",
                 "description": "Please assign an Instrumentation Method Label for this set of instrumentation details. If more than one LCMS instrumentation method was used, please create a new Instrumentation Method Label for each condition by clicking on the plus."
               }
             },

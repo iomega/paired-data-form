@@ -95,7 +95,7 @@ export type PhaseOrOD = string;
  */
 export type Type = 'shaking' | 'fermenter' | 'not shaking';
 /**
- * Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h.
+ * Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h.  You can also define custom media here, indicate if purity checks were made, and provide more specific details.
  */
 export type OtherGrowthConditions = string;
 /**
@@ -202,15 +202,28 @@ export type StoredWaveformInverseFourierTransform = 'https://bioportal.bioontolo
 export type Cyclotron = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000288';
 export type OtherMassSpectrometer = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000443';
 /**
- * Please select reverse or normal phase. You can add additional column details in the Other Instrumentation Information section below.
+ * Please select column phase. You can add additional column details in the Other Instrumentation Information section below.
  */
-export type ColumnDetails = 'Reverse Phase' | 'Normal Phase';
+export type ColumnPhase = 'Reverse Phase' | 'Normal Phase' | 'HILIC';
 /**
- * Please select positive or negative mode.
+ * Please select ionization mode.
  */
-export type InstrumentMode = Positive | Negative;
-export type Positive = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000130';
-export type Negative = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000129';
+export type IonizationMode = Positive | Negative | Both;
+export type Positive = 'http://purl.obolibrary.org/obo/MS_1000130';
+export type Negative = 'http://purl.obolibrary.org/obo/MS_1000129';
+export type Both = 'http://purl.obolibrary.org/obo/CHMO_0002262';
+/**
+ * Please select the type of ionization used. If your ionization type is not listed here, please select Other and specify.
+ */
+export type IonizationType =
+  | ElectrosprayIonizationESI
+  | MatrixAssistedLaserDesorptionIonizationMALDI
+  | AtmosphericPressureChemicalIonizationAPCI
+  | OtherIonizationType;
+export type ElectrosprayIonizationESI = 'http://purl.obolibrary.org/obo/MS_1000073';
+export type MatrixAssistedLaserDesorptionIonizationMALDI = 'http://purl.obolibrary.org/obo/MS_1000075';
+export type AtmosphericPressureChemicalIonizationAPCI = 'http://purl.obolibrary.org/obo/MS_1000070';
+export type OtherIonizationType = 'http://purl.obolibrary.org/obo/MS_1000008';
 /**
  * Please enter the mass range collected in Da. For example `100-800` for a range from 100 Da to 800 Da
  */
@@ -220,11 +233,11 @@ export type MassRange = string;
  */
 export type CollisionEnergy = string;
 /**
- * Did you add anything to your instrument running buffers, e.g. 0.1% formic acid.
+ * Did you add anything to your mobile phase, e.g. 0.1% formic acid.
  */
-export type Buffering = string;
+export type MobilePhaseConditions = string;
 /**
- * Please enter any other relevant instrument or method details.
+ * Please enter any other relevant instrument or method details, such as gradient used, more column details, or any other relevant information.
  */
 export type OtherInstrumentationInformation = string;
 /**
@@ -232,15 +245,16 @@ export type OtherInstrumentationInformation = string;
  */
 export type InstrumentationMethodLabel = string;
 /**
- * Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment.
+ * Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment. More detailed information can go in the 'Other' box.
  */
 export type InstrumentationMethods = {
   instrumentation?: Instrumentation;
-  column?: ColumnDetails;
-  mode?: InstrumentMode;
+  column?: ColumnPhase;
+  mode?: IonizationMode;
+  ionization?: Ionization;
   range?: MassRange;
   collision_energy?: CollisionEnergy;
-  buffering?: Buffering;
+  buffering?: MobilePhaseConditions;
   other_instrumentation?: OtherInstrumentationInformation;
   instrumentation_method: InstrumentationMethodLabel;
   [k: string]: any;
@@ -349,7 +363,7 @@ export interface MetaboLights {
   [k: string]: any;
 }
 /**
- * Please select genome (microbial isolate grown in pure culture), metagenome (microbial mixture or environmental sample), or metagenome-assembled genome (genome assembled from a metagenome with no isolate grown in culture).
+ * Please select genome (microbial isolate grown in pure culture), metagenome (microbial mixture or environmental sample), or metagenome-assembled genome (genome assembled from a metagenome with no isolate grown in culture). All genome sequences must first be submitted to a public database with a unique identifier. In the case of a whole genome sequence, please use master records. At least one identifier must be entered.
  */
 export interface GenomeOrMetagenome {
   genome_type: GenomeType;
@@ -378,6 +392,10 @@ export interface Aeration {
 }
 export interface Instrumentation {
   instrument?: InstrumentType;
+  [k: string]: any;
+}
+export interface Ionization {
+  ionization_type?: IonizationType;
   [k: string]: any;
 }
 export interface MIBiGBGCID {

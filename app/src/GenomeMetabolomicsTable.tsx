@@ -36,14 +36,16 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             const tax_url = 'http://purl.bioontology.org/ontology/NCBITAXON/' + s.species.tax_id;
             species = <a href={tax_url}>{s.species.scientific_name}</a>;
         }
-        const bs_url = `https://www.ncbi.nlm.nih.gov/biosample/{g.BioSample_accession}`;
+        const bs_url = `https://www.ncbi.nlm.nih.gov/biosample/${g.BioSample_accession}`;
         if (g.genome_ID.genome_type === 'metagenome') {
-            const ena_url = `https://www.ebi.ac.uk/ena/browser/view/{g.genome_ID.ENA_NCBI_accession}`;
-            const mgnify_url = `https://www.ebi.ac.uk/metagenomics/studies/{g.genome_ID.MGnify_accession}`;
+            const ena_url = `https://www.ebi.ac.uk/ena/browser/view/${g.genome_ID.ENA_NCBI_accession}`;
+            const mgnify_url = `https://www.ebi.ac.uk/metagenomics/studies/${g.genome_ID.MGnify_accession}`;
+            const jgi_url = `https://img.jgi.doe.gov/cgi-bin/m/main.cgi?section=TaxonDetail&taxon_oid=${g.genome_ID.JGI_ID}`;
             const popover = (
                 <Popover id={g.genome_label} title="Metagenome">
                     <p>ENA/NCBI accession number: <a href={ena_url}>{g.genome_ID.ENA_NCBI_accession}</a></p>
                     <p>MGnify accession number: <a href={mgnify_url}>{g.genome_ID.MGnify_accession}</a></p>
+                    <p>JGI: <a href={jgi_url}>{g.genome_ID.JGI_ID}</a></p>
                     <p>Biosample: <a href={bs_url}>{g.BioSample_accession}</a></p>
                     <p>Key publications: <Publications publications={g.publications!} /></p>
                     <p>Species: {species}</p>
@@ -51,12 +53,14 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             );
             genome_popovers[g.genome_label] = popover;
         } else {
-            const gb_url = `https://www.ncbi.nlm.nih.gov/nuccore/{g.genome_ID.GenBank_accession}`;
-            const rs_url = `https://www.ncbi.nlm.nih.gov/nuccore/{g.genome_ID.RefSeq_accession}`;
+            const gb_url = `https://www.ncbi.nlm.nih.gov/nuccore/${g.genome_ID.GenBank_accession}`;
+            const rs_url = `https://www.ncbi.nlm.nih.gov/nuccore/${g.genome_ID.RefSeq_accession}`;
+            const jgi_url = `https://img.jgi.doe.gov/cgi-bin/m/main.cgi?section=TaxonDetail&page=taxonDetail&taxon_oid=${g.genome_ID.JGI_Genome_ID}`;
             const popover = (
                 <Popover id={g.genome_label} title="Genome or metagenome-assembled genome">
                     <p>GenBank: <a href={gb_url}>{g.genome_ID.GenBank_accession}</a></p>
                     <p>RefSeq: <a href={rs_url}>{g.genome_ID.RefSeq_accession}</a></p>
+                    <p>JGI: <a href={jgi_url}>{g.genome_ID.JGI_Genome_ID}</a></p>
                     <p>Biosample: <a href={bs_url}>{g.BioSample_accession}</a></p>
                     <p>Key publications: <Publications publications={g.publications!} /></p>
                     <p>Species: {species}</p>
@@ -68,36 +72,46 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
 
     const sample_popovers: any = {};
     pure_project.experimental.sample_preparation!.forEach((s) => {
-        let environment = <></>;
-        if (s.medium_details.metagenomic_environment === 'other') {
-            environment = s.medium_details!.metagenomic_other_environment;
-        } else if (s.medium_details!.metagenomic_environment) {
-            const any_env = props.schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[0].properties.metagenomic_environment.oneOf;
-            const env_title = any_env.find((r: any) => r.enum[0] === s.medium_details!.metagenomic_environment).title;
-            environment = <a href={s.medium_details!.metagenomic_environment}>{env_title}</a>;
-        }
-        const metagenome = (
-            <p>Metagenome details
-                <ul>
-                    <li>Host or isolation source: {environment}</li>
-                    <li>Sample description: {s.medium_details.metagenomic_sample_description}</li>
-                </ul>
-            </p>
-        );
         let medium = <></>;
-        if (s.medium_details!.medium === 'other') {
-            medium = s.medium_details!.Other_medium;
+        if (s.medium_details!.medium_type === 'metagenome') {
+            let environment = <></>;
+            if (s.medium_details.metagenomic_environment === 'other') {
+                environment = s.medium_details!.metagenomic_other_environment;
+            } else if (s.medium_details!.metagenomic_environment) {
+                const any_env = props.schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[0].properties.metagenomic_environment.oneOf;
+                const env_title = any_env.find((r: any) => r.enum[0] === s.medium_details!.metagenomic_environment).title;
+                environment = <a href={s.medium_details!.metagenomic_environment}>{env_title}</a>;
+            }
+            medium = (
+                <p>Metagenome details
+                    <ul>
+                        <li>Host or isolation source: {environment}</li>
+                        <li>Sample description: {s.medium_details.metagenomic_sample_description}</li>
+                    </ul>
+                </p>
+            );
         } else {
-            const any_medium = props.schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
-            const medium_title = any_medium.find((r: any) => r.enum[0] === s.medium_details!.medium).title;
-            medium = <a href={s.medium_details!.medium}>{medium_title}</a>
+            let medium_title = '';
+            let medium_url = '';
+            if (s.medium_details!.medium === 'other') {
+                medium_title = s.medium_details!.Other_medium;
+                medium_url = s.medium_details!.Other_medium_link;
+            } else {
+                const any_medium = props.schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
+                medium_title = any_medium.find((r: any) => r.enum[0] === s.medium_details!.medium).title;
+                medium_url = s.medium_details!.medium;
+            }
+            medium = (
+                <>
+                    <p>Growth medium: <a href={medium_url}>{medium_title}</a></p>
+                    {s.medium_details.medium_volume && <p>Volume of culture (ml): {s.medium_details.medium_volume}</p> }
+                </>
+            );
         }
         const popover = (
             <Popover id={s.sample_preparation_method} title="Sample growth conditions">
                 <p>Medium type: {s.medium_details!.medium_type}</p>
-                <p>Growth medium: {medium}</p>
-                {s.medium_details.medium_volume && <p>Volume of culture (ml): {s.medium_details.medium_volume}</p> }
-                {s.medium_details.metagenomic_environment && metagenome}
+                {medium}
                 <p>Growth parameters
                     <ul>
                         <li>Temperature (&deg;C): {s.growth_parameters.growth_temperature}</li>
@@ -161,10 +175,15 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                 </Table>
             );
         }
-
+        let extracted_material = '';
+        if (e.extracted_material) {
+            const oneof_extracted_material = props.schema.properties.experimental.properties.extraction_methods.items.properties.extracted_material.oneOf;
+            extracted_material = oneof_extracted_material.find((r: any) => e.extracted_material === r.enum[0]).title;
+        }
         const popover = (
             <Popover id={e.extraction_method} title="Extraction method">
                 {solvent_table}
+                <p>Extracted material: {extracted_material}</p>
                 <p>Other extraction details: {e.other_extraction_parameters}</p>
             </Popover>
         );
@@ -183,14 +202,30 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         }
         const any_mode = props.schema.properties.experimental.properties.instrumentation_methods.items.properties.mode.anyOf;
         const mode_title = any_mode.find((r: any) => r.enum[0] === i.mode).title;
+        let type = <></>;
+        if (i.ionization && i.ionization!.ionization_type) {
+            if (i.ionization!.ionization_type === 'http://purl.obolibrary.org/obo/MS_1000008') {
+                type = i.ionization!.other_ionization_type;
+            } else {
+                const any_type = props.schema.properties.experimental.properties.instrumentation_methods.items.properties.ionization.properties.ionization_type.anyOf;
+                const type_url = i.ionization!.ionization_type;
+                const type_title = any_type.find((r: any) => r.enum[0] === type_url).title;
+                type = <a href={type_url}>{type_title}</a>;
+            }
+        }
         const popover = (
             <Popover id={i.instrumentation_method} title="Instrumentation method">
                 <p>Type: {instrument}</p>
-                <p>Column: {i.column}</p>
-                <p>Mode: <a href={i.mode}>{mode_title}</a></p>
+                <p>Column phase: {i.column}</p>
+                <p>Ionization:
+                    <ul>
+                        <li>Mode: <a href={i.mode}>{mode_title}</a></li>
+                        <li>Type: {type}</li>
+                    </ul>
+                </p>
                 <p>Mass range (Da): {i.range}</p>
                 <p>Collision energy: {i.collision_energy}</p>
-                <p>Buffering: {i.buffering}</p>
+                <p>Mobile phase conditions: {i.buffering}</p>
                 <p>Other: {i.other_instrumentation}</p>
             </Popover>
         );

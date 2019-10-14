@@ -73,7 +73,7 @@
           "medium_type": {
             "ui:widget": "radio"
           },
-          "ui:order": ["medium_type", "medium", "Other_medium", "medium_volume", "metagenomic_environment", "metagenomic_other_environment", "metagenomic_sample_description"]
+          "ui:order": ["medium_type", "medium", "Other_medium", "Other_medium_link", "medium_volume", "metagenomic_environment", "metagenomic_other_environment", "metagenomic_sample_description"]
         },
         "other_growth_conditions": {
           "ui:widget": "textarea",
