@@ -134,7 +134,7 @@
           "genome_ID": {
             "type": "object",
             "title": "Genome or Metagenome",
-            "description": "Please select genome (microbial isolate grown in pure culture), metagenome (microbial mixture or environmental sample), or metagenome-assembled genome (genome assembled from a metagenome with no isolate grown in culture).",
+            "description": "Please select genome (microbial isolate grown in pure culture), metagenome (microbial mixture or environmental sample), or metagenome-assembled genome (genome assembled from a metagenome with no isolate grown in culture). All genome sequences must first be submitted to a public database with a unique identifier. In the case of a whole genome sequence, please use master records. At least one identifier must be entered.",
             "required": ["genome_type"],
             "properties": {
               "genome_type": {
@@ -160,7 +160,12 @@
                       "RefSeq_accession": {
                         "type": "string",
                         "title": "RefSeq accession number",
-                        "description": "If the publicly available genome got a RefSeq accession number assigned, e.g., NC_003888.3, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records."
+                        "description": "For example: AL645882"
+                      },
+                        "JGI_Genome_ID": {
+                        "type": "string",
+                        "title": "JGI Genome ID number",
+                        "description": "For example: 641228474"
                       }
                     }
                   },
@@ -172,12 +177,17 @@
                       "ENA_NCBI_accession": {
                         "type": "string",
                         "title": "ENA/NCBI accession number",
-                        "description": "If the publicly available metagenome got a ENA/NCBI accession number assigned, e.g., GCA_900283375, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify (and an accession number must be received) before this form can be filled out."
+                        "description": "For example: GCA_900283375"
                       },
                       "MGnify_accession": {
                         "type": "string",
                         "title": "MGnify accession number",
-                        "description": "If the publicly available metagenome got a ENA/NCBI accession number assigned, e.g., MGYA00067671, please provide it here. The metagenome sequence must be submitted to GenBank/ENA/MGnify (and an accession number must be received) before this form can be filled out."
+                        "description": "For example: MGYA00067671"
+                      },
+                        "JGI_ID": {
+                        "type": "string",
+                        "title": "JGI ID number",
+                        "description": "For example: "
                       }
                     }
                   }
@@ -238,7 +248,7 @@
                         "metagenomic_sample_description": {
                           "type": "string",
                           "title": "Metagenomic sample description",
-                          "description": "Please describe your metagenomic sample preparation prior to extraction."
+                          "description": "Please describe your metagenomic sample preparation prior to extraction. This can include cell sorting or enrichment, drying, filtering, or other treatments."
                         },
                         "metagenomic_environment": {
                           "type": "string",
@@ -453,6 +463,41 @@
                               ]
                             },
                             {
+                                        "type": "string",
+                                        "title": "Bottromycin Production Medium (BPM)",
+                                        "enum": [
+                                          "https://www.nature.com/articles/s41467-017-01975-6"
+                                        ]
+                                      },
+                            {
+                                        "type": "string",
+                                        "title": "Potato Dextrose (PD) medium",
+                                        "enum": [
+                                          "https://www.sigmaaldrich.com/catalog/product/sial/70139?lang=en&region=NL"
+                                        ]
+                                      },
+                            {
+                                        "type": "string",
+                                        "title": "Yeast Powder-Soluble Starch (YPSS) medium",
+                                        "enum": [
+                                          "http://www.mycobank.org/BioloMICS.aspx?TableKey=14682616000000058&Rec=254&Fields=All"
+                                        ]
+                                      },
+                             {
+                                        "type": "string",
+                                        "title": "Czapek-Dox medium",
+                                        "enum": [
+                                          "https://en.wikipedia.org/wiki/Czapek_medium"
+                                        ]
+                                      },
+                             {
+                                        "type": "string",
+                                        "title": "Malt Extract medium",
+                                        "enum": [
+                                          "http://cshprotocols.cshlp.org/content/2016/3/pdb.rec091454.full"
+                                        ]                              
+                            },
+                            {
                               "type": "string",
                               "title": "Other",
                               "enum": ["other"]
@@ -587,6 +632,42 @@
                                 ]
                               },
                               {
+                                          "type": "string",
+                                          "title": "Bottromycin Production Medium (BPM)",
+                                          "enum": [
+                                            "https://www.nature.com/articles/s41467-017-01975-6"
+                                          ]
+                                        },
+                              {
+                                          "type": "string",
+                                          "title": "Potato Dextrose (PD) medium",
+                                          "enum": [
+                                            "https://www.sigmaaldrich.com/catalog/product/sial/70139?lang=en&region=NL"
+                                          ]
+                                        },
+                              {
+                                          "type": "string",
+                                          "title": "Yeast Powder-Soluble Starch (YPSS) medium",
+                                          "enum": [
+                                            "http://www.mycobank.org/BioloMICS.aspx?TableKey=14682616000000058&Rec=254&Fields=All"
+                                          ]
+                                        },
+                               {
+                                          "type": "string",
+                                          "title": "Czapek-Dox medium",
+                                          "enum": [
+                                            "https://en.wikipedia.org/wiki/Czapek_medium"
+                                          ]
+                                        },
+                               {
+                                          "type": "string",
+                                          "title": "Malt Extract medium",
+                                          "enum": [
+                                            "http://cshprotocols.cshlp.org/content/2016/3/pdb.rec091454.full"
+                                          ]                              
+  
+                              },
+                              {
                                 "type": "string",
                                 "title": "Other",
                                 "enum": ["other"]
@@ -617,7 +698,12 @@
                               "https://www.elabprotocols.com/protocols/#!protocol=484",
                               "https://openwetware.org/wiki/M9_medium/minimal",
                               "https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/1805982/MYMmedium.pdf",
-                              "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2950629/pdf/nihms234294.pdf"
+                              "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2950629/pdf/nihms234294.pdf",
+                              "https://www.nature.com/articles/s41467-017-01975-6",
+                              "https://www.sigmaaldrich.com/catalog/product/sial/70139?lang=en&region=NL",
+                              "http://www.mycobank.org/BioloMICS.aspx?TableKey=14682616000000058&Rec=254&Fields=All",
+                              "https://en.wikipedia.org/wiki/Czapek_medium",
+                              "http://cshprotocols.cshlp.org/content/2016/3/pdb.rec091454.full"
                             ]
                           }
                         }
@@ -630,12 +716,113 @@
                           "Other_medium": {
                             "type": "string",
                             "title": "Name of other medium"
+                          },
+                          "Other_medium_link": {
+                            "type": "string",
+                            "title": "URL for definition of other medium"
                           }
                         }
                       }
                     ]
-                  },
-                  "metagenomic_environment": {
+                  }
+                }
+              },
+              "metagenome_details": {
+                "type": "object",
+                "title": "Metagenome details",
+                "properties": {
+                  "environment": {
+                    "type": "string",
+                    "title": "Metagenome host or isolation source",
+                    "description": "For metagenomic samples, please select the source host or isolation source. If it is not available, please select Other and type it in.",
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "title": "Human",
+                        "enum": [
+                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000393"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Other mammal",
+                        "enum": [
+                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000395"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Aquatic invertebrate",
+                        "enum": [
+                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000871"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Insect",
+                        "enum": [
+                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000058"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Other animal",
+                        "enum": [
+                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000421"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Biofilm / Microbial mat",
+                        "enum": [
+                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000116"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Plant",
+                        "enum": [
+                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000057"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Soil",
+                        "enum": [
+                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000007"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Sediment",
+                        "enum": [
+                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000066"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Ocean",
+                        "enum": [
+                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000022"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Air",
+                        "enum": [
+                          "https://bioportal.bioontology.org/ontologies/MEO/?p=classes&conceptid=http%3A%2F%2Fpurl.jp%2Fbio%2F11%2Fmeo%2FMEO_0000006"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Other",
+                        "enum": ["other"]
+                      }
+                    ]
+                  }
+                },
+                "dependencies": {
+                  "environment": {
                     "oneOf": [
                       {
                         "properties": {
@@ -783,7 +970,7 @@
               "other_growth_conditions": {
                 "type": "string",
                 "title": "Other growth conditions",
-                "description": "Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h."
+                "description": "Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h.  You can also define custom media here, indicate if purity checks were made, and provide more specific details."
               },
               "sample_preparation_method": {
                 "type": "string",
@@ -991,7 +1178,7 @@
         "instrumentation_methods": {
           "type": "array",
           "title": "Instrumentation Methods",
-          "description": "Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment.",
+          "description": "Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment. More detailed information can go in the 'Other' box.",
           "items": {
             "type": "object",
             "properties": {
@@ -1124,34 +1311,112 @@
               },
               "column": {
                 "type": "string",
-                "title": "Column details",
-                "description": "Please select reverse or normal phase. You can add additional column details in the Other Instrumentation Information section below.",
-                "enum": ["Reverse Phase", "Normal Phase"],
+                "title": "Column Phase",
+                "description": "Please select column phase. You can add additional column details in the Other Instrumentation Information section below.",
+                "enum": ["Reverse Phase", "Normal Phase", "HILIC"],
                 "default": "Reverse Phase"
               },
               "mode": {
                 "type": "string",
-                "title": "Instrument mode",
-                "description": "Please select positive or negative mode.",
+                "title": "Ionization Mode",
+                "description": "Please select ionization mode.",
                 "anyOf": [
                   {
                     "type": "string",
                     "title": "Positive",
                     "enum": [
-                      "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000130"
+                      "http://purl.obolibrary.org/obo/MS_1000130"
                     ]
                   },
                   {
                     "type": "string",
                     "title": "Negative",
                     "enum": [
-                      "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000129"
+                      "http://purl.obolibrary.org/obo/MS_1000129"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "title": "Both",
+                    "enum": [
+                      "http://purl.obolibrary.org/obo/CHMO_0002262"
                     ]
                   }
                 ],
                 "default": [
-                  "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000130"
+                  "http://purl.obolibrary.org/obo/MS_1000129"
                 ]
+              },
+			    "ionization": {
+					"type": "object",
+          "title": "Ionization",
+					"properties": {
+            "ionization_type": {
+                    "type": "string",
+                    "title": "Ionization type",
+                    "description": "Please select the type of ionization used. If your ionization type is not listed here, please select Other and specify.",
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "title": "Electrospray Ionization (ESI)",
+                        "enum": [
+                          "http://purl.obolibrary.org/obo/MS_1000073"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Matrix-assisted laser desorption ionization (MALDI)",
+                        "enum": [
+                          "http://purl.obolibrary.org/obo/MS_1000075"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Atmospheric pressure chemical ionization (APCI)",
+                        "enum": [
+                          "http://purl.obolibrary.org/obo/MS_1000070"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "title": "Other ionization type",
+                        "enum": [
+                          "http://purl.obolibrary.org/obo/MS_1000008"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "dependencies": {
+                  "ionization_type": {
+                    "oneOf": [
+                      {
+                        "properties": {
+                          "ionization_type": {
+                            "enum": [
+                              "http://purl.obolibrary.org/obo/MS_1000073",
+                              "http://purl.obolibrary.org/obo/MS_1000075",
+                              "http://purl.obolibrary.org/obo/MS_1000070"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "ionization_type": {
+                            "enum": [
+                              "http://purl.obolibrary.org/obo/MS_1000008"
+                            ]
+                          },
+                          "other_ionization_type": {
+                            "type": "string",
+                            "title": "Name of other ionization type"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
               },
               "range": {
                 "type": "string",
@@ -1165,13 +1430,13 @@
               },
               "buffering": {
                 "type": "string",
-                "title": "Buffering",
-                "description": "Did you add anything to your instrument running buffers, e.g. 0.1% formic acid."
+                "title": "Mobile phase conditions",
+                "description": "Did you add anything to your mobile phase, e.g. 0.1% formic acid."
               },
               "other_instrumentation": {
                 "type": "string",
                 "title": "Other instrumentation information",
-                "description": "Please enter any other relevant instrument or method details."
+                "description": "Please enter any other relevant instrument or method details, such as gradient used, more column details, or any other relevant information."
               },
               "instrumentation_method": {
                 "type": "string",
