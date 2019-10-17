@@ -127,19 +127,19 @@ export type Solvent =
   | Hexane
   | Water
   | OtherSolvent;
-export type Methanol = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17790';
-export type MethyleneChlorideDichloromethane = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15767';
-export type EthylAcetate = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:27750';
-export type Chloroform = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35255';
-export type Acetone = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15347';
-export type Isopropanol = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17824';
-export type Butanol = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:28885';
-export type Acetonitrile = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:38472';
-export type Ethanol = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:16236';
-export type DiethylEther = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35702';
-export type Hexane = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:29021';
-export type Water = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15377';
-export type OtherSolvent = 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787';
+export type Methanol = 'http://purl.obolibrary.org/obo/CHEBI:17790';
+export type MethyleneChlorideDichloromethane = 'http://purl.obolibrary.org/obo/CHEBI:15767';
+export type EthylAcetate = 'http://purl.obolibrary.org/obo/CHEBI:27750';
+export type Chloroform = 'http://purl.obolibrary.org/obo/CHEBI:35255';
+export type Acetone = 'http://purl.obolibrary.org/obo/CHEBI:15347';
+export type Isopropanol = 'http://purl.obolibrary.org/obo/CHEBI:17824';
+export type Butanol = 'http://purl.obolibrary.org/obo/CHEBI:28885';
+export type Acetonitrile = 'http://purl.obolibrary.org/obo/CHEBI:38472';
+export type Ethanol = 'http://purl.obolibrary.org/obo/CHEBI:16236';
+export type DiethylEther = 'http://purl.obolibrary.org/obo/CHEBI:35702';
+export type Hexane = 'http://purl.obolibrary.org/obo/CHEBI:29021';
+export type Water = 'http://purl.obolibrary.org/obo/CHEBI:15377';
+export type OtherSolvent = 'http://purl.obolibrary.org/obo/CHEBI:46787';
 /**
  * When a mixture of solvents was used, specify in which ratio each solvent was used. The ratios should sum up to 1.
  */
@@ -190,17 +190,17 @@ export type InstrumentType =
   | StoredWaveformInverseFourierTransform
   | Cyclotron
   | OtherMassSpectrometer;
-export type Quadrupole = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000081';
-export type TimeOfFlightTOF = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000084';
-export type IonTrapIT = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000264';
-export type QuadrupolIT = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000082';
-export type OrbitrapQExactiveLTQOrbitrapEtc = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000484';
-export type FourierTransformIonCyclotronResonanceFTICR = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000079';
-export type MagneticSector = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000080';
-export type ElectrostaticEnergyAnalyzer = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000254';
-export type StoredWaveformInverseFourierTransform = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000284';
-export type Cyclotron = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000288';
-export type OtherMassSpectrometer = 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000443';
+export type Quadrupole = 'http://purl.obolibrary.org/obo/MS_1000081';
+export type TimeOfFlightTOF = 'http://purl.obolibrary.org/obo/MS_1000084';
+export type IonTrapIT = 'http://purl.obolibrary.org/obo/MS_1000264';
+export type QuadrupolIT = 'http://purl.obolibrary.org/obo/MS_1000082';
+export type OrbitrapQExactiveLTQOrbitrapEtc = 'http://purl.obolibrary.org/obo/MS_1000484';
+export type FourierTransformIonCyclotronResonanceFTICR = 'http://purl.obolibrary.org/obo/MS_1000079';
+export type MagneticSector = 'http://purl.obolibrary.org/obo/MS_1000080';
+export type ElectrostaticEnergyAnalyzer = 'http://purl.obolibrary.org/obo/MS_1000254';
+export type StoredWaveformInverseFourierTransform = 'http://purl.obolibrary.org/obo/MS_1000284';
+export type Cyclotron = 'http://purl.obolibrary.org/obo/MS_1000288';
+export type OtherMassSpectrometer = 'http://purl.obolibrary.org/obo/MS_1000443';
 /**
  * Please select column phase. You can add additional column details in the Other Instrumentation Information section below.
  */
@@ -215,7 +215,7 @@ export type Both = 'http://purl.obolibrary.org/obo/CHMO_0002262';
 /**
  * Please select the type of ionization used. If your ionization type is not listed here, please select Other and specify.
  */
-export type IonizationType =
+export type IonizationType1 =
   | ElectrosprayIonizationESI
   | MatrixAssistedLaserDesorptionIonizationMALDI
   | AtmosphericPressureChemicalIonizationAPCI
@@ -251,7 +251,7 @@ export type InstrumentationMethods = {
   instrumentation?: Instrumentation;
   column?: ColumnPhase;
   mode?: IonizationMode;
-  ionization?: Ionization;
+  ionization?: IonizationType;
   range?: MassRange;
   collision_energy?: CollisionEnergy;
   buffering?: MobilePhaseConditions;
@@ -394,8 +394,8 @@ export interface Instrumentation {
   instrument?: InstrumentType;
   [k: string]: any;
 }
-export interface Ionization {
-  ionization_type?: IonizationType;
+export interface IonizationType {
+  ionization_type?: IonizationType1;
   [k: string]: any;
 }
 export interface MIBiGBGCID {

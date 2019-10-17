@@ -139,7 +139,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         const any_solvent = props.schema.properties.experimental.properties.extraction_methods.items.properties.solvents.items.properties.solvent.anyOf;
         if (e.solvents!.length === 1 && e.solvents![0].ratio === 1) {
             const s = e.solvents![0];
-            if (s.solvent === 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787') {
+            if (s.solvent === 'http://purl.obolibrary.org/obo/CHEBI:46787') {
                 solvent_table = <p>Solvent: {s.Other_solvent}</p>
             } else {
                 const solvent_title = any_solvent.find((r: any) => s.solvent === r.enum[0]).title;
@@ -148,7 +148,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         } else {
             const solvents = e.solvents!.map(s => {
                 let solvent = <></>;
-                if (s.solvent === 'https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787') {
+                if (s.solvent === 'http://purl.obolibrary.org/obo/CHEBI:46787') {
                     solvent = s.Other_solvent;
                 } else {
                     const solvent_title = any_solvent.find((r: any) => s.solvent === r.enum[0]).title;
@@ -194,7 +194,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
     pure_project.experimental.instrumentation_methods!.forEach(i => {
         const any_instrument = props.schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf;
         let instrument = <></>;
-        if (i.instrumentation!.instrument === 'https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000443') {
+        if (i.instrumentation!.instrument === 'http://purl.obolibrary.org/obo/MS_1000443') {
             instrument = i.instrumentation!.other_instrument;
         } else {
             const instrument_title = any_instrument.find((r: any) => r.enum[0] === i.instrumentation!.instrument).title;

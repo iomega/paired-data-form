@@ -96,7 +96,7 @@ export const kitchenSinkDoc = {
             {
                 "solvents": [
                     {
-                        "solvent": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17790",
+                        "solvent": "http://purl.obolibrary.org/obo/CHEBI:17790",
                         "ratio": 1
                     }
                 ],
@@ -105,12 +105,12 @@ export const kitchenSinkDoc = {
             {
                 "solvents": [
                     {
-                        "solvent": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787",
+                        "solvent": "http://purl.obolibrary.org/obo/CHEBI:46787",
                         "ratio": 0.9,
                         "Other_solvent": "beer"
                     },
                     {
-                        "solvent": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15377",
+                        "solvent": "http://purl.obolibrary.org/obo/CHEBI:15377",
                         "ratio": 0.1
                     }
                 ],
@@ -121,7 +121,7 @@ export const kitchenSinkDoc = {
         "instrumentation_methods": [
             {
                 "instrumentation": {
-                    "instrument": "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000081"
+                    "instrument": "http://purl.obolibrary.org/obo/MS_1000081"
                 },
                 "column": "Reverse Phase",
                 "mode": "http://purl.obolibrary.org/obo/MS_1000130",
@@ -133,7 +133,7 @@ export const kitchenSinkDoc = {
             },
             {
                 "instrumentation": {
-                    "instrument": "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000443",
+                    "instrument": "http://purl.obolibrary.org/obo/MS_1000443",
                     "other_instrument": "blackhole"
                 },
                 "column": "Reverse Phase",
