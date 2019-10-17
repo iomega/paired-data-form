@@ -14,6 +14,7 @@
             "MaSSIVE_URL": "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?task=a507232a787243a5afd69a6c6fa1e508",
             "molecular_network": "c36f90ba29fe44c18e96db802de0c6b9"
         },
+        "related_GNPSMassIVE_ID": "MSV000078836",
         "publications": "28335604"
     },
     "genomes": [
@@ -98,6 +99,7 @@
                         "ratio": 1
                     }
                 ],
+                "extracted_material": "cells",
                 "extraction_method": "EthylAcetate"
             },
             {
@@ -107,6 +109,7 @@
                         "ratio": 1
                     }
                 ],
+                "extracted_material": "cells",
                 "extraction_method": "Butanol"
             },
             {
@@ -116,6 +119,7 @@
                         "ratio": 1
                     }
                 ],
+                "extracted_material": "cells",
                 "extraction_method": "Methanol"
             }
         ],
@@ -126,7 +130,9 @@
                 },
                 "column": "Reverse Phase",
                 "mode": "http://purl.obolibrary.org/obo/MS_1000130",
-                "ionization": {},
+                "ionization": {
+                    "ionization_type": "http://purl.obolibrary.org/obo/MS_1000073"
+                },
                 "range": "300 - 1700",
                 "collision_energy": "20 keV",
                 "buffering": "0.1% TFA",
