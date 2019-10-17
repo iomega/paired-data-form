@@ -977,91 +977,91 @@
                           "type": "string",
                           "title": "Methanol",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17790"
+                            "http://purl.obolibrary.org/obo/CHEBI:17790"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Methylene Chloride / Dichloromethane",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15767"
+                            "http://purl.obolibrary.org/obo/CHEBI:15767"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Ethyl acetate",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:27750"
+                            "http://purl.obolibrary.org/obo/CHEBI:27750"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Chloroform",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35255"
+                            "http://purl.obolibrary.org/obo/CHEBI:35255"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Acetone",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15347"
+                            "http://purl.obolibrary.org/obo/CHEBI:15347"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Isopropanol",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17824"
+                            "http://purl.obolibrary.org/obo/CHEBI:17824"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Butanol",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:28885"
+                            "http://purl.obolibrary.org/obo/CHEBI:28885"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Acetonitrile",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:38472"
+                            "http://purl.obolibrary.org/obo/CHEBI:38472"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Ethanol",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:16236"
+                            "http://purl.obolibrary.org/obo/CHEBI:16236"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Diethyl ether",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35702"
+                            "http://purl.obolibrary.org/obo/CHEBI:35702"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Hexane",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:29021"
+                            "http://purl.obolibrary.org/obo/CHEBI:29021"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Water",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15377"
+                            "http://purl.obolibrary.org/obo/CHEBI:15377"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Other solvent",
                           "enum": [
-                            "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787"
+                            "http://purl.obolibrary.org/obo/CHEBI:46787"
                           ]
                         }
                       ]
@@ -1082,18 +1082,18 @@
                           "properties": {
                             "solvent": {
                               "enum": [
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17790",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15767",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:27750",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35255",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15347",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17824",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:28885",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:38472",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:16236",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:35702",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:29021",
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15377"
+                                "http://purl.obolibrary.org/obo/CHEBI:17790",
+                                "http://purl.obolibrary.org/obo/CHEBI:15767",
+                                "http://purl.obolibrary.org/obo/CHEBI:27750",
+                                "http://purl.obolibrary.org/obo/CHEBI:35255",
+                                "http://purl.obolibrary.org/obo/CHEBI:15347",
+                                "http://purl.obolibrary.org/obo/CHEBI:17824",
+                                "http://purl.obolibrary.org/obo/CHEBI:28885",
+                                "http://purl.obolibrary.org/obo/CHEBI:38472",
+                                "http://purl.obolibrary.org/obo/CHEBI:16236",
+                                "http://purl.obolibrary.org/obo/CHEBI:35702",
+                                "http://purl.obolibrary.org/obo/CHEBI:29021",
+                                "http://purl.obolibrary.org/obo/CHEBI:15377"
                               ]
                             }
                           }
@@ -1102,7 +1102,7 @@
                           "properties": {
                             "solvent": {
                               "enum": [
-                                "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:46787"
+                                "http://purl.obolibrary.org/obo/CHEBI:46787"
                               ]
                             },
                             "Other_solvent": {
@@ -1185,77 +1185,77 @@
                         "type": "string",
                         "title": "Quadrupole",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000081"
+                          "http://purl.obolibrary.org/obo/MS_1000081"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Time-of-flight (TOF)",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000084"
+                          "http://purl.obolibrary.org/obo/MS_1000084"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Ion trap (IT)",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000264"
+                          "http://purl.obolibrary.org/obo/MS_1000264"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Quadrupol-IT",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000082"
+                          "http://purl.obolibrary.org/obo/MS_1000082"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Orbitrap (Q-Exactive, LTQ-Orbitrap, etc.)",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000484"
+                          "http://purl.obolibrary.org/obo/MS_1000484"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Fourier Transform Ion Cyclotron Resonance (FTICR)",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000079"
+                          "http://purl.obolibrary.org/obo/MS_1000079"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Magnetic Sector",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000080"
+                          "http://purl.obolibrary.org/obo/MS_1000080"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Electrostatic Energy Analyzer",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000254"
+                          "http://purl.obolibrary.org/obo/MS_1000254"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Stored Waveform Inverse Fourier Transform",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000284"
+                          "http://purl.obolibrary.org/obo/MS_1000284"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Cyclotron",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000288"
+                          "http://purl.obolibrary.org/obo/MS_1000288"
                         ]
                       },
                       {
                         "type": "string",
                         "title": "Other Mass Spectrometer",
                         "enum": [
-                          "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000443"
+                          "http://purl.obolibrary.org/obo/MS_1000443"
                         ]
                       }
                     ]
@@ -1268,16 +1268,16 @@
                         "properties": {
                           "instrument": {
                             "enum": [
-                              "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000081",
-                              "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000084",
-                              "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000264",
-                              "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000082",
-                              "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000484",
-                              "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000079",
-                              "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000080",
-                              "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000254",
-                              "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000284",
-                              "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000288"
+                              "http://purl.obolibrary.org/obo/MS_1000081",
+                              "http://purl.obolibrary.org/obo/MS_1000084",
+                              "http://purl.obolibrary.org/obo/MS_1000264",
+                              "http://purl.obolibrary.org/obo/MS_1000082",
+                              "http://purl.obolibrary.org/obo/MS_1000484",
+                              "http://purl.obolibrary.org/obo/MS_1000079",
+                              "http://purl.obolibrary.org/obo/MS_1000080",
+                              "http://purl.obolibrary.org/obo/MS_1000254",
+                              "http://purl.obolibrary.org/obo/MS_1000284",
+                              "http://purl.obolibrary.org/obo/MS_1000288"
                             ]
                           }
                         }
@@ -1286,7 +1286,7 @@
                         "properties": {
                           "instrument": {
                             "enum": [
-                              "https://bioportal.bioontology.org/ontologies/MS/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FMS_1000443"
+                              "http://purl.obolibrary.org/obo/MS_1000443"
                             ]
                           },
                           "other_instrument": {
