@@ -1623,12 +1623,12 @@
                   },
                   "MS2_URL": {
                     "type": "string",
-                    "title": "MS2 URL",
-                    "description": "Please provide the URL for the mass spectrum with the molecule to link."
+                    "title": "Mass spectrometry fragmentation file",
+                    "description": "Please provide the URL to a mzML/mzXML/MGF/MSP file for the mass spectrum with the molecule to link."
                   },
                   "MS2_scan": {
                     "type": "string",
-                    "title": "MS2 scan number",
+                    "title": "Mass spectrometry fragmentation scan number",
                     "description": "Please provide the MS2 scan number for the molecule to link."
                   }
                 }
