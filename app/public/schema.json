@@ -187,7 +187,7 @@
                       "JGI_Genome_ID": {
                         "type": "string",
                         "title": "JGI Genome ID number",
-                        "description": "For example: 641228474"
+                        "description": "For example: 3300024223"
                       }
                     }
                   },
