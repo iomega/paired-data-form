@@ -59,7 +59,7 @@
     },
     "metabolomics": {
       "type": "object",
-      "title": "2. Overall metabolomics project details",
+      "title": "2. Metabolomics Information",
       "description": "Please provide basic information on the publicly available metabolomics project from which paired data is available. Currently, we allow for links to mass spectrometry data deposited in GNPS-MaSSIVE or MetaboLights.",
       "properties": {
         "project": {
@@ -135,7 +135,7 @@
     },
     "genomes": {
       "type": "array",
-      "title": "3. All metagenome/genomes",
+      "title": "3. All Metagenomes/Genomes",
       "description": "Please add all genomes and/or metagenomes for which paired data is available as separate entries.",
       "items": {
         "type": "object",
@@ -233,14 +233,14 @@
           "genome_label": {
             "type": "string",
             "title": "Genome label",
-            "description": "Please assign a unique Genome Label for this genome or metagenome to help you recall it during the linking step."
+            "description": "Please assign a unique Genome Label for this genome or metagenome to help you recall it during the linking step. For example 'Streptomyces sp. CNB091'"
           }
         }
       }
     },
     "experimental": {
       "type": "object",
-      "title": "4. Metabolomics experimental details",
+      "title": "4. Experimental Details",
       "description": "Please provide basic information about the Sample Preparation, Extraction Methods, and Instrumentation Methods used. If different Sample Preparation, Extraction Methods, and/or Instrumentation Methods were used leading to different metabolomics data, please use separate entries for each experimental change and create a label that will help you recall the experimental parameters during the linking step.",
       "properties": {
         "sample_preparation": {
@@ -1448,7 +1448,7 @@
     },
     "genome_metabolome_links": {
       "type": "array",
-      "title": "5. Links between genomes and metabolomics data",
+      "title": "5. Genome - Metabolome Links",
       "description": "Create a linked pair by selecting the Genome Label as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.",
       "items": {
         "type": "object",
@@ -1492,7 +1492,7 @@
     },
     "BGC_MS2_links": {
       "type": "array",
-      "title": "6. Linked gene clusters and MS2 spectra",
+      "title": "6. Gene Cluster - Mass Spectra Links",
       "description": "If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide details in this section",
       "items": {
         "type": "object",
