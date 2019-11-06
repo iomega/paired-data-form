@@ -977,91 +977,91 @@
                           "type": "string",
                           "title": "Methanol",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:17790"
+                            "http://purl.obolibrary.org/obo/CHEBI_17790"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Methylene Chloride / Dichloromethane",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:15767"
+                            "http://purl.obolibrary.org/obo/CHEBI_15767"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Ethyl acetate",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:27750"
+                            "http://purl.obolibrary.org/obo/CHEBI_27750"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Chloroform",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:35255"
+                            "http://purl.obolibrary.org/obo/CHEBI_35255"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Acetone",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:15347"
+                            "http://purl.obolibrary.org/obo/CHEBI_15347"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Isopropanol",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:17824"
+                            "http://purl.obolibrary.org/obo/CHEBI_17824"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Butanol",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:28885"
+                            "http://purl.obolibrary.org/obo/CHEBI_28885"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Acetonitrile",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:38472"
+                            "http://purl.obolibrary.org/obo/CHEBI_38472"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Ethanol",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:16236"
+                            "http://purl.obolibrary.org/obo/CHEBI_16236"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Diethyl ether",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:35702"
+                            "http://purl.obolibrary.org/obo/CHEBI_35702"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Hexane",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:29021"
+                            "http://purl.obolibrary.org/obo/CHEBI_29021"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Water",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:15377"
+                            "http://purl.obolibrary.org/obo/CHEBI_15377"
                           ]
                         },
                         {
                           "type": "string",
                           "title": "Other solvent",
                           "enum": [
-                            "http://purl.obolibrary.org/obo/CHEBI:46787"
+                            "http://purl.obolibrary.org/obo/CHEBI_46787"
                           ]
                         }
                       ]
@@ -1082,18 +1082,18 @@
                           "properties": {
                             "solvent": {
                               "enum": [
-                                "http://purl.obolibrary.org/obo/CHEBI:17790",
-                                "http://purl.obolibrary.org/obo/CHEBI:15767",
-                                "http://purl.obolibrary.org/obo/CHEBI:27750",
-                                "http://purl.obolibrary.org/obo/CHEBI:35255",
-                                "http://purl.obolibrary.org/obo/CHEBI:15347",
-                                "http://purl.obolibrary.org/obo/CHEBI:17824",
-                                "http://purl.obolibrary.org/obo/CHEBI:28885",
-                                "http://purl.obolibrary.org/obo/CHEBI:38472",
-                                "http://purl.obolibrary.org/obo/CHEBI:16236",
-                                "http://purl.obolibrary.org/obo/CHEBI:35702",
-                                "http://purl.obolibrary.org/obo/CHEBI:29021",
-                                "http://purl.obolibrary.org/obo/CHEBI:15377"
+                                "http://purl.obolibrary.org/obo/CHEBI_17790",
+                                "http://purl.obolibrary.org/obo/CHEBI_15767",
+                                "http://purl.obolibrary.org/obo/CHEBI_27750",
+                                "http://purl.obolibrary.org/obo/CHEBI_35255",
+                                "http://purl.obolibrary.org/obo/CHEBI_15347",
+                                "http://purl.obolibrary.org/obo/CHEBI_17824",
+                                "http://purl.obolibrary.org/obo/CHEBI_28885",
+                                "http://purl.obolibrary.org/obo/CHEBI_38472",
+                                "http://purl.obolibrary.org/obo/CHEBI_16236",
+                                "http://purl.obolibrary.org/obo/CHEBI_35702",
+                                "http://purl.obolibrary.org/obo/CHEBI_29021",
+                                "http://purl.obolibrary.org/obo/CHEBI_15377"
                               ]
                             }
                           }
@@ -1102,7 +1102,7 @@
                           "properties": {
                             "solvent": {
                               "enum": [
-                                "http://purl.obolibrary.org/obo/CHEBI:46787"
+                                "http://purl.obolibrary.org/obo/CHEBI_46787"
                               ]
                             },
                             "Other_solvent": {
