@@ -127,19 +127,19 @@ export type Solvent =
   | Hexane
   | Water
   | OtherSolvent;
-export type Methanol = 'http://purl.obolibrary.org/obo/CHEBI:17790';
-export type MethyleneChlorideDichloromethane = 'http://purl.obolibrary.org/obo/CHEBI:15767';
-export type EthylAcetate = 'http://purl.obolibrary.org/obo/CHEBI:27750';
-export type Chloroform = 'http://purl.obolibrary.org/obo/CHEBI:35255';
-export type Acetone = 'http://purl.obolibrary.org/obo/CHEBI:15347';
-export type Isopropanol = 'http://purl.obolibrary.org/obo/CHEBI:17824';
-export type Butanol = 'http://purl.obolibrary.org/obo/CHEBI:28885';
-export type Acetonitrile = 'http://purl.obolibrary.org/obo/CHEBI:38472';
-export type Ethanol = 'http://purl.obolibrary.org/obo/CHEBI:16236';
-export type DiethylEther = 'http://purl.obolibrary.org/obo/CHEBI:35702';
-export type Hexane = 'http://purl.obolibrary.org/obo/CHEBI:29021';
-export type Water = 'http://purl.obolibrary.org/obo/CHEBI:15377';
-export type OtherSolvent = 'http://purl.obolibrary.org/obo/CHEBI:46787';
+export type Methanol = 'http://purl.obolibrary.org/obo/CHEBI_17790';
+export type MethyleneChlorideDichloromethane = 'http://purl.obolibrary.org/obo/CHEBI_15767';
+export type EthylAcetate = 'http://purl.obolibrary.org/obo/CHEBI_27750';
+export type Chloroform = 'http://purl.obolibrary.org/obo/CHEBI_35255';
+export type Acetone = 'http://purl.obolibrary.org/obo/CHEBI_15347';
+export type Isopropanol = 'http://purl.obolibrary.org/obo/CHEBI_17824';
+export type Butanol = 'http://purl.obolibrary.org/obo/CHEBI_28885';
+export type Acetonitrile = 'http://purl.obolibrary.org/obo/CHEBI_38472';
+export type Ethanol = 'http://purl.obolibrary.org/obo/CHEBI_16236';
+export type DiethylEther = 'http://purl.obolibrary.org/obo/CHEBI_35702';
+export type Hexane = 'http://purl.obolibrary.org/obo/CHEBI_29021';
+export type Water = 'http://purl.obolibrary.org/obo/CHEBI_15377';
+export type OtherSolvent = 'http://purl.obolibrary.org/obo/CHEBI_46787';
 /**
  * When a mixture of solvents was used, specify in which ratio each solvent was used. The ratios should sum up to 1.
  */

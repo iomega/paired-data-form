@@ -96,7 +96,7 @@ export const kitchenSinkDoc = {
             {
                 "solvents": [
                     {
-                        "solvent": "http://purl.obolibrary.org/obo/CHEBI:17790",
+                        "solvent": "http://purl.obolibrary.org/obo/CHEBI_17790",
                         "ratio": 1
                     }
                 ],
@@ -105,12 +105,12 @@ export const kitchenSinkDoc = {
             {
                 "solvents": [
                     {
-                        "solvent": "http://purl.obolibrary.org/obo/CHEBI:46787",
+                        "solvent": "http://purl.obolibrary.org/obo/CHEBI_46787",
                         "ratio": 0.9,
                         "Other_solvent": "beer"
                     },
                     {
-                        "solvent": "http://purl.obolibrary.org/obo/CHEBI:15377",
+                        "solvent": "http://purl.obolibrary.org/obo/CHEBI_15377",
                         "ratio": 0.1
                     }
                 ],

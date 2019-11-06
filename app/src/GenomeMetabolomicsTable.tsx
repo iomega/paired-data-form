@@ -139,7 +139,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         const any_solvent = props.schema.properties.experimental.properties.extraction_methods.items.properties.solvents.items.properties.solvent.anyOf;
         if (e.solvents!.length === 1 && e.solvents![0].ratio === 1) {
             const s = e.solvents![0];
-            if (s.solvent === 'http://purl.obolibrary.org/obo/CHEBI:46787') {
+            if (s.solvent === 'http://purl.obolibrary.org/obo/CHEBI_46787') {
                 solvent_table = <p>Solvent: {s.Other_solvent}</p>
             } else {
                 const solvent_title = any_solvent.find((r: any) => s.solvent === r.enum[0]).title;
@@ -148,7 +148,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         } else {
             const solvents = e.solvents!.map(s => {
                 let solvent = <></>;
-                if (s.solvent === 'http://purl.obolibrary.org/obo/CHEBI:46787') {
+                if (s.solvent === 'http://purl.obolibrary.org/obo/CHEBI_46787') {
                     solvent = s.Other_solvent;
                 } else {
                     const solvent_title = any_solvent.find((r: any) => s.solvent === r.enum[0]).title;
