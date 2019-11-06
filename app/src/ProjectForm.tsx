@@ -16,6 +16,7 @@ import { jsonDocument } from "./textTable";
 import { injectForeignKeySearchMethods, validateDocument } from "./validate";
 
 import './ProjectForm.css';
+import { CheckList } from "./CheckList";
 
 export interface IProps {
     onSubmit(project: IOMEGAPairedDataPlatform): void;
@@ -107,6 +108,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
     if (schema.data && uiSchema.data) {
         return (
             <div className="projectform">
+                <CheckList/>
                 <Form
                     schema={schema.data}
                     uiSchema={uiSchema.data}
