@@ -210,7 +210,7 @@
                       },
                       "JGI_ID": {
                         "type": "string",
-                        "title": "JGI IMG genome ID",
+                        "title": "JGI IMG (meta)genome ID",
                         "description": "For example: 3300005805"
                       }
                     }
