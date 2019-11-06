@@ -186,8 +186,8 @@
                       },
                       "JGI_Genome_ID": {
                         "type": "string",
-                        "title": "JGI Genome ID number",
-                        "description": "For example: 3300024223"
+                        "title": "JGI IMG genome ID",
+                        "description": "For example: 641228474"
                       }
                     }
                   },
@@ -210,7 +210,7 @@
                       },
                       "JGI_ID": {
                         "type": "string",
-                        "title": "JGI ID number",
+                        "title": "JGI IMG genome ID",
                         "description": "For example: 3300005805"
                       }
                     }
