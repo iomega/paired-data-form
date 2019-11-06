@@ -14,7 +14,7 @@ export const MetabolomicsProjectDetails = ({ data }: IProps) => {
     return (
       <ul>
         <li>Metabolights study identifier: <a href="https://www.ebi.ac.uk/metabolights/{repo.metabolights_study_id}">{project.metabolights_study_id}</a></li>
-        <li>Publications: {data.publications}</li>
+        <li>Publications: <Publications publications={data.publications!}/></li>
       </ul>
     );
   }

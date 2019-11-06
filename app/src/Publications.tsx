@@ -5,6 +5,9 @@ interface IProps {
 }
 
 export const Publications = ({publications}: IProps) => {
+    if (!publications) {
+        return <></>;
+    }
     const pubs = publications.split(/,/);
     const lis = pubs.map(p => {
         let href = 'https://www.ncbi.nlm.nih.gov/pubmed/' + p;
