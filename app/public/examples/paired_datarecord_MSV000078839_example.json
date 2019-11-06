@@ -95,7 +95,7 @@
             {
                 "solvents": [
                     {
-                        "solvent": "http://purl.obolibrary.org/obo/CHEBI:27750",
+                        "solvent": "http://purl.obolibrary.org/obo/CHEBI_27750",
                         "ratio": 1
                     }
                 ],
@@ -105,7 +105,7 @@
             {
                 "solvents": [
                     {
-                        "solvent": "http://purl.obolibrary.org/obo/CHEBI:28885",
+                        "solvent": "http://purl.obolibrary.org/obo/CHEBI_28885",
                         "ratio": 1
                     }
                 ],
@@ -115,7 +115,7 @@
             {
                 "solvents": [
                     {
-                        "solvent": "http://purl.obolibrary.org/obo/CHEBI:17790",
+                        "solvent": "http://purl.obolibrary.org/obo/CHEBI_17790",
                         "ratio": 1
                     }
                 ],
