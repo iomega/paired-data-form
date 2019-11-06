@@ -21,6 +21,8 @@ export async function createProject(req: Request, res: Response) {
     const project = req.body;
     const validator = getValidator(req);
     if (!validator.validate(project)) {
+        console.error('Project json document failed validation');
+        console.error(validator.errors);
         res.status(500);
         res.json(validator.errors);
         return;
