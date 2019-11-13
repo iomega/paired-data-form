@@ -21,12 +21,12 @@ export const GeneSpectraTable = (props: IProps) => {
     let bgc = <></>;
     if (r.BGC_ID.BGC === 'MIBiG number associated with this exact BGC') {
       const bgc_id = 'BGC' + r.BGC_ID.MIBiG_number.toString().padStart(7, '0');
-      const bgc_url = `https://mibig.secondarymetabolites.org/repository/{bgc_id}/index.html`;
+      const bgc_url = `https://mibig.secondarymetabolites.org/repository/${bgc_id}/index.html`;
       const bgc_a = <a title="Exact BGC" href={bgc_url}>{ bgc_id }</a>;
       bgc = bgc_a;
     } else {
       const bgc_id = 'BGC' + r.BGC_ID.similar_MIBiG_number.toString().padStart(7, '0');
-      const bgc_url = `https://mibig.secondarymetabolites.org/repository/{bgc_id}/index.html`;
+      const bgc_url = `https://mibig.secondarymetabolites.org/repository/${bgc_id}/index.html`;
       const bgc_a = <a title="Similar BGC" href={bgc_url}>{ bgc_id }</a>;
       bgc = <span>Similar to {bgc_a} in strain {r.BGC_ID.strain} at {r.BGC_ID.coordinates} coordinates</span>;
     }
