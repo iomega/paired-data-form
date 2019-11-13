@@ -9,7 +9,7 @@ interface IProps {
 
 export const GeneSpectraTable = (props: IProps) => {
   const pure_project = props.data.project;
-  if (!pure_project.BGC_MS2_links) {
+  if (!pure_project.BGC_MS2_links || pure_project.BGC_MS2_links.length === 0) {
     return <p>No links between gene clusters and MS2 spectra.</p>;
   }
   const mySchema = props.schema.properties.BGC_MS2_links.items;
@@ -19,12 +19,15 @@ export const GeneSpectraTable = (props: IProps) => {
 
   const rows = pure_project.BGC_MS2_links.map((r: any, i: number) => {
     let bgc = <></>;
-    const bgc_id = 'BGC' + r.BGC_ID.MIBiG_number.toString().padStart(7, '0');
-    const bgc_url = `https://mibig.secondarymetabolites.org/repository/{bgc_id}/index.html`;
-    const bgc_a = <a title="Exact BGC" href={bgc_url}>{ bgc_id }</a>;
     if (r.BGC_ID.BGC === 'MIBiG number associated with this exact BGC') {
+      const bgc_id = 'BGC' + r.BGC_ID.MIBiG_number.toString().padStart(7, '0');
+      const bgc_url = `https://mibig.secondarymetabolites.org/repository/{bgc_id}/index.html`;
+      const bgc_a = <a title="Exact BGC" href={bgc_url}>{ bgc_id }</a>;
       bgc = bgc_a;
     } else {
+      const bgc_id = 'BGC' + r.BGC_ID.similar_MIBiG_number.toString().padStart(7, '0');
+      const bgc_url = `https://mibig.secondarymetabolites.org/repository/{bgc_id}/index.html`;
+      const bgc_a = <a title="Similar BGC" href={bgc_url}>{ bgc_id }</a>;
       bgc = <span>Similar to {bgc_a} in strain {r.BGC_ID.strain} at {r.BGC_ID.coordinates} coordinates</span>;
     }
     let link = <></>;
