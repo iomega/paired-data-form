@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
+    "@root/encoding": "^1.0.1",
     "bootstrap": ">=3.4.1 <4",
     "d3-dsv": "^1.1.1",
     "diff2html": "^2.11.3",

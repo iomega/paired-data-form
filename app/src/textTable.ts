@@ -1,3 +1,5 @@
+import { strToBase64 } from '@root/encoding';
+
 import { IOMEGAPairedDataPlatform } from './schema';
 
 export function textTable(schema: any, data: any): string[][] {
@@ -25,7 +27,7 @@ function tsvExport(schema: any, data: any) {
 
 export function tsvUrl(schema: any, data: any) {
     const mimeType = 'text/tab-separated-values';
-    const bj = btoa(tsvExport(schema, data));
+    const bj = strToBase64(tsvExport(schema, data));
     return `data:${mimeType};base64,${bj}`;
 }
 

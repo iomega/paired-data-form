@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { Panel } from "react-bootstrap";
+import { strToBase64 } from "@root/encoding";
 
 import { GeneSpectraTable } from "./GeneSpectraTable";
 import { GenomeMetabolomicsTable } from "./GenomeMetabolomicsTable";
@@ -15,7 +16,7 @@ interface IProps {
 }
 
 function record2dataUrl(data: object, mimeType = "application/json") {
-  const bj = btoa(JSON.stringify(data, null, 4));
+  const bj = strToBase64(JSON.stringify(data, null, 4));
   return `data:${mimeType};base64,${bj}`;
 }
 
