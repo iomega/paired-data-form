@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { Panel } from "react-bootstrap";
-import { strToBase64 } from "@root/encoding";
 
 import { GeneSpectraTable } from "./GeneSpectraTable";
 import { GenomeMetabolomicsTable } from "./GenomeMetabolomicsTable";
@@ -9,15 +8,11 @@ import { EnrichedProjectDocument } from "./summarize";
 import { MetabolomicsProjectDetails } from "./MetabolomicsProjectDetails";
 import { SubmitterInformation } from "./SubmitterInformation";
 import { ProjectActions } from "./ProjectActions";
+import { record2dataUrl } from "./record2dataUrl";
 
 interface IProps {
   project: EnrichedProjectDocument;
   schema: any;
-}
-
-function record2dataUrl(data: object, mimeType = "application/json") {
-  const bj = strToBase64(JSON.stringify(data, null, 4));
-  return `data:${mimeType};base64,${bj}`;
 }
 
 export const PairedDataProject = ({ project, schema }: IProps) => {
