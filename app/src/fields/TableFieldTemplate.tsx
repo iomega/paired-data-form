@@ -24,12 +24,12 @@ export const TableFieldTemplate = (props: FieldProps) => {
     }
     const headers = Object.entries(rowSchema).map(([key, s]: any, i: number) => {
         const title = required.has(key) ? <label>{s.title}<span className="required">*</span></label> : <label>{s.title}</label>;
-        let description = s.description;
+        let description = <span dangerouslySetInnerHTML={{__html: s.description}}/>;
         if (s.type === 'object') {
             const propDescs = Object.entries(s.properties).filter((d: any) => d[1].description).map(([skey, sschema]: any) => (
                 <li key={skey}>
                     <label className="control-label">{sschema.title}</label>
-                    <p className="field-description">{sschema.description}</p>
+                    <p dangerouslySetInnerHTML={{__html: sschema.description}} className="field-description"/>
                 </li>
             ));
             const depDescs: any[] = [];
@@ -45,7 +45,7 @@ export const TableFieldTemplate = (props: FieldProps) => {
                             depDescs.push(
                                 <li key={okey}>
                                     <label className="control-label">{oschema.title}</label>
-                                    <p className="field-description">{oschema.description}</p>
+                                    <p dangerouslySetInnerHTML={{__html: oschema.description}} className="field-description"/>
                                 </li>
                             )
                         });
@@ -54,7 +54,7 @@ export const TableFieldTemplate = (props: FieldProps) => {
             }
             description = (
                 <>
-                    <span>{s.description}</span>
+                    <span dangerouslySetInnerHTML={{__html: s.description}}/>
                     <ul>
                         { propDescs }
                         { depDescs }
