@@ -447,11 +447,13 @@
                 "title": "Aeration",
                 "description": "Please select aeration type.",
                 "enum": [
-                  "shaking",
+                  "shaking in conical tube",
+				  "shaking in Erlenmeyer flask",
                   "shaking in spring flask",
                   "shaking in baffled flask",
                   "fermenter",
-                  "not shaking"
+                  "not shaking",
+				  "Other"
                 ]
               },
               "growing_time": {
@@ -778,6 +780,11 @@
                   }
                 }
               },
+			  "resins": {
+				"type": "string",
+				"title": "Resins",
+				"description": "Did you use resins in your extraction? If so, add the name of the resin here (e.g. XAD-2 or XAD-4). Otherwise, leave this section blank."
+			},
               "other_extraction_parameters": {
                 "type": "string",
                 "title": "Other extraction details",
