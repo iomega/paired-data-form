@@ -30,7 +30,7 @@
         "submitter_orcid": {
           "type": "string",
           "title": "ORCID identifier",
-          "description": "ORCID identifier of person who is point of contact. Please use full ORCID iD, e.g. https://orcid.org/0000-0002-1825-0097 .",
+          "description": "ORCID identifier of person who is point of contact. Please use full ORCID iD, e.g. https://orcid.org/0000-0002-1825-0097. Warning, there cannot be spaces in the URI.",
           "format": "uri",
           "pattern": "^https://orcid.org/[0-9]{4}-?[0-9]{4}-?[0-9]{4}-?[0-9]{3}[0-9X]$"
         },
@@ -77,7 +77,7 @@
               "MaSSIVE_URL": {
                 "type": "string",
                 "title": "Link to MassIVE upload",
-                "description": "Please provide the link to the MassIVE upload, e.g., https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view.",
+                "description": "Please provide the link to the MassIVE upload, e.g., https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view. Warning, there cannot be spaces in the URI.",
                 "format": "uri"
               },
               "molecular_network": {
@@ -1088,7 +1088,7 @@
           "metabolomics_file": {
             "type": "string",
             "title": "Location of metabolomics data file",
-            "description": "Please provide a direct link to the metabolomics data file location, e.g. ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML found in the FTP download of a MassIVE dataset or https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML found in the Files section of a MetaboLights study.",
+            "description": "Please provide a direct link to the metabolomics data file location, e.g. ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML found in the FTP download of a MassIVE dataset or https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML found in the Files section of a MetaboLights study. Warning, there cannot be spaces in the URI.",
             "format": "uri"
           },
           "sample_preparation_label": {
