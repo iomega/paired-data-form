@@ -4,6 +4,7 @@ import { Glyphicon } from "react-bootstrap";
 import { FieldProps } from "react-jsonschema-form";
 import Select from "react-select";
 import { OptionsType } from "react-select/lib/types";
+import { findDuplicates } from "../validate";
 
 interface LabelValue {
   label: string;
@@ -27,7 +28,7 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
     this.props.onChange(option.value);
   };
 
-  public loadOptions = () => {
+  public loadOptions = (): LabelValue[] => {
     const values = this.props.uiSchema.foreignKey.search(this.props.name);
     return values.map((v: string) => {
       return { value: v, label: v };
@@ -70,10 +71,14 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
   public onOpen = () => {
     try {
       const options = this.loadOptions();
-      if (options.length > 0) {
-        this.setState({ open: true, options, error: '' });
-      } else {
+      if (options.length === 0) {
         this.setState({ error: 'No choices found, fill sections above before creating a link' });
+      } else if (!options.every(d => d.label)) {
+        this.setState({ error: 'Some choices are empty. Correct in section above' });
+      } else if (findDuplicates(options.map(d => d.label)).length > 0) {
+        this.setState({ error: 'Choices have duplicates. Correct in section above' });
+      } else {
+        this.setState({ open: true, options, error: '' });
       }
     } catch (error) {
       this.setState({ error: error.message });
