@@ -183,6 +183,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         const popover = (
             <Popover id={e.extraction_method} title="Extraction method">
                 {solvent_table}
+                {e.resins && <p>Resins: {e.resins}</p>}
                 <p>Extracted material: {extracted_material}</p>
                 <p>Other extraction details: {e.other_extraction_parameters}</p>
             </Popover>

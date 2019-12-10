@@ -10,7 +10,7 @@
  */
 export type NameOfContactForCorrespondence = string;
 /**
- * ORCID identifier of person who is point of contact. Please use full ORCID iD, e.g. https://orcid.org/0000-0002-1825-0097 .
+ * ORCID identifier of person who is point of contact. Please use full ORCID iD, e.g. <a href="https://orcid.org/0000-0002-1825-0097" target="_blank">https://orcid.org/0000-0002-1825-0097</a> .
  */
 export type ORCIDIdentifier = string;
 export type SubmitterContactEMailAddress = string;
@@ -28,11 +28,11 @@ export type PIContactEMailAddress = string;
  */
 export type GNPSMassIVEIdentifier = string;
 /**
- * Please provide the link to the MassIVE upload, e.g., https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view.
+ * Please provide the link to the MassIVE upload, e.g., <a target="_blank" href="https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view">https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view</a>. Warning, there cannot be spaces in the URI.
  */
 export type LinkToMassIVEUpload = string;
 /**
- * If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9.
+ * If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in <a target="_blank" href="https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9">https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9</a> the task ID is c36f90ba29fe44c18e96db802de0c6b9.
  */
 export type MolecularNetworkTaskID = string;
 /**
@@ -53,7 +53,7 @@ export type RelatedMetabolightsStudyIdentifiers = string;
 export type KeyPublications = string;
 export type GenomeType = 'genome' | 'metagenome' | 'metagenome-assembled genome';
 /**
- * If publicly available metadata is available at BioSamples, please provide the BioSample accession number, e.g. SAMEA3648350, here. We encourage depositing metadata following a standardized ontology to enable proper reuse of the data.
+ * If publicly available metadata is available at <a href="https://www.ncbi.nlm.nih.gov/biosample/" target="_blank">BioSamples</a>, please provide the BioSample accession number, e.g. <a target="_blank" href="https://www.ncbi.nlm.nih.gov/biosample/?term=SAMEA3648350">SAMEA3648350</a>, here. We encourage depositing metadata following a standardized ontology to enable proper reuse of the data.
  */
 export type BioSampleAccessionNumber = string;
 /**
@@ -61,13 +61,13 @@ export type BioSampleAccessionNumber = string;
  */
 export type KeyPublications1 = string;
 /**
- * Please assign a unique Genome Label for this genome or metagenome to help you recall it during the linking step.
+ * Please assign a unique Genome Label for this genome or metagenome to help you recall it during the linking step. For example 'Streptomyces sp. CNB091'
  */
 export type GenomeLabel = string;
 /**
  * Please add all genomes and/or metagenomes for which paired data is available as separate entries.
  */
-export type AllMetagenomeGenomes = {
+export type AllMetagenomesGenomes = {
   genome_ID: GenomeOrMetagenome;
   BioSample_accession?: BioSampleAccessionNumber;
   publications?: KeyPublications1;
@@ -152,11 +152,18 @@ export type ExtractionSolvent = {
   ratio: Ratio;
   [k: string]: any;
 }[];
+/**
+ * Material used for extraction
+ */
 export type ExtractedMaterial = Cells | Supernatant | CellsSupernatant | ComplexMixtureMetagenome;
 export type Cells = 'cells';
 export type Supernatant = 'supernatant';
 export type CellsSupernatant = 'cells_supernatant';
 export type ComplexMixtureMetagenome = 'complex';
+/**
+ * Did you use resins in your extraction? If so, add the name of the resin here (e.g. XAD-2 or XAD-4). Otherwise, leave this section blank.
+ */
+export type Resins = string;
 /**
  * Please describe any other relevant extraction methods, e.g. partitioned against water, fractionated with 20% acetonitrile, sequential extractions, used resins or storage manner (dried, liquid).
  */
@@ -171,6 +178,7 @@ export type ExtractionMethodLabel = string;
 export type ExtractionMethods = {
   solvents?: ExtractionSolvent;
   extracted_material?: ExtractedMaterial;
+  resins?: Resins;
   other_extraction_parameters?: OtherExtractionDetails;
   extraction_method: ExtractionMethodLabel;
   [k: string]: any;
@@ -264,7 +272,7 @@ export type InstrumentationMethods = {
  */
 export type GenomeMetagenome = string;
 /**
- * Please provide a direct link to the metabolomics data file location, e.g. ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML found in the FTP download of a MassIVE dataset or https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML found in the Files section of a MetaboLights study.
+ * Please provide a direct link to the metabolomics data file location, e.g. <a href="ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML" target="_blank">ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML</a> found in the FTP download of a MassIVE dataset or <a target="_blank" href="https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML">https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML</a> found in the Files section of a MetaboLights study. Warning, there cannot be spaces in the URI.
  */
 export type LocationOfMetabolomicsDataFile = string;
 /**
@@ -282,7 +290,7 @@ export type InstrumentationMethod = string;
 /**
  * Create a linked pair by selecting the Genome Label as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.
  */
-export type LinksBetweenGenomesAndMetabolomicsData = {
+export type GenomeMetabolomeLinks = {
   genome_label: GenomeMetagenome;
   metabolomics_file: LocationOfMetabolomicsDataFile;
   sample_preparation_label: SampleGrowthConditions1;
@@ -311,9 +319,9 @@ export type SimplifiedMolecularInputLineEntrySystemSMILES = string;
 export type InternationalUnionOfPureAndAppliedChemistryIUPACName = string;
 export type WhatWouldYouLikeToLink = 'GNPS molecular family' | 'single molecule';
 /**
- * If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide details in this section
+ * If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide details in this section. Biosynthetic gene clusters can be found in <a href="https://mibig.secondarymetabolites.org/" target="_blank">MIBiG</a>.
  */
-export type LinkedGeneClustersAndMS2Spectra = {
+export type GeneClusterMassSpectraLinks = {
   known_link?: KnownLinkedGeneClusterAndMolecule;
   verification: LinkVerification;
   SMILES?: SimplifiedMolecularInputLineEntrySystemSMILES;
@@ -329,11 +337,11 @@ export type LinkedGeneClustersAndMS2Spectra = {
 export interface IOMEGAPairedDataPlatform {
   version: string;
   personal: SubmitterInformation;
-  metabolomics: OverallMetabolomicsProjectDetails;
-  genomes: AllMetagenomeGenomes;
-  experimental: MetabolomicsExperimentalDetails;
-  genome_metabolome_links: LinksBetweenGenomesAndMetabolomicsData;
-  BGC_MS2_links?: LinkedGeneClustersAndMS2Spectra;
+  metabolomics: MetabolomicsInformation;
+  genomes: AllMetagenomesGenomes;
+  experimental: ExperimentalDetails;
+  genome_metabolome_links: GenomeMetabolomeLinks;
+  BGC_MS2_links?: GeneClusterMassSpectraLinks;
 }
 export interface SubmitterInformation {
   submitter_name?: NameOfContactForCorrespondence;
@@ -346,7 +354,7 @@ export interface SubmitterInformation {
 /**
  * Please provide basic information on the publicly available metabolomics project from which paired data is available. Currently, we allow for links to mass spectrometry data deposited in GNPS-MaSSIVE or MetaboLights.
  */
-export interface OverallMetabolomicsProjectDetails {
+export interface MetabolomicsInformation {
   project: GNPSMassIVE | MetaboLights;
   related_GNPSMassIVE_ID?: RelatedGNPSMassiveIdentifiers;
   related_metabolights_study_id?: RelatedMetabolightsStudyIdentifiers;
@@ -372,7 +380,7 @@ export interface GenomeOrMetagenome {
 /**
  * Please provide basic information about the Sample Preparation, Extraction Methods, and Instrumentation Methods used. If different Sample Preparation, Extraction Methods, and/or Instrumentation Methods were used leading to different metabolomics data, please use separate entries for each experimental change and create a label that will help you recall the experimental parameters during the linking step.
  */
-export interface MetabolomicsExperimentalDetails {
+export interface ExperimentalDetails {
   sample_preparation?: SampleGrowthConditions;
   extraction_methods?: ExtractionMethods;
   instrumentation_methods?: InstrumentationMethods;
