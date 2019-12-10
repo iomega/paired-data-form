@@ -233,7 +233,8 @@
           "genome_label": {
             "type": "string",
             "title": "Genome label",
-            "description": "Please assign a unique Genome Label for this genome or metagenome to help you recall it during the linking step. For example 'Streptomyces sp. CNB091'"
+            "description": "Please assign a unique Genome Label for this genome or metagenome to help you recall it during the linking step. For example 'Streptomyces sp. CNB091'",
+            "minLength": 1
           }
         }
       }
@@ -942,7 +943,8 @@
               "sample_preparation_method": {
                 "type": "string",
                 "title": "Sample Growth Conditions Label",
-                "description": "Please assign a Sample Growth Conditions Label for this set of sample preparation details. If more than one sample growth conditions was used, please create a new Sample Growth Conditions Label for each condition by clicking on the plus."
+                "description": "Please assign a Sample Growth Conditions Label for this set of sample preparation details. If more than one sample growth conditions was used, please create a new Sample Growth Conditions Label for each condition by clicking on the plus.",
+                "minLength": 1
               }
             },
             "required": [
@@ -1165,7 +1167,8 @@
               "extraction_method": {
                 "type": "string",
                 "title": "Extraction Method Label",
-                "description": "Please assign an Extraction Method Label for this set of extraction details. If more than one extraction method was used, please create a new Extraction Method Label for each method by clicking on the plus."
+                "description": "Please assign an Extraction Method Label for this set of extraction details. If more than one extraction method was used, please create a new Extraction Method Label for each method by clicking on the plus.",
+                "minLength": 1
               }
             },
             "required": [
@@ -1443,7 +1446,8 @@
               "instrumentation_method": {
                 "type": "string",
                 "title": "Instrumentation method label",
-                "description": "Please assign an Instrumentation Method Label for this set of instrumentation details. If more than one LCMS instrumentation method was used, please create a new Instrumentation Method Label for each condition by clicking on the plus."
+                "description": "Please assign an Instrumentation Method Label for this set of instrumentation details. If more than one LCMS instrumentation method was used, please create a new Instrumentation Method Label for each condition by clicking on the plus.",
+                "minLength": 1
               }
             },
             "required": [
