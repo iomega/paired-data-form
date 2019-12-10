@@ -35,7 +35,7 @@ export function EditProject({ match }: RouteComponentProps<TParams>) {
   }
   if (submitted.project) {
     const filename = `paired_datarecord_${submitted._id}.json`;
-    const data_url = record2dataUrl(submitted);
+    const data_url = record2dataUrl(submitted.project);
     modal = (
       <Modal.Dialog>
         <Modal.Header>
