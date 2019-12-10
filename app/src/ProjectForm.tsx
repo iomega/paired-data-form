@@ -4,6 +4,7 @@ import { Button, ButtonGroup, ButtonToolbar, Glyphicon, Alert } from "react-boot
 import Form, { ISubmitEvent } from "react-jsonschema-form";
 import { useState, useRef } from "react";
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField";
+import Ajv from "ajv";
 
 import { useSchema, useUiSchema } from "./api";
 import { ForeignKeyField } from "./fields/ForeignKeyField";
@@ -73,11 +74,18 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
             if (reader.result) {
                 try {
                     const project: IOMEGAPairedDataPlatform = JSON.parse(reader.result as string);
-                    setInitDoc(project);
-                    setValidDoc(undefined);
+                    const ajv = new Ajv();
+                    const valid = ajv.validate(schema.data as object, project);
+                    if (valid) {
+                        setInitDoc(project);
+                        setValidDoc(undefined);
+                    } else {
+                        console.warn(ajv.errorsText());
+                        setUploadError(true);
+                    }
                 } catch (error) {
-                    setUploadError(true);
                     console.warn(error);
+                    setUploadError(true);
                 }
             }
         };
@@ -133,7 +141,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
                     ref={formRef}
                 >
                     {uploadError && (
-                        <Alert bsStyle="danger">Failed to parse JSON document. Try to validate the JSON document with an online tool.</Alert>
+                        <Alert bsStyle="danger">Failed to parse JSON document. Try to validate the JSON document with an <a href="https://jsonschemalint.com/">online tool</a> against the <a target="_blank" href="/public/schema.json">JSON schema</a>.</Alert>
                     )}
                     <ButtonToolbar>
                         <ButtonGroup>
