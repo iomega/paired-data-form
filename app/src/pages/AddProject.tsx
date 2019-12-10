@@ -28,7 +28,7 @@ export function AddProject() {
   }
   if (submitted.project) {
     const filename = `paired_datarecord_preview_id.json`;
-    const data_url = record2dataUrl(submitted);
+    const data_url = record2dataUrl(submitted.project);
     modal = (
       <Modal.Dialog>
         <Modal.Header>
