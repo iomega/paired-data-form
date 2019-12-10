@@ -98,19 +98,27 @@ export function validateDocument(doc: any, errors: any) {
   }
   const gmIds = genomeLabels(doc);
   findDuplicates(gmIds).forEach(d => {
-    errors.genomes[d].genome_label.addError('Non-unique label');
+    if (errors.genomes[d].genome_label) {
+      errors.genomes[d].genome_label.addError('Non-unique label');
+    }
   });
   const spIds = sampleLabels(doc);
   findDuplicates(spIds).forEach(d => {
-    errors.experimental.sample_preparation[d].sample_preparation_method.addError('Non-unique label');
+    if (errors.experimental.sample_preparation[d].sample_preparation_method) {
+      errors.experimental.sample_preparation[d].sample_preparation_method.addError('Non-unique label');
+    }
   });
   const emIds = extractionLabels(doc);
   findDuplicates(emIds).forEach(d => {
-    errors.experimental.extraction_methods[d].extraction_method.addError('Non-unique label');
+    if (errors.experimental.extraction_methods[d].extraction_method) {
+      errors.experimental.extraction_methods[d].extraction_method.addError('Non-unique label');
+    }
   });
   const imIds = instrumentLabels(doc);
   findDuplicates(imIds).forEach(d => {
-    errors.experimental.instrumentation_methods[d].instrumentation_method.addError('Non-unique label');
+    if (errors.experimental.instrumentation_methods[d].instrumentation_method) {
+      errors.experimental.instrumentation_methods[d].instrumentation_method.addError('Non-unique label');
+    }
   });
   if (doc.genome_metabolome_links) {
     doc.genome_metabolome_links.forEach(
