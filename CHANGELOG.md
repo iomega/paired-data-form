@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2019-12-11
+
+### Added
+
+* Confirmation of submission to review ([#74](https://github.com/iomega/paired-data-form/issues/74))
+* Resins field to extraction method ([#76](https://github.com/iomega/paired-data-form/issues/76))
+* erlemeyer flask option to aeration vessel ([#76](https://github.com/iomega/paired-data-form/issues/76))
+* Links to description of fields and check list ([#76](https://github.com/iomega/paired-data-form/issues/76))
+* Warning to not include spaces in urls ([#75](https://github.com/iomega/paired-data-form/issues/75))
+
+### Fixed
+
+* Do validation on labels when selected in links sections ([#73](https://github.com/iomega/paired-data-form/issues/73))
+* Validate uploaded JSON documents ([#78](https://github.com/iomega/paired-data-form/issues/78))
+* GNPS task id link broken ([#81](https://github.com/iomega/paired-data-form/issues/81))
+
 ## [0.2.0] - 2019-07-05
 
 ### Added

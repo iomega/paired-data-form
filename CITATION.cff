@@ -12,6 +12,9 @@ authors:
 - given-names: Michelle
   family-names: Schorn
   affiliation: Wageningen University and Research Center
+- given-names: Justin
+  family-names: van der Hooft
+  affiliation: Wageningen University and Research Center
 version: 0.2.0
 date-released: 2019-07-05
 repository-code: https://github.com/iomega/paired-data-form
