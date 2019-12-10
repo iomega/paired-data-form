@@ -81,14 +81,14 @@
                 "MaSSIVE_URL": {
                   "type": "string",
                   "title": "Link to MassIVE upload",
-                  "description": "Please provide the link to the MassIVE upload, e.g., https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view.",
+                  "description": "Please provide the link to the MassIVE upload, e.g., <a target=\"_blank\" href=\"https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view\">https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view</a>. Warning, there cannot be spaces in the URI.",
                   "format": "uri"
                 },
                 "molecular_network": {
                   "type": "string",
                   "pattern": "^[0-9a-z]{32}$",
                   "title": "Molecular Network Task ID",
-                  "description": "If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9 the task ID is c36f90ba29fe44c18e96db802de0c6b9."
+                  "description": "If you have run a Molecular Network on GNPS, please provide the task ID of the Molecular Network job. It can be found in the URL of the Molecular Networking job, e.g., in <a target=\"_blank\" href=\"https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9\">https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9</a> the task ID is c36f90ba29fe44c18e96db802de0c6b9."
                 }
               }
             },
@@ -177,17 +177,17 @@
                       "GenBank_accession": {
                         "type": "string",
                         "title": "GenBank accession number",
-                        "description": "If the publicly available genome got a GenBank accession number assigned, e.g., AL645882, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records. At least one identifier must be entered."
+                        "description": "If the publicly available genome got a GenBank accession number assigned, e.g., <a href=\"https://www.ncbi.nlm.nih.gov/nuccore/AL645882\" target=\"_blank\">AL645882</a>, please provide it here. The genome sequence must be submitted to GenBank/ENA/DDBJ (and an accession number must be received) before this form can be filled out. In case of a whole genome sequence, please use master records. At least one identifier must be entered."
                       },
                       "RefSeq_accession": {
                         "type": "string",
                         "title": "RefSeq accession number",
-                        "description": "For example: <a href=\"https://www.ncbi.nlm.nih.gov/nuccore/AL645882\" target=\"_blank\">AL645882</a>"
+                        "description": "For example: <a target=\"_blank\" href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_003888.3\">NC_003888.3</a>"
                       },
                       "JGI_Genome_ID": {
                         "type": "string",
                         "title": "JGI IMG genome ID",
-                        "description": "For example: 641228474"
+                        "description": "For example: <a target=\"_blank\" href=\"https://img.jgi.doe.gov/cgi-bin/m/main.cgi?section=TaxonDetail&page=taxonDetail&taxon_oid=641228474\">641228474</a>"
                       }
                     }
                   },
@@ -201,17 +201,17 @@
                       "ENA_NCBI_accession": {
                         "type": "string",
                         "title": "ENA/NCBI accession number",
-                        "description": "For example: GCA_900283375"
+                        "description": "For example: <a target=\"_blank\" href=\"https://www.ebi.ac.uk/ena/browser/view/GCA_900283375.1\">GCA_900283375</a>"
                       },
                       "MGnify_accession": {
                         "type": "string",
                         "title": "MGnify accession number",
-                        "description": "For example: MGYA00067671"
+                        "description": "For example: <a target=\"_blank\" href=\"https://www.ebi.ac.uk/metagenomics/studies/MGYS00001053\">MGYS00001053</a>"
                       },
                       "JGI_ID": {
                         "type": "string",
                         "title": "JGI IMG (meta)genome ID",
-                        "description": "For example: 3300005805"
+                        "description": "For example: <a target=\"_blank\" href=\"https://img.jgi.doe.gov/cgi-bin/m/main.cgi?section=TaxonDetail&page=taxonDetail&taxon_oid=3300005805\">3300005805</a>"
                       }
                     }
                   }
@@ -222,7 +222,7 @@
           "BioSample_accession": {
             "type": "string",
             "title": "BioSample accession number",
-            "description": "If publicly available metadata is available at <a href=\"https://www.ncbi.nlm.nih.gov/biosample/\" target=\"_blank\">BioSamples</a>, please provide the BioSample accession number, e.g. SAMEA3648350, here. We encourage depositing metadata following a standardized ontology to enable proper reuse of the data."
+            "description": "If publicly available metadata is available at <a href=\"https://www.ncbi.nlm.nih.gov/biosample/\" target=\"_blank\">BioSamples</a>, please provide the BioSample accession number, e.g. <a target=\"_blank\" href=\"https://www.ncbi.nlm.nih.gov/biosample/?term=SAMEA3648350\">SAMEA3648350</a>, here. We encourage depositing metadata following a standardized ontology to enable proper reuse of the data."
           },
           "publications": {
             "type": "string",
@@ -862,6 +862,7 @@
                             "title": "Vessel",
                             "description": "Select vessel used for shaking",
                             "enum": [
+                              "Erlenmeyer flask",
                               "spring flask",
                               "baffled flask",
                               "conical tubes",
@@ -920,6 +921,7 @@
                         "properties": {
                           "aeration_vessel": {
                             "enum": [
+                              "Erlenmeyer flask",
                               "spring flask",
                               "baffled flask",
                               "conical tubes",
@@ -1121,6 +1123,7 @@
               },
               "extracted_material": {
                 "title": "Extracted material",
+                "description": "Material used for extraction",
                 "type": "string",
                 "oneOf": [
                   {
@@ -1148,6 +1151,11 @@
                     ]
                   }
                 ]
+              },
+              "resins": {
+                "type": "string",
+                "title": "Resins",
+                "description": "Did you use resins in your extraction? If so, add the name of the resin here (e.g. XAD-2 or XAD-4). Otherwise, leave this section blank."
               },
               "other_extraction_parameters": {
                 "type": "string",
@@ -1468,7 +1476,7 @@
           "metabolomics_file": {
             "type": "string",
             "title": "Location of metabolomics data file",
-            "description": "Please provide a direct link to the metabolomics data file location, e.g. ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML found in the FTP download of a MassIVE dataset or https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML found in the Files section of a MetaboLights study.",
+            "description": "Please provide a direct link to the metabolomics data file location, e.g. <a href=\"ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML\" target=\"_blank\">ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML</a> found in the FTP download of a MassIVE dataset or <a target=\"_blank\" href=\"https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML\">https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML</a> found in the Files section of a MetaboLights study. Warning, there cannot be spaces in the URI.",
             "format": "uri"
           },
           "sample_preparation_label": {
@@ -1610,7 +1618,7 @@
                   "network_nodes_URL": {
                     "type": "string",
                     "title": "GNPS network nodes URL",
-                    "description": "Please provide the URL from GNPS for the network nodes page: first click 'View Spectral Families (In Browser Network Visualizer)' and then click 'Network Nodes' and copy this URL, e.g. https://gnps.ucsd.edu/ProteoSAFe/result.jsp?view=cluster_info_sliced&componentindex=290&show=true&task=c36f90ba29fe44c18e96db802de0c6b9#%7B%7D"
+                    "description": "Please provide the URL from GNPS for the network nodes page: first click 'View Spectral Families (In Browser Network Visualizer)' and then click 'Network Nodes' and copy this URL, e.g. <a target=\"\" href=\"https://gnps.ucsd.edu/ProteoSAFe/result.jsp?view=cluster_info_sliced&componentindex=290&show=true&task=c36f90ba29fe44c18e96db802de0c6b9#%7B%7D\">https://gnps.ucsd.edu/ProteoSAFe/result.jsp?view=cluster_info_sliced&componentindex=290&show=true&task=c36f90ba29fe44c18e96db802de0c6b9#%7B%7D</a>"
                   }
                 }
               },
@@ -1624,7 +1632,8 @@
                   "MS2_URL": {
                     "type": "string",
                     "title": "Mass spectrometry fragmentation file",
-                    "description": "Please provide the URL to a mzML/mzXML/MGF/MSP file for the mass spectrum with the molecule to link."
+                    "description": "Please provide the URL to a mzML/mzXML/MGF/MSP file for the mass spectrum with the molecule to link. Warning, there cannot be spaces in the URI.",
+                    "format": "uri"
                   },
                   "MS2_scan": {
                     "type": "string",
