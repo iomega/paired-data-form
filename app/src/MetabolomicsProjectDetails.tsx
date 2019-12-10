@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import { OverallMetabolomicsProjectDetails } from './schema';
+import { MetabolomicsInformation } from './schema';
 import { isMetaboLights } from './typeguards';
 import { Publications } from './Publications';
 
 interface IProps {
-  data: OverallMetabolomicsProjectDetails;
+  data: MetabolomicsInformation;
 }
 
 export const MetabolomicsProjectDetails = ({ data }: IProps) => {
