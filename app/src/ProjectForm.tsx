@@ -7,6 +7,7 @@ import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField"
 
 import { useSchema, useUiSchema } from "./api";
 import { ForeignKeyField } from "./fields/ForeignKeyField";
+import { HtmlDescriptionField } from "./fields/HtmlDescriptionField";
 import { TableField } from './fields/TableField';
 import { GenomeMetabolomeLinksField } from "./fields/GenomeMetabolomeLinksField";
 import { MyTitleField } from "./fields/TitleField";
@@ -14,9 +15,9 @@ import { PairedDataProject } from "./PairedDataProject";
 import { IOMEGAPairedDataPlatform } from "./schema";
 import { jsonDocument } from "./textTable";
 import { injectForeignKeySearchMethods, validateDocument } from "./validate";
+import { CheckList } from "./CheckList";
 
 import './ProjectForm.css';
-import { CheckList } from "./CheckList";
 
 export interface IProps {
     onSubmit(project: IOMEGAPairedDataPlatform): void;
@@ -29,6 +30,7 @@ const formFields = {
     gmtable: GenomeMetabolomeLinksField,
     table: TableField,
     TitleField: MyTitleField,
+    DescriptionField: HtmlDescriptionField
 };
 
 export function ProjectForm({ onSubmit, formData }: IProps) {

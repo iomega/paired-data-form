@@ -30,7 +30,7 @@
         "submitter_orcid": {
           "type": "string",
           "title": "ORCID identifier",
-          "description": "ORCID identifier of person who is point of contact. Please use full ORCID iD, e.g. https://orcid.org/0000-0002-1825-0097 .",
+          "description": "ORCID identifier of person who is point of contact. Please use full ORCID iD, e.g. <a href=\"https://orcid.org/0000-0002-1825-0097\" target=\"_blank\">https://orcid.org/0000-0002-1825-0097</a> .",
           "format": "uri",
           "pattern": "^https://orcid.org/[0-9]{4}-?[0-9]{4}-?[0-9]{4}-?[0-9]{3}[0-9X]$"
         },
@@ -182,7 +182,7 @@
                       "RefSeq_accession": {
                         "type": "string",
                         "title": "RefSeq accession number",
-                        "description": "For example: AL645882"
+                        "description": "For example: <a href=\"https://www.ncbi.nlm.nih.gov/nuccore/AL645882\" target=\"_blank\">AL645882</a>"
                       },
                       "JGI_Genome_ID": {
                         "type": "string",
@@ -222,7 +222,7 @@
           "BioSample_accession": {
             "type": "string",
             "title": "BioSample accession number",
-            "description": "If publicly available metadata is available at BioSamples, please provide the BioSample accession number, e.g. SAMEA3648350, here. We encourage depositing metadata following a standardized ontology to enable proper reuse of the data."
+            "description": "If publicly available metadata is available at <a href=\"https://www.ncbi.nlm.nih.gov/biosample/\" target=\"_blank\">BioSamples</a>, please provide the BioSample accession number, e.g. SAMEA3648350, here. We encourage depositing metadata following a standardized ontology to enable proper reuse of the data."
           },
           "publications": {
             "type": "string",
@@ -1493,7 +1493,7 @@
     "BGC_MS2_links": {
       "type": "array",
       "title": "6. Gene Cluster - Mass Spectra Links",
-      "description": "If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide details in this section",
+      "description": "If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide details in this section. Biosynthetic gene clusters can be found in <a href=\"https://mibig.secondarymetabolites.org/\" target=\"_blank\">MIBiG</a>.",
       "items": {
         "type": "object",
         "required": [
