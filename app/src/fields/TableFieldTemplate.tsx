@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Table, Glyphicon, OverlayTrigger, Popover } from "react-bootstrap";
+import { Button, Table, Glyphicon, OverlayTrigger, Popover, ButtonGroup } from "react-bootstrap";
 import { FieldProps } from "react-jsonschema-form";
 import AddButton from 'react-jsonschema-form/lib/components/AddButton';
 import IconButton from 'react-jsonschema-form/lib/components/IconButton';
@@ -78,6 +78,12 @@ export const TableFieldTemplate = (props: FieldProps) => {
         );
     });
     headers.push(<th key='actions-th'></th>);
+
+    const onCopyClick = (event: any, element: any) => {
+        console.log('Copy clicked');
+        // TODO copy row
+        // props.onAddClick(event);
+    };
     let rows: JSX.Element[] = [];
     if (props.items) {
         rows = props.items.map((element: any) => {
@@ -85,15 +91,27 @@ export const TableFieldTemplate = (props: FieldProps) => {
                 <tr key={element.key} className={element.className}>
                     {element.children}
                     <td>
-                        <IconButton
-                            type="danger"
-                            icon="remove"
-                            className="array-item-remove"
-                            tabIndex="-1"
-                            style={btnStyle}
-                            disabled={props.disabled || props.readonly}
-                            onClick={element.onDropIndexClick(element.index)}
-                        />
+                        <ButtonGroup>
+                            <IconButton
+                                type="danger"
+                                icon="remove"
+                                title="Remove row"
+                                className="array-item-remove"
+                                tabIndex="-1"
+                                style={btnStyle}
+                                disabled={props.disabled || props.readonly}
+                                onClick={element.onDropIndexClick(element.index)}
+                            />
+                            <IconButton
+                                icon="retweet"
+                                title="Copy row"
+                                className="array-item-duplicate"
+                                tabIndex="-1"
+                                style={btnStyle}
+                                disabled={props.disabled || props.readonly}
+                                onClick={(event: any) => onCopyClick(event, element)}
+                            />
+                        </ButtonGroup>
                     </td>
                 </tr>
             );
