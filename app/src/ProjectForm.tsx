@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, ButtonGroup, ButtonToolbar, Glyphicon } from "react-bootstrap";
+import { Button, ButtonGroup, ButtonToolbar, Glyphicon, Alert } from "react-bootstrap";
 import Form, { ISubmitEvent } from "react-jsonschema-form";
 import { useState, useRef } from "react";
 import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField";
@@ -38,6 +38,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
     const uiSchema = useUiSchema();
     const [initDoc, setInitDoc] = useState(formData ? formData : undefined);
     const [validDoc, setValidDoc] = useState<IOMEGAPairedDataPlatform | undefined>(undefined);
+    const [uploadError, setUploadError] = useState(false);
     const onReset = () => {
         setInitDoc(undefined);
         setValidDoc(undefined);
@@ -50,6 +51,9 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         uploadRef!.current!.click();
     };
     const loadExample1 = () => {
+        if (uploadError) {
+            setUploadError(false);
+        }
         fetch('/examples/paired_datarecord_MSV000078839_example.json')
             .then(r => r.json())
             .then((r) => {
@@ -62,13 +66,19 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         if (!event.target.files) {
             return;
         }
+        setUploadError(false);
         const file = event.target.files[0];
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.result) {
-                const project: IOMEGAPairedDataPlatform = JSON.parse(reader.result as string);
-                setInitDoc(project);
-                setValidDoc(undefined);
+                try {
+                    const project: IOMEGAPairedDataPlatform = JSON.parse(reader.result as string);
+                    setInitDoc(project);
+                    setValidDoc(undefined);
+                } catch (error) {
+                    setUploadError(true);
+                    console.warn(error);
+                }
             }
         };
         reader.readAsText(file);
@@ -86,12 +96,12 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         // Duplicate code from https://github.com/mozilla-services/react-jsonschema-form/blob/master/src/components/Form.js#L166-L167
         const { errors, errorSchema } = theform.validate(theform.state.formData);
         if (Object.keys(errors).length === 0) {
-            theform.setState({errors, errorSchema}, () => {
+            theform.setState({ errors, errorSchema }, () => {
                 setInitDoc(theform.state.formData);
                 setValidDoc(theform.state.formData);
             });
         } else {
-            theform.setState({errors, errorSchema}, () => {
+            theform.setState({ errors, errorSchema }, () => {
                 setInitDoc(theform.state.formData);
                 onError();
             });
@@ -99,7 +109,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
     }
     const uploadGenomeMetabolomeLinks = (gmrows: any[]) => {
         const theform: any = formRef!.current;
-        const currentData: any = {...theform.state.formData};
+        const currentData: any = { ...theform.state.formData };
         const genome_metabolome_links = jsonDocument(currentData, gmrows);
         currentData.genome_metabolome_links = genome_metabolome_links;
         setInitDoc(currentData);
@@ -110,7 +120,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
     if (schema.data && uiSchema.data) {
         return (
             <div className="projectform">
-                <CheckList/>
+                <CheckList />
                 <Form
                     schema={schema.data}
                     uiSchema={uiSchema.data}
@@ -122,6 +132,9 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
                     formContext={formContext}
                     ref={formRef}
                 >
+                    {uploadError && (
+                        <Alert bsStyle="danger">Failed to parse JSON document. Try to validate the JSON document with an online tool.</Alert>
+                    )}
                     <ButtonToolbar>
                         <ButtonGroup>
                             <Button onClick={loadExample1} title="Load example dataset">
@@ -155,7 +168,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
                     <>
                         <h3>Preview</h3>
                         <PairedDataProject
-                            project={{ _id: 'preview_id', project:validDoc}}
+                            project={{ _id: 'preview_id', project: validDoc }}
                             schema={schema.data}
                         />
                     </>

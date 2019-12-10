@@ -11,7 +11,7 @@ const API_BASE_URL = '/api';
 
 export const useProjects = () => {
     const url = API_BASE_URL + '/projects';
-    const response = useFetch<{data: EnrichedProjectDocument[]}>(url);
+    const response = useFetch<{ data: EnrichedProjectDocument[] }>(url);
     let data: ProjectSummary[] = [];
     if (response.data) {
         data = response.data.data.map(summarizeProject);
@@ -77,39 +77,60 @@ export const useProjectHistory = (project_id: string) => {
 export const usePendingProjects = () => {
     const url = API_BASE_URL + '/pending/projects';
     const headers = useAuthHeaders();
-    const init = {headers};
-    return useFetch<{data: EnrichedProjectDocument[]}>(url, init);
+    const init = { headers };
+    return useFetch<{ data: EnrichedProjectDocument[] }>(url, init);
 };
 
-export const useSubmitProject = (project_id?: string): [boolean, (project: ProjectDocument) => Promise<void>] => {
-    const [submitted, setSubmitted] = useState(false);
+export interface IdentifiedProjectDocument {
+    _id?: string;
+    project?: ProjectDocument;
+}
+
+export const useSubmitProject = (project_id?: string): [IdentifiedProjectDocument, (project: ProjectDocument) => Promise<void>, string, () => void] => {
+    const [submitted, setSubmitted] = useState<IdentifiedProjectDocument>({});
+    const [error, setError] = useState('');
     const onSubmit = async (project: ProjectDocument) => {
         const url = API_BASE_URL + (project_id ? `/projects/${project_id}` : '/projects');
         const headers = new Headers({
             Accept: 'application/json',
             'Content-Type': 'application/json'
         });
-        const init = {
-            headers,
-            body: JSON.stringify(project),
-            method: 'POST'
+ 
+        try {
+            const init = {
+                headers,
+                body: JSON.stringify(project),
+                method: 'POST'
+            }
+            const response = await fetch(url, init);
+            if (response.ok) {
+                const {project_id} = await response.json();
+                setSubmitted({project, _id: project_id});
+            } else {
+                setError(response.statusText);
+                console.warn(response);
+            }
+        } catch (error) {
+            setError(error.message);
+            console.warn(error);
         }
-        await fetch(url, init);
-        setSubmitted(true);
     }
-    return [submitted, onSubmit];
+    const rollback = () => {
+        setError('');
+    }
+    return [submitted, onSubmit, error, rollback];
 }
 
 export const denyPendingProject = async (project_id: string, token: string) => {
     const headers = authHeaders(token);
-    const init = {headers, method: 'DELETE'};
+    const init = { headers, method: 'DELETE' };
     const url = `${API_BASE_URL}/pending/projects/${project_id}`;
     await fetch(url, init);
 }
 
 export const approvePendingProject = async (project_id: string, token: string) => {
     const headers = authHeaders(token);
-    const init = {headers, method: 'POST'};
+    const init = { headers, method: 'POST' };
     const url = `${API_BASE_URL}/pending/projects/${project_id}`;
     const response = await fetch(url, init);
     return response.headers.get('Location')!;

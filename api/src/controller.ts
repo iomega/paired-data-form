@@ -37,7 +37,7 @@ export async function createProject(req: Request, res: Response) {
 
     res.set('Location', location);
     res.status(201);
-    res.json({'message': 'Created pending project', location});
+    res.json({'message': 'Created pending project', location, project_id});
 }
 
 export async function listPendingProjects(req: Request, res: Response) {
@@ -109,7 +109,7 @@ export async function editProject(req: Request, res: Response) {
 
     res.set('Location', location);
     res.status(201);
-    res.json({'message': 'Created pending project', location});
+    res.json({'message': 'Created pending project', location, project_id: new_project_id});
 }
 
 export function notFoundHandler(error: any, req: Request, res: Response, next: any) {
