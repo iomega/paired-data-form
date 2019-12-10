@@ -27,10 +27,17 @@ function genomeLabels(doc: any) {
   if (!doc.genomes) {
     return [];
   }
-  return doc.genomes.map(
+  const labels: string[] = doc.genomes.map(
     (r: any) =>
       r.genome_label
   );
+  if (!labels.every(d => d.length)) {
+    throw Error("Some (Meta)Genome labels are empty");
+  }
+  if (findDuplicates(labels).length > 0) {
+    throw Error("(Meta)Genome labels are not unique");
+  }
+  return labels;
 }
 
 function sampleLabels(doc: any) {
@@ -39,9 +46,16 @@ function sampleLabels(doc: any) {
   ) {
     return [];
   }
-  return doc.experimental.sample_preparation.map(
+  const labels: string[] = doc.experimental.sample_preparation.map(
     (r: any) => r.sample_preparation_method
   );
+  if (!labels.every(d => d.length)) {
+    throw Error("Some Sample Growth Condition labels are empty");
+  }
+  if (findDuplicates(labels).length > 0) {
+    throw Error("Sample Growth Condition labels are not unique");
+  }
+  return labels;
 }
 
 function extractionLabels(doc: any) {
@@ -50,7 +64,14 @@ function extractionLabels(doc: any) {
   ) {
     return [];
   }
-  return doc.experimental.extraction_methods.map((r: any) => r.extraction_method);
+  const labels: string[] =  doc.experimental.extraction_methods.map((r: any) => r.extraction_method);
+  if (!labels.every(d => d.length)) {
+    throw Error("Some Extraction Method Labels are empty");
+  }
+  if (findDuplicates(labels).length > 0) {
+    throw Error("Extraction Method Labels are not unique");
+  }
+  return labels;
 }
 
 function instrumentLabels(doc: any) {
@@ -59,14 +80,28 @@ function instrumentLabels(doc: any) {
   ) {
     return [];
   }
-  return doc.experimental.instrumentation_methods.map((r: any) => r.instrumentation_method);
+  const labels: string[] = doc.experimental.instrumentation_methods.map((r: any) => r.instrumentation_method);
+  if (!labels.every(d => d.length)) {
+    throw Error("Some Instrumentation method labels are empty");
+  }
+  if (findDuplicates(labels).length > 0) {
+    throw Error("Instrumentation method labels are not unique");
+  }
+  return labels;
 }
 
 function ms2Labels(doc: any) {
   if (!doc.genome_metabolome_links) {
     return [];
   }
-  return doc.genome_metabolome_links.map((r: any) => r.metabolomics_file);
+  const labels: string[] = doc.genome_metabolome_links.map((r: any) => r.metabolomics_file);
+  if (!labels.every(d => d.length)) {
+    throw Error("Some metabolomics data files are empty");
+  }
+  if (findDuplicates(labels).length > 0) {
+    throw Error("Metabolomics data files are not unique");
+  }
+  return labels;
 }
 
 function findDuplicates(labels: string[]) {
