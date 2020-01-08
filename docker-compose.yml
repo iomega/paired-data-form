@@ -13,10 +13,20 @@ services:
        REDIS_URL: redis://redis:6379
     depends_on:
       - redis
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
   app:
     build: app
     image: "iomega/paired-data-form"
     restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
   proxy:
     image: abiosoft/caddy
     restart: always
@@ -32,11 +42,21 @@ services:
     depends_on:
       - app
       - api
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
   redis:
     image: "redis:alpine"
     command: redis-server --appendonly yes
     volumes:
       - redis:/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
 volumes:
   caddy:
   redis:
