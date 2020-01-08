@@ -15,6 +15,7 @@ import { ReviewProject } from "./pages/ReviewProject";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { CloneProject } from "./pages/CloneProject";
 import { HistoryProject } from "./pages/HistoryProject";
+import { About } from "./pages/About";
 
 export function Routes() {
     return (
@@ -35,6 +36,9 @@ export function Routes() {
                     <LinkContainer to="/pending">
                         <NavItem>Review</NavItem>
                     </LinkContainer>
+                    <LinkContainer to="/about">
+                        <NavItem>About</NavItem>
+                    </LinkContainer>
                 </Nav>
             </Navbar>
             <Switch>
@@ -45,6 +49,7 @@ export function Routes() {
                 <Route path="/projects/:id/clone" component={CloneProject} />
                 <Route path="/projects/:id/history" component={HistoryProject} />
                 <Route path="/projects/:id" component={Project} />
+                <Route path="/about" component={About}/>
                 <ProtectedRoute path="/pending" exact component={PendingProjects} />
                 <ProtectedRoute path="/pending/:id" component={ReviewProject} />
             </Switch>

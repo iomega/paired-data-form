@@ -34,7 +34,7 @@ export function Welcome() {
                 </Col>
                 <Col md={4} style={colStyle}>
                     <h1>FAIR Data</h1>
-                    <p style={textStyle}>The Paired Data Platform relies on publically available data deposited in standard databases and promotes FAIR principles. Metabolomics project information stored in MASSive or MetaboLights can be quickly linked to public genomes stored in NCBI or JGI. Coupling these data with minimal experimental details in a computer readable format allows for large-scale correlations of metabolome changes. Linking these publically available data will facilitate new discoveries and algorithms for predicting chemical structures from genomic information.
+                    <p style={textStyle}>The Paired Data Platform relies on publicly available data deposited in standard databases and promotes FAIR principles. Metabolomics project information stored in MASSive or MetaboLights can be quickly linked to public genomes stored in NCBI or JGI. Coupling these data with minimal experimental details in a computer readable format allows for large-scale correlations of metabolome changes. Linking these publically available data will facilitate new discoveries and algorithms for predicting chemical structures from genomic information.
                 </p>
                 </Col>
             </Row>
