@@ -35,8 +35,8 @@ export function Projects() {
                         <th>Nr of (meta)genomes</th>
                         <th>Nr of growth conditions</th>
                         <th>Nr of extraction methods</th>
-                        <th>Nr of instrumention methods</th>
-                        <th>Nr of links between genomes and metabolomics</th>
+                        <th>Nr of instrumentation methods</th>
+                        <th>Nr of links between genome and metabolome samples</th>
                         <th>Nr of links between gene clusters and MS2 spectra</th>
                     </tr>
                 </thead>
