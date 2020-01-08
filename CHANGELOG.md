@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+* Unable to submit large project ([#88](https://github.com/iomega/paired-data-form/issues/88))
+
 ## [0.3.0] - 2019-12-11
 
 ### Added

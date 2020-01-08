@@ -18,7 +18,7 @@ app.set('store', store);
 app.set('validator', new Validator());
 app.set('enrichqueue', enrichqueue);
 app.use(compression());
-app.use(express.json());
+app.use(express.json({limit: '1mb'}));
 app.use(passport.initialize());
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
