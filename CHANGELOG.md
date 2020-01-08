@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* About page ([#86](https://github.com/iomega/paired-data-form/issues/86))
 * Limit log size of Docker containers ([#89](https://github.com/iomega/paired-data-form/issues/89))
 
 ### Fixed
