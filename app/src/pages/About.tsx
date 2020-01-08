@@ -18,7 +18,7 @@ export const About = () => (
         </ul>
 
         <div>
-            <a href="https://www.esciencecenter.nl"><img style={{width:'30%'}} src={nlesc_logo} alt="Netherlands eScience Center"/></a>
+            <a href="https://www.esciencecenter.nl"><img style={{width: '500px'}} src={nlesc_logo} alt="Netherlands eScience Center"/></a>
             <a href="https://www.wur.nl"><img src={wur_logo} alt="Wageningen University"/></a>
         </div>
 
