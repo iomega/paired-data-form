@@ -22,6 +22,22 @@ export const useProjects = () => {
     };
 };
 
+export interface IStats {
+    global: {
+        projects: number
+        principal_investigators: number
+    };
+    top: {
+        principal_investigators: [string, number][]
+        instruments_types: [string, number][]
+    };
+}
+
+export const useStats = () => {
+    const url = API_BASE_URL + '/stats';
+    return useFetch<IStats>(url);
+}
+
 export async function checkToken(token: string) {
     const url = API_BASE_URL + '/auth';
     const headers = authHeaders(token);

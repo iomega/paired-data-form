@@ -1,0 +1,97 @@
+import { ProjectDocumentStore } from '../projectdocumentstore';
+import { EnrichedProjectDocument } from '../store/enrichments';
+
+export interface IStats {
+    global: {
+        projects: number
+        principal_investigators: number
+    };
+    top: {
+        principal_investigators: [string, number][]
+        instruments_types: [string, number][]
+    };
+}
+
+function countProjectField(projects: EnrichedProjectDocument[], accessor: (project: EnrichedProjectDocument) => string, top_size = 5) {
+    const field_counts = new Map<string, number>();
+    projects.forEach((project) => {
+        const key = accessor(project);
+        if (field_counts.has(key)) {
+            field_counts.set(key, field_counts.get(key) + 1);
+        } else {
+            field_counts.set(key, 1);
+        }
+    });
+    // Sort by count and take top n largest counts
+    const top = Array.from(field_counts.entries()).sort((a, b) => a[1] - b[1]).slice(0, top_size);
+    return {
+        total: field_counts.size,
+        top
+    };
+}
+
+function countProjectCollectionField(
+    projects: EnrichedProjectDocument[],
+    collection_accessor: (project: EnrichedProjectDocument) => any[],
+    field_accessor: (row: any) => string,
+    lookup: Map<string, string>,
+    top_size = 5
+) {
+    const field_counts = new Map<string, number>();
+    projects.forEach((project) => {
+        const collection = collection_accessor(project);
+        // TODO if same key is repeated count as 1 for project or exact
+        collection.forEach((row) => {
+            const key = field_accessor(row);
+            if (field_counts.has(key)) {
+                field_counts.set(key, field_counts.get(key) + 1);
+            } else {
+                field_counts.set(key, 1);
+            }
+        });
+    });
+
+    // Sort by count, take top n largest counts and replace url by title
+    const top: [string, number][] = Array.from(field_counts.entries())
+        .sort((a, b) => a[1] - b[1])
+        .slice(0, top_size)
+        .map((fc) => [lookup.get(fc[0]), fc[1]])
+    ;
+    return {
+        total: field_counts.size,
+        top
+    };
+}
+
+function enum2map(choices: any[]) {
+    return new Map<string, string>(
+        choices.map((c) => [c.enum[0], c.title])
+    );
+}
+
+export async function computeStats(store: ProjectDocumentStore, schema: any) {
+    const projects = await store.listProjects();
+
+    const principal_investigators = countProjectField(projects, (p) => p.project.personal.PI_name);
+
+    const instruments_type_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf);
+    const instruments_types = countProjectCollectionField(
+        projects,
+        (p) => p.project.experimental.instrumentation_methods,
+        (r) => r.instrumentation.instrument,
+        instruments_type_lookup,
+        instruments_type_lookup.size
+    );
+
+    const stats: IStats = {
+        global: {
+            projects: projects.length,
+            principal_investigators: principal_investigators.total
+        },
+        top: {
+            principal_investigators: principal_investigators.top,
+            instruments_types: instruments_types.top
+        }
+    };
+    return stats;
+}
