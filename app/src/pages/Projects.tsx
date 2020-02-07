@@ -26,7 +26,7 @@ export function Projects() {
     ));
     return (
         <div>
-            <h1>List page with all approved datasets, search functionality</h1>
+            <h1>List with all approved projects</h1>
             <Table>
                 <thead>
                     <tr>
