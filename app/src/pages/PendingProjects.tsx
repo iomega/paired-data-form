@@ -51,7 +51,7 @@ export function PendingProjects() {
     ));
     return (
         <div>
-            <h1>List page of pending datasets that require approval</h1>
+            <h1>List of pending projects that require approval</h1>
             <Table>
                 <thead>
                     <tr>
