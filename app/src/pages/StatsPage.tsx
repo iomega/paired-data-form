@@ -50,6 +50,18 @@ export const StatsPage = () => {
                         </fieldset>
                     </Col>
                 </Row>
+                <Row>
+                    <Col md={6}>
+                        <fieldset>
+                            <legend>Growth mediums</legend>
+                            <ListGroup>
+                                {stats.data.top.growth_mediums.map(
+                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
+                                )}
+                            </ListGroup>
+                        </fieldset>
+                    </Col>
+                </Row>
             </Grid>
         </div>
     )

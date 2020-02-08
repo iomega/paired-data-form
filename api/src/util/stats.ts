@@ -9,6 +9,7 @@ export interface IStats {
     top: {
         principal_investigators: [string, number][]
         instruments_types: [string, number][]
+        growth_mediums: [string, number][]
     };
 }
 
@@ -82,6 +83,15 @@ export async function computeStats(store: ProjectDocumentStore, schema: any) {
         instruments_type_lookup,
         instruments_type_lookup.size
     );
+    const growth_mediums_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
+    const growth_mediums_lookup = enum2map(growth_mediums_oneOf);
+    const growth_mediums = countProjectCollectionField(
+        projects,
+        (p) => p.project.experimental.sample_preparation,
+        (r) => r.medium_details.medium,
+        growth_mediums_lookup,
+        growth_mediums_lookup.size
+    );
 
     const stats: IStats = {
         global: {
@@ -90,7 +100,8 @@ export async function computeStats(store: ProjectDocumentStore, schema: any) {
         },
         top: {
             principal_investigators: principal_investigators.top,
-            instruments_types: instruments_types.top
+            instruments_types: instruments_types.top,
+            growth_mediums: growth_mediums.top
         }
     };
     return stats;

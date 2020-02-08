@@ -30,6 +30,7 @@ export interface IStats {
     top: {
         principal_investigators: [string, number][]
         instruments_types: [string, number][]
+        growth_mediums: [string, number][]
     };
 }
 
