@@ -61,6 +61,16 @@ export const StatsPage = () => {
                             </ListGroup>
                         </fieldset>
                     </Col>
+                    <Col md={6}>
+                        <fieldset>
+                            <legend>Top solvents</legend>
+                            <ListGroup>
+                                {stats.data.top.solvents.map(
+                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
+                                )}
+                            </ListGroup>
+                        </fieldset>
+                    </Col>
                 </Row>
             </Grid>
         </div>

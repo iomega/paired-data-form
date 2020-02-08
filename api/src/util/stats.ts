@@ -10,6 +10,7 @@ export interface IStats {
         principal_investigators: [string, number][]
         instruments_types: [string, number][]
         growth_mediums: [string, number][]
+        solvents: [string, number][]
     };
 }
 
@@ -70,6 +71,34 @@ function enum2map(choices: any[]) {
     );
 }
 
+function countSolvents(projects: EnrichedProjectDocument[], schema: any, top_size = 5) {
+    const lookup_enum = schema.properties.experimental.properties.extraction_methods.items.properties.solvents.items.properties.solvent.anyOf;
+    const lookup = enum2map(lookup_enum);
+    const field_counts = new Map<string, number>();
+    projects.forEach(project => {
+        const collection = project.project.experimental.extraction_methods;
+        collection.forEach(method => {
+            method.solvents.forEach(solvent => {
+                const key = lookup.get(solvent.solvent);
+                const value = solvent.ratio;
+                if (field_counts.has(key)) {
+                    field_counts.set(key, field_counts.get(key) + value);
+                } else {
+                    field_counts.set(key, value);
+                }
+            });
+        });
+    });
+    const top: [string, number][] = Array.from(field_counts.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, top_size)
+    ;
+    return {
+        total: field_counts.size,
+        top
+    };
+}
+
 export async function computeStats(store: ProjectDocumentStore, schema: any) {
     const projects = await store.listProjects();
 
@@ -83,6 +112,7 @@ export async function computeStats(store: ProjectDocumentStore, schema: any) {
         instruments_type_lookup,
         instruments_type_lookup.size
     );
+
     const growth_mediums_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
     const growth_mediums_lookup = enum2map(growth_mediums_oneOf);
     const growth_mediums = countProjectCollectionField(
@@ -93,6 +123,8 @@ export async function computeStats(store: ProjectDocumentStore, schema: any) {
         growth_mediums_lookup.size
     );
 
+    const solvents = countSolvents(projects, schema);
+
     const stats: IStats = {
         global: {
             projects: projects.length,
@@ -101,7 +133,8 @@ export async function computeStats(store: ProjectDocumentStore, schema: any) {
         top: {
             principal_investigators: principal_investigators.top,
             instruments_types: instruments_types.top,
-            growth_mediums: growth_mediums.top
+            growth_mediums: growth_mediums.top,
+            solvents: solvents.top
         }
     };
     return stats;
