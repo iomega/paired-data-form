@@ -24,7 +24,7 @@ function countProjectField(projects: EnrichedProjectDocument[], accessor: (proje
         }
     });
     // Sort by count and take top n largest counts
-    const top = Array.from(field_counts.entries()).sort((a, b) => a[1] - b[1]).slice(0, top_size);
+    const top = Array.from(field_counts.entries()).sort((a, b) => b[1] - a[1]).slice(0, top_size);
     return {
         total: field_counts.size,
         top
@@ -54,7 +54,7 @@ function countProjectCollectionField(
 
     // Sort by count, take top n largest counts and replace url by title
     const top: [string, number][] = Array.from(field_counts.entries())
-        .sort((a, b) => a[1] - b[1])
+        .sort((a, b) => b[1] - a[1])
         .slice(0, top_size)
         .map((fc) => [lookup.get(fc[0]), fc[1]])
     ;
