@@ -14,7 +14,7 @@ export const StatsPage = () => {
     }
     return (
         <div style={style}>
-            <h3>Statistics of all paired data platform projects</h3>
+            <h3>Statistics of the projects stored in the paired omics data platform</h3>
             <Grid>
                 <Row>
                     <Col md={6}>
