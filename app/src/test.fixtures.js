@@ -164,20 +164,83 @@ export const kitchenSinkEnrichedDoc = {
     _id: 'kitchen-sink-id',
     project: kitchenSinkDoc,
     enrichments: {
-            "genomes": {
-                "Streptomyces sp. CNB091": {
-                    "url": "https://www.ncbi.nlm.nih.gov/nuccore/ARJI01000000",
-                    "title": "Streptomyces sp. CNB091, whole genome shotgun sequencing project",
-                    "species": { "tax_id": 1169156, "scientific_name": "Streptomyces sp. CNB091" }
-                }, "Streptomyces sp. CNH099": {
-                    "url": "https://www.ncbi.nlm.nih.gov/nuccore/AZWL01000000",
-                    "title": "Streptomyces sp. CNH099, whole genome shotgun sequencing project",
-                    "species": { "tax_id": 1137269, "scientific_name": "Streptomyces sp. CNH099" }
-                }, "Salinispora arenicola CNB527": {
-                    "url": "https://www.ncbi.nlm.nih.gov/nuccore/AZXI01000001",
-                    "title": "Salinispora arenicola CNB527 B033DRAFT_scaffold_0.1_C, whole genome shotgun sequence",
-                    "species": { "tax_id": 1137250, "scientific_name": "Salinispora arenicola CNB527" }
-                }
+        "genomes": {
+            "Streptomyces sp. CNB091": {
+                "url": "https://www.ncbi.nlm.nih.gov/nuccore/ARJI01000000",
+                "title": "Streptomyces sp. CNB091, whole genome shotgun sequencing project",
+                "species": { "tax_id": 1169156, "scientific_name": "Streptomyces sp. CNB091" }
+            }, "Streptomyces sp. CNH099": {
+                "url": "https://www.ncbi.nlm.nih.gov/nuccore/AZWL01000000",
+                "title": "Streptomyces sp. CNH099, whole genome shotgun sequencing project",
+                "species": { "tax_id": 1137269, "scientific_name": "Streptomyces sp. CNH099" }
+            }, "Salinispora arenicola CNB527": {
+                "url": "https://www.ncbi.nlm.nih.gov/nuccore/AZXI01000001",
+                "title": "Salinispora arenicola CNB527 B033DRAFT_scaffold_0.1_C, whole genome shotgun sequence",
+                "species": { "tax_id": 1137250, "scientific_name": "Salinispora arenicola CNB527" }
             }
         }
+    }
 }
+
+export const minimalGrowthMediumDoc = {
+    _id: 'minimal-growth-medium-id',
+    project: {
+        "version": "1",
+        "personal": {},
+        "metabolomics": {
+            "project": {
+                "GNPSMassIVE_ID": "MSV000078839",
+                "MaSSIVE_URL": "https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view"
+            }
+        },
+        "genomes": [{
+            "genome_ID": {
+                "genome_type": "genome",
+                "GenBank_accession": "ARJI01000000"
+            },
+            "publications": "28335604",
+            "genome_label": "Streptomyces sp. CNB091"
+        }],
+        "experimental": {
+            "sample_preparation": [
+                {
+                    "medium_details": {
+                        "medium_type": "liquid"
+                    },
+                    "growth_parameters": {},
+                    "aeration": {},
+                    "sample_preparation_method": "agar"
+                }
+            ],
+            "extraction_methods": [
+                {
+                    "solvents": [
+                        {
+                            "solvent": "http://purl.obolibrary.org/obo/CHEBI_17790",
+                            "ratio": 1
+                        }
+                    ],
+                    "extraction_method": "meth"
+                }
+            ],
+            "instrumentation_methods": [
+                {
+                    "instrumentation": {
+                        "instrument": "http://purl.obolibrary.org/obo/MS_1000443",
+                        "other_instrument": "blackhole"
+                    },
+                    "column": "Reverse Phase",
+                    "mode": "http://purl.obolibrary.org/obo/MS_1000130",
+                    "instrumentation_method": "bh"
+                }
+            ]
+        },
+        "genome_metabolome_links": [{
+            "genome_label": "Streptomyces sp. CNB091",
+            "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML",
+            "sample_preparation_label": "agar",
+            "extraction_method_label": "meth",
+            "instrumentation_method_label": "bn"
+        }]
+    }
+};
