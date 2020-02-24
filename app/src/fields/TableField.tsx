@@ -8,7 +8,7 @@ import { TableRowFieldTemplate } from "./TableRowFieldTemplate";
 import { TableCellFieldTemplate } from "./TableCellFieldTemplate";
 
 export const TableField = (props: FieldProps) => {
-    props.uiSchema['ui:ArrayFieldTemplate'] = TableFieldTemplate;
+    (props.uiSchema as any)['ui:ArrayFieldTemplate'] = TableFieldTemplate;
     if (!props.uiSchema.items) {
         props.uiSchema.items = {};
     }

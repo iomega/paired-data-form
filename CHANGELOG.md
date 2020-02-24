@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Unable to submit large project ([#88](https://github.com/iomega/paired-data-form/issues/88))
 * Spelling errors ([#87](https://github.com/iomega/paired-data-form/issues/87))
+* Render error when growth medium is not set ([#92](https://github.com/iomega/paired-data-form/issues/92))
 
 ## [0.3.0] - 2019-12-11
 
