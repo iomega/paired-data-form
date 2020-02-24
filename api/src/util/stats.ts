@@ -5,6 +5,7 @@ export interface IStats {
     global: {
         projects: number
         principal_investigators: number
+        metabolome_samples: number
     };
     top: {
         principal_investigators: [string, number][]
@@ -99,6 +100,18 @@ function countSolvents(projects: EnrichedProjectDocument[], schema: any, top_siz
     };
 }
 
+function countMetabolomeSamples(projects: EnrichedProjectDocument[]) {
+    const set = new Set<string>();
+
+    projects.forEach(project => {
+        project.project.genome_metabolome_links.forEach(link => {
+            set.add(link.metabolomics_file);
+        });
+    });
+
+    return set.size;
+}
+
 export async function computeStats(store: ProjectDocumentStore, schema: any) {
     const projects = await store.listProjects();
 
@@ -124,11 +137,13 @@ export async function computeStats(store: ProjectDocumentStore, schema: any) {
     );
 
     const solvents = countSolvents(projects, schema);
+    const metabolome_samples = countMetabolomeSamples(projects);
 
     const stats: IStats = {
         global: {
             projects: projects.length,
-            principal_investigators: principal_investigators.total
+            principal_investigators: principal_investigators.total,
+            metabolome_samples
         },
         top: {
             principal_investigators: principal_investigators.top,

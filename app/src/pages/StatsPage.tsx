@@ -12,17 +12,19 @@ export const StatsPage = () => {
     if (!stats.data) {
         return <div style={style}>Error: {stats.error!.message}</div>;
     }
+    const data = stats.data;
     return (
         <div style={style}>
-            <h3>Statistics of the projects stored in the paired omics data platform</h3>
             <Grid>
                 <Row>
+                    <h3>Statistics of the projects stored in the paired omics data platform</h3>
                     <Col md={6}>
                         <fieldset className="global">
                             <legend>Overall</legend>
                             <ListGroup>
-                                <ListGroupItem>Number of projects <Badge>{stats.data.global.projects}</Badge></ListGroupItem>
-                                <ListGroupItem>Number of unique principal investigators <Badge>{stats.data.global.principal_investigators}</Badge></ListGroupItem>
+                                <ListGroupItem>Number of projects <Badge>{data.global.projects}</Badge></ListGroupItem>
+                                <ListGroupItem>Number of unique principal investigators <Badge>{data.global.principal_investigators}</Badge></ListGroupItem>
+                                <ListGroupItem>Number of unique metabolome samples <Badge>{data.global.metabolome_samples}</Badge></ListGroupItem>
                             </ListGroup>
                         </fieldset>
 
@@ -33,7 +35,7 @@ export const StatsPage = () => {
                         <fieldset>
                             <legend>Top principal investigators</legend>
                             <ListGroup>
-                                {stats.data.top.principal_investigators.map(
+                                {data.top.principal_investigators.map(
                                     ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
                                 )}
                             </ListGroup>
@@ -43,7 +45,7 @@ export const StatsPage = () => {
                         <fieldset>
                             <legend>Instrument types</legend>
                             <ListGroup>
-                                {stats.data.top.instruments_types.map(
+                                {data.top.instruments_types.map(
                                     ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
                                 )}
                             </ListGroup>
@@ -55,7 +57,7 @@ export const StatsPage = () => {
                         <fieldset>
                             <legend>Growth mediums</legend>
                             <ListGroup>
-                                {stats.data.top.growth_mediums.map(
+                                {data.top.growth_mediums.map(
                                     ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
                                 )}
                             </ListGroup>
@@ -65,7 +67,7 @@ export const StatsPage = () => {
                         <fieldset>
                             <legend>Top solvents</legend>
                             <ListGroup>
-                                {stats.data.top.solvents.map(
+                                {data.top.solvents.map(
                                     ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
                                 )}
                             </ListGroup>
