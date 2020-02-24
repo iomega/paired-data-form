@@ -96,7 +96,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             if (s.medium_details!.medium === 'other') {
                 medium_title = s.medium_details!.Other_medium;
                 medium_url = s.medium_details!.Other_medium_link;
-            } else if (s.medium_details!.medium) {
+            } else if (s.medium_details.medium) {
                 const any_medium = props.schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
                 medium_title = any_medium.find((r: any) => r.enum[0] === s.medium_details!.medium).title;
                 medium_url = s.medium_details!.medium;
