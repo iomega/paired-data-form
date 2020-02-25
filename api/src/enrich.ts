@@ -70,6 +70,9 @@ async function enrich_genome(genome: any) {
     if ('JGI_Genome_ID' in genome.genome_ID && !enrichment) {
         enrichment = await enrich_jgi(genome.genome_ID.JGI_Genome_ID);
     }
+    if ('ENA_NCBI_accession' in genome.genome_ID && !enrichment) {
+        enrichment = await enrich_ena(genome.genome_ID.ENA_NCBI_accession);
+    }
     return enrichment;
 }
 
@@ -95,9 +98,8 @@ async function esummary(db: string, id: string): Promise<GenomeEnrichment | unde
                 scientific_name: result.organism
             }
         };
-    } else {
-        return undefined;
     }
+    return undefined;
 }
 
 async function enrich_refseq(refseq_id: string): Promise<GenomeEnrichment | undefined> {
@@ -154,7 +156,26 @@ async function enrich_jgi(jgi_id: string): Promise<GenomeEnrichment | undefined>
     if (response.ok) {
         const body = await response.text();
         return parse_JGITaxonDetail_page(body);
-    } else {
-        return undefined;
     }
+    return undefined;
+}
+
+async function enrich_ena(ena_accession: string): Promise<GenomeEnrichment | undefined> {
+    console.log('Enriching ENA accession: ' + ena_accession);
+    const url = `https://www.ebi.ac.uk/ena/portal/api/filereport?result=read_run&accession=${ena_accession}&offset=0&limit=1&format=json&fields=experiment_title,tax_id,scientific_name`;
+    const response = await fetch(url);
+    if (response.ok && response.status !== 204) {
+        const body = await response.json();
+        // For now take info from first read file, in future might have an ENA experiment with different tax ids
+        const row = body[0];
+        return {
+            url: `https://www.ebi.ac.uk/ena/browser/view/${ena_accession}`,
+            title: row.experiment_title,
+            species: {
+                tax_id: parseInt(row.tax_id),
+                scientific_name: row.scientific_name
+            }
+        }
+    }
+    return undefined;
 }
