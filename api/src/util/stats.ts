@@ -10,6 +10,7 @@ export interface IStats {
     top: {
         principal_investigators: [string, number][]
         genome_types: [string, number][]
+        species: [string, number][]
         instruments_types: [string, number][]
         growth_mediums: [string, number][]
         solvents: [string, number][]
@@ -113,6 +114,35 @@ function countMetabolomeSamples(projects: EnrichedProjectDocument[]) {
     return set.size;
 }
 
+function countSpecies(projects: EnrichedProjectDocument[], top_size=50) {
+    const field_counts = new Map<string, number>();
+
+    projects.forEach(project => {
+        if (project.enrichments && project.enrichments.genomes) {
+            Object.values(project.enrichments.genomes).forEach(genome => {
+                const key = genome.species.scientific_name;
+                if (field_counts.has(key)) {
+                    field_counts.set(key, field_counts.get(key) + 1);
+                } else {
+                    field_counts.set(key, 1);
+                }
+            });
+        } else {
+            // No enrichment use label
+            project.project.genomes.forEach(genome => {
+                const key = genome.genome_label;
+                if (field_counts.has(key)) {
+                    field_counts.set(key, field_counts.get(key) + 1);
+                } else {
+                    field_counts.set(key, 1);
+                }
+            });
+        }
+    });
+
+    return Array.from(field_counts.entries()).sort((a, b) => b[1] - a[1]).slice(0, top_size);
+}
+
 export async function computeStats(store: ProjectDocumentStore, schema: any) {
     const projects = await store.listProjects();
 
@@ -149,6 +179,7 @@ export async function computeStats(store: ProjectDocumentStore, schema: any) {
 
     const solvents = countSolvents(projects, schema);
     const metabolome_samples = countMetabolomeSamples(projects);
+    const species = countSpecies(projects);
 
     const stats: IStats = {
         global: {
@@ -161,7 +192,8 @@ export async function computeStats(store: ProjectDocumentStore, schema: any) {
             genome_types: genome_types.top,
             instruments_types: instruments_types.top,
             growth_mediums: growth_mediums.top,
-            solvents: solvents.top
+            solvents: solvents.top,
+            species
         }
     };
     return stats;

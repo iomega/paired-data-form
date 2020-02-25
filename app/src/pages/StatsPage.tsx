@@ -29,8 +29,6 @@ export const StatsPage = () => {
                         </fieldset>
 
                     </Col>
-                </Row>
-                <Row>
                     <Col md={6}>
                         <fieldset>
                             <legend>Top principal investigators</legend>
@@ -41,11 +39,23 @@ export const StatsPage = () => {
                             </ListGroup>
                         </fieldset>
                     </Col>
+                </Row>
+                <Row>
                     <Col md={6}>
                         <fieldset>
                             <legend>Genome types</legend>
                             <ListGroup>
                                 {data.top.genome_types.map(
+                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
+                                )}
+                            </ListGroup>
+                        </fieldset>
+                    </Col>
+                    <Col md={6}>
+                        <fieldset>
+                            <legend>Top species</legend>
+                            <ListGroup>
+                                {data.top.species.map(
                                     ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
                                 )}
                             </ListGroup>
