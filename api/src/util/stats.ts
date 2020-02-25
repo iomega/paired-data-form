@@ -118,7 +118,7 @@ function countSpecies(projects: EnrichedProjectDocument[], top_size=5) {
     const field_counts = new Map<string, number>();
 
     projects.forEach(project => {
-        if (project.enrichments && project.enrichments.genomes) {
+        if (project.enrichments && project.enrichments.genomes && Object.values(project.enrichments.genomes).length) {
             Object.values(project.enrichments.genomes).forEach(genome => {
                 const key = genome.species.scientific_name;
                 if (field_counts.has(key)) {
@@ -128,7 +128,7 @@ function countSpecies(projects: EnrichedProjectDocument[], top_size=5) {
                 }
             });
         } else {
-            // No enrichment use label
+            // No enrichment use label instead
             project.project.genomes.forEach(genome => {
                 const key = genome.genome_label;
                 if (field_counts.has(key)) {
