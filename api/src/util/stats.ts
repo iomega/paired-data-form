@@ -114,7 +114,7 @@ function countMetabolomeSamples(projects: EnrichedProjectDocument[]) {
     return set.size;
 }
 
-function countSpecies(projects: EnrichedProjectDocument[], top_size=5) {
+function countSpecies(projects: EnrichedProjectDocument[], top_size = 5) {
     const field_counts = new Map<string, number>();
 
     projects.forEach(project => {
