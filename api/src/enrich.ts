@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { JSDOM } from 'jsdom';
 
 import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
 
@@ -59,13 +60,21 @@ export async function enrich(project: ProjectDocument): Promise<ProjectEnrichmen
 }
 
 async function enrich_genome(genome: any) {
+    let enrichment = undefined;
     if ('GenBank_accession' in genome.genome_ID) {
-        return await enrich_genbank(genome.genome_ID.GenBank_accession);
+        enrichment = await enrich_genbank(genome.genome_ID.GenBank_accession);
     }
-    return undefined;
+    if ('RefSeq_accession' in genome.genome_ID && !enrichment) {
+        enrichment = await enrich_refseq(genome.genome_ID.RefSeq_accession);
+    }
+    if ('JGI_Genome_ID' in genome.genome_ID && !enrichment) {
+        enrichment = await enrich_jgi(genome.genome_ID.JGI_Genome_ID);
+    }
+    return enrichment;
 }
 
 async function enrich_genbank(genbank_id: string) {
+    console.log('Enriching genbank: ' + genbank_id);
     return await esummary('nuccore', genbank_id);
 }
 
@@ -79,13 +88,72 @@ async function esummary(db: string, id: string): Promise<GenomeEnrichment | unde
         }
         const result = body.result[body.result.uids[0]];
         return {
-            url: `https://www.ncbi.nlm.nih.gov/nuccore/${id}`,
+            url: `https://www.ncbi.nlm.nih.gov/${db}/${id}`,
             title: result.title,
             species: {
                 tax_id: result.taxid,
                 scientific_name: result.organism
             }
         };
+    } else {
+        return undefined;
+    }
+}
+
+async function enrich_refseq(refseq_id: string): Promise<GenomeEnrichment | undefined> {
+    return undefined;
+}
+
+
+export function parse_JGITaxonDetail_page(body: string): GenomeEnrichment | undefined {
+    const {document} = (new JSDOM(body)).window;
+    const rows = document.querySelectorAll('#content_other > form > table > tbody > tr');
+    let scientific_name;
+    let tax_id;
+    let jgi_id;
+    let title;
+    rows.forEach((tr) => {
+        const label_elem = tr.querySelector('th');
+        if (!label_elem) {
+            return;
+        }
+        const label = label_elem.textContent;
+        if (label === 'Organism Name') {
+            scientific_name = tr.querySelector('td').textContent;
+        }
+        if (label === 'Taxon ID' || label === 'Taxon Object ID') {
+            jgi_id = tr.querySelector('td').textContent;
+        }
+        if (label === 'NCBI Taxon ID') {
+            tax_id = parseInt(tr.querySelector('td').textContent);
+        }
+        if (label === 'Study Name (Proposal Name)') {
+            title = tr.querySelector('td').textContent;
+        }
+    });
+    let enrichment: GenomeEnrichment | undefined = undefined;
+    if (scientific_name && tax_id && jgi_id ) {
+        enrichment = {
+            url: `https://img.jgi.doe.gov/cgi-bin/m/main.cgi?section=TaxonDetail&page=taxonDetail&taxon_oid=${jgi_id}`,
+            species: {
+                tax_id,
+                scientific_name
+            }
+        };
+    }
+    if (title) {
+        enrichment['title'] = title;
+    }
+    return enrichment;
+}
+
+async function enrich_jgi(jgi_id: string): Promise<GenomeEnrichment | undefined> {
+    console.log('Enriching JGI id: ' + jgi_id);
+    const url = `https://img.jgi.doe.gov/cgi-bin/m/main.cgi?section=TaxonDetail&page=taxonDetail&taxon_oid=${jgi_id}`;
+    const response = await fetch(url);
+    if (response.ok) {
+        const body = await response.text();
+        return parse_JGITaxonDetail_page(body);
     } else {
         return undefined;
     }
