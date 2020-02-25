@@ -193,6 +193,190 @@ describe('enrich()', () => {
     });
   });
 
+  describe('Genome with ENA accession', () => {
+    let project: IOMEGAPairedDataPlatform;
+
+    beforeEach(() => {
+      project = {
+        version: '1',
+        personal: {},
+        genomes: [{
+          'genome_ID': {
+            'genome_type': 'metagenome',
+            'ENA_NCBI_accession': 'ERX2291669'
+          },
+          'genome_label': '10125',
+          'BioSample_accession': 'ERX2291669',
+          'publications': '29795809'
+        }],
+        metabolomics: {
+          project: {
+            'GNPSMassIVE_ID': 'MSV000080179',
+            'MaSSIVE_URL': 'https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=af19e363ff71492bb2ba1a7370f36dd0&view=advanced_view',
+          }
+        },
+        experimental: {},
+        genome_metabolome_links: []
+      };
+      ((fetch as any) as jest.Mock).mockImplementation((url) => {
+        if (url === 'https://www.ebi.ac.uk/ena/portal/api/filereport?result=read_run&accession=ERX2291669&offset=0&limit=1&format=json&fields=experiment_title,tax_id,scientific_name') {
+          const response = [
+            { 'run_accession': 'ERR2239509', 'sample_accession': 'SAMEA3611195', 'experiment_title': 'Illumina HiSeq 2500 sequencing; qiita_ptid_4251:10317.000010173', 'tax_id': '408170', 'scientific_name': 'human gut metagenome' }
+          ];
+
+          return Promise.resolve(
+            new Response(JSON.stringify(response))
+          );
+        }
+        return Promise.reject(new Error('URL not mocked'));
+      });
+    });
+
+    it('should return enrichment for species', async () => {
+      expect.assertions(1);
+
+      const enrichment = await enrich(project);
+
+      const enriched_genome = enrichment.genomes['10125'];
+      const expected = {
+        'species': {
+          'scientific_name': 'human gut metagenome',
+          'tax_id': 408170
+        },
+        'title': 'Illumina HiSeq 2500 sequencing; qiita_ptid_4251:10317.000010173',
+        'url': 'https://www.ebi.ac.uk/ena/browser/view/ERX2291669'
+      };
+      expect(enriched_genome).toEqual(expected);
+    });
+  });
+
+  describe('Genome with BioSample', () => {
+    let project: IOMEGAPairedDataPlatform;
+
+    beforeEach(() => {
+      project = {
+        version: '1',
+        personal: {},
+        genomes: [{
+          'genome_ID': {
+            'genome_type': 'genome',
+            'RefSeq_accession': 'GCF_000087965.2'
+          },
+          'BioSample_accession': 'SAMEA3138291',
+          'publications': '20017926',
+          'genome_label': 'Xalbi_1'
+        }],
+        metabolomics: {
+          project: {
+            'GNPSMassIVE_ID': 'MSV000080427',
+            'MaSSIVE_URL': 'https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=be6e3bab72874fb4a6ea3fc53e8bfa88&view=advanced_view',
+          }
+        },
+        experimental: {},
+        genome_metabolome_links: []
+      };
+      ((fetch as any) as jest.Mock).mockImplementation((url) => {
+        if (url === 'https://www.ebi.ac.uk/biosamples/samples/SAMEA3138291.json') {
+          const response: any = {
+            'name': 'ERS610226',
+            'accession': 'SAMEA3138291',
+            'domain': 'self.BiosampleImportENA',
+            'release': '2014-11-20T12:20:15Z',
+            'update': '2019-07-24T23:51:57.595Z',
+            'taxId': 380358,
+            'characteristics': {
+              'ENA checklist': [{
+                'text': 'ERC000011'
+              }],
+              'INSDC center alias': [{
+                'text': 'EBI'
+              }],
+              'INSDC center name': [{
+                'text': 'European Bioinformatics Institute'
+              }],
+              'INSDC first public': [{
+                'text': '2014-11-20T12:20:15Z'
+              }],
+              'INSDC last update': [{
+                'text': '2014-11-20T11:47:20Z'
+              }],
+              'INSDC status': [{
+                'text': 'public'
+              }],
+              'SRA accession': [{
+                'text': 'ERS610226'
+              }],
+              'alias': [{
+                'text': 'GCA_000087965'
+              }],
+              'broker name': [{
+                'text': 'European Nucleotide Archive'
+              }],
+              'organism': [{
+                'text': 'Xanthomonas albilineans GPE PC73',
+                'ontologyTerms': ['http://purl.obolibrary.org/obo/NCBITaxon_380358']
+              }],
+              'strain': [{
+                'text': 'GPE PC73'
+              }],
+              'synonym': [{
+                'text': 'GCA_000087965'
+              }],
+              'title': [{
+                'text': 'BioSample entry for genome collection GCA_000087965'
+              }]
+            },
+            'externalReferences': [{
+              'url': 'https://www.ebi.ac.uk/ena/data/view/SAMEA3138291',
+              'duo': []
+            }],
+            'releaseDate': '2014-11-20',
+            'updateDate': '2019-07-24',
+            'submittedVia': 'JSON_API',
+            'create': '2019-03-28T17:22:27.215Z',
+            '_links': {
+              'self': {
+                'href': 'https://www.ebi.ac.uk/biosamples/samples/SAMEA3138291'
+              },
+              'curationDomain': {
+                'href': 'https://www.ebi.ac.uk/biosamples/samples/SAMEA3138291{?curationdomain}',
+                'templated': true
+              },
+              'curationLinks': {
+                'href': 'https://www.ebi.ac.uk/biosamples/samples/SAMEA3138291/curationlinks'
+              },
+              'curationLink': {
+                'href': 'https://www.ebi.ac.uk/biosamples/samples/SAMEA3138291/curationlinks/{hash}',
+                'templated': true
+              }
+            }
+          };
+
+          return Promise.resolve(
+            new Response(JSON.stringify(response))
+          );
+        }
+        return Promise.reject(new Error('URL not mocked'));
+      });
+    });
+
+    it('should return enrichment for species', async () => {
+      expect.assertions(1);
+
+      const enrichment = await enrich(project);
+
+      const enriched_genome = enrichment.genomes['Xalbi_1'];
+      const expected = {
+        'species': {
+          'scientific_name': 'Xanthomonas albilineans GPE PC73',
+          'tax_id': 380358
+        },
+        'title': 'BioSample entry for genome collection GCA_000087965',
+        'url': 'https://www.ebi.ac.uk/biosamples/samples/SAMEA3138291'
+      };
+      expect(enriched_genome).toEqual(expected);
+    });
+  });
 });
 
 function sample_JGI_genome_page() {
@@ -1681,65 +1865,6 @@ describe('parse_JGITaxonDetail_page()', () => {
         }
       };
       expect(result).toEqual(expected);
-    });
-  });
-});
-
-describe('enrich_ena()', () => {
-  describe('mocked metagenome', () => {
-    let project: IOMEGAPairedDataPlatform;
-
-    beforeEach(() => {
-      project = {
-        version: '1',
-        personal: {},
-        genomes: [{
-          'genome_ID': {
-            'genome_type': 'metagenome',
-            'ENA_NCBI_accession': 'ERX2291669'
-          },
-          'genome_label': '10125',
-          'BioSample_accession': 'ERX2291669',
-          'publications': '29795809'
-        }],
-        metabolomics: {
-          project: {
-            'GNPSMassIVE_ID': 'MSV000080179',
-            'MaSSIVE_URL': 'https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=af19e363ff71492bb2ba1a7370f36dd0&view=advanced_view',
-          }
-        },
-        experimental: {},
-        genome_metabolome_links: []
-      };
-      ((fetch as any) as jest.Mock).mockImplementation((url) => {
-        if (url === 'https://www.ebi.ac.uk/ena/portal/api/filereport?result=read_run&accession=ERX2291669&offset=0&limit=1&format=json&fields=experiment_title,tax_id,scientific_name') {
-          const response = [
-            { 'run_accession': 'ERR2239509', 'sample_accession': 'SAMEA3611195', 'experiment_title': 'Illumina HiSeq 2500 sequencing; qiita_ptid_4251:10317.000010173', 'tax_id': '408170', 'scientific_name': 'human gut metagenome' }
-          ];
-
-          return Promise.resolve(
-            new Response(JSON.stringify(response))
-          );
-        }
-        return Promise.reject(new Error('URL not mocked'));
-      });
-    });
-
-    it('should return enrichment for species', async () => {
-      expect.assertions(1);
-
-      const enrichment = await enrich(project);
-
-      const enriched_genome = enrichment.genomes['10125'];
-      const expected = {
-        'species': {
-          'scientific_name': 'human gut metagenome',
-          'tax_id': 408170
-        },
-        'title': 'Illumina HiSeq 2500 sequencing; qiita_ptid_4251:10317.000010173',
-        'url': 'https://www.ebi.ac.uk/ena/browser/view/ERX2291669'
-      };
-      expect(enriched_genome).toEqual(expected);
     });
   });
 });

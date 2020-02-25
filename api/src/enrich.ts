@@ -73,6 +73,9 @@ async function enrich_genome(genome: any) {
     if ('ENA_NCBI_accession' in genome.genome_ID && !enrichment) {
         enrichment = await enrich_ena(genome.genome_ID.ENA_NCBI_accession);
     }
+    if ('BioSample_accession' in genome && !enrichment) {
+        enrichment = await enrich_biosample(genome.BioSample_accession);
+    }
     return enrichment;
 }
 
@@ -176,6 +179,26 @@ async function enrich_ena(ena_accession: string): Promise<GenomeEnrichment | und
                 scientific_name: row.scientific_name
             }
         }
+    }
+    return undefined;
+}
+
+async function enrich_biosample(biosample_accession: string): Promise<GenomeEnrichment | undefined> {
+    console.log('Enriching BioSample: ' + biosample_accession);
+    const url = `https://www.ebi.ac.uk/biosamples/samples/${biosample_accession}.json`;
+    const response = await fetch(url);
+    if (response.ok) {
+        const body = await response.json();
+        // Use first title and organism name
+        const result = {
+            url: body._links.self.href,
+            title: body.characteristics.title[0].text,
+            species: {
+                tax_id: parseInt(body.taxId),
+                scientific_name: body.characteristics.organism[0].text
+            }
+        }
+        return result;
     }
     return undefined;
 }
