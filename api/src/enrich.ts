@@ -178,7 +178,7 @@ async function enrich_ena(ena_accession: string): Promise<GenomeEnrichment | und
                 tax_id: parseInt(row.tax_id),
                 scientific_name: row.scientific_name
             }
-        }
+        };
     }
     return undefined;
 }
@@ -197,7 +197,7 @@ async function enrich_biosample(biosample_accession: string): Promise<GenomeEnri
                 tax_id: parseInt(body.taxId),
                 scientific_name: body.characteristics.organism[0].text
             }
-        }
+        };
         return result;
     }
     return undefined;
