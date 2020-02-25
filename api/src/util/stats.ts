@@ -169,10 +169,17 @@ export async function computeStats(store: ProjectDocumentStore, schema: any) {
 
     const growth_mediums_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
     const growth_mediums_lookup = enum2map(growth_mediums_oneOf);
+    const metagenome_medium = 'Not available, sample is metagenome';
+    growth_mediums_lookup.set(metagenome_medium, metagenome_medium);
     const growth_mediums = countProjectCollectionField(
         projects,
         (p) => p.project.experimental.sample_preparation,
-        (r) => r.medium_details.medium,
+        (r) => {
+            if (r.medium_details.medium_type === 'metagenome') {
+                return metagenome_medium;
+            }
+            return r.medium_details.medium;
+        },
         growth_mediums_lookup,
         growth_mediums_lookup.size
     );
