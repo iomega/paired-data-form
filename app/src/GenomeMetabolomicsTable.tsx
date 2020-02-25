@@ -33,7 +33,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         let species = <></>;
         const s = genome_enrichments[g.genome_label];
         if (s) {
-            const tax_url = 'http://purl.bioontology.org/ontology/NCBITAXON/' + s.species.tax_id;
+            const tax_url = 'https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=' + s.species.tax_id;
             species = <a href={tax_url}>{s.species.scientific_name}</a>;
         }
         const bs_url = `https://www.ncbi.nlm.nih.gov/biosample/${g.BioSample_accession}`;
