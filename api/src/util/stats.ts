@@ -9,6 +9,7 @@ export interface IStats {
     };
     top: {
         principal_investigators: [string, number][]
+        genome_types: [string, number][]
         instruments_types: [string, number][]
         growth_mediums: [string, number][]
         solvents: [string, number][]
@@ -117,6 +118,16 @@ export async function computeStats(store: ProjectDocumentStore, schema: any) {
 
     const principal_investigators = countProjectField(projects, (p) => p.project.personal.PI_name);
 
+    const genome_types_enum: string[] = schema.properties.genomes.items.properties.genome_ID.properties.genome_type.enum;
+    const genome_types_lookup = new Map<string, string>(genome_types_enum.map(s => [s, s]));
+    const genome_types = countProjectCollectionField(
+        projects,
+        (p) => p.project.genomes,
+        (r) => r.genome_ID.genome_type,
+        genome_types_lookup,
+        genome_types_lookup.size
+    );
+
     const instruments_type_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf);
     const instruments_types = countProjectCollectionField(
         projects,
@@ -147,6 +158,7 @@ export async function computeStats(store: ProjectDocumentStore, schema: any) {
         },
         top: {
             principal_investigators: principal_investigators.top,
+            genome_types: genome_types.top,
             instruments_types: instruments_types.top,
             growth_mediums: growth_mediums.top,
             solvents: solvents.top
