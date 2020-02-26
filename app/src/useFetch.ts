@@ -31,4 +31,4 @@ export function useFetch<T>(url: string, init?: RequestInit): Response<T> {
     // Including init in deps will cause infinite loop
     }, [url]);  // eslint-disable-line react-hooks/exhaustive-deps
     return {loading, data, error, setData};
-};
+}

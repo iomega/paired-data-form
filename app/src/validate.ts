@@ -6,13 +6,13 @@ export function injectForeignKeySearchMethods(uiSchema: any, formRef: any) {
   uiSchema.BGC_MS2_links.items.MS2_URL.foreignKey.search = foreignKeySearch(formRef, "MS2_URL", ms2Labels);
 }
 
-export function foreignKeySearch(formRef: any, requiredProp: String, labelSearcher: (doc: any) => string[]) {
+export function foreignKeySearch(formRef: any, requiredProp: string, labelSearcher: (doc: any) => string[]) {
   return (prop: string) => {
     const form = formRef.current;
     if (!form) {
       return [];
     }
-    const doc = (form.state as any).formData;
+    const doc = form.state.formData;
     if (!doc) {
       return [];
     }

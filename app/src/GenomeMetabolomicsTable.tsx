@@ -72,14 +72,14 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
 
     const sample_popovers: any = {};
     pure_project.experimental.sample_preparation!.forEach((s) => {
-        let medium = <></>;
-        if (s.medium_details!.medium_type === 'metagenome') {
+        let medium;
+        if (s.medium_details.medium_type === 'metagenome') {
             let environment = <></>;
             if (s.medium_details.metagenomic_environment === 'other') {
-                environment = s.medium_details!.metagenomic_other_environment;
+                environment = s.medium_details.metagenomic_other_environment;
             } else if (s.medium_details!.metagenomic_environment) {
                 const any_env = props.schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[0].properties.metagenomic_environment.oneOf;
-                const env_title = any_env.find((r: any) => r.enum[0] === s.medium_details!.metagenomic_environment).title;
+                const env_title = any_env.find((r: any) => r.enum[0] === s.medium_details.metagenomic_environment).title;
                 environment = <a href={s.medium_details!.metagenomic_environment}>{env_title}</a>;
             }
             medium = (
@@ -93,13 +93,13 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         } else {
             let medium_title = '';
             let medium_url = '';
-            if (s.medium_details!.medium === 'other') {
-                medium_title = s.medium_details!.Other_medium;
-                medium_url = s.medium_details!.Other_medium_link;
+            if (s.medium_details.medium === 'other') {
+                medium_title = s.medium_details.Other_medium;
+                medium_url = s.medium_details.Other_medium_link;
             } else if (s.medium_details.medium) {
                 const any_medium = props.schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
-                medium_title = any_medium.find((r: any) => r.enum[0] === s.medium_details!.medium).title;
-                medium_url = s.medium_details!.medium;
+                medium_title = any_medium.find((r: any) => r.enum[0] === s.medium_details.medium).title;
+                medium_url = s.medium_details.medium;
             }
             medium = (
                 <>
@@ -110,7 +110,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         }
         const popover = (
             <Popover id={s.sample_preparation_method} title="Sample growth conditions">
-                <p>Medium type: {s.medium_details!.medium_type}</p>
+                <p>Medium type: {s.medium_details.medium_type}</p>
                 {medium}
                 <p>Growth parameters
                     <ul>
@@ -135,7 +135,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
 
     const extraction_popovers: any = {};
     pure_project.experimental.extraction_methods!.forEach((e) => {
-        let solvent_table = <></>;
+        let solvent_table;
         const any_solvent = props.schema.properties.experimental.properties.extraction_methods.items.properties.solvents.items.properties.solvent.anyOf;
         if (e.solvents!.length === 1 && e.solvents![0].ratio === 1) {
             const s = e.solvents![0];
@@ -147,7 +147,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             }
         } else {
             const solvents = e.solvents!.map(s => {
-                let solvent = <></>;
+                let solvent;
                 if (s.solvent === 'http://purl.obolibrary.org/obo/CHEBI_46787') {
                     solvent = s.Other_solvent;
                 } else {
@@ -155,7 +155,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                     solvent = <a href={s.solvent}>{solvent_title}</a>;
                 }
                 return (
-                    <tr key={s.solvent!}>
+                    <tr key={s.solvent}>
                         <td>{solvent}</td>
                         <td>{s.ratio}</td>
                     </tr>
@@ -194,7 +194,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
     const instrument_popovers: any = {};
     pure_project.experimental.instrumentation_methods!.forEach(i => {
         const any_instrument = props.schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf;
-        let instrument = <></>;
+        let instrument;
         if (i.instrumentation!.instrument === 'http://purl.obolibrary.org/obo/MS_1000443') {
             instrument = i.instrumentation!.other_instrument;
         } else {
@@ -209,7 +209,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                 type = i.ionization.other_ionization_type;
             } else {
                 const any_type = props.schema.properties.experimental.properties.instrumentation_methods.items.properties.ionization.properties.ionization_type.anyOf;
-                const type_url = i.ionization!.ionization_type;
+                const type_url = i.ionization.ionization_type;
                 const type_title = any_type.find((r: any) => r.enum[0] === type_url).title;
                 type = <a href={type_url}>{type_title}</a>;
             }
