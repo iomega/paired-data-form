@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 
 import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
 import { AuthContext } from "./auth";
-import { ProjectSummary, EnrichedProjectDocument, summarizeProject } from "./summarize";
+import { ProjectSummary, EnrichedProjectDocument } from "./summarize";
 import { useFetch } from "./useFetch";
 import { JSONSchema6 } from "json-schema";
 import { UiSchema } from "react-jsonschema-form";
@@ -11,10 +11,10 @@ const API_BASE_URL = '/api';
 
 export const useProjects = () => {
     const url = API_BASE_URL + '/projects';
-    const response = useFetch<{ data: EnrichedProjectDocument[] }>(url);
+    const response = useFetch<{ data: ProjectSummary[] }>(url);
     let data: ProjectSummary[] = [];
     if (response.data) {
-        data = response.data.data.map(summarizeProject);
+        data = response.data.data;
     }
     return {
         ...response,
@@ -99,7 +99,7 @@ export const usePendingProjects = () => {
     const url = API_BASE_URL + '/pending/projects';
     const headers = useAuthHeaders();
     const init = { headers };
-    return useFetch<{ data: EnrichedProjectDocument[] }>(url, init);
+    return useFetch<{ data: ProjectSummary[] }>(url, init);
 };
 
 export interface IdentifiedProjectDocument {

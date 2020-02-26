@@ -5,6 +5,7 @@ import { Validator } from './validate';
 import { Queue } from 'bull';
 import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
 import { computeStats } from './util/stats';
+import { summarizeProject } from './summarize';
 
 function getStore(req: Request) {
     return req.app.get('store') as ProjectDocumentStore;
@@ -43,7 +44,9 @@ export async function createProject(req: Request, res: Response) {
 
 export async function listPendingProjects(req: Request, res: Response) {
     const store = getStore(req);
-    res.json({data: await store.listPendingProjects()});
+    const projects = await store.listPendingProjects();
+    const data = projects.map(summarizeProject);
+    res.json({data});
 }
 
 export async function getPendingProject(req: Request, res: Response) {
@@ -74,7 +77,9 @@ export async function denyProject(req: Request, res: Response) {
 
 export async function listProjects(req: Request, res: Response) {
     const store = getStore(req);
-    res.json({data: await store.listProjects()});
+    const projects = await store.listProjects();
+    const data = projects.map(summarizeProject);
+    res.json({data});
 }
 
 export async function getProject(req: Request, res: Response) {
