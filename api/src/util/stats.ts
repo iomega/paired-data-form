@@ -1,4 +1,3 @@
-import { ProjectDocumentStore } from '../projectdocumentstore';
 import { EnrichedProjectDocument } from '../store/enrichments';
 
 export interface IStats {
