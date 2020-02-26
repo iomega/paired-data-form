@@ -4,6 +4,7 @@ import { ProjectDocumentStore, NotFoundException } from './projectdocumentstore'
 import { Validator } from './validate';
 import { Queue } from 'bull';
 import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
+import { computeStats } from './util/stats';
 
 function getStore(req: Request) {
     return req.app.get('store') as ProjectDocumentStore;
@@ -119,4 +120,12 @@ export function notFoundHandler(error: any, req: Request, res: Response, next: a
         res.json({message});
     }
     next(error);
+}
+
+export async function getStats(req: Request, res: Response) {
+    const store = getStore(req);
+    const validator = getValidator(req);
+    const projects = await store.listProjects();
+    const stats = computeStats(projects, validator.schema);
+    res.json(stats);
 }

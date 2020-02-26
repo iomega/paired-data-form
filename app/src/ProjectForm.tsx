@@ -49,7 +49,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
     };
     const uploadRef = useRef<HTMLInputElement>(null);
     const onUpload = () => {
-        uploadRef!.current!.click();
+        uploadRef.current!.click();
     };
     const loadExample1 = () => {
         if (uploadError) {
@@ -99,7 +99,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         injectForeignKeySearchMethods(uiSchema.data, formRef);
     }
     const onPreview = () => {
-        const theform: any = formRef!.current;
+        const theform: any = formRef.current;
         // The form can not be validated (excluding submit) using it's public API
         // Duplicate code from https://github.com/mozilla-services/react-jsonschema-form/blob/master/src/components/Form.js#L166-L167
         const { errors, errorSchema } = theform.validate(theform.state.formData);
@@ -116,7 +116,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         }
     }
     const uploadGenomeMetabolomeLinks = (gmrows: any[]) => {
-        const theform: any = formRef!.current;
+        const theform: any = formRef.current;
         const currentData: any = { ...theform.state.formData };
         const genome_metabolome_links = jsonDocument(currentData, gmrows);
         currentData.genome_metabolome_links = genome_metabolome_links;

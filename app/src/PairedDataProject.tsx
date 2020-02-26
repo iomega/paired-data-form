@@ -13,9 +13,10 @@ import { record2dataUrl } from "./record2dataUrl";
 interface IProps {
   project: EnrichedProjectDocument;
   schema: any;
+  inreview?: boolean;
 }
 
-export const PairedDataProject = ({ project, schema }: IProps) => {
+export const PairedDataProject = ({ project, schema, inreview = false }: IProps) => {
   const project_id = project._id;
   const pure_project = project.project;
   const data_url = record2dataUrl(pure_project);
@@ -25,7 +26,7 @@ export const PairedDataProject = ({ project, schema }: IProps) => {
       <h3>iOMEGA Paired data project</h3>
 
       <div>Project identifier: {project_id}</div>
-      <ProjectActions project_id={project_id} data_url={data_url} filename={filename} />
+      <ProjectActions project_id={project_id} data_url={data_url} filename={filename} inreview={inreview}/>
 
       <Panel>
         <Panel.Heading>Submitter Information</Panel.Heading>
@@ -43,7 +44,7 @@ export const PairedDataProject = ({ project, schema }: IProps) => {
         <Panel.Heading>Linked gene clusters and MS2 spectra</Panel.Heading>
         <Panel.Body style={{ overflowY: 'auto' }}><GeneSpectraTable data={project} schema={schema} /></Panel.Body>
       </Panel>
-      <ProjectActions project_id={project_id} data_url={data_url} filename={filename} />
+      <ProjectActions project_id={project_id} data_url={data_url} filename={filename} inreview={inreview}/>
     </div>
   );
 };

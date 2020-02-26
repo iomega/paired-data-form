@@ -13,11 +13,11 @@ export const ProtectedRoute = (props: RouteProps) => {
     const [token, setToken] = useState<string>(defaultToken);
     const [loginError, setLoginError] = useState('');
     const onLogin = async (creds: Credentials) => {
-        const token = creds.password;
+        const password = creds.password;
         try {
-            await checkToken(token);
-            setToken(token);
-            localStorage.setItem(storageKey, token);
+            await checkToken(password);
+            setToken(password);
+            localStorage.setItem(storageKey, password);
         } catch (error) {
             setLoginError(error.message);
         }

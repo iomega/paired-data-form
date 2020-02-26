@@ -14,32 +14,34 @@ The [JSON schema (app/public/schema.json)](app/public/schema.json) describes the
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=iomega_paired-data-form&metric=coverage)](https://sonarcloud.io/dashboard?id=iomega_paired-data-form)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3569588.svg)](https://doi.org/10.5281/zenodo.3569588)
 
-# Architecture
+## Architecture
 
 The paired omics data platform consists of:
+
 1. A Web application, user interface, see [app/](app/) folder
 2. An API web service, service responsible for storing projects, see [api.](api/) folder
 
-# Run using Docker compose
+## Run using Docker compose
 
 The application can be configured using environment variables:
-* PORT, https port application is running on. Default is 8443.
-* SHARED_TOKEN, token required to login to review area.
-* DOMAIN, domain the service is listening for and domain for which certificates are made
-* TLS_MODE, use email for proper cert when Internet facing. By default traffic is unencrypted, see https://caddyserver.com/docs/tls
 
-```bash
+* PORT, http port application is running on. Default is 8443.
+* SHARED_TOKEN, token required to login to review area.
+
+```shell
 docker-compose up -d --build
 ```
 
-Starts application, api webservice and reverse proxy on https://<DOMAIN>:8443 .
+Starts application, api webservice and reverse proxy on [http://localhost:8443](http://localhost:8443).
 Project JSON files are stored in a `./data/` directory.
+
+To run on production put application behind a reverse proxy web server with a proper domain and secure transfer with https.
 
 ## Rebuild
 
-When schema has changed the documents in `./data` directory need to be migrated.
+When schema has changed the documents in `./data/` directory need to be migrated.
 
-```bash
+```shell
 # Login to api server
 docker-compose exec api sh
 # Perform migration
@@ -47,12 +49,19 @@ docker-compose exec api sh
 ```
 
 When the code has changed the Docker images has been rebuild and restarted with
-```bash
+
+```shell
 docker-compose stop
 docker-compose up -d --build
 ```
 
-# New release
+To enrich existing projects run
+
+```shell
+docker-compose exec api npm run enrich
+```
+
+## New release
 
 To make a new release of the platform do:
 
@@ -60,14 +69,14 @@ To make a new release of the platform do:
 2. Add version to CHANGELOG.md
 3. Set new version of api web service by
 
-```sh
+```shell
 cd api
 npm version x.y.z
 ```
 
 4. Set new version of web application by
 
-```sh
+```shell
 cd app
 npm version x.y.z
 ```

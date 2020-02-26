@@ -6,7 +6,7 @@ import { SubmitterInformation as Personal} from './schema';
 import { Orcid } from "./Orcid";
 
 interface IProps {
-    project_id: String
+    project_id: string
     personal: Personal
 }
 

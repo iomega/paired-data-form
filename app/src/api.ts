@@ -22,6 +22,27 @@ export const useProjects = () => {
     };
 };
 
+export interface IStats {
+    global: {
+        projects: number
+        principal_investigators: number
+        metabolome_samples: number
+    };
+    top: {
+        principal_investigators: [string, number][]
+        genome_types: [string, number][]
+        species: [string, number][]
+        instruments_types: [string, number][]
+        growth_mediums: [string, number][]
+        solvents: [string, number][]
+    };
+}
+
+export const useStats = () => {
+    const url = API_BASE_URL + '/stats';
+    return useFetch<IStats>(url);
+}
+
 export async function checkToken(token: string) {
     const url = API_BASE_URL + '/auth';
     const headers = authHeaders(token);
@@ -104,15 +125,15 @@ export const useSubmitProject = (project_id?: string): [IdentifiedProjectDocumen
             }
             const response = await fetch(url, init);
             if (response.ok) {
-                const {project_id} = await response.json();
-                setSubmitted({project, _id: project_id});
+                const {project_id: new_project_id} = await response.json();
+                setSubmitted({project, _id: new_project_id});
             } else {
                 setError(response.statusText);
                 console.warn(response);
             }
-        } catch (error) {
-            setError(error.message);
-            console.warn(error);
+        } catch (myerror) {
+            setError(myerror.message);
+            console.warn(myerror);
         }
     }
     const rollback = () => {
