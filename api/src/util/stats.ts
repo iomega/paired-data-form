@@ -145,9 +145,7 @@ function countSpecies(projects: EnrichedProjectDocument[], top_size = 5) {
     return Array.from(field_counts.entries()).sort((a, b) => b[1] - a[1]).slice(0, top_size);
 }
 
-export async function computeStats(store: ProjectDocumentStore, schema: any) {
-    const projects = await store.listProjects();
-
+export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
     const principal_investigators = countProjectField(projects, (p) => p.project.personal.PI_name);
 
     const genome_types_enum: string[] = schema.properties.genomes.items.properties.genome_ID.properties.genome_type.enum;

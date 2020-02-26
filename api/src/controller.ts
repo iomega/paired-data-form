@@ -125,6 +125,7 @@ export function notFoundHandler(error: any, req: Request, res: Response, next: a
 export async function getStats(req: Request, res: Response) {
     const store = getStore(req);
     const validator = getValidator(req);
-    const stats = await computeStats(store, validator.schema);
+    const projects = await store.listProjects();
+    const stats = computeStats(projects, validator.schema);
     res.json(stats);
 }
