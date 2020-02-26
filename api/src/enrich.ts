@@ -189,6 +189,10 @@ async function enrich_biosample(biosample_accession: string): Promise<GenomeEnri
     const response = await fetch(url);
     if (response.ok) {
         const body = await response.json();
+        // Bail out on unknown tax id
+        if (body.taxId === 0) {
+            return undefined;
+        }
         // Use first title and organism name
         const result = {
             url: body._links.self.href,

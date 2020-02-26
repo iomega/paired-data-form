@@ -495,8 +495,7 @@ describe('enrich()', () => {
                 'templated': true
               }
             }
-          }
-            ;
+          };
 
           return Promise.resolve(
             new Response(JSON.stringify(response))
@@ -523,6 +522,110 @@ describe('enrich()', () => {
       expect(enriched_genome).toEqual(expected);
     });
   });
+
+  describe('Genome with INSDC BioSample', () => {
+    let project: IOMEGAPairedDataPlatform;
+
+    beforeEach(() => {
+      project = {
+        version: '1',
+        personal: {},
+        genomes: [{
+          'genome_ID': {
+            'genome_type': 'genome',
+          },
+          'genome_label': 'Streptomyces griseus',
+          'BioSample_accession': 'SAMN10130993'
+        }],
+        metabolomics: {
+          project: {
+            'GNPSMassIVE_ID': 'MSV000078839',
+            'MaSSIVE_URL': 'https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view#%7B%7D',
+            'molecular_network': '840eadb054f74d74ae42152a08ed9628'
+          }
+        },
+        experimental: {},
+        genome_metabolome_links: []
+      };
+      ((fetch as any) as jest.Mock).mockImplementation((url) => {
+        if (url === 'https://www.ebi.ac.uk/biosamples/samples/SAMN10130993.json') {
+          const response: any = {
+            'name': 'SG-CPU',
+            'accession': 'SAMN10130993',
+            'domain': 'self.BiosampleImportNCBI',
+            'release': '2018-09-26T00:00:00Z',
+            'update': '2019-03-14T03:35:49.791Z',
+            'taxId': 0,
+            'characteristics': {
+              'INSDC first public': [{
+                'text': '2018-09-26T00:00:00Z'
+              }],
+              'INSDC status': [{
+                'text': 'live'
+              }],
+              'NCBI submission model': [{
+                'text': 'Microbe, viral or environmental'
+              }],
+              'collection date': [{
+                'text': '1964'
+              }],
+              'culture collection': [{
+                'text': 'ATCC:13273'
+              }],
+              'isolation source': [{
+                'text': 'soil'
+              }],
+              'sample type': [{
+                'text': 'cell culture',
+                'ontologyTerms': ['http://purl.obolibrary.org/obo/BTO_0000214']
+              }],
+              'strain': [{
+                'text': 'ATCC 13273'
+              }],
+              'sub species': [{
+                'text': 'griseus'
+              }]
+            },
+            'releaseDate': '2018-09-26',
+            'updateDate': '2019-03-14',
+            'submittedVia': 'JSON_API',
+            'create': '2019-03-14T03:35:49.791Z',
+            '_links': {
+              'self': {
+                'href': 'https://www.ebi.ac.uk/biosamples/samples/SAMN10130993'
+              },
+              'curationDomain': {
+                'href': 'https://www.ebi.ac.uk/biosamples/samples/SAMN10130993{?curationdomain}',
+                'templated': true
+              },
+              'curationLinks': {
+                'href': 'https://www.ebi.ac.uk/biosamples/samples/SAMN10130993/curationlinks'
+              },
+              'curationLink': {
+                'href': 'https://www.ebi.ac.uk/biosamples/samples/SAMN10130993/curationlinks/{hash}',
+                'templated': true
+              }
+            }
+          };
+
+          return Promise.resolve(
+            new Response(JSON.stringify(response))
+          );
+        }
+        return Promise.reject(new Error('URL not mocked'));
+      });
+    });
+
+    it('should return undefined, because it is a metagenome', async () => {
+      expect.assertions(1);
+
+      const enrichment = await enrich(project);
+
+      const enriched_genome = enrichment.genomes['Streptomyces griseus'];
+      expect(enriched_genome).toBeUndefined();
+    });
+  });
+
 });
 
 function sample_JGI_genome_page() {
