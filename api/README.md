@@ -52,10 +52,22 @@ npm run enrich
 Using [httpie](https://httpie.org)
 
 ```bash
+# Submit a project
+http -j localhost:3001/api/projects < ../app/public/examples/paired_datarecord_MSV000078839_example.json
+# List pending projects
 http localhost:3001/api/pending/projects 'Authorization: Bearer ashdfjhasdlkjfhalksdjhflak'
+# Approve pending projects
+http POST localhost:3001/api/pending/projects/a6f87bdf-6998-4336-8fb1-eca5b4fdb882.1 'Authorization: Bearer ashdfjhasdlkjfhalksdjhflak'
+# List projects
 http localhost:3001/api/projects
-http -j -p HBhb localhost:3001/api/projects < ../app/public/examples/paired_datarecord_MSV000078839_example.json
+# Get single project
+http localhost:3001/api/projects/a6f87bdf-6998-4336-8fb1-eca5b4fdb882.1
+# Get stats
+http localhost:3001/api/stats
 ```
+
+Change `a6f87bdf-6998-4336-8fb1-eca5b4fdb882.1` project id to what previous requests return.
+Change `ashdfjhasdlkjfhalksdjhflak` token to what is set in `.env` file.
 
 ## Docker
 

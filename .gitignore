@@ -27,3 +27,7 @@ package-lock.json
 
 /data
 .vscode
+
+# Ignore pipenv
+Pipfile
+Pipfile.lock
