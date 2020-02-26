@@ -12,7 +12,7 @@ Extra information is gathered for some of the identifiers and urls in a project 
 
 ## Install
 
-```bash
+```shell
 npm install
 ```
 
@@ -25,13 +25,13 @@ Use `.env.example` as example.
 
 Redis can be started using docker or using docker-compose to run the whole stack.
 
-```sh
+```shell
 docker run --name some-redis -d -p 6379:6379 redis
 ```
 
 Build with
 
-```sh
+```shell
 npm run build
 ```
 
@@ -43,7 +43,7 @@ npm run serve
 
 The enrichments can be recreated by running
 
-```sh
+```shell
 npm run enrich
 ```
 
@@ -61,14 +61,14 @@ http -j -p HBhb localhost:3001/api/projects < ../app/public/examples/paired_data
 
 Build with
 
-```bash
+```shell
 cd ..
 docker build -t iomega/podp-api -f api/Dockerfile .
 ```
 
 Run using `./data` dir as datadir with
 
-```bash
+```shell
 docker run -d -p 8886:3001 --user $(id -u) -v $PWD/data:/data iomega/podp-api
 ```
 
@@ -78,6 +78,6 @@ Will start api web service on http://localhost:8887
 
 When `../app/public/schema.json` changes the `src/schema.ts` must also be updated using
 
-```bash
+```shell
 npm run schema2ts
 ```
