@@ -1,6 +1,4 @@
-import { ProjectDocumentStore } from '../projectdocumentstore';
 import { Validator } from '../validate';
-import { EnrichedProjectDocument } from '../store/enrichments';
 import { loadJSONDocument } from './io';
 import { computeStats, IStats } from './stats';
 import { IOMEGAPairedDataPlatform } from '../schema';
@@ -42,13 +40,16 @@ describe('computeStats()', () => {
                         'principal_investigators': [
                             ['Marnix Medema', 1]
                         ],
+                        'submitters': [
+                            ['Justin van der Hooft', 1]
+                        ],
                         'genome_types': [
                             ['genome', 3]
                         ],
                         'instruments_types': [
                             ['Time-of-flight (TOF)', 1]
                         ],
-                        'growth_mediums': [
+                        'growth_media': [
                             ['A1 medium', 1],
                             ['R5 medium', 1],
                             ['Mannitol soy flour medium (MS)', 1]
@@ -121,13 +122,16 @@ describe('computeStats()', () => {
                             'principal_investigators': [
                                 ['Marnix Medema', 1]
                             ],
+                            'submitters': [
+                                ['Justin van der Hooft', 1]
+                            ],
                             'genome_types': [
                                 ['genome', 3]
                             ],
                             'instruments_types': [
                                 ['Time-of-flight (TOF)', 1]
                             ],
-                            'growth_mediums': [
+                            'growth_media': [
                                 ['A1 medium', 1],
                                 ['R5 medium', 1],
                                 ['Mannitol soy flour medium (MS)', 1]

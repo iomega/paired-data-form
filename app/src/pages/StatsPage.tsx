@@ -18,7 +18,7 @@ export const StatsPage = () => {
             <Grid fluid>
                 <Row>
                     <h2>Statistics of all available projects</h2>
-                    <Col md={6}>
+                    <Col md={4}>
                         <fieldset className="global">
                             <legend>Overall</legend>
                             <ListGroup>
@@ -29,7 +29,7 @@ export const StatsPage = () => {
                         </fieldset>
 
                     </Col>
-                    <Col md={6}>
+                    <Col md={4}>
                         <fieldset>
                             <legend>Top principal investigators</legend>
                             <ListGroup>
@@ -39,9 +39,19 @@ export const StatsPage = () => {
                             </ListGroup>
                         </fieldset>
                     </Col>
+                    <Col md={4}>
+                        <fieldset>
+                            <legend>Top submitters</legend>
+                            <ListGroup>
+                                {data.top.submitters.map(
+                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
+                                )}
+                            </ListGroup>
+                        </fieldset>
+                    </Col>
                 </Row>
                 <Row>
-                    <Col md={6}>
+                    <Col md={4}>
                         <fieldset>
                             <legend>Genome types</legend>
                             <ListGroup>
@@ -51,7 +61,7 @@ export const StatsPage = () => {
                             </ListGroup>
                         </fieldset>
                     </Col>
-                    <Col md={6}>
+                    <Col md={4}>
                         <fieldset>
                             <legend>Top species</legend>
                             <ListGroup>
@@ -61,9 +71,7 @@ export const StatsPage = () => {
                             </ListGroup>
                         </fieldset>
                     </Col>
-                </Row>
-                <Row>
-                    <Col md={6}>
+                    <Col md={4}>
                         <fieldset>
                             <legend>Instrument types</legend>
                             <ListGroup>
@@ -73,19 +81,19 @@ export const StatsPage = () => {
                             </ListGroup>
                         </fieldset>
                     </Col>
-                    <Col md={6}>
+                </Row>
+                <Row>
+                    <Col md={4}>
                         <fieldset>
-                            <legend>Growth mediums</legend>
+                            <legend>Growth media</legend>
                             <ListGroup>
-                                {data.top.growth_mediums.map(
+                                {data.top.growth_media.map(
                                     ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
                                 )}
                             </ListGroup>
                         </fieldset>
                     </Col>
-                </Row>
-                <Row>
-                    <Col md={6}>
+                    <Col md={4}>
                         <fieldset>
                             <legend>Top solvents</legend>
                             <ListGroup>

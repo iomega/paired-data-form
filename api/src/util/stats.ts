@@ -8,10 +8,11 @@ export interface IStats {
     };
     top: {
         principal_investigators: [string, number][]
+        submitters: [string, number][]
         genome_types: [string, number][]
         species: [string, number][]
         instruments_types: [string, number][]
-        growth_mediums: [string, number][]
+        growth_media: [string, number][]
         solvents: [string, number][]
     };
 }
@@ -146,6 +147,7 @@ function countSpecies(projects: EnrichedProjectDocument[], top_size = 5) {
 
 export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
     const principal_investigators = countProjectField(projects, (p) => p.project.personal.PI_name);
+    const submitters = countProjectField(projects, (p) => p.project.personal.submitter_name);
 
     const genome_types_enum: string[] = schema.properties.genomes.items.properties.genome_ID.properties.genome_type.enum;
     const genome_types_lookup = new Map<string, string>(genome_types_enum.map(s => [s, s]));
@@ -166,11 +168,11 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
         instruments_type_lookup.size
     );
 
-    const growth_mediums_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
-    const growth_mediums_lookup = enum2map(growth_mediums_oneOf);
+    const growth_media_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
+    const growth_media_lookup = enum2map(growth_media_oneOf);
     const metagenome_medium = 'Not available, sample is metagenome';
-    growth_mediums_lookup.set(metagenome_medium, metagenome_medium);
-    const growth_mediums = countProjectCollectionField(
+    growth_media_lookup.set(metagenome_medium, metagenome_medium);
+    const growth_media = countProjectCollectionField(
         projects,
         (p) => p.project.experimental.sample_preparation,
         (r) => {
@@ -179,8 +181,8 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
             }
             return r.medium_details.medium;
         },
-        growth_mediums_lookup,
-        growth_mediums_lookup.size
+        growth_media_lookup,
+        growth_media_lookup.size
     );
 
     const solvents = countSolvents(projects, schema);
@@ -195,9 +197,10 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
         },
         top: {
             principal_investigators: principal_investigators.top,
+            submitters: submitters.top,
             genome_types: genome_types.top,
             instruments_types: instruments_types.top,
-            growth_mediums: growth_mediums.top,
+            growth_media: growth_media.top,
             solvents: solvents.top,
             species
         }
