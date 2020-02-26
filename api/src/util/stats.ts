@@ -47,7 +47,10 @@ function countProjectCollectionField(
         const collection = collection_accessor(project);
         // TODO if same key is repeated count as 1 for project or exact
         collection.forEach((row) => {
-            const key = field_accessor(row);
+            let key = lookup.get(field_accessor(row));
+            if (!key) {
+                key = 'Unknown';
+            }
             if (field_counts.has(key)) {
                 field_counts.set(key, field_counts.get(key) + 1);
             } else {
@@ -60,7 +63,6 @@ function countProjectCollectionField(
     const top: [string, number][] = Array.from(field_counts.entries())
         .sort((a, b) => b[1] - a[1])
         .slice(0, top_size)
-        .map((fc) => [lookup.get(fc[0]), fc[1]])
     ;
     return {
         total: field_counts.size,
