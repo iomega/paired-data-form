@@ -90,7 +90,7 @@ export const StatsPage = () => {
                             <legend>Top solvents</legend>
                             <ListGroup>
                                 {data.top.solvents.map(
-                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count.toPrecision(1)}</Badge></ListGroupItem>
+                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count.toFixed(0)}</Badge></ListGroupItem>
                                 )}
                             </ListGroup>
                         </fieldset>
