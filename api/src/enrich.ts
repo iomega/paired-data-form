@@ -192,7 +192,7 @@ async function enrich_biosample(biosample_accession: string): Promise<GenomeEnri
         // Use first title and organism name
         const result = {
             url: body._links.self.href,
-            title: body.characteristics.title[0].text,
+            title: body.characteristics.title ? body.characteristics.title[0].text : body.characteristics['description title'][0].text,
             species: {
                 tax_id: parseInt(body.taxId),
                 scientific_name: body.characteristics.organism[0].text

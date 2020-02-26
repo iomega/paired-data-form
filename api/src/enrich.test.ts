@@ -250,7 +250,7 @@ describe('enrich()', () => {
     });
   });
 
-  describe('Genome with BioSample', () => {
+  describe('Genome with EBI BioSample', () => {
     let project: IOMEGAPairedDataPlatform;
 
     beforeEach(() => {
@@ -373,6 +373,152 @@ describe('enrich()', () => {
         },
         'title': 'BioSample entry for genome collection GCA_000087965',
         'url': 'https://www.ebi.ac.uk/biosamples/samples/SAMEA3138291'
+      };
+      expect(enriched_genome).toEqual(expected);
+    });
+  });
+
+  describe('Genome with NCBI BioSample', () => {
+    let project: IOMEGAPairedDataPlatform;
+
+    beforeEach(() => {
+      project = {
+        version: '1',
+        personal: {},
+        genomes: [{
+          'genome_ID': {
+            'genome_type': 'genome'
+          },
+          'BioSample_accession': 'SAMN02441673',
+          'genome_label': 'CNB091'
+        }],
+        metabolomics: {
+          project: {
+            'GNPSMassIVE_ID': 'MSV000078847',
+            'MaSSIVE_URL': 'https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=9edff3f275ed489489bd8cac082c79d4&view=advanced_view#%7B%7D'
+          }
+        },
+        experimental: {},
+        genome_metabolome_links: []
+      };
+      ((fetch as any) as jest.Mock).mockImplementation((url) => {
+        if (url === 'https://www.ebi.ac.uk/biosamples/samples/SAMN02441673.json') {
+          const response: any = {
+            'name': 'ARJI',
+            'accession': 'SAMN02441673',
+            'domain': 'self.BiosampleImportNCBI',
+            'release': '2013-12-11T13:22:56.320Z',
+            'update': '2019-03-13T07:29:08.371Z',
+            'taxId': 1169156,
+            'characteristics': {
+              'GOLD Stamp ID': [
+                {
+                  'text': 'Gi18526'
+                }
+              ],
+              'Gram Staining': [
+                {
+                  'text': 'Gram+'
+                }
+              ],
+              'INSDC center name': [
+                {
+                  'text': 'NCBI'
+                }
+              ],
+              'INSDC first public': [
+                {
+                  'text': '2013-12-11T13:22:56.320Z'
+                }
+              ],
+              'INSDC last update': [
+                {
+                  'text': '2015-05-18T13:02:17.710Z'
+                }
+              ],
+              'INSDC status': [
+                {
+                  'text': 'live'
+                }
+              ],
+              'NCBI submission model': [
+                {
+                  'text': 'Generic'
+                }
+              ],
+              'NCBI submission package': [
+                {
+                  'text': 'Generic.1.0'
+                }
+              ],
+              'description title': [
+                {
+                  'text': 'Generic sample from Streptomyces sp. CNB091'
+                }
+              ],
+              'organism': [
+                {
+                  'text': 'Streptomyces sp. CNB091',
+                  'ontologyTerms': [
+                    'http://purl.obolibrary.org/obo/NCBITaxon_1169156'
+                  ]
+                }
+              ],
+              'project name': [
+                {
+                  'text': 'Streptomyces sp. CNB091'
+                }
+              ],
+              'strain': [
+                {
+                  'text': 'CNB091'
+                }
+              ]
+            },
+            'releaseDate': '2013-12-11',
+            'updateDate': '2019-03-13',
+            'submittedVia': 'JSON_API',
+            'create': '2019-03-13T07:29:08.371Z',
+            '_links': {
+              'self': {
+                'href': 'https://www.ebi.ac.uk/biosamples/samples/SAMN02441673'
+              },
+              'curationDomain': {
+                'href': 'https://www.ebi.ac.uk/biosamples/samples/SAMN02441673{?curationdomain}',
+                'templated': true
+              },
+              'curationLinks': {
+                'href': 'https://www.ebi.ac.uk/biosamples/samples/SAMN02441673/curationlinks'
+              },
+              'curationLink': {
+                'href': 'https://www.ebi.ac.uk/biosamples/samples/SAMN02441673/curationlinks/{hash}',
+                'templated': true
+              }
+            }
+          }
+            ;
+
+          return Promise.resolve(
+            new Response(JSON.stringify(response))
+          );
+        }
+        return Promise.reject(new Error('URL not mocked'));
+      });
+    });
+
+    it('should return enrichment for species', async () => {
+      expect.assertions(1);
+
+      const enrichment = await enrich(project);
+
+      const enriched_genome = enrichment.genomes['CNB091'];
+      const expected = {
+        'species': {
+          'scientific_name': 'Streptomyces sp. CNB091',
+          'tax_id': 1169156
+        },
+        'title': 'Generic sample from Streptomyces sp. CNB091',
+        'url': 'https://www.ebi.ac.uk/biosamples/samples/SAMN02441673'
       };
       expect(enriched_genome).toEqual(expected);
     });
