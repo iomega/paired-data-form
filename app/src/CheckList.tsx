@@ -2,7 +2,7 @@ import React from 'react';
 
 export const CheckList = () => (
     <div>
-        <p>It is great that you want to contribute to the Paired omics Data Platform! Please use provided checklist of what you will need at hand before starting your submission:</p>
+        <p>It is great that you want to contribute to the Paired Omics Data Platform! Please use provided checklist of what you will need at hand before starting your submission:</p>
         <ul>
             <li>Deposit your metabolomics data in <a target="_blank" rel="noopener noreferrer" href="https://gnps.ucsd.edu/">MASSive</a> or <a target="_blank" rel="noopener noreferrer" href="https://www.ebi.ac.uk/metabolights/">MetaboLights</a> and make the data publically available</li>
             <li>Deposit your assembled genomes/metagenomes in a public database (<a target="_blank" rel="noopener noreferrer" href="https://www.ncbi.nlm.nih.gov/genbank/">GenBank</a>, <a target="_blank" rel="noopener noreferrer" title="European Nucleotide Archive" href="https://www.ebi.ac.uk/ena">ENA</a>, <a target="_blank" rel="noopener noreferrer" title="DNA Data Bank of Japan" href="https://www.ddbj.nig.ac.jp/ddbj/index-e.html">DDBJ</a>, <a target="_blank" rel="noopener noreferrer" title="Integrated Microbial Genomes & Microbiomes - Joint Genome Institute" href="https://img.jgi.doe.gov/">IMG-JGI</a> or <a target="_blank" rel="noopener noreferrer" title="EBI Metagenomics" href="https://www.ebi.ac.uk/metagenomics/">MGnify</a>) and make them publically available</li>

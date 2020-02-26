@@ -14,10 +14,10 @@ export const StatsPage = () => {
     }
     const data = stats.data;
     return (
-        <div style={style}>
-            <Grid>
+        <div style={style} >
+            <Grid fluid>
                 <Row>
-                    <h3>Statistics of the projects stored in the paired omics data platform</h3>
+                    <h2>Statistics of all available projects</h2>
                     <Col md={6}>
                         <fieldset className="global">
                             <legend>Overall</legend>

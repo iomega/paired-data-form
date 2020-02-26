@@ -8,6 +8,8 @@ import { AuthContext } from "../auth";
 import { ProjectSummary } from "../summarize";
 import { usePendingProjects, denyPendingProject, approvePendingProject } from "../api";
 
+const style = { padding: '10px' };
+
 function dropProject(id: string, list: ProjectSummary[]) {
     const updated = [...list];
     const index = updated.findIndex(p => p._id === id);
@@ -50,8 +52,8 @@ export function PendingProjects() {
         </tr>
     ));
     return (
-        <div>
-            <h1>List of pending projects that require approval</h1>
+        <div style={style}>
+            <h2>Pending projects that require approval</h2>
             <Table>
                 <thead>
                     <tr>

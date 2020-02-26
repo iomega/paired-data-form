@@ -21,8 +21,8 @@ export function Welcome() {
         <div style={style}>
             <Row style={rowStyle}>
                 <Col md={4} mdOffset={2} style={colStyle}>
-                    <h1>Pairing Omics Data</h1>
-                    <p style={textStyle}>The Paired Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer readable format to further the field of natural products discovery. The goals are to link molecules to their producers, find large scale genome-metabolome associations, use genomic data to assist in structural elucidation of molecules, and provide a centralized database for paired datasets.</p>
+                    <h1>Pairing Omics Data Platform</h1>
+                    <p style={textStyle}>The Paired Omics Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer readable format to further the field of natural products discovery. The goals are to link molecules to their producers, find large scale genome-metabolome associations, use genomic data to assist in structural elucidation of molecules, and provide a centralized database for paired datasets.</p>
                 </Col>
                 <Col md={4} style={colStyle}>
                     <img style={imgStyle} src={slide1} alt="Paired Omics Data" />
@@ -34,7 +34,7 @@ export function Welcome() {
                 </Col>
                 <Col md={4} style={colStyle}>
                     <h1>FAIR Data</h1>
-                    <p style={textStyle}>The Paired Data Platform relies on publicly available data deposited in standard databases and promotes FAIR principles. Metabolomics project information stored in MASSive or MetaboLights can be quickly linked to public genomes stored in NCBI or JGI. Coupling these data with minimal experimental details in a computer readable format allows for large-scale correlations of metabolome changes. Linking these publically available data will facilitate new discoveries and algorithms for predicting chemical structures from genomic information.
+                    <p style={textStyle}>The Paired Omics Data Platform relies on publicly available data deposited in standard databases and promotes FAIR principles. Metabolomics project information stored in MASSive or MetaboLights can be quickly linked to public genomes stored in NCBI or JGI. Coupling these data with minimal experimental details in a computer readable format allows for large-scale correlations of metabolome changes. Linking these publically available data will facilitate new discoveries and algorithms for predicting chemical structures from genomic information.
                 </p>
                 </Col>
             </Row>
@@ -42,7 +42,7 @@ export function Welcome() {
                 <Col md={4} mdOffset={2} style={colStyle}>
                     <h1>Minimal Metadata</h1>
                     <p style={textStyle}>
-                        The Paired Data Platform collects a set of minimal metadata in a standardized, computer readable format. Relevant experimental details related to Sample Preparation, Extraction Methods, and Instrumentation Methods can be added and identified with user-defined labels for quick recall and linking.
+                        The Paired Omics Data Platform collects a set of minimal metadata in a standardized, computer readable format. Relevant experimental details related to Sample Preparation, Extraction Methods, and Instrumentation Methods can be added and identified with user-defined labels for quick recall and linking.
                     </p>
                 </Col>
                 <Col md={4} style={colStyle}>
@@ -55,7 +55,7 @@ export function Welcome() {
                 </Col>
                 <Col md={4} style={colStyle}>
                     <h1>Quick Linking</h1>
-                    <p style={textStyle}>The Paired Data Platform makes linking a mass spectrometry file with a genome and the associated metadata quick and easy. The modular format reduces repetition and allows for rapid input of large studies.
+                    <p style={textStyle}>The Paired Omics Data Platform makes linking a mass spectrometry file with a genome and the associated metadata quick and easy. The modular format reduces repetition and allows for rapid input of large studies.
                 </p>
                 </Col>
             </Row>
@@ -64,7 +64,7 @@ export function Welcome() {
                     <h1>Gene Cluster – Molecule Linking
                 </h1>
                     <p style={textStyle}>
-                        The Paired Data Platform also collects publically available links between known biosynthetic gene clusters and molecules or molecular families. These fine-grained connections will inform future large scale predictions of structures from genomic data.
+                        The Paired Omics Data Platform also collects publically available links between known biosynthetic gene clusters and molecules or molecular families. These fine-grained connections will inform future large scale predictions of structures from genomic data.
                 </p>
                 </Col>
                 <Col md={4} style={colStyle}>

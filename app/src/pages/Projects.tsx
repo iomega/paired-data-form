@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 import { useProjects } from "../api";
 
+const style = { padding: '10px' };
+
 export function Projects() {
     const projects = useProjects();
     if (projects.loading) {
@@ -25,8 +27,8 @@ export function Projects() {
         </tr>
     ));
     return (
-        <div>
-            <h1>List with all approved projects</h1>
+        <div style={style}>
+            <h2>Available projects</h2>
             <Table>
                 <thead>
                     <tr>
