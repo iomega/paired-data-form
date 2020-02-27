@@ -7,6 +7,7 @@ The paired omics data platform api web service use a directories to store projec
 * pending/, any projects added via POST to `/api/projects` or `/api/projects/:id` will end up here. Ready for reviewing
 * approved/, all public visible projects. Once a project is approved it is moved from the `pending/` directory to the `approved/` directory.
 * archive/, when an existing project has been edited and approve, the previously approved project file is moved here.
+* thrash/, when an pending project has been denied it is moved from the `pending/` directory to the `thrash/` directory.
 
 Extra information is gathered for some of the identifiers and urls in a project json files. This extra information is called an enrichment. Redis is used to store enrichments and as job queue.
 
