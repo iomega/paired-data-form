@@ -25,11 +25,13 @@ export class ProjectDocumentDiskStore {
     pendingDir: string;
     approvedDir: string;
     archiveDir: string;
+    thrashDir: string;
 
     constructor(private datadir: string) {
         this.pendingDir = path.join(datadir, 'pending');
         this.approvedDir = path.join(datadir, 'approved');
         this.archiveDir = path.join(datadir, 'archive');
+        this.thrashDir = path.join(datadir, 'thrash');
     }
 
     private async initDatadir() {
@@ -37,6 +39,7 @@ export class ProjectDocumentDiskStore {
         await mkdirDirOptional(this.pendingDir);
         await mkdirDirOptional(this.approvedDir);
         await mkdirDirOptional(this.archiveDir);
+        await mkdirDirOptional(this.thrashDir);
     }
 
     async writePendingProject(project_id: string, project: object) {
@@ -61,7 +64,10 @@ export class ProjectDocumentDiskStore {
 
     async denyProject(project_id: string) {
         const fn = project_id + '.json';
-        await fs.promises.unlink(path.join(this.pendingDir, fn));
+        await fs.promises.rename(
+            path.join(this.pendingDir, fn),
+            path.join(this.thrashDir, fn)
+        );
     }
 
     async approveProject(project_id: string) {
