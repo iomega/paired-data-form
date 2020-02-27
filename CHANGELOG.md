@@ -10,12 +10,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * About page ([#86](https://github.com/iomega/paired-data-form/issues/86))
 * Limit log size of Docker containers ([#89](https://github.com/iomega/paired-data-form/issues/89))
+* Denied projects moved to thrash dir ([#95](https://github.com/iomega/paired-data-form/issues/95))
+* Stats page ([#64](https://github.com/iomega/paired-data-form/issues/64))
 
 ### Fixed
 
 * Unable to submit large project ([#88](https://github.com/iomega/paired-data-form/issues/88))
 * Spelling errors ([#87](https://github.com/iomega/paired-data-form/issues/87))
 * Render error when growth medium is not set ([#92](https://github.com/iomega/paired-data-form/issues/92))
+
+### Changed
+
+* Dropped Caddy web server from docker-compose, use nginx from app and external reverse proxy for https
 
 ## [0.3.0] - 2019-12-11
 
