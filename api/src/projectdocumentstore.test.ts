@@ -24,7 +24,7 @@ expect.extend({
                     return `{$dir} directory absent`;
                 }
             }
-        }
+        };
     },
 });
 
@@ -68,7 +68,7 @@ describe('ProjectDocumentStore', () => {
             beforeEach(async () => {
                 submitted_project = await loadJSONDocument('../app/public/examples/paired_datarecord_MSV000078839_example.json');
                 project_id = await store.createProject(submitted_project, project_id);
-            })
+            });
 
             it('should have created a JSON document in the pending directory', async () => {
                 expect.assertions(1);
@@ -102,10 +102,10 @@ describe('ProjectDocumentStore', () => {
 
                 it('should have created a JSON document in the approved directory', async () => {
                     expect.assertions(1);
-    
+
                     const fn = path.join(datadir, 'approved', `${project_id}.json`);
                     const approved_project = await loadJSONDocument(fn);
-    
+
                     expect(approved_project).toEqual(submitted_project);
                 });
 
@@ -129,36 +129,36 @@ describe('ProjectDocumentStore', () => {
 
                 it('should be returned by getProject()', async () => {
                     expect.assertions(1);
-    
+
                     const project = (await store.getProject(project_id)).project;
                     expect(project).toEqual(submitted_project);
                 });
-    
+
                 describe('when project has been edited', () => {
                     let second_project: IOMEGAPairedDataPlatform;
                     let second_project_id: string;
 
                     beforeEach(async () => {
                         second_project = await loadJSONDocument('../app/public/examples/paired_datarecord_MSV000078839_example.json');
-                        second_project.personal.PI_name = 'edited PI'; 
+                        second_project.personal.PI_name = 'edited PI';
                         second_project_id = await store.editProject(project_id, second_project);
                     });
 
                     it('should have created a JSON document with edited project in the pending directory', async () => {
                         expect.assertions(1);
-    
+
                         const fn = path.join(datadir, 'pending', `${second_project_id}.json`);
                         const approved_project = await loadJSONDocument(fn);
-        
+
                         expect(approved_project).toEqual(second_project);
-                    })
+                    });
 
                     it('should list edited project by listPendingProjects()', async () => {
                         expect.assertions(1);
-    
+
                         const projects = await store.listPendingProjects();
                         const project_ids = new Set(projects.map(p => p._id));
-    
+
                         expect(project_ids).toEqual(new Set([second_project_id]));
                     });
 
@@ -169,24 +169,24 @@ describe('ProjectDocumentStore', () => {
 
                         it('should have created a JSON document with original project in the archive directory', async () => {
                             expect.assertions(1);
-        
+
                             const fn = path.join(datadir, 'archive', `${project_id}.json`);
                             const approved_project = await loadJSONDocument(fn);
-            
+
                             expect(approved_project).toEqual(submitted_project);
-                        })
+                        });
 
                         it('should have created a JSON document with edited project in the pending directory', async () => {
                             expect.assertions(1);
-        
+
                             const fn = path.join(datadir, 'approved', `${second_project_id}.json`);
                             const approved_project = await loadJSONDocument(fn);
-            
+
                             expect(approved_project).toEqual(second_project);
-                        })
+                        });
 
                         it('should have a history with an archived revision', async () => {
-                            expect.assertions(1)
+                            expect.assertions(1);
 
                             const history = await store.projectHistory(second_project_id);
 
@@ -195,12 +195,12 @@ describe('ProjectDocumentStore', () => {
                                 archived: [
                                     [project_id, submitted_project]
                                 ]
-                            }
+                            };
                             expect(history).toEqual(expected);
-                        })
+                        });
                     });
 
-                })
+                });
             });
 
             describe('when denied', () => {
@@ -210,10 +210,10 @@ describe('ProjectDocumentStore', () => {
 
                 it('should have created a JSON document in the thrash directory', async () => {
                     expect.assertions(1);
-    
+
                     const fn = path.join(datadir, 'thrash', `${project_id}.json`);
                     const approved_project = await loadJSONDocument(fn);
-    
+
                     expect(approved_project).toEqual(submitted_project);
                 });
 
@@ -226,6 +226,6 @@ describe('ProjectDocumentStore', () => {
                     expect(project_ids).not.toEqual(new Set([project_id]));
                 });
             });
-        })
+        });
     });
 });
