@@ -6,12 +6,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+This version requires following migration steps.
+
+The enrichment of projects has been improved. To recreate enrichments of all projects run
+
+```shell
+# Drop existing enrichment with
+docker-compose exec redis bash
+redis-cli --scan --pattern keyv:enrichment:* | xargs redis-cli del
+exit
+# Recreate all enrichments
+docker-compose exec app npm run enrich
+```
+
 ### Added
 
 * About page ([#86](https://github.com/iomega/paired-data-form/issues/86))
 * Limit log size of Docker containers ([#89](https://github.com/iomega/paired-data-form/issues/89))
 * Denied projects moved to thrash dir ([#95](https://github.com/iomega/paired-data-form/issues/95))
 * Stats page ([#64](https://github.com/iomega/paired-data-form/issues/64))
+* Fetch species from BioSample, ENA and JGI for each genome
 
 ### Fixed
 
