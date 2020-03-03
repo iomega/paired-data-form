@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Table } from "react-bootstrap";
+import { Table, Glyphicon, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 
@@ -7,6 +7,7 @@ import { Decide } from "../Decide";
 import { AuthContext } from "../auth";
 import { ProjectSummary } from "../summarize";
 import { usePendingProjects, denyPendingProject, approvePendingProject } from "../api";
+import { DownloadPendingProject } from "../DownloadPendingProject";
 
 const style = { padding: '10px' };
 
@@ -49,6 +50,7 @@ export function PendingProjects() {
             <td>{d.nr_instrumentation_methods}</td>
             <td>{d.nr_genome_metabolmics_links}</td>
             <td>{d.nr_genecluster_mspectra_links}</td>
+            <td><DownloadPendingProject project_id={d._id} token={token}/></td>
         </tr>
     ));
     return (
@@ -66,6 +68,7 @@ export function PendingProjects() {
                         <th>Nr of instrumention methods</th>
                         <th>Nr of links between genomes and metabolomics</th>
                         <th>Nr of links between gene clusters and MS2 spectra</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

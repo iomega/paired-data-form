@@ -7,7 +7,7 @@ import { useFetch } from "./useFetch";
 import { JSONSchema6 } from "json-schema";
 import { UiSchema } from "react-jsonschema-form";
 
-const API_BASE_URL = '/api';
+export const API_BASE_URL = '/api';
 
 export const useProjects = () => {
     const url = API_BASE_URL + '/projects';
@@ -72,6 +72,13 @@ export const usePendingProject = (project_id: string) => {
     const init = { headers };
     return useFetch<EnrichedProjectDocument>(url, init);
 };
+
+export const fetchPendingProject = (project_id: string, token: string) => {
+    const url = `${API_BASE_URL}/pending/projects/${project_id}`;
+    const headers = authHeaders(token);
+    const init = { headers };
+    return fetch(url, init);
+}
 
 export const useProject = (project_id: string) => {
     const url = `${API_BASE_URL}/projects/${project_id}`;
