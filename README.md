@@ -14,6 +14,10 @@ The [JSON schema (app/public/schema.json)](app/public/schema.json) describes the
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=iomega_paired-data-form&metric=coverage)](https://sonarcloud.io/dashboard?id=iomega_paired-data-form)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3569588.svg)](https://doi.org/10.5281/zenodo.3569588)
 
+## Manuals
+
+User and admin manuals can be found in [manuals/](manuals/) folder.
+
 ## Architecture
 
 The paired omics data platform consists of:
