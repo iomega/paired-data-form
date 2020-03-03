@@ -26,6 +26,7 @@ docker-compose exec app npm run enrich
 * Denied projects moved to thrash dir ([#95](https://github.com/iomega/paired-data-form/issues/95))
 * Stats page ([#64](https://github.com/iomega/paired-data-form/issues/64))
 * Fetch species from BioSample, ENA and JGI for each genome
+* Download button for pending project in review section ([#98](https://github.com/iomega/paired-data-form/issues/98))
 
 ### Fixed
 
