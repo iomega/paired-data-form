@@ -13,3 +13,5 @@ To review a project
 3. Click the Approve/Deny button
     1. Clicking `Approve` button will immediately make the project public for everyone
     2. Clicking `Deny` button will immediately move the project to the recycle-bin
+
+The recycle-bin is the `data/thrash/` directory on the server.
