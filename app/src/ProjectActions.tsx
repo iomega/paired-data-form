@@ -13,9 +13,12 @@ interface IProps {
 
 export const ProjectActions = ({data_url, filename, project_id, inreview}: IProps) => {
     const project_url = getProjectJSONUrl(project_id);
+    // In development mode the `npm start` watch server does not proxy when Accept header includes text/html.
+    // like a downloading a file from the api server in a web browser so use a data url when in dev mode.
+    const is_dev = process.env.NODE_ENV === 'development';
     return (
         <ButtonGroup style={{marginBottom: '20px'}}>
-            { inreview ?
+            { (inreview || is_dev) ?
                 <Button href={data_url} download={filename} ><Glyphicon glyph="download" /> Download</Button>
                 :
                 <Button href={project_url} download={filename} ><Glyphicon glyph="download" /> Download</Button>
