@@ -27,7 +27,7 @@ docker-compose exec app npm run enrich
 * Stats page ([#64](https://github.com/iomega/paired-data-form/issues/64))
 * Fetch species from BioSample, ENA and JGI for each genome
 * Download button for pending project in review section ([#98](https://github.com/iomega/paired-data-form/issues/98))
-* Added submitter name to project lists ([#101](https://github.com/iomega/paired-data-form/issues/101))
+* Submitter name column to project lists ([#101](https://github.com/iomega/paired-data-form/issues/101))
 
 ### Fixed
 
