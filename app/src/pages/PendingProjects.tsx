@@ -68,7 +68,7 @@ export function PendingProjects() {
                         <th>Nr of instrumention methods</th>
                         <th>Nr of links between genomes and metabolomics</th>
                         <th>Nr of links between gene clusters and MS2 spectra</th>
-                        <th></th>
+                        <th>Download</th>
                     </tr>
                 </thead>
                 <tbody>
