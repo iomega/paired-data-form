@@ -86,6 +86,13 @@ export async function getProject(req: Request, res: Response) {
     const store = getStore(req);
     const project_id = req.params.id;
     const project = await store.getProject(project_id);
+    res.json(project.project);
+}
+
+export async function getEnrichedProject(req: Request, res: Response) {
+    const store = getStore(req);
+    const project_id = req.params.id;
+    const project = await store.getProject(project_id);
     res.json(project);
 }
 

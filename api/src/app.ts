@@ -26,6 +26,7 @@ app.use(lusca.xssProtection(true));
 // Public api
 app.get('/api/projects', asyncHandler(controller.listProjects));
 app.get('/api/projects/:id', asyncHandler(controller.getProject));
+app.get('/api/projects/:id/enriched', asyncHandler(controller.getEnrichedProject));
 app.post('/api/projects', asyncHandler(controller.createProject));
 app.post('/api/projects/:id', asyncHandler(controller.editProject));
 app.get('/api/projects/:id/history', asyncHandler(controller.getProjectHistory));

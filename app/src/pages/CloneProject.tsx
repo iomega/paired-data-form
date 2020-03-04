@@ -4,7 +4,7 @@ import { Button, Modal, Glyphicon } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { ProjectForm } from "../ProjectForm";
-import { useProject, useSubmitProject } from "../api";
+import { useEnrichedProject, useSubmitProject } from "../api";
 import { record2dataUrl } from "../record2dataUrl";
 
 interface TParams {
@@ -13,7 +13,7 @@ interface TParams {
 
 export function CloneProject({ match }: RouteComponentProps<TParams>) {
     const project_id = match.params.id;
-    const project = useProject(project_id);
+    const project = useEnrichedProject(project_id);
     const [submitted, onSubmit, error, rollback] = useSubmitProject();
     if (project.loading) {
         return <span>Loading...</span>;

@@ -2,7 +2,7 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
 import { PairedDataProject } from "../PairedDataProject";
-import { useProject, useSchema } from "../api";
+import { useEnrichedProject, useSchema } from "../api";
 
 interface TParams {
     id: string
@@ -12,7 +12,7 @@ const style = {padding: '10px'};
 
 export function Project({ match }: RouteComponentProps<TParams>) {
     const project_id = match.params.id;
-    const project = useProject(project_id);
+    const project = useEnrichedProject(project_id);
     const schema = useSchema();
     if (project.loading || schema.loading) {
         return <div style={style}>Loading...</div>;

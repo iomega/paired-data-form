@@ -80,10 +80,14 @@ export const fetchPendingProject = (project_id: string, token: string) => {
     return fetch(url, init);
 }
 
-export const useProject = (project_id: string) => {
-    const url = `${API_BASE_URL}/projects/${project_id}`;
+export const useEnrichedProject = (project_id: string) => {
+    const url = `${API_BASE_URL}/projects/${project_id}/enriched`;
     return useFetch<EnrichedProjectDocument>(url);
 };
+
+export const getProjectJSONUrl = (project_id: string) => {
+    return `${API_BASE_URL}/projects/${project_id}`;
+}
 
 export const useSchema = () => {
     return useFetch<JSONSchema6>('/schema.json');
