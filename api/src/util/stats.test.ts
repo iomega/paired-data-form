@@ -35,7 +35,7 @@ describe('computeStats()', () => {
                         'projects': 1,
                         'principal_investigators': 1,
                         'metabolome_samples': 21,
-                        'bgc_ms2': 5,
+                        'bgc_ms2': 3,
                     },
                     'top': {
                         'principal_investigators': [
@@ -118,7 +118,8 @@ describe('computeStats()', () => {
                         'global': {
                             'projects': 1,
                             'principal_investigators': 1,
-                            'metabolome_samples': 21
+                            'metabolome_samples': 21,
+                            'bgc_ms2': 3
                         },
                         'top': {
                             'principal_investigators': [

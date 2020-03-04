@@ -14,6 +14,7 @@ jest.mock('../api', () => ({
                     projects: 1,
                     principal_investigators: 2,
                     metabolome_samples: 3,
+                    bgc_ms2: 11
                 },
                 top: {
                     principal_investigators: [['me', 4]],

@@ -154,21 +154,29 @@ function hash_bgcms2_link(link: GeneClusterMassSpectraLink) {
         if (link.BGC_ID.BGC === 'MIBiG number associated with this exact BGC') {
             return link.network_nodes_URL + link.BGC_ID.MIBiG_number;
         } else if (link.BGC_ID.BGC === 'MIBiG number of a similar BGC from a closely related strain') {
-
+            return link.network_nodes_URL + link.BGC_ID.similar_MIBiG_number + link.BGC_ID.strain + link.BGC_ID.coordinates;
         }
     } else if (link.link === 'single molecule') {
         if (link.BGC_ID.BGC === 'MIBiG number associated with this exact BGC') {
-
+            return link.MS2_URL + link.MS2_scan + link.BGC_ID.MIBiG_number;
         } else if (link.BGC_ID.BGC === 'MIBiG number of a similar BGC from a closely related strain') {
-            
+            return link.MS2_URL + link.MS2_scan + link.BGC_ID.similar_MIBiG_number + link.BGC_ID.strain + link.BGC_ID.coordinates;
         }
     }
 }
 
 function countBgcMS2Links(projects: EnrichedProjectDocument[]) {
-    const field_counts = new Map<string, number>();
+    const field_counts = new Set<string>();
 
+    projects.forEach(project => {
+        if (project.project.BGC_MS2_links) {
+            project.project.BGC_MS2_links.map(hash_bgcms2_link).forEach((link) => {
+                field_counts.add(link);
+            });
+        }
+    });
 
+    return field_counts.size;
 }
 
 export function computeStats(projects: EnrichedProjectDocument[], schema: any) {

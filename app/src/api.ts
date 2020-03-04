@@ -27,6 +27,7 @@ export interface IStats {
         projects: number
         principal_investigators: number
         metabolome_samples: number
+        bgc_ms2: number
     };
     top: {
         principal_investigators: [string, number][]
