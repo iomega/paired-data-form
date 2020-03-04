@@ -6,7 +6,7 @@ import { MemoryRouter } from "react-router";
 
 // Mock useFetch so it returns data immediately
 jest.mock('../api', () => ({
-    useProject: () => {
+    useEnrichedProject: () => {
         return {
             loading: false,
             error: null,
@@ -23,6 +23,9 @@ jest.mock('../api', () => ({
             error: null,
             data: require('../../public/schema.json')
         }
+    },
+    getProjectJSONUrl: (project_id: string) => {
+        return `/api/projects/${project_id}`;
     }
 }));
 
