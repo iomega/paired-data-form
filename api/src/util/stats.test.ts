@@ -34,7 +34,8 @@ describe('computeStats()', () => {
                     'global': {
                         'projects': 1,
                         'principal_investigators': 1,
-                        'metabolome_samples': 21
+                        'metabolome_samples': 21,
+                        'bgc_ms2': 5,
                     },
                     'top': {
                         'principal_investigators': [
@@ -58,7 +59,8 @@ describe('computeStats()', () => {
                             ['Ethyl acetate', 1],
                             ['Butanol', 1],
                             ['Methanol', 1]
-                        ], 'species': [
+                        ],
+                        'species': [
                             ['Streptomyces sp. CNB091', 1],
                             ['Streptomyces sp. CNH099', 1],
                             ['Salinispora arenicola CNB527', 1]

@@ -1,10 +1,12 @@
 import { EnrichedProjectDocument } from '../store/enrichments';
+import { GeneClusterMassSpectraLinks } from '../schema';
 
 export interface IStats {
     global: {
         projects: number
         principal_investigators: number
         metabolome_samples: number
+        bgc_ms2: number
     };
     top: {
         principal_investigators: [string, number][]
@@ -145,6 +147,30 @@ function countSpecies(projects: EnrichedProjectDocument[], top_size = 5) {
     return Array.from(field_counts.entries()).sort((a, b) => b[1] - a[1]).slice(0, top_size);
 }
 
+type GeneClusterMassSpectraLink = GeneClusterMassSpectraLinks[0];
+
+function hash_bgcms2_link(link: GeneClusterMassSpectraLink) {
+    if (link.link === 'GNPS molecular family') {
+        if (link.BGC_ID.BGC === 'MIBiG number associated with this exact BGC') {
+            return link.network_nodes_URL + link.BGC_ID.MIBiG_number;
+        } else if (link.BGC_ID.BGC === 'MIBiG number of a similar BGC from a closely related strain') {
+
+        }
+    } else if (link.link === 'single molecule') {
+        if (link.BGC_ID.BGC === 'MIBiG number associated with this exact BGC') {
+
+        } else if (link.BGC_ID.BGC === 'MIBiG number of a similar BGC from a closely related strain') {
+            
+        }
+    }
+}
+
+function countBgcMS2Links(projects: EnrichedProjectDocument[]) {
+    const field_counts = new Map<string, number>();
+
+
+}
+
 export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
     const principal_investigators = countProjectField(projects, (p) => p.project.personal.PI_name);
     const submitters = countProjectField(projects, (p) => p.project.personal.submitter_name);
@@ -189,11 +215,14 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
     const metabolome_samples = countMetabolomeSamples(projects);
     const species = countSpecies(projects);
 
+    const bgc_ms2 = countBgcMS2Links(projects);
+
     const stats: IStats = {
         global: {
             projects: projects.length,
             principal_investigators: principal_investigators.total,
-            metabolome_samples
+            metabolome_samples,
+            bgc_ms2
         },
         top: {
             principal_investigators: principal_investigators.top,
