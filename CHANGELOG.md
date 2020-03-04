@@ -37,6 +37,7 @@ docker-compose exec app npm run enrich
 ### Changed
 
 * Dropped Caddy web server from docker-compose, use nginx from app and external reverse proxy for https
+* Download project directly using web service instead of data-url
 
 ## [0.3.0] - 2019-12-11
 
