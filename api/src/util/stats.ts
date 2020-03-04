@@ -13,6 +13,7 @@ export interface IStats {
         submitters: [string, number][]
         genome_types: [string, number][]
         species: [string, number][]
+        metagenomic_environment: [string, number][]
         instruments_types: [string, number][]
         growth_media: [string, number][]
         solvents: [string, number][]
@@ -42,7 +43,8 @@ function countProjectCollectionField(
     collection_accessor: (project: EnrichedProjectDocument) => any[],
     field_accessor: (row: any) => string,
     lookup: Map<string, string>,
-    top_size = 5
+    top_size = 5,
+    { count_unknowns } = { count_unknowns: true }
 ) {
     const field_counts = new Map<string, number>();
     projects.forEach((project) => {
@@ -51,6 +53,9 @@ function countProjectCollectionField(
         collection.forEach((row) => {
             let key = lookup.get(field_accessor(row));
             if (!key) {
+                if (!count_unknowns) {
+                    return;
+                }
                 key = 'Unknown';
             }
             if (field_counts.has(key)) {
@@ -65,7 +70,7 @@ function countProjectCollectionField(
     const top: [string, number][] = Array.from(field_counts.entries())
         .sort((a, b) => b[1] - a[1])
         .slice(0, top_size)
-    ;
+        ;
     return {
         total: field_counts.size,
         top
@@ -99,7 +104,7 @@ function countSolvents(projects: EnrichedProjectDocument[], schema: any, top_siz
     const top: [string, number][] = Array.from(field_counts.entries())
         .sort((a, b) => b[1] - a[1])
         .slice(0, top_size)
-    ;
+        ;
     return {
         total: field_counts.size,
         top
@@ -218,6 +223,20 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
         growth_media_lookup,
         growth_media_lookup.size
     );
+    const metagenomic_environment_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[0].properties.metagenomic_environment.oneOf;
+    const metagenomic_environment_lookup = enum2map(metagenomic_environment_oneOf);
+    const metagenomic_environment = countProjectCollectionField(
+        projects,
+        (p) => p.project.experimental.sample_preparation,
+        (r) => {
+            if (r.medium_details.medium_type === 'metagenome') {
+                return r.medium_details.metagenomic_environment;
+            }
+        },
+        metagenomic_environment_lookup,
+        metagenomic_environment_lookup.size,
+        { count_unknowns: false }
+    );
 
     const solvents = countSolvents(projects, schema);
     const metabolome_samples = countMetabolomeSamples(projects);
@@ -239,7 +258,8 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
             instruments_types: instruments_types.top,
             growth_media: growth_media.top,
             solvents: solvents.top,
-            species
+            species,
+            metagenomic_environment: metagenomic_environment.top
         }
     };
     return stats;

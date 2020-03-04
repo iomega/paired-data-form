@@ -23,7 +23,8 @@ jest.mock('../api', () => ({
                     species: [['Human', 7]],
                     instruments_types: [['Time-of-flight (TOF)', 8]],
                     growth_media: [['A1 medium', 9]],
-                    solvents: [['Methanol', 10]]
+                    solvents: [['Methanol', 10]],
+                    metagenomic_environment: [['Human', 12]]
                 }
             }
         };

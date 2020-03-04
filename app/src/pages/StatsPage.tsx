@@ -96,6 +96,16 @@ export const StatsPage = () => {
                     </Col>
                     <Col md={4}>
                         <fieldset>
+                            <legend>Metagenome host or isolation source</legend>
+                            <ListGroup>
+                                {data.top.metagenomic_environment.map(
+                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
+                                )}
+                            </ListGroup>
+                        </fieldset>
+                    </Col>
+                    <Col md={4}>
+                        <fieldset>
                             <legend>Top solvents</legend>
                             <ListGroup>
                                 {data.top.solvents.map(

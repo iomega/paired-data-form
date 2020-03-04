@@ -64,7 +64,8 @@ describe('computeStats()', () => {
                             ['Streptomyces sp. CNB091', 1],
                             ['Streptomyces sp. CNH099', 1],
                             ['Salinispora arenicola CNB527', 1]
-                        ]
+                        ],
+                        'metagenomic_environment': []
                     }
                 };
                 expect(result).toEqual(expected);
@@ -147,7 +148,8 @@ describe('computeStats()', () => {
                                 ['XStreptomyces sp. CNB091', 1],
                                 ['YStreptomyces sp. CNH099', 1],
                                 ['ZSalinispora arenicola CNB527', 1]
-                            ]
+                            ],
+                            'metagenomic_environment': []
                         }
                     };
                     expect(result).toEqual(expected);

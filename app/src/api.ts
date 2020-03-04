@@ -36,6 +36,7 @@ export interface IStats {
         species: [string, number][]
         instruments_types: [string, number][]
         growth_media: [string, number][]
+        metagenomic_environment: [string, number][]
         solvents: [string, number][]
     };
 }
