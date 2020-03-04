@@ -23,6 +23,11 @@ export class Validator {
         return this.compiled(data);
     }
 
+    validateFile(fn: string) {
+        const data = JSON.parse(fs.readFileSync(fn, 'utf-8'));
+        return this.validate(data);
+    }
+
     get errors(): Ajv.ErrorObject[] {
         return this.compiled.errors;
     }

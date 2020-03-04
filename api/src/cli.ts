@@ -2,6 +2,7 @@ import yargs from 'yargs';
 
 import { store } from './init';
 import { enrichAllProjects } from './tasks';
+import { Validator } from './validate';
 
 yargs.command(
     'enrich',
@@ -18,6 +19,26 @@ yargs.command(
                 // Bull and Keyv have open promises which cause node to not exit voluntary
                 process.exit(0);
             })
-        ;
+            ;
+    }
+).command(
+    'validate',
+    'Validate JSON file as a Paired Omics Data Platform project file',
+    (args) => {
+        return args
+            .positional('file', {
+                describe: 'file to validate',
+                type: 'string'
+            });
+    },
+    (argv) => {
+        const validator = new Validator();
+        if (validator.validateFile(argv.file)) {
+            console.log(`${argv.file} OK`);
+        } else {
+            console.log(`${argv.file} BAD`);
+            console.log(validator.errors);
+            process.exit(1);
+        }
     }
 ).help().version().argv;
