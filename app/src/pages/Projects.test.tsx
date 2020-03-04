@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { shallow, ShallowWrapper } from "enzyme";
+import { shallow, ShallowWrapper } from 'enzyme';
 
 // Mock useFetch so it returns data immediately
 jest.mock('../api', () => ({
@@ -12,6 +12,7 @@ jest.mock('../api', () => ({
                 _id: 'id1',
                 GNPSMassIVE_ID: 'somegnpsid',
                 PI_name: 'somepi',
+                submitter: 'somesubmitter',
                 nr_genomes: 3,
                 nr_growth_conditions: 4,
                 nr_extraction_methods: 5,
@@ -24,7 +25,7 @@ jest.mock('../api', () => ({
     }
 }));
 
-import { Projects } from "./Projects";
+import { Projects } from './Projects';
 
 describe('<Projects>', () => {
     let wrapper: ShallowWrapper;

@@ -44,6 +44,7 @@ export function PendingProjects() {
             </td>
             <td><Link to={`/pending/${d._id}`}>{ d.GNPSMassIVE_ID ? d.GNPSMassIVE_ID : d.metabolights_study_id }</Link></td>
             <td>{d.PI_name}</td>
+            <td>{d.submitter_name}</td>
             <td>{d.nr_genomes}</td>
             <td>{d.nr_growth_conditions}</td>
             <td>{d.nr_extraction_methods}</td>
@@ -62,6 +63,7 @@ export function PendingProjects() {
                         <th>Approve/Deny</th>
                         <th>Metabolomics project identifier</th>
                         <th>Principal investigator</th>
+                        <th>Submitter</th>
                         <th>Nr of (meta)genomes</th>
                         <th>Nr of growth conditions</th>
                         <th>Nr of extraction methods</th>
