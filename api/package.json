@@ -20,7 +20,8 @@
     "schema2ts": "json2ts --input ../app/public/schema.json --output src/schema.ts --style.singleQuote",
     "enrich": "node dist/cli.js enrich",
     "validate": "node dist/cli.js validate",
-    "validateall": "find data -type f -exec node dist/cli.js validate {} \\;"
+    "validateall": "find data -type f -exec node dist/cli.js validate {} \\;",
+    "migrate": "node dist/cli.js migrate"
   },
   "dependencies": {
     "@keyv/redis": "^1.3.8",
@@ -40,6 +41,7 @@
     "node-fetch": "^2.5.0",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.0",
+    "umzug": "^2.2.0",
     "uuid": "^3.3.2",
     "winston": "^2.4.0",
     "yargs": "^13.2.4"
@@ -64,6 +66,7 @@
     "@types/passport-http-bearer": "^1.0.32",
     "@types/rimraf": "^2.0.2",
     "@types/tmp": "^0.1.0",
+    "@types/umzug": "^2.2.3",
     "@types/uuid": "^3.4.4",
     "@types/yargs": "^13.0.0",
     "concurrently": "^3.6.1",

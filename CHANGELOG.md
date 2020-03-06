@@ -8,16 +8,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This version requires following migration steps.
 
-The enrichment of projects has been improved. To recreate enrichments of all projects run
+* JSON schema changed to version 2. To migrate all projects in data/ dir from 1 to 2 run
 
-```shell
-# Drop existing enrichment with
-docker-compose exec redis bash
-redis-cli --scan --pattern keyv:enrichment:* | xargs redis-cli del
-exit
-# Recreate all enrichments
-docker-compose exec app npm run enrich
-```
+    ```shell
+    # Backup
+    rsync -a data/ backup-$(date -I)/
+    # Perform migration
+    docker-compose exec api npm run migrate
+    # Validate projects
+    docker-compose exec api npm run validateall
+    ```
+
+* The enrichment of projects has been improved. To recreate enrichments of all projects run
+
+    ```shell
+    # Drop existing enrichment with
+    docker-compose exec redis bash
+    redis-cli --scan --pattern keyv:enrichment:* | xargs redis-cli del
+    exit
+    # Recreate all enrichments
+    docker-compose exec api npm run enrich
+    ```
 
 ### Added
 
@@ -43,6 +54,7 @@ docker-compose exec app npm run enrich
 * Download project directly using web service instead of data-url
 * BGC number to BGC accession aka 1234 to BGC0001234 ([#94](https://github.com/iomega/paired-data-form/issues/94))
 * Require more fields in Gene cluster - Mass spectra links ([#94](https://github.com/iomega/paired-data-form/issues/94))
+* Increased JSON schema version to 2 due to issue #94
 
 ## [0.3.0] - 2019-12-11
 
