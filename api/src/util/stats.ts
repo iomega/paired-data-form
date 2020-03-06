@@ -189,15 +189,15 @@ function countBgcMS2Links(projects: EnrichedProjectDocument[]) {
 export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
     const principal_investigators = countProjectField(projects, (p) => new Map([[p.project.personal.PI_name, 1]]));
     const submitters = countProjectField(projects, (p) => {
-        const submitters =  new Map();
+        const submitters_values =  new Map<string, number>();
         if (p.project.personal.submitter_name_secondary) {
             // The primary and secondary submitter share in the count for a project
-            submitters.set(p.project.personal.submitter_name, 0.5);
-            submitters.set(p.project.personal.submitter_name_secondary, 0.5);
+            submitters_values.set(p.project.personal.submitter_name, 0.5);
+            submitters_values.set(p.project.personal.submitter_name_secondary, 0.5);
         } else {
-            submitters.set(p.project.personal.submitter_name, 1);
+            submitters_values.set(p.project.personal.submitter_name, 1);
         }
-        return new Map(submitters);
+        return new Map(submitters_values);
     });
 
     const genome_types_enum: string[] = schema.properties.genomes.items.properties.genome_ID.properties.genome_type.enum;
