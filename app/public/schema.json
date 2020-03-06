@@ -16,7 +16,7 @@
     "version": {
       "type": "string",
       "readonly": true,
-      "default": "1"
+      "default": "2"
     },
     "personal": {
       "type": "object",
