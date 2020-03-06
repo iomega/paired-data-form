@@ -156,6 +156,63 @@ describe('computeStats()', () => {
                     expect(result).toEqual(expected);
                 });
             });
+
+            describe('with secondary submitter', () => {
+                beforeEach(async () => {
+                    project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
+                    project.personal.submitter_email_secondary = 's.verhoeven@esciencecenter.nl';
+                    project.personal.submitter_name_secondary = 'Stefan Verhoeven';
+                });
+
+                it('should have stats', () => {
+                    const projects = [{
+                        _id: '08a05264-7f06-4821-b4ad-bfd4ecb3bd34.1',
+                        project
+                    }];
+                    const result = computeStats(projects, schema);
+
+                    const expected: IStats = {
+                        'global': {
+                            'projects': 1,
+                            'principal_investigators': 1,
+                            'metabolome_samples': 21,
+                            'bgc_ms2': 3,
+                        },
+                        'top': {
+                            'principal_investigators': [
+                                ['Marnix Medema', 1]
+                            ],
+                            'submitters': [
+                                ['Justin van der Hooft', 0.5],
+                                ['Stefan Verhoeven', 0.5]
+                            ],
+                            'genome_types': [
+                                ['genome', 3]
+                            ],
+                            'instruments_types': [
+                                ['Time-of-flight (TOF)', 1]
+                            ],
+                            'growth_media': [
+                                ['A1 medium', 1],
+                                ['R5 medium', 1],
+                                ['Mannitol soy flour medium (MS)', 1]
+                            ],
+                            'solvents': [
+                                ['Ethyl acetate', 1],
+                                ['Butanol', 1],
+                                ['Methanol', 1]
+                            ],
+                            'species': [
+                                ['Streptomyces sp. CNB091', 1],
+                                ['Streptomyces sp. CNH099', 1],
+                                ['Salinispora arenicola CNB527', 1]
+                            ],
+                            'metagenomic_environment': []
+                        }
+                    };
+                    expect(result).toEqual(expected);
+                });
+            });
         });
     });
 });

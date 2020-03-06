@@ -20,15 +20,17 @@ export interface IStats {
     };
 }
 
-function countProjectField(projects: EnrichedProjectDocument[], accessor: (project: EnrichedProjectDocument) => string, top_size = 5) {
+function countProjectField(projects: EnrichedProjectDocument[], accessor: (project: EnrichedProjectDocument) => Map<string, number>, top_size = 5) {
     const field_counts = new Map<string, number>();
     projects.forEach((project) => {
-        const key = accessor(project);
-        if (field_counts.has(key)) {
-            field_counts.set(key, field_counts.get(key) + 1);
-        } else {
-            field_counts.set(key, 1);
-        }
+        const keys = accessor(project);
+        keys.forEach((value, key) => {
+            if (field_counts.has(key)) {
+                field_counts.set(key, field_counts.get(key) + value);
+            } else {
+                field_counts.set(key, value);
+            }
+        });
     });
     // Sort by count and take top n largest counts
     const top = Array.from(field_counts.entries()).sort((a, b) => b[1] - a[1]).slice(0, top_size);
@@ -185,8 +187,18 @@ function countBgcMS2Links(projects: EnrichedProjectDocument[]) {
 }
 
 export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
-    const principal_investigators = countProjectField(projects, (p) => p.project.personal.PI_name);
-    const submitters = countProjectField(projects, (p) => p.project.personal.submitter_name);
+    const principal_investigators = countProjectField(projects, (p) => new Map([[p.project.personal.PI_name, 1]]));
+    const submitters = countProjectField(projects, (p) => {
+        const submitters =  new Map();
+        if (p.project.personal.submitter_name_secondary) {
+            // The primary and secondary submitter share in the count for a project
+            submitters.set(p.project.personal.submitter_name, 0.5);
+            submitters.set(p.project.personal.submitter_name_secondary, 0.5);
+        } else {
+            submitters.set(p.project.personal.submitter_name, 1);
+        }
+        return new Map(submitters);
+    });
 
     const genome_types_enum: string[] = schema.properties.genomes.items.properties.genome_ID.properties.genome_type.enum;
     const genome_types_lookup = new Map<string, string>(genome_types_enum.map(s => [s, s]));
