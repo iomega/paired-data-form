@@ -1555,7 +1555,7 @@
           },
           "BGC_ID": {
             "type": "object",
-            "title": "MIBiG BGC ID",
+            "title": "MIBiG BGC accession",
             "properties": {
               "BGC": {
                 "type": "string",
@@ -1577,10 +1577,13 @@
                         ]
                       },
                       "MIBiG_number": {
-                        "type": "number",
-                        "title": "MIBiG number for exact BGC"
+                        "type": "string",
+                        "title": "MIBiG accession for exact BGC",
+                        "description": "For example 'BGC0000259'.",
+                        "pattern":  "^BGC[0-9]{7}$"
                       }
-                    }
+                    },
+                    "required": ["BGC", "MIBiG_number"]
                   },
                   {
                     "properties": {
@@ -1590,8 +1593,10 @@
                         ]
                       },
                       "similar_MIBiG_number": {
-                        "type": "number",
-                        "title": "MIBiG number for similar BGC"
+                        "type": "string",
+                        "title": "MIBiG accession for similar BGC",
+                        "description": "For example 'BGC0000259'.",
+                        "pattern":  "^BGC[0-9]{7}$"
                       },
                       "strain": {
                         "type": "string",
@@ -1603,7 +1608,8 @@
                         "title": "BGC Coordinates",
                         "description": "Please provide the beginning and end coordinates of the similar BGC from the genome specified above."
                       }
-                    }
+                    },
+                    "required": ["BGC", "similar_MIBiG_number"]
                   }
                 ]
               }
@@ -1634,7 +1640,8 @@
                     "title": "GNPS network nodes URL",
                     "description": "Please provide the URL from GNPS for the network nodes page: first click 'View Spectral Families (In Browser Network Visualizer)' and then click 'Network Nodes' and copy this URL, e.g. <a target=\"\" href=\"https://gnps.ucsd.edu/ProteoSAFe/result.jsp?view=cluster_info_sliced&componentindex=290&show=true&task=c36f90ba29fe44c18e96db802de0c6b9#%7B%7D\">https://gnps.ucsd.edu/ProteoSAFe/result.jsp?view=cluster_info_sliced&componentindex=290&show=true&task=c36f90ba29fe44c18e96db802de0c6b9#%7B%7D</a>"
                   }
-                }
+                },
+                "required": ["link", "network_nodes_URL"]
               },
               {
                 "properties": {
@@ -1654,7 +1661,8 @@
                     "title": "Mass spectrometry fragmentation scan number",
                     "description": "Please provide the MS2 scan number for the molecule to link."
                   }
-                }
+                },
+                "required": ["link", "MS2_URL", "MS2_scan"]
               }
             ]
           }
