@@ -29,6 +29,7 @@ docker-compose exec app npm run enrich
 * Download button for pending project in review section ([#98](https://github.com/iomega/paired-data-form/issues/98))
 * Submitter name column to project lists ([#101](https://github.com/iomega/paired-data-form/issues/101))
 * Commands to validate one or all projects ([#100](https://github.com/iomega/paired-data-form/issues/100))
+* Second submitter ([#97](https://github.com/iomega/paired-data-form/issues/97))
 
 ### Fixed
 
@@ -40,6 +41,8 @@ docker-compose exec app npm run enrich
 
 * Dropped Caddy web server from docker-compose, use nginx from app and external reverse proxy for https
 * Download project directly using web service instead of data-url
+* BGC number to BGC accession aka 1234 to BGC0001234 ([#94](https://github.com/iomega/paired-data-form/issues/94))
+* Require more fields in Gene cluster - Mass spectra links ([#94](https://github.com/iomega/paired-data-form/issues/94))
 
 ## [0.3.0] - 2019-12-11
 
