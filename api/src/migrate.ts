@@ -18,13 +18,15 @@ export const migrations: Migration[] = [
             project.version = '2';
 
             // MIBiG accession instead of number
-            project.BGC_MS2_links.forEach((r: any) => {
-                if (r.BGC_ID.BGC === 'MIBiG number associated with this exact BGC') {
-                    r.BGC_ID.MIBiG_number = 'BGC' + r.BGC_ID.MIBiG_number.toString().padStart(7, '0');
-                } else {
-                    r.BGC_ID.similar_MIBiG_number = 'BGC' + r.BGC_ID.similar_MIBiG_number.toString().padStart(7, '0');
-                }
-            });
+            if (project.BGC_MS2_links) {
+                project.BGC_MS2_links.forEach((r: any) => {
+                    if (r.BGC_ID.BGC === 'MIBiG number associated with this exact BGC') {
+                        r.BGC_ID.MIBiG_number = 'BGC' + r.BGC_ID.MIBiG_number.toString().padStart(7, '0');
+                    } else {
+                        r.BGC_ID.similar_MIBiG_number = 'BGC' + r.BGC_ID.similar_MIBiG_number.toString().padStart(7, '0');
+                    }
+                });
+            }
 
             return project;
         }
@@ -33,20 +35,26 @@ export const migrations: Migration[] = [
 
 export const migrate = async (store: ProjectDocumentStore) => {
     console.log('Migrating pending projects');
-    (await store.listPendingProjects()).forEach((p) => {
-        migrations.filter(m => m.applicable(p.project)).forEach((m) => {
-            console.log(`Project ${p._id}`);
-            const new_project = m.up(p.project);
-            store.disk_store.writePendingProject(p._id, new_project);
-        });
-    });
+    const pending_projects = await store.listPendingProjects();
+    for (const p of pending_projects) {
+        for (const m of migrations) {
+            if (m.applicable(p.project)) {
+                console.log(`Project ${p._id}`);
+                const new_project = m.up(p.project);
+                await store.disk_store.writePendingProject(p._id, new_project);
+            }
+        }
+    }
     console.log('Migrating approved projects');
-    (await store.listProjects()).forEach((p) => {
-        migrations.filter(m => m.applicable(p.project)).forEach((m) => {
-            console.log(`Project ${p._id}`);
-            const new_project = m.up(p.project);
-            store.disk_store.writePendingProject(p._id, new_project);
-            store.disk_store.approveProject(p._id);
-        });
-    });
+    const projects = await store.listProjects();
+    for (const p of projects) {
+        for (const m of migrations) {
+            if (m.applicable(p.project)) {
+                console.log(`Project ${p._id}`);
+                const new_project = m.up(p.project);
+                await store.disk_store.writePendingProject(p._id, new_project);
+                await store.disk_store.approveProject(p._id);
+            }
+        }
+    }
 };
