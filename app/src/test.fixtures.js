@@ -1,7 +1,7 @@
 /* tslint:disable:object-literal-sort-keys */
 
 export const minimalDoc = {
-    "version": "1",
+    "version": "2",
     "personal": {},
     "metabolomics": {
         "project": {
@@ -15,7 +15,7 @@ export const minimalDoc = {
 };
 
 export const kitchenSinkDoc = {
-    "version": "1",
+    "version": "2",
     "personal": {
         "submitter_name": "Justin van der Hooft",
         "submitter_orcid": "https://orcid.org/0000-0002-9340-5511",
