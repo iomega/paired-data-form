@@ -39,10 +39,20 @@
           "title": "Submitter contact e-mail address",
           "format": "email"
         },
+        "submitter_name_secondary": {
+          "type": "string",
+          "title": "Name of second contact for correspondence",
+          "description": "This person will be the second point of contact for any communication related to this entry."
+        },
+        "submitter_email_secondary": {
+          "type": "string",
+          "title": "Secondary submitter contact e-mail address",
+          "format": "email"
+        },
         "PI_name": {
           "type": "string",
           "title": "Name of the principal investigator of the submitter",
-          "description": "This person is contacted in case the submitter has moved institution"
+          "description": "This person is contacted in case the submitters have moved institutions"
         },
         "PI_institution": {
           "type": "string",
