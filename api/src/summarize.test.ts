@@ -1,5 +1,6 @@
 import { loadJSONDocument } from './util/io';
 import { summarizeProject } from './summarize';
+import { EXAMPLE_PROJECT_JSON_FN } from './testhelpers';
 
 describe('summarizeProject()', () => {
 
@@ -7,7 +8,7 @@ describe('summarizeProject()', () => {
         expect.assertions(1);
 
         const _id = 'some-project-id';
-        const project = await loadJSONDocument('../app/public/examples/paired_datarecord_MSV000078839_example.json');
+        const project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
 
         const summary = summarizeProject({_id, project});
 

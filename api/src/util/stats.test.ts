@@ -3,6 +3,7 @@ import { loadJSONDocument } from './io';
 import { computeStats, IStats } from './stats';
 import { IOMEGAPairedDataPlatform } from '../schema';
 import { ProjectEnrichments } from '../enrich';
+import { EXAMPLE_PROJECT_JSON_FN } from '../testhelpers';
 jest.mock('../projectdocumentstore');
 
 
@@ -20,7 +21,7 @@ describe('computeStats()', () => {
             let project: IOMEGAPairedDataPlatform;
 
             beforeEach(async () => {
-                project = await loadJSONDocument('../app/public/examples/paired_datarecord_MSV000078839_example.json');
+                project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
             });
 
             it('should have stats', () => {

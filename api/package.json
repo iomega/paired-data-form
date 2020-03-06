@@ -18,7 +18,9 @@
     "serve-debug": "nodemon -i data --inspect dist/server.js",
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
     "schema2ts": "json2ts --input ../app/public/schema.json --output src/schema.ts --style.singleQuote",
-    "enrich": "node dist/cli.js enrich"
+    "enrich": "node dist/cli.js enrich",
+    "validate": "node dist/cli.js validate",
+    "validateall": "find data -type f -exec node dist/cli.js validate {} \\;"
   },
   "dependencies": {
     "@keyv/redis": "^1.3.8",
@@ -61,6 +63,7 @@
     "@types/passport": "^0.4.3",
     "@types/passport-http-bearer": "^1.0.32",
     "@types/rimraf": "^2.0.2",
+    "@types/tmp": "^0.1.0",
     "@types/uuid": "^3.4.4",
     "@types/yargs": "^13.0.0",
     "concurrently": "^3.6.1",
@@ -70,6 +73,7 @@
     "rimraf": "^2.6.3",
     "shelljs": "^0.8.1",
     "supertest": "^3.0.0",
+    "tmp": "^0.1.0",
     "ts-jest": "^24.0.2",
     "ts-node": "^5.0.0",
     "tslint": "^5.9.1",

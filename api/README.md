@@ -94,3 +94,13 @@ When `../app/public/schema.json` changes the `src/schema.ts` must also be update
 ```shell
 npm run schema2ts
 ```
+
+## Schema migration and validation
+
+Whenever the schema is changed the projects in the data/ directory must be migrated and validated.
+
+The projects can be validated with
+
+```shell
+npm run validateall
+```

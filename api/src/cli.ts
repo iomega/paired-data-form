@@ -22,7 +22,7 @@ yargs.command(
             ;
     }
 ).command(
-    'validate',
+    'validate <file>',
     'Validate JSON file as a Paired Omics Data Platform project file',
     (args) => {
         return args
@@ -33,11 +33,10 @@ yargs.command(
     },
     (argv) => {
         const validator = new Validator();
-        if (validator.validateFile(argv.file)) {
-            console.log(`${argv.file} OK`);
+        const is_valid = validator.validateFile(argv.file);
+        if (is_valid) {
+            process.exit(0);
         } else {
-            console.log(`${argv.file} BAD`);
-            console.log(validator.errors);
             process.exit(1);
         }
     }

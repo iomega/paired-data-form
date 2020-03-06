@@ -8,6 +8,7 @@ import { ProjectDocumentStore } from './projectdocumentstore';
 import { EnrichedProjectDocument } from './store/enrichments';
 import { IOMEGAPairedDataPlatform } from './schema';
 import { loadJSONDocument } from './util/io';
+import { EXAMPLE_PROJECT_JSON_FN } from './testhelpers';
 
 expect.extend({
     toBeSubdirectoryInDirectory(basename: string, prefix: string) {
@@ -66,7 +67,7 @@ describe('ProjectDocumentStore', () => {
             let project_id: string;
 
             beforeEach(async () => {
-                submitted_project = await loadJSONDocument('../app/public/examples/paired_datarecord_MSV000078839_example.json');
+                submitted_project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
                 project_id = await store.createProject(submitted_project, project_id);
             });
 
@@ -139,7 +140,7 @@ describe('ProjectDocumentStore', () => {
                     let second_project_id: string;
 
                     beforeEach(async () => {
-                        second_project = await loadJSONDocument('../app/public/examples/paired_datarecord_MSV000078839_example.json');
+                        second_project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
                         second_project.personal.PI_name = 'edited PI';
                         second_project_id = await store.editProject(project_id, second_project);
                     });

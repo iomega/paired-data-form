@@ -25,7 +25,15 @@ export class Validator {
 
     validateFile(fn: string) {
         const data = JSON.parse(fs.readFileSync(fn, 'utf-8'));
-        return this.validate(data);
+        const is_valid = this.validate(data);
+        if (is_valid) {
+            console.log(`${fn} OK`);
+        } else {
+            console.log(`${fn} BAD`);
+            console.error(`${fn} validation errors:`);
+            console.error(this.errors);
+        }
+        return is_valid;
     }
 
     get errors(): Ajv.ErrorObject[] {
