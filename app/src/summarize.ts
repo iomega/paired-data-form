@@ -1,4 +1,4 @@
-import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
+import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 
 export interface ProjectSummary {
     _id: string;

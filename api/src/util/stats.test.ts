@@ -1,7 +1,7 @@
 import { Validator } from '../validate';
 import { loadJSONDocument } from './io';
 import { computeStats, IStats } from './stats';
-import { IOMEGAPairedDataPlatform } from '../schema';
+import { IOMEGAPairedOmicsDataPlatform } from '../schema';
 import { ProjectEnrichments } from '../enrich';
 import { EXAMPLE_PROJECT_JSON_FN } from '../testhelpers';
 jest.mock('../projectdocumentstore');
@@ -18,7 +18,7 @@ describe('computeStats()', () => {
         });
 
         describe('with example un-enriched project', () => {
-            let project: IOMEGAPairedDataPlatform;
+            let project: IOMEGAPairedOmicsDataPlatform;
 
             beforeEach(async () => {
                 project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);

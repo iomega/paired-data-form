@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import { IOMEGAPairedDataPlatform as ProjectDocument } from '../schema';
+import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from '../schema';
 
 export async function loadJSONDocument(fn: string) {
     const body = await fs.promises.readFile(fn, 'utf-8');

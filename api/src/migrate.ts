@@ -1,5 +1,5 @@
 import { Validator } from './validate';
-import { IOMEGAPairedDataPlatform } from './schema';
+import { IOMEGAPairedOmicsDataPlatform } from './schema';
 import { ProjectDocumentStore } from './projectdocumentstore';
 
 const validator = new Validator();
@@ -7,7 +7,7 @@ const schemaVersion = (validator.schema as any).properties.version.default;
 
 export interface Migration {
     applicable(p: any): boolean;
-    up(p: any): IOMEGAPairedDataPlatform;
+    up(p: any): IOMEGAPairedOmicsDataPlatform;
 }
 
 export const migrations: Migration[] = [

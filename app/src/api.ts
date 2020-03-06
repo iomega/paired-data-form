@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 
-import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
+import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { AuthContext } from "./auth";
 import { ProjectSummary, EnrichedProjectDocument } from "./summarize";
 import { useFetch } from "./useFetch";

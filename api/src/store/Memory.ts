@@ -1,4 +1,4 @@
-import { IOMEGAPairedDataPlatform as ProjectDocument } from '../schema';
+import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from '../schema';
 import logger from '../util/logger';
 import { parseProjectId } from '../util/id';
 

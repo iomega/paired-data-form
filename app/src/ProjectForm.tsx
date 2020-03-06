@@ -13,7 +13,7 @@ import { TableField } from './fields/TableField';
 import { GenomeMetabolomeLinksField } from "./fields/GenomeMetabolomeLinksField";
 import { MyTitleField } from "./fields/TitleField";
 import { PairedDataProject } from "./PairedDataProject";
-import { IOMEGAPairedDataPlatform } from "./schema";
+import { IOMEGAPairedOmicsDataPlatform } from "./schema";
 import { jsonDocument } from "./textTable";
 import { injectForeignKeySearchMethods, validateDocument } from "./validate";
 import { CheckList } from "./CheckList";
@@ -21,8 +21,8 @@ import { CheckList } from "./CheckList";
 import './ProjectForm.css';
 
 export interface IProps {
-    onSubmit(project: IOMEGAPairedDataPlatform): void;
-    formData?: IOMEGAPairedDataPlatform;
+    onSubmit(project: IOMEGAPairedOmicsDataPlatform): void;
+    formData?: IOMEGAPairedOmicsDataPlatform;
 }
 
 const formFields = {
@@ -38,7 +38,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
     const schema = useSchema();
     const uiSchema = useUiSchema();
     const [initDoc, setInitDoc] = useState(formData ? formData : undefined);
-    const [validDoc, setValidDoc] = useState<IOMEGAPairedDataPlatform | undefined>(undefined);
+    const [validDoc, setValidDoc] = useState<IOMEGAPairedOmicsDataPlatform | undefined>(undefined);
     const [uploadError, setUploadError] = useState(false);
     const onReset = () => {
         setInitDoc(undefined);
@@ -73,7 +73,7 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         reader.onload = () => {
             if (reader.result) {
                 try {
-                    const project: IOMEGAPairedDataPlatform = JSON.parse(reader.result as string);
+                    const project: IOMEGAPairedOmicsDataPlatform = JSON.parse(reader.result as string);
                     const ajv = new Ajv();
                     const valid = ajv.validate(schema.data as object, project);
                     if (valid) {
@@ -91,10 +91,10 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         };
         reader.readAsText(file);
     }
-    const onWrappedSubmit = ({ formData }: ISubmitEvent<IOMEGAPairedDataPlatform>) => {
+    const onWrappedSubmit = ({ formData }: ISubmitEvent<IOMEGAPairedOmicsDataPlatform>) => {
         onSubmit(formData);
     }
-    const formRef = useRef<Form<IOMEGAPairedDataPlatform>>(null);
+    const formRef = useRef<Form<IOMEGAPairedOmicsDataPlatform>>(null);
     if (uiSchema.data) {
         injectForeignKeySearchMethods(uiSchema.data, formRef);
     }

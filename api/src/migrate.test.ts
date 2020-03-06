@@ -1,4 +1,4 @@
-import { IOMEGAPairedDataPlatform } from './schema';
+import { IOMEGAPairedOmicsDataPlatform } from './schema';
 import { migrations, Migration, migrate } from './migrate';
 
 const EXAMPLE_PROJECT_JSON_V1 = {
@@ -246,7 +246,7 @@ describe('migrateProject1to2 migration ', () => {
 
     describe('up()', () => {
         describe('with version 1 project', () => {
-            let result: IOMEGAPairedDataPlatform;
+            let result: IOMEGAPairedOmicsDataPlatform;
 
             beforeAll(() => {
                 // migration happens in place, to compare later need a untouched example

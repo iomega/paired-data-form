@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import { JSDOM } from 'jsdom';
 
-import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
+import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 
 interface Species {
     tax_id: number;

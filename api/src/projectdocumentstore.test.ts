@@ -6,7 +6,7 @@ import rimraf from 'rimraf';
 
 import { ProjectDocumentStore } from './projectdocumentstore';
 import { EnrichedProjectDocument } from './store/enrichments';
-import { IOMEGAPairedDataPlatform } from './schema';
+import { IOMEGAPairedOmicsDataPlatform } from './schema';
 import { loadJSONDocument } from './util/io';
 import { EXAMPLE_PROJECT_JSON_FN } from './testhelpers';
 
@@ -63,7 +63,7 @@ describe('ProjectDocumentStore', () => {
         });
 
         describe('when project has been submitted', () => {
-            let submitted_project: IOMEGAPairedDataPlatform;
+            let submitted_project: IOMEGAPairedOmicsDataPlatform;
             let project_id: string;
 
             beforeEach(async () => {
@@ -136,7 +136,7 @@ describe('ProjectDocumentStore', () => {
                 });
 
                 describe('when project has been edited', () => {
-                    let second_project: IOMEGAPairedDataPlatform;
+                    let second_project: IOMEGAPairedOmicsDataPlatform;
                     let second_project_id: string;
 
                     beforeEach(async () => {

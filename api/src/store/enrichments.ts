@@ -1,6 +1,6 @@
 import Keyv from 'keyv';
 
-import { IOMEGAPairedDataPlatform as ProjectDocument } from '../schema';
+import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from '../schema';
 import { ProjectEnrichments } from '../enrich';
 
 const PREFIX = 'enrichment:';
