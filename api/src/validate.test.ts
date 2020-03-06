@@ -69,10 +69,10 @@ describe('Validator', () => {
 
                 expect(result).toBeFalsy();
                 // Check console
-                const expectedErrors = [[{ 'dataPath': '', 'keyword': 'additionalProperties', 'message': 'should NOT have additional properties', 'params': { 'additionalProperty': 'foo' }, 'schemaPath': '#/additionalProperties' }]];
+                const expectedErrors = [{ 'dataPath': '', 'keyword': 'additionalProperties', 'message': 'should NOT have additional properties', 'params': { 'additionalProperty': 'foo' }, 'schemaPath': '#/additionalProperties' }];
                 expect(console.log).toHaveBeenCalledWith(`${fn} BAD`);
                 expect(console.error).toHaveBeenCalledWith(`${fn} validation errors:`);
-                const errors = (console.error as jest.Mock).mock.calls[1];
+                const errors = JSON.parse((console.error as jest.Mock).mock.calls[1]);
                 expect(errors).toEqual(expectedErrors);
             });
         });

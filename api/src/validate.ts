@@ -31,7 +31,7 @@ export class Validator {
         } else {
             console.log(`${fn} BAD`);
             console.error(`${fn} validation errors:`);
-            console.error(this.errors);
+            console.error(JSON.stringify(this.errors, undefined, 2));
         }
         return is_valid;
     }
