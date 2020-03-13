@@ -35,6 +35,7 @@ docker-compose exec app npm run enrich
 * Unable to submit large project ([#88](https://github.com/iomega/paired-data-form/issues/88))
 * Spelling errors ([#87](https://github.com/iomega/paired-data-form/issues/87))
 * Render error when growth medium is not set ([#92](https://github.com/iomega/paired-data-form/issues/92))
+* Unable to download project from add form([#111](https://github.com/iomega/paired-data-form/issues/111))
 
 ### Changed
 

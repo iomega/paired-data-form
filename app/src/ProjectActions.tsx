@@ -16,15 +16,18 @@ export const ProjectActions = ({data_url, filename, project_id, inreview}: IProp
     // In development mode the `npm start` watch server does not proxy when Accept header includes text/html.
     // like a downloading a file from the api server in a web browser so use a data url when in dev mode.
     const is_dev = process.env.NODE_ENV === 'development';
+    const is_preview = project_id === 'preview_id';
     return (
         <ButtonGroup style={{marginBottom: '20px'}}>
-            { (inreview || is_dev) ?
+            { (inreview || is_dev || is_preview) ?
                 <Button href={data_url} download={filename} ><Glyphicon glyph="download" /> Download</Button>
                 :
                 <Button href={project_url} download={filename} ><Glyphicon glyph="download" /> Download</Button>
             }
-            <Link title="View history of project" className="btn btn-default" to={`/projects/${project_id}/history`}><Glyphicon glyph="sort" /> History</Link>
-            { !inreview &&
+            { !is_preview &&
+                <Link title="View history of project" className="btn btn-default" to={`/projects/${project_id}/history`}><Glyphicon glyph="sort" /> History</Link>
+            }
+            { !inreview && !is_preview &&
                 <>
                     <Link title="Edit project" className="btn btn-default" to={`/projects/${project_id}/edit`}><Glyphicon glyph="edit" /> Edit</Link>
                     <Link title="Create new project based on this one" className="btn btn-default" to={`/projects/${project_id}/clone`}><Glyphicon glyph="retweet"/> Clone</Link>
