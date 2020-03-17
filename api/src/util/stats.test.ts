@@ -183,8 +183,8 @@ describe('computeStats()', () => {
                                 ['Marnix Medema', 1]
                             ],
                             'submitters': [
-                                ['Justin van der Hooft', 0.5],
-                                ['Stefan Verhoeven', 0.5]
+                                ['Justin van der Hooft', 1],
+                                ['Stefan Verhoeven', 1]
                             ],
                             'genome_types': [
                                 ['genome', 3]
