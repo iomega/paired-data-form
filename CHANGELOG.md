@@ -48,6 +48,8 @@ This version requires following migration steps.
 * Submitter name column to project lists ([#101](https://github.com/iomega/paired-data-form/issues/101))
 * Commands to validate one or all projects ([#100](https://github.com/iomega/paired-data-form/issues/100))
 * Second submitter ([#97](https://github.com/iomega/paired-data-form/issues/97))
+* OpenAPI specification ([#112](https://github.com/iomega/paired-data-form/issues/112))
+* Manual for developers who wish to consume the api
 
 ### Fixed
 
