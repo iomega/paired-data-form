@@ -1,0 +1,301 @@
+openapi: 3.0.3
+info:
+  title: Paired Omics Data Platform
+  version: 0.4.0
+  description: Web service for the Paired Omics Data Platform
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers: 
+  - description: Production
+    url: http://pairedomicsdata.bioinformatics.nl/api
+  - description: Local deployment
+    url: http://localhost:8443
+paths:
+  /projects:
+    get:
+      description: Retrieve summary of all projects
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ProjectsResponse'
+  /projects/{project_id}:
+    get:
+      description: Retrieve a project
+      parameters:
+        - name: project_id
+          in: path
+          description: Project identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/iomega/paired-data-form/master/app/public/schema.json'
+              examples:
+                sample:
+                  summary: Sample project
+                  externalValue: 'https://raw.githubusercontent.com/iomega/paired-data-form/master/app/public/examples/paired_datarecord_MSV000078839_example.json'
+  /projects/{project_id}/enriched:
+    get:
+      description: Retrieve project enriched with information from following the genome database identifiers.
+      parameters:
+        - name: project_id
+          in: path
+          description: Project identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrichedProject'
+  /projects/{project_id}/history:
+    get:
+      description: Retrieve current and previous versions
+      parameters:
+        - name: project_id
+          in: path
+          description: Project identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectHistory'
+  /stats:
+    get:
+      description: Retrieve statistics of all available projects inside platform
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stats'
+components:
+  schemas:
+    ProjectsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectSummary'
+      required: [data]
+      additionalProperties: false
+    ProjectSummary:
+      type: object
+      properties:
+        _id:
+          type: string
+        GNPSMassIVE_ID:
+          type: string
+        metabolights_study_id:
+          type: string
+        PI_name:
+          type: string
+        submitters:
+          type: string
+        nr_genomes:
+          type: number
+        nr_growth_conditions:
+          type: number
+        nr_extraction_methods:
+          type: number
+        nr_instrumentation_methods:
+          type: number
+        nr_genome_metabolmics_links:
+          type: number
+        nr_genecluster_mspectra_links:
+          type: number
+      required:
+        - _id
+        - GNPSMassIVE_ID
+        - metabolights_study_id
+        - PI_name
+        - submitters
+        - nr_genomes
+        - nr_growth_conditions
+        - nr_extraction_methods
+        - nr_instrumentation_methods
+        - nr_genome_metabolmics_links
+        - nr_genecluster_mspectra_links
+      additionalProperties: false
+    EnrichedProject:
+      type: object
+      properties:
+        _id:
+          type: string
+        project:
+          $ref: 'https://raw.githubusercontent.com/iomega/paired-data-form/master/app/public/schema.json'
+        enrichments:
+          $ref: '#/components/schemas/Enrichments'
+      required: [_id, project]
+      additionalProperties: false
+    Enrichments:
+      type: object
+      properties:
+        genomes:
+          $ref: '#/components/schemas/GenomeEnrichments'
+      required: [genomes]
+      additionalProperties: false
+    GenomeEnrichment:
+      properties:
+        species:
+          $ref: '#/components/schemas/Species'
+        title:
+          type: string
+        url:
+          type: string
+      type: object
+      required: [url, species]
+      additionalProperties: false
+    GenomeEnrichments:
+      additionalProperties:
+        $ref: '#/components/schemas/GenomeEnrichment'
+      type: object
+    Species:
+      properties:
+        scientific_name:
+          type: string
+        tax_id:
+          type: number
+      type: object
+      required: [tax_id, scientific_name]
+      additionalProperties: false
+    ProjectHistory:
+      type: object
+      properties:
+        current:
+          $ref: 'https://raw.githubusercontent.com/iomega/paired-data-form/master/app/public/schema.json'
+        archived:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArchivedProject'
+      required: [current, archived]
+      additionalProperties: false
+    ArchivedProject:
+      # TODO adjust app+api, as archive now is [_id, project] instead of {_id, project}
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Project identifier
+        project: 
+          $ref: 'https://raw.githubusercontent.com/iomega/paired-data-form/master/app/public/schema.json'
+      required: [_id, project]
+      additionalProperties: false
+    Stats:
+      type: object
+      required:
+      - global
+      - top
+      additionalProperties: false
+      properties:
+        global:
+          type: object
+          required:
+          - projects
+          - principal_investigators
+          - metabolome_samples
+          - bgc_ms2
+          properties:
+            projects:
+              type: integer
+            principal_investigators:
+              type: integer
+            metabolome_samples:
+              type: integer
+            bgc_ms2:
+              type: integer
+        top:
+          type: object
+          required:
+          - principal_investigators
+          - submitters
+          - genome_types
+          - instruments_types
+          - growth_media
+          - solvents
+          - species
+          - metagenomic_environment
+          properties:
+            principal_investigators:
+              type: array
+              items:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
+            submitters:
+              type: array
+              items:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
+            genome_types:
+              type: array
+              items:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
+            instruments_types:
+              type: array
+              items:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
+            growth_media:
+              type: array
+              items:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
+            solvents:
+              type: array
+              items:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
+            species:
+              type: array
+              items:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
+            metagenomic_environment:
+              type: array
+              items:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
