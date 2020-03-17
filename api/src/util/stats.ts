@@ -191,9 +191,10 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
     const submitters = countProjectField(projects, (p) => {
         const submitters_values =  new Map<string, number>();
         if (p.project.personal.submitter_name_secondary) {
-            // The primary and secondary submitter share in the count for a project
-            submitters_values.set(p.project.personal.submitter_name, 0.5);
-            submitters_values.set(p.project.personal.submitter_name_secondary, 0.5);
+            // The primary and secondary submitter each contributed to a project
+            // so the count of a submtter is the number of projects he/she submitted.
+            submitters_values.set(p.project.personal.submitter_name, 1);
+            submitters_values.set(p.project.personal.submitter_name_secondary, 1);
         } else {
             submitters_values.set(p.project.personal.submitter_name, 1);
         }
