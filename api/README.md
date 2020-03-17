@@ -73,6 +73,10 @@ When `../app/public/schema.json` changes the `src/schema.ts` must also be update
 npm run schema2ts
 ```
 
+## Propagate api changes
+
+When the api changes the OpenAPI specification at [../app/public/openapi.yaml](../app/public/openapi.yaml) should also be updated. Changes to schema (`../app/public/schema.json`) do not require updates to the OpenAPI spec as it is imported into the spec.
+
 ## Schema migration and validation
 
 Whenever the schema is changed the projects in the data/ directory must be migrated and validated.
