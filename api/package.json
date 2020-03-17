@@ -20,7 +20,7 @@
     "schema2ts": "json2ts --input ../app/public/schema.json --output src/schema.ts --style.singleQuote",
     "enrich": "node dist/cli.js enrich",
     "validate": "node dist/cli.js validate",
-    "validateall": "find data -type f -exec node dist/cli.js validate {} \\;",
+    "validateall": "find ${DATADIR:-data}/approved ${DATADIR:-data}/pending -type f -exec node dist/cli.js validate {} \\;",
     "migrate": "node dist/cli.js migrate"
   },
   "dependencies": {
