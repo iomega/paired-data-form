@@ -73,17 +73,17 @@ To make a new release of the platform do:
 2. Add version to CHANGELOG.md
 3. Set new version of api web service by
 
-```shell
-cd api
-npm version x.y.z
-```
+    ```shell
+    cd api
+    npm version x.y.z
+    ```
 
 4. Set new version of web application by
 
-```shell
-cd app
-npm version x.y.z
-```
+    ```shell
+    cd app
+    npm version x.y.z
+    ```
 
 5. Commit & push changes
 6. Create a GitHub release
