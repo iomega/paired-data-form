@@ -1,4 +1,5 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -17,6 +18,12 @@ This version requires following migration steps.
     docker-compose exec api npm run migrate
     # Validate projects
     docker-compose exec api npm run validateall
+    # Fix any validation errors and rerun validation until all projects are valid
+    # For example use VS Code extension https://marketplace.visualstudio.com/items?itemName=tiibun.vscode-docker-ws to edit file in Docker container 
+    # Edit CTRL-SHIFT-p, select dockerws command, select`paired-data-form_api_1` as Docker container and `/data` as path to open.
+    code .
+    # Restart api so new updated files are reindexed
+    docker-compose restart api
     ```
 
 * The enrichment of projects has been improved. To recreate enrichments of all projects run
