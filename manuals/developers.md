@@ -37,4 +37,4 @@ Change `ashdfjhasdlkjfhalksdjhflak` token to what you got as an authentication t
 The web services ships with an [OpenAPI specification](https://www.openapis.org/).
 The specification is available at [http://pairedomicsdata.bioinformatics.nl/openapi.yaml](http://pairedomicsdata.bioinformatics.nl/openapi.yaml).
 
-To try out the specification you can use the [Swagger UI](https://swagger.io/tools/swagger-ui/) at [/api/ui/?url=/openapi.yaml](http://pairedomicsdata.bioinformatics.nl/api/ui/?url=http://pairedomicsdata.bioinformatics.nl/openapi.yaml)
+To try out the specification you can use the [Swagger UI](https://swagger.io/tools/swagger-ui/) at [/api/ui/?url=/openapi.yaml](http://pairedomicsdata.bioinformatics.nl/api/ui/?url=http://pairedomicsdata.bioinformatics.nl/openapi.yaml). When trying out a local deployment don't forget to pick the right server in the Swagger UI.
