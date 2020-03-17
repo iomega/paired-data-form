@@ -30,7 +30,7 @@ This version requires following migration steps.
 
     ```shell
     # Drop existing enrichment with
-    docker-compose exec redis bash
+    docker-compose exec redis sh
     redis-cli --scan --pattern keyv:enrichment:* | xargs redis-cli del
     exit
     # Recreate all enrichments
