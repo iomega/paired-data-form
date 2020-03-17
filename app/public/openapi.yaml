@@ -34,15 +34,11 @@ paths:
             type: string
       responses:
         '200':
-          description: Successful Response
+          description: A project like [example project](http://pairedomicsdata.bioinformatics.nl/examples/paired_datarecord_MSV000078839_example.json).
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/iomega/paired-data-form/master/app/public/schema.json'
-              examples:
-                sample:
-                  summary: Sample project
-                  externalValue: 'https://raw.githubusercontent.com/iomega/paired-data-form/master/app/public/examples/paired_datarecord_MSV000078839_example.json'
+                $ref: '/schema.json'
   /projects/{project_id}/enriched:
     get:
       description: Retrieve project enriched with information from following the genome database identifiers.
@@ -142,7 +138,7 @@ components:
         _id:
           type: string
         project:
-          $ref: 'https://raw.githubusercontent.com/iomega/paired-data-form/master/app/public/schema.json'
+          $ref: '/schema.json'
         enrichments:
           $ref: '#/components/schemas/Enrichments'
       required: [_id, project]
@@ -182,7 +178,7 @@ components:
       type: object
       properties:
         current:
-          $ref: 'https://raw.githubusercontent.com/iomega/paired-data-form/master/app/public/schema.json'
+          $ref: '/schema.json'
         archived:
           type: array
           items:
@@ -197,7 +193,7 @@ components:
           type: string
           description: Project identifier
         project: 
-          $ref: 'https://raw.githubusercontent.com/iomega/paired-data-form/master/app/public/schema.json'
+          $ref: '/schema.json'
       required: [_id, project]
       additionalProperties: false
     Stats:
