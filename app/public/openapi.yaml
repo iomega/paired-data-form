@@ -10,7 +10,7 @@ servers:
   - description: Production
     url: http://pairedomicsdata.bioinformatics.nl/api
   - description: Local deployment
-    url: http://localhost:8443
+    url: http://localhost:8443/api
 paths:
   /projects:
     get:
