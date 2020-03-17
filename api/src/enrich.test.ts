@@ -4,11 +4,11 @@ import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
 import { enrich, parse_JGITaxonDetail_page } from './enrich';
-import { IOMEGAPairedDataPlatform } from './schema';
+import { IOMEGAPairedOmicsDataPlatform } from './schema';
 
 describe('enrich()', () => {
   describe('Genome with genbank accession', () => {
-    let project: IOMEGAPairedDataPlatform;
+    let project: IOMEGAPairedOmicsDataPlatform;
     beforeEach(() => {
       project = {
         version: '1',
@@ -145,7 +145,7 @@ describe('enrich()', () => {
   });
 
   describe('Genome with bogus genbank accession', () => {
-    let project: IOMEGAPairedDataPlatform;
+    let project: IOMEGAPairedOmicsDataPlatform;
     beforeEach(() => {
       project = {
         version: '1',
@@ -194,7 +194,7 @@ describe('enrich()', () => {
   });
 
   describe('Genome with ENA accession', () => {
-    let project: IOMEGAPairedDataPlatform;
+    let project: IOMEGAPairedOmicsDataPlatform;
 
     beforeEach(() => {
       project = {
@@ -251,7 +251,7 @@ describe('enrich()', () => {
   });
 
   describe('Genome with EBI BioSample', () => {
-    let project: IOMEGAPairedDataPlatform;
+    let project: IOMEGAPairedOmicsDataPlatform;
 
     beforeEach(() => {
       project = {
@@ -379,7 +379,7 @@ describe('enrich()', () => {
   });
 
   describe('Genome with NCBI BioSample', () => {
-    let project: IOMEGAPairedDataPlatform;
+    let project: IOMEGAPairedOmicsDataPlatform;
 
     beforeEach(() => {
       project = {
@@ -524,7 +524,7 @@ describe('enrich()', () => {
   });
 
   describe('Genome with INSDC BioSample', () => {
-    let project: IOMEGAPairedDataPlatform;
+    let project: IOMEGAPairedOmicsDataPlatform;
 
     beforeEach(() => {
       project = {

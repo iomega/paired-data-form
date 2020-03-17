@@ -3,6 +3,7 @@ import yargs from 'yargs';
 import { store } from './init';
 import { enrichAllProjects } from './tasks';
 import { Validator } from './validate';
+import { migrate } from './migrate';
 
 yargs.command(
     'enrich',
@@ -39,5 +40,14 @@ yargs.command(
         } else {
             process.exit(1);
         }
+    }
+).command(
+    'migrate',
+    'Migrate all approved and pending projects to current JSON schema version',
+    (args) => (args),
+    async () => {
+        await store.initialize();
+        await migrate(store);
+        process.exit(0);
     }
 ).help().version().argv;

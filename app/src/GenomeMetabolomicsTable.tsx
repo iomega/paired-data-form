@@ -3,7 +3,7 @@ import * as React from "react";
 import { Table, Button, Popover, OverlayTrigger, Glyphicon } from 'react-bootstrap';
 
 import { tsvUrl } from './textTable';
-import { IOMEGAPairedDataPlatform } from "./schema";
+import { IOMEGAPairedOmicsDataPlatform } from "./schema";
 import { Publications } from "./Publications";
 
 import './GenomeMetabolomicsTable.css';
@@ -14,7 +14,7 @@ interface IProps {
 }
 
 export const GenomeMetabolomicsTable = (props: IProps) => {
-    const pure_project: IOMEGAPairedDataPlatform = props.data.project;
+    const pure_project: IOMEGAPairedOmicsDataPlatform = props.data.project;
     if (!pure_project.genome_metabolome_links || pure_project.genome_metabolome_links.length === 0) {
         return <p>No links between (meta)genomes and metabolimics data files.</p>;
     }

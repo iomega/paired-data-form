@@ -26,12 +26,12 @@ jest.mock('./api', () => ({
 import { ProjectForm } from "./ProjectForm";
 import { kitchenSinkDoc } from './test.fixtures';
 import { PairedDataProject } from "./PairedDataProject";
-import { IOMEGAPairedDataPlatform } from "./schema";
+import { IOMEGAPairedOmicsDataPlatform } from "./schema";
 
 describe('ProjectForm', () => {
     describe('with schema and uischema loaded', () => {
         let wrapper: any;
-        let onSubmit: (project: IOMEGAPairedDataPlatform) => void;
+        let onSubmit: (project: IOMEGAPairedOmicsDataPlatform) => void;
         beforeEach(() => {
             onSubmit = jest.fn();
             wrapper = shallow(<ProjectForm onSubmit={onSubmit} />);
@@ -47,7 +47,7 @@ describe('ProjectForm', () => {
 
         describe('filled with kitchen sink sample document using fillForm()', () => {
             beforeEach(() => {
-                wrapper = shallow(<ProjectForm onSubmit={onSubmit} formData={kitchenSinkDoc as IOMEGAPairedDataPlatform} />);
+                wrapper = shallow(<ProjectForm onSubmit={onSubmit} formData={kitchenSinkDoc as IOMEGAPairedOmicsDataPlatform} />);
             });
 
             it('should render PairedDataRecord', () => {

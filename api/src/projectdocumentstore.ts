@@ -1,7 +1,7 @@
 import { bumpRevision, generateId } from './util/id';
 import { ProjectDocumentMemoryStore, NotFoundException as MemoryNotFoundException } from './store/Memory';
 import { ProjectDocumentDiskStore } from './store/Disk';
-import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
+import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import logger from './util/logger';
 import { ProjectEnrichmentStore, EnrichedProjectDocument } from './store/enrichments';
 

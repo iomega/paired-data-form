@@ -1,5 +1,5 @@
 import Bull from 'bull';
-import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
+import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { REDIS_URL } from './util/secrets';
 import { ProjectEnrichmentStore } from './store/enrichments';
 import { enrich } from './enrich';

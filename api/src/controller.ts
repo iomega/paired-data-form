@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { ProjectDocumentStore, NotFoundException } from './projectdocumentstore';
 import { Validator } from './validate';
 import { Queue } from 'bull';
-import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
+import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { computeStats } from './util/stats';
 import { summarizeProject } from './summarize';
 

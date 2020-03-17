@@ -1,4 +1,5 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -8,16 +9,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This version requires following migration steps.
 
-The enrichment of projects has been improved. To recreate enrichments of all projects run
+* JSON schema changed to version 2. To migrate all projects in data/ dir from 1 to 2 run
 
-```shell
-# Drop existing enrichment with
-docker-compose exec redis bash
-redis-cli --scan --pattern keyv:enrichment:* | xargs redis-cli del
-exit
-# Recreate all enrichments
-docker-compose exec app npm run enrich
-```
+    ```shell
+    # Backup
+    rsync -a data/ backup-$(date -I)/
+    # Perform migration
+    docker-compose exec api npm run migrate
+    # Validate projects
+    docker-compose exec api npm run validateall
+    # Fix any validation errors and rerun validation until all projects are valid
+    # For example use VS Code extension https://marketplace.visualstudio.com/items?itemName=tiibun.vscode-docker-ws to edit file in Docker container 
+    # Edit CTRL-SHIFT-p, select dockerws command, select`paired-data-form_api_1` as Docker container and `/data` as path to open.
+    code .
+    # Restart api so new updated files are reindexed
+    docker-compose restart api
+    ```
+
+* The enrichment of projects has been improved. To recreate enrichments of all projects run
+
+    ```shell
+    # Drop existing enrichment with
+    docker-compose exec redis bash
+    redis-cli --scan --pattern keyv:enrichment:* | xargs redis-cli del
+    exit
+    # Recreate all enrichments
+    docker-compose exec api npm run enrich
+    ```
 
 ### Added
 
@@ -29,6 +47,7 @@ docker-compose exec app npm run enrich
 * Download button for pending project in review section ([#98](https://github.com/iomega/paired-data-form/issues/98))
 * Submitter name column to project lists ([#101](https://github.com/iomega/paired-data-form/issues/101))
 * Commands to validate one or all projects ([#100](https://github.com/iomega/paired-data-form/issues/100))
+* Second submitter ([#97](https://github.com/iomega/paired-data-form/issues/97))
 
 ### Fixed
 
@@ -41,6 +60,9 @@ docker-compose exec app npm run enrich
 
 * Dropped Caddy web server from docker-compose, use nginx from app and external reverse proxy for https
 * Download project directly using web service instead of data-url
+* BGC number to BGC accession aka 1234 to BGC0001234 ([#94](https://github.com/iomega/paired-data-form/issues/94))
+* Require more fields in Gene cluster - Mass spectra links ([#94](https://github.com/iomega/paired-data-form/issues/94))
+* Increased JSON schema version to 2 due to issue #94
 
 ## [0.3.0] - 2019-12-11
 

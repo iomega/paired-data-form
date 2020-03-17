@@ -6,7 +6,7 @@ interface ProjectSummary {
     GNPSMassIVE_ID: string;
     metabolights_study_id: string;
     PI_name: string;
-    submitter_name: string;
+    submitters: string;
     nr_genomes: number;
     nr_growth_conditions: number;
     nr_extraction_methods: number;
@@ -21,7 +21,10 @@ function isMetaboLights(project: GNPSMassIVE | MetaboLights): project is MetaboL
 
 export const summarizeProject = (d: EnrichedProjectDocument): ProjectSummary => {
     const project = d.project;
-    const submitter_name = project.personal.submitter_name;
+    let submitters = project.personal.submitter_name;
+    if (project.personal.submitter_name_secondary) {
+        submitters += ' & ' + project.personal.submitter_name_secondary;
+    }
     const nr_genomes = project['genomes'] ? project['genomes'].length : 0;
     const nr_growth_conditions = project['experimental'] && project['experimental']['sample_preparation'] ? project['experimental']['sample_preparation'].length : 0;
     const nr_extraction_methods = project['experimental'] && project['experimental']['extraction_methods'] ? project['experimental']['extraction_methods'].length : 0;
@@ -33,7 +36,7 @@ export const summarizeProject = (d: EnrichedProjectDocument): ProjectSummary => 
         metabolights_study_id: '',
         GNPSMassIVE_ID: '',
         PI_name: project['personal']['PI_name']!,
-        submitter_name,
+        submitters,
         nr_genomes,
         nr_growth_conditions,
         nr_extraction_methods,

@@ -4,7 +4,7 @@ import fs from 'fs';
 import logger from '../util/logger';
 import { loadJSONDocument, mkdirDirOptional } from '../util/io';
 import { parseProjectFilename, toAccession } from '../util/id';
-import { IOMEGAPairedDataPlatform as ProjectDocument } from '../schema';
+import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from '../schema';
 
 const loadProject = (directory: string) => {
     return async (fn: string) => {

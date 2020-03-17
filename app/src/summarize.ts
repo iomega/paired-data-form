@@ -1,11 +1,11 @@
-import { IOMEGAPairedDataPlatform as ProjectDocument } from './schema';
+import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 
 export interface ProjectSummary {
     _id: string;
     GNPSMassIVE_ID: string;
     metabolights_study_id: string;
     PI_name: string;
-    submitter_name: string;
+    submitters: string;
     nr_genomes: number;
     nr_growth_conditions: number;
     nr_extraction_methods: number;

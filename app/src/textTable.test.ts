@@ -1,6 +1,6 @@
 import { kitchenSinkDoc, minimalDoc } from './test.fixtures';
 import { jsonDocument, textTable, tsvUrl } from './textTable';
-import { IOMEGAPairedDataPlatform } from './schema';
+import { IOMEGAPairedOmicsDataPlatform } from './schema';
 
 describe('with schema loaded', () => {
     let schema: any;

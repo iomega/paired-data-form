@@ -1,6 +1,6 @@
 import { strToBase64 } from '@root/encoding';
 
-import { IOMEGAPairedDataPlatform } from './schema';
+import { IOMEGAPairedOmicsDataPlatform } from './schema';
 
 export function textTable(schema: any, data: any): string[][] {
     const gmProps = schema.properties.genome_metabolome_links.items.properties;
@@ -31,7 +31,7 @@ export function tsvUrl(schema: any, data: any) {
     return `data:${mimeType};base64,${bj}`;
 }
 
-export function jsonDocument(project: IOMEGAPairedDataPlatform, rows: any[]) {
+export function jsonDocument(project: IOMEGAPairedOmicsDataPlatform, rows: any[]) {
     if (!project.genomes) {
         throw new Error('No genomes or metagenomes have been defined');
     }
