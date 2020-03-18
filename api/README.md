@@ -11,6 +11,8 @@ The paired omics data platform api web service use a directories to store projec
 
 Extra information is gathered for some of the identifiers and urls in a project json files. This extra information is called an enrichment. Redis is used to store enrichments and as job queue.
 
+Consumption of the web service is explained in the [developers manual](../manuals/developers.md).
+
 ## Install
 
 ```shell
@@ -63,7 +65,7 @@ Run using `./data` dir as datadir with
 docker run -d -p 8886:3001 --user $(id -u) -v $PWD/data:/data iomega/podp-api
 ```
 
-Will start api web service on http://localhost:8887
+Will start api web service on [http://localhost:8886](http://localhost:8886).
 
 ## Propagate schema changes
 
