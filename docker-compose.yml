@@ -5,7 +5,6 @@ services:
       context: .
       dockerfile: api/Dockerfile
     image: iomega/podp-api
-    restart: always
     volumes:
       - ./data:/data
     environment:
@@ -21,12 +20,13 @@ services:
   app:
     build: app
     image: "iomega/paired-data-form"
-    restart: always
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "5"
+    depends_on:
+      - api
     ports:
       - "${PORT:-8443}:80"
   redis:

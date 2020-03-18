@@ -21,5 +21,9 @@ function getenvvar(name: string, error: string) {
 }
 
 export const SHARED_TOKEN = getenvvar('SHARED_TOKEN', 'No client secret');
+if (SHARED_TOKEN === 'ashdfjhasdlkjfhalksdjhflak' && ENVIRONMENT === 'production') {
+    logger.error('Do not use default shared token in production');
+    process.exit(1);
+}
 export const DATADIR = getenvvar('DATADIR', 'No data directory');
 export const REDIS_URL = getenvvar('REDIS_URL', 'No redis url');
