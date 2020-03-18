@@ -3,6 +3,7 @@ import compression from 'compression';  // compresses requests
 import lusca from 'lusca';
 import passport from 'passport';
 import asyncHandler from 'express-async-handler';
+import { getAbsoluteFSPath } from 'swagger-ui-dist';
 
 import * as controller from './controller';
 import { okHandler } from './config/passport';
@@ -38,6 +39,10 @@ app.get('/api/pending/projects', protected_api, asyncHandler(controller.listPend
 app.get('/api/pending/projects/:id', protected_api, asyncHandler(controller.getPendingProject));
 app.delete('/api/pending/projects/:id', protected_api, asyncHandler(controller.denyProject));
 app.post('/api/pending/projects/:id', protected_api, asyncHandler(controller.approveProject));
+
+// Swagger UI
+const swaggerui = getAbsoluteFSPath();
+app.use('/api/ui', express.static(swaggerui));
 
 app.use(controller.notFoundHandler);
 

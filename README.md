@@ -16,14 +16,14 @@ The [JSON schema (app/public/schema.json)](app/public/schema.json) describes the
 
 ## Manuals
 
-User and admin manuals can be found in [manuals/](manuals/) folder.
+Developer and admin manuals can be found in [manuals/](manuals/) directory.
 
 ## Architecture
 
 The paired omics data platform consists of:
 
-1. A Web application, user interface, see [app/](app/) folder
-2. An API web service, service responsible for storing projects, see [api.](api/) folder
+1. A Web application, user interface, see [app/](app/) directory
+2. An API web service, service responsible for storing projects, see [api.](api/) directory
 
 ## Run using Docker compose
 
