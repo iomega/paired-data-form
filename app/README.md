@@ -1,4 +1,4 @@
-# Web application for paired data for mapping between genomic and metabolomic (mass spectra) projects.
+# Web application for paired data for mapping between genomic and metabolomic (mass spectra) projects
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
@@ -20,17 +20,9 @@ npm install
 npm start
 ```
 
-Runs the app in development mode. Open http://localhost:3000 to view it in the browser.
+Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will automatically reload if you make changes to the code. You will see the build errors and lint warnings in the console.
-
-## Deployment to Github pages
-
-The https://iomega.github.io/paired-data-form site can be updated by running:
-
-```shell
-npm run deploy
-```
 
 ## Docker
 
@@ -46,7 +38,7 @@ Run with
 docker run -d -p 8887:80 iomega/paired-data-form
 ```
 
-Goto http://localhost:8887
+Goto [http://localhost:8887](http://localhost:8887).
 
 ## Propagate schema changes
 
