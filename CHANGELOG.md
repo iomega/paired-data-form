@@ -13,7 +13,7 @@ This version requires following migration steps.
 
     ```shell
     # Backup
-    rsync -a data/ backup-$(date -I)/
+    cp -a data/ backup-$(date -I)/
     # Perform migration
     docker-compose exec api npm run migrate
     # Validate projects

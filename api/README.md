@@ -44,12 +44,6 @@ Run web service
 npm run serve
 ```
 
-The enrichments can be recreated by running
-
-```shell
-npm run enrich
-```
-
 ## Docker
 
 Build with

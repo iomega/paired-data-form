@@ -36,6 +36,8 @@ The application can be configured using environment variables:
 * PORT, http port application is running on. Default is 8443.
 * SHARED_TOKEN, token required to login to review area.
 
+The environment variables can be set in the terminal or be put in a `.env` file.
+
 ```shell
 docker-compose up -d --build
 ```
@@ -45,31 +47,9 @@ Project JSON files are stored in a `./data/` directory.
 
 To run on production put application behind a reverse proxy web server with a proper domain and secure transfer with https.
 
-## Rebuild
-
-When schema has changed the documents in `./data/` directory need to be migrated.
-
-```shell
-# Login to api server
-docker-compose exec api sh
-# Perform migration
-...
-```
-
-When the code has changed the Docker images has been rebuild and restarted with
-
-```shell
-docker-compose stop
-docker-compose up -d --build
-```
-
-To enrich existing projects run
-
-```shell
-docker-compose exec api npm run enrich
-```
-
 ## New release
+
+This chapter is for developers of the platform.
 
 To make a new release of the platform do:
 
