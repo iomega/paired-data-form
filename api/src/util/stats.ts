@@ -25,8 +25,9 @@ function countProjectField(projects: EnrichedProjectDocument[], accessor: (proje
     projects.forEach((project) => {
         const keys = accessor(project);
         keys.forEach((value, key) => {
-            if (field_counts.has(key)) {
-                field_counts.set(key, field_counts.get(key) + value);
+            const count = field_counts.get(key);
+            if (count) {
+                field_counts.set(key, count + value);
             } else {
                 field_counts.set(key, value);
             }
@@ -60,8 +61,9 @@ function countProjectCollectionField(
                 }
                 key = 'Unknown';
             }
-            if (field_counts.has(key)) {
-                field_counts.set(key, field_counts.get(key) + 1);
+            const count = field_counts.get(key);
+            if (count) {
+                field_counts.set(key, count + 1);
             } else {
                 field_counts.set(key, 1);
             }
@@ -91,12 +93,22 @@ function countSolvents(projects: EnrichedProjectDocument[], schema: any, top_siz
     const field_counts = new Map<string, number>();
     projects.forEach(project => {
         const collection = project.project.experimental.extraction_methods;
+        if (!collection) {
+            return;
+        }
         collection.forEach(method => {
+            if (!method.solvents) {
+                return;
+            }
             method.solvents.forEach(solvent => {
                 const key = lookup.get(solvent.solvent);
+                if (!key) {
+                    return;
+                }
                 const value = solvent.ratio;
-                if (field_counts.has(key)) {
-                    field_counts.set(key, field_counts.get(key) + value);
+                const count = field_counts.get(key);
+                if (count) {
+                    field_counts.set(key, count + value);
                 } else {
                     field_counts.set(key, value);
                 }
@@ -132,8 +144,9 @@ function countSpecies(projects: EnrichedProjectDocument[], top_size = 5) {
         if (project.enrichments && project.enrichments.genomes && Object.values(project.enrichments.genomes).length) {
             Object.values(project.enrichments.genomes).forEach(genome => {
                 const key = genome.species.scientific_name;
-                if (field_counts.has(key)) {
-                    field_counts.set(key, field_counts.get(key) + 1);
+                const count = field_counts.get(key);
+                if (count) {
+                    field_counts.set(key, count + 1);
                 } else {
                     field_counts.set(key, 1);
                 }
@@ -142,8 +155,9 @@ function countSpecies(projects: EnrichedProjectDocument[], top_size = 5) {
             // No enrichment use label instead
             project.project.genomes.forEach(genome => {
                 const key = genome.genome_label;
-                if (field_counts.has(key)) {
-                    field_counts.set(key, field_counts.get(key) + 1);
+                const count = field_counts.get(key);
+                if (count) {
+                    field_counts.set(key, count + 1);
                 } else {
                     field_counts.set(key, 1);
                 }
@@ -187,16 +201,18 @@ function countBgcMS2Links(projects: EnrichedProjectDocument[]) {
 }
 
 export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
-    const principal_investigators = countProjectField(projects, (p) => new Map([[p.project.personal.PI_name, 1]]));
+    const principal_investigators = countProjectField(projects, (p) => new Map([[p.project.personal.PI_name ? p.project.personal.PI_name : '', 1]]));
     const submitters = countProjectField(projects, (p) => {
         const submitters_values =  new Map<string, number>();
-        if (p.project.personal.submitter_name_secondary) {
-            // The primary and secondary submitter each contributed to a project
-            // so the count of a submtter is the number of projects he/she submitted.
-            submitters_values.set(p.project.personal.submitter_name, 1);
-            submitters_values.set(p.project.personal.submitter_name_secondary, 1);
-        } else {
-            submitters_values.set(p.project.personal.submitter_name, 1);
+        if (p.project.personal.submitter_name) {
+            if (p.project.personal.submitter_name_secondary) {
+                // The primary and secondary submitter each contributed to a project
+                // so the count of a submtter is the number of projects he/she submitted.
+                submitters_values.set(p.project.personal.submitter_name, 1);
+                submitters_values.set(p.project.personal.submitter_name_secondary, 1);
+            } else {
+                submitters_values.set(p.project.personal.submitter_name, 1);
+            }
         }
         return new Map(submitters_values);
     });

@@ -259,8 +259,8 @@ describe('migrateProject1to2 migration ', () => {
             });
 
             it('should have MIBiG accession instead of number', () => {
-                expect(result.BGC_MS2_links[0].BGC_ID.MIBiG_number).toEqual('BGC0000827');
-                expect(result.BGC_MS2_links[1].BGC_ID.similar_MIBiG_number).toEqual('BGC0000198');
+                expect(result.BGC_MS2_links![0].BGC_ID.MIBiG_number).toEqual('BGC0000827');
+                expect(result.BGC_MS2_links![1].BGC_ID.similar_MIBiG_number).toEqual('BGC0000198');
             });
 
         });

@@ -21,7 +21,7 @@ function isMetaboLights(project: GNPSMassIVE | MetaboLights): project is MetaboL
 
 export const summarizeProject = (d: EnrichedProjectDocument): ProjectSummary => {
     const project = d.project;
-    let submitters = project.personal.submitter_name;
+    let submitters = project.personal.submitter_name || '';
     if (project.personal.submitter_name_secondary) {
         submitters += ' & ' + project.personal.submitter_name_secondary;
     }

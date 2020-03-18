@@ -14,7 +14,7 @@ yargs.command(
             .then(() => {
                 return enrichAllProjects(store);
             })
-            .catch(e => console.error(e))
+            .catch((e: any) => console.error(e))
             .then(() => {
                 console.log('Done');
                 // Bull and Keyv have open promises which cause node to not exit voluntary
@@ -32,7 +32,7 @@ yargs.command(
                 type: 'string'
             });
     },
-    (argv) => {
+    (argv: any) => {
         const validator = new Validator();
         const is_valid = validator.validateFile(argv.file);
         if (is_valid) {

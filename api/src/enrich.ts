@@ -124,16 +124,19 @@ export function parse_JGITaxonDetail_page(body: string): GenomeEnrichment | unde
         }
         const label = label_elem.textContent;
         if (label === 'Organism Name') {
-            scientific_name = tr.querySelector('td').textContent;
+            scientific_name = tr.querySelector('td')!.textContent;
         }
         if (label === 'Taxon ID' || label === 'Taxon Object ID') {
-            jgi_id = tr.querySelector('td').textContent;
+            jgi_id = tr.querySelector('td')!.textContent;
         }
         if (label === 'NCBI Taxon ID') {
-            tax_id = parseInt(tr.querySelector('td').textContent);
+            const tax_string = tr.querySelector('td')!.textContent;
+            if (tax_string) {
+                tax_id = parseInt(tax_string);
+            }
         }
         if (label === 'Study Name (Proposal Name)') {
-            title = tr.querySelector('td').textContent;
+            title = tr.querySelector('td')!.textContent;
         }
     });
     let enrichment: GenomeEnrichment | undefined = undefined;
@@ -145,9 +148,9 @@ export function parse_JGITaxonDetail_page(body: string): GenomeEnrichment | unde
                 scientific_name
             }
         };
-    }
-    if (title) {
-        enrichment['title'] = title;
+        if (title) {
+            enrichment['title'] = title;
+        }
     }
     return enrichment;
 }
