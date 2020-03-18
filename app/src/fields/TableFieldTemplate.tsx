@@ -100,7 +100,7 @@ export const TableFieldTemplate = (props: FieldProps) => {
         });
     }
     return (
-        <fieldset>
+        <fieldset className={props.idSchema.$id}>
             <legend>{props.schema.title}</legend>
             <p className="field-description">{props.schema.description}</p>
             <Table condensed={true} striped={true} bordered={true} className="table-field">

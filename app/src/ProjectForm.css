@@ -13,6 +13,10 @@ label .required:after {
   color: dimgrey;
 }
 
-#root_metabolomics_project__title, .control-label[for=root_metabolomics_project], #root__description, #root__title {
+#root_metabolomics_project__title,
+.control-label[for=root_metabolomics_project],
+.root_genomes > legend,
+.root_genome_metabolome_links > legend,
+#root__description, #root__title {
   display: none;
 }

@@ -77,5 +77,9 @@ describe('TableFieldTemplate', () => {
         it('should render an Add button', () => {
             expect(comp.find(AddButton).length).toBe(1);
         });
+
+        it('should render a class name', () => {
+            expect(comp.find('.mytable1').length).toBe(1);
+        })
     });
 });
