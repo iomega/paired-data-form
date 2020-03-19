@@ -9,7 +9,7 @@ import { EnrichedProjectDocument } from './store/enrichments';
 import { loadJSONDocument } from './util/io';
 import { EXAMPLE_PROJECT_JSON_FN } from './testhelpers';
 
-describe('app', () => {1
+describe('app', () => {
     let app: Express;
     let store: any;
     let enrichqueue: any;
