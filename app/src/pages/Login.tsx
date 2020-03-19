@@ -23,6 +23,12 @@ const schema: JSONSchema6 = {
     }
 };
 
+const uiSchema = {
+    password: {
+        "ui:widget": "password"
+    }
+}
+
 export const Login = ({ onLogin, error }: IProps) => {
     const onSubmit = (event: ISubmitEvent<Credentials>) => {
         onLogin(event.formData);
@@ -30,7 +36,7 @@ export const Login = ({ onLogin, error }: IProps) => {
     return (
         <>
             {error && <Label bsStyle="danger">{error}</Label>}
-            <Form onSubmit={onSubmit} schema={schema} />
+            <Form onSubmit={onSubmit} schema={schema} uiSchema={uiSchema} />
         </>
     );
 }
