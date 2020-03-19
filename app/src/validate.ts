@@ -168,4 +168,4 @@ export function validateDocument(doc: any, errors: any) {
     });
   }
   return errors;
-};
+}

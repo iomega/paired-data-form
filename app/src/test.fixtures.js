@@ -246,63 +246,7 @@ export const minimalGrowthMediumDoc = {
 };
 
 export const bgcms2linkDoc = {
-    "version": "1",
-    "personal": {},
-    "metabolomics": {
-        "project": {
-            "GNPSMassIVE_ID": "MSV000078839",
-            "MaSSIVE_URL": "https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view"
-        }
-    },
-    "genomes": [{
-        "genome_ID": {
-            "genome_type": "genome",
-            "GenBank_accession": "ARJI01000000"
-        },
-        "publications": "28335604",
-        "genome_label": "Streptomyces sp. CNB091"
-    }],
-    "experimental": {
-        "sample_preparation": [
-            {
-                "medium_details": {
-                    "medium_type": "liquid"
-                },
-                "growth_parameters": {},
-                "aeration": {},
-                "sample_preparation_method": "agar"
-            }
-        ],
-        "extraction_methods": [
-            {
-                "solvents": [
-                    {
-                        "solvent": "http://purl.obolibrary.org/obo/CHEBI_17790",
-                        "ratio": 1
-                    }
-                ],
-                "extraction_method": "meth"
-            }
-        ],
-        "instrumentation_methods": [
-            {
-                "instrumentation": {
-                    "instrument": "http://purl.obolibrary.org/obo/MS_1000443",
-                    "other_instrument": "blackhole"
-                },
-                "column": "Reverse Phase",
-                "mode": "http://purl.obolibrary.org/obo/MS_1000130",
-                "instrumentation_method": "bh"
-            }
-        ]
-    },
-    "genome_metabolome_links": [{
-        "genome_label": "Streptomyces sp. CNB091",
-        "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML",
-        "sample_preparation_label": "agar",
-        "extraction_method_label": "meth",
-        "instrumentation_method_label": "bh"
-    }],
+    ...minimalGrowthMediumDoc.project,
     "BGC_MS2_links": [{
         "known_link": "A Molecular Family of Rosamicin and its byproducts Salinipyrone A, Pacificanone A, found in a number of Salinispora strains under which CNS-237 that also produces the byproducts.",
         "verification": [
