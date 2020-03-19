@@ -1,7 +1,9 @@
 import errorHandler from 'errorhandler';
 
-import app from './app';
-import { ProjectDocumentStore } from './projectdocumentstore';
+import { builder } from './app';
+import { store, enrichqueue } from './init';
+
+const app = builder(store, enrichqueue);
 
 /**
  * Error Handler. Provides full stack - remove for production
@@ -14,7 +16,6 @@ if (process.env.NODE_ENV === 'development') {
  * Start Express server.
  */
 const server = app.listen(app.get('port'), async () => {
-  const store: ProjectDocumentStore = app.get('store');
   await store.initialize();
   console.log(
     '  App is running at http://localhost:%d in %s mode',
