@@ -240,7 +240,96 @@ export const minimalGrowthMediumDoc = {
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML",
             "sample_preparation_label": "agar",
             "extraction_method_label": "meth",
-            "instrumentation_method_label": "bn"
+            "instrumentation_method_label": "bh"
         }]
     }
+};
+
+export const bgcms2linkDoc = {
+    "version": "1",
+    "personal": {},
+    "metabolomics": {
+        "project": {
+            "GNPSMassIVE_ID": "MSV000078839",
+            "MaSSIVE_URL": "https://gnps.ucsd.edu/ProteoSAFe/result.jsp?task=a507232a787243a5afd69a6c6fa1e508&view=advanced_view"
+        }
+    },
+    "genomes": [{
+        "genome_ID": {
+            "genome_type": "genome",
+            "GenBank_accession": "ARJI01000000"
+        },
+        "publications": "28335604",
+        "genome_label": "Streptomyces sp. CNB091"
+    }],
+    "experimental": {
+        "sample_preparation": [
+            {
+                "medium_details": {
+                    "medium_type": "liquid"
+                },
+                "growth_parameters": {},
+                "aeration": {},
+                "sample_preparation_method": "agar"
+            }
+        ],
+        "extraction_methods": [
+            {
+                "solvents": [
+                    {
+                        "solvent": "http://purl.obolibrary.org/obo/CHEBI_17790",
+                        "ratio": 1
+                    }
+                ],
+                "extraction_method": "meth"
+            }
+        ],
+        "instrumentation_methods": [
+            {
+                "instrumentation": {
+                    "instrument": "http://purl.obolibrary.org/obo/MS_1000443",
+                    "other_instrument": "blackhole"
+                },
+                "column": "Reverse Phase",
+                "mode": "http://purl.obolibrary.org/obo/MS_1000130",
+                "instrumentation_method": "bh"
+            }
+        ]
+    },
+    "genome_metabolome_links": [{
+        "genome_label": "Streptomyces sp. CNB091",
+        "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML",
+        "sample_preparation_label": "agar",
+        "extraction_method_label": "meth",
+        "instrumentation_method_label": "bh"
+    }],
+    "BGC_MS2_links": [{
+        "known_link": "A Molecular Family of Rosamicin and its byproducts Salinipyrone A, Pacificanone A, found in a number of Salinispora strains under which CNS-237 that also produces the byproducts.",
+        "verification": [
+            "Evidence as indicated in MIBiG"
+        ],
+        "SMILES": "CC[C@@H]1[C@H]([C@H]2[C@@](O2)(/C=C/C(=O)[C@@H](C[C@@H]([C@@H]([C@H]([C@@H](CC(=O)O1)O)C)O[C@H]3[C@@H]([C@H](C[C@H](O3)C)N(C)C)O)CC=O)C)C)C",
+        "IUPAC": "2-[(1S,2R,3R,7R,8S,9S,10R,12R,14E,16S)-9-[(2S,3R,4S,6R)-4-(dimethylamino)-3-hydroxy-6-methyloxan-2-yl]oxy-3-ethyl-7-hydroxy-2,8,12,16-tetramethyl-5,13-dioxo-4,17-dioxabicyclo[14.1.0]heptadec-14-en-10-yl]acetaldehyde",
+        "BGC_ID": {
+            "BGC": "MIBiG number associated with this exact BGC",
+            "MIBiG_number": "BGC0001830"
+        },
+        "link": "GNPS molecular family",
+        "network_nodes_URL": "https://gnps.ucsd.edu/ProteoSAFe/result.jsp?view=network_displayer&componentindex=290&task=c36f90ba29fe44c18e96db802de0c6b9#%7B%7D"
+    },
+    {
+        "known_link": "Arenimycin A as produced by Salinispora strain CNB527 which is present under the strains studied. It was only extracted by EthylAcetate.",
+        "verification": [
+            "Evidence as indicated in MIBiG"
+        ],
+        "SMILES": "CCCOC(=O)c1c(C)cc2c(c1O)[C@@]1(O)C(=O)c3cc4c(c(O)c3C(=O)[C@@]1(OC)CC2)C(=O)C=C(N[C@H]1O[C@@H](C)[C@H](O)[C@H](O)[C@H]1OC)C4=O",
+        "IUPAC": "methyl (6aR,14aS)-11-[[(2S,3R,4R,5R,6S)-4,5-dihydroxy-3-methoxy-6-methyloxan-2-yl]amino]-1,8,14a-trihydroxy-6a-methoxy-3-methyl-7,9,12,14-tetraoxo-5,6-dihydrobenzo[a]tetracene-2-carboxylate",
+        "BGC_ID": {
+            "BGC": "MIBiG number associated with this exact BGC",
+            "MIBiG_number": "BGC0000198"
+        },
+        "link": "single molecule",
+        "MS2_URL": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML",
+        "MS2_scan": "977106"
+    }]
 };

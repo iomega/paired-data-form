@@ -24,9 +24,6 @@ export function foreignKeySearch(formRef: any, requiredProp: string, labelSearch
 }
 
 function genomeLabels(doc: any) {
-  if (!doc.genomes) {
-    return [];
-  }
   return doc.genomes.map(
     (r: any) =>
       r.genome_label

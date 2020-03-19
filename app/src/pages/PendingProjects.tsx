@@ -25,7 +25,7 @@ export function PendingProjects() {
         return <div>Loading ...</div>;
     }
     if (projects.error && !projects.data) {
-        return <div>Error: {projects.error.message}</div>;
+        return <div>Error: {projects.error}</div>;
     }
     const onDeny = (project_id: string) => async () => {
         await denyPendingProject(project_id, token);
@@ -38,7 +38,7 @@ export function PendingProjects() {
         projects.setData({data: pruned_projects});
     };
     const rows = projects.data!.data.map(d => (
-        <tr key={d._id}>
+        <tr key={d._id} role="listitem">
             <td>
                 <Decide onDeny={onDeny(d._id)} onApprove={onApprove(d._id)} />
             </td>

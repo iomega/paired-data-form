@@ -33,6 +33,8 @@
     "schema2ts": "json2ts --input public/schema.json --output src/schema.ts --style.singleQuote"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.1.1",
+    "@testing-library/react": "^10.0.1",
     "@types/d3-dsv": "^1.0.36",
     "@types/enzyme": "^3.10.3",
     "@types/enzyme-adapter-react-16": "^1.0.5",

@@ -21,7 +21,6 @@ jest.mock('../api', () => ({
                 nr_genecluster_mspectra_links: 42,
             }]
         };
-        return ;
     }
 }));
 
