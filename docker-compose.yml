@@ -8,7 +8,7 @@ services:
     volumes:
       - ./data:/data
     environment:
-       SHARED_TOKEN: ${SHAREDTOKEN:-ashdfjhasdlkjfhalksdjhflak}
+       SHARED_TOKEN: ${SHARED_TOKEN:-ashdfjhasdlkjfhalksdjhflak}
        REDIS_URL: redis://redis:6379
     depends_on:
       - redis
