@@ -25,7 +25,7 @@ export function PendingProjects() {
         return <div>Loading ...</div>;
     }
     if (projects.error && !projects.data) {
-        return <div>Error: {projects.error}</div>;
+        return <div>Error: {projects.error.message}</div>;
     }
     const onDeny = (project_id: string) => async () => {
         await denyPendingProject(project_id, token);

@@ -50,7 +50,7 @@ describe('<PendingProjects>', () => {
                 return {
                     loading: false,
                     data: undefined,
-                    error: 'SomeError',
+                    error: new TypeError('SomeError'),
                     setData: jest.fn()
                 };
             });

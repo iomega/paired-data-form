@@ -19,7 +19,7 @@ export function CloneProject({ match }: RouteComponentProps<TParams>) {
         return <span>Loading...</span>;
     }
     if (!project.data) {
-        return <span>Fetch failure: {project.error}</span>;
+        return <span>Fetch failure: {project.error!.message}</span>;
     }
     let modal = <></>;
     if (error) {

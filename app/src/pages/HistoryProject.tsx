@@ -22,7 +22,7 @@ export function HistoryProject({ match }: RouteComponentProps<TParams>) {
         return <div style={style}>Loading...</div>;
     }
     if (!project_history.data && project_history.error) {
-        return <div style={style}>Error: {project_history.error}</div>;
+        return <div style={style}>Error: {project_history.error.message}</div>;
     }
     const archived = project_history.data!.archived;
     const current = project_history.data!.current;

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 export interface Response<T> {
     data: T | undefined;
     loading: boolean;
-    error: TypeError | undefined;
+    error: Error | undefined;
     setData(data: T | undefined): void;
 }
 
@@ -19,7 +19,7 @@ export function useFetch<T>(url: string, init?: RequestInit): Response<T> {
                     const json = await response.json();
                     setData(json);
                 } else {
-                    throw TypeError(response.statusText);
+                    throw new TypeError(response.statusText);
                 }
             } catch (err) {
                 setError(err);
