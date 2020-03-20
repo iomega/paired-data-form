@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2020-03-20
+
 This version requires following migration steps.
 
 * JSON schema changed to version 2. To migrate all projects in data/ dir from 1 to 2 run
