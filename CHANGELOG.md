@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* Mention JSON schema on add form ([#115](https://github.com/iomega/paired-data-form/issues/115))
+
 ## [0.4.0] - 2020-03-20
 
 This version requires following migration steps.
