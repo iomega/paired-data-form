@@ -12,11 +12,12 @@ authors:
 - given-names: Michelle
   family-names: Schorn
   affiliation: Wageningen University and Research Center
+  orcid: https://orcid.org/0000-0001-8144-6052
 - given-names: Justin
   family-names: van der Hooft
   affiliation: Wageningen University and Research Center
   orcid: https://orcid.org/0000-0002-9340-5511
-version: 0.3.0
-date-released: 2019-12-11
+version: 0.4.0
+date-released: 2020-02-20
 repository-code: https://github.com/iomega/paired-data-form
 license: Apache-2.0
