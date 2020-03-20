@@ -21,12 +21,14 @@
     "enrich": "node dist/cli.js enrich",
     "validate": "node dist/cli.js validate",
     "validateall": "find ${DATADIR:-data}/approved ${DATADIR:-data}/pending -type f -exec node dist/cli.js validate {} \\;",
-    "migrate": "node dist/cli.js migrate"
+    "migrate": "node dist/cli.js migrate",
+    "publish2zenodo": "node dist/cli.js publish2zenodo"
   },
   "dependencies": {
     "@keyv/redis": "^1.3.8",
     "@types/swagger-ui-dist": "^3.0.5",
     "ajv": "^6.10.0",
+    "archiver": "^3.1.1",
     "async": "^2.6.0",
     "bcrypt-nodejs": "^0.0.3",
     "bull": "^3.10.0",
@@ -35,6 +37,7 @@
     "errorhandler": "^1.5.0",
     "express": "^4.16.2",
     "express-async-handler": "^1.1.4",
+    "form-data": "^3.0.0",
     "ioredis": "^4.9.5",
     "jsdom": "^16.2.0",
     "keyv": "^3.1.0",
@@ -49,6 +52,7 @@
     "yargs": "^13.2.4"
   },
   "devDependencies": {
+    "@types/archiver": "^3.1.0",
     "@types/async": "^2.0.45",
     "@types/bcrypt-nodejs": "^0.0.30",
     "@types/bluebird": "^3.5.20",
@@ -63,13 +67,14 @@
     "@types/keyv": "^3.1.0",
     "@types/lusca": "^1.5.0",
     "@types/node": "^12.0.0",
-    "@types/node-fetch": "^2.3.3",
+    "@types/node-fetch": "^2.5.5",
     "@types/passport": "^0.4.3",
     "@types/passport-http-bearer": "^1.0.32",
     "@types/rimraf": "^2.0.2",
     "@types/supertest": "^2.0.8",
     "@types/tmp": "^0.1.0",
     "@types/umzug": "^2.2.3",
+    "@types/unzipper": "^0.10.2",
     "@types/uuid": "^3.4.4",
     "@types/yargs": "^13.0.0",
     "concurrently": "^3.6.1",
@@ -83,7 +88,8 @@
     "ts-jest": "^24.0.2",
     "ts-node": "^5.0.0",
     "tslint": "^5.9.1",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "unzipper": "^0.10.10"
   },
   "engines": {
     "node": ">=10"

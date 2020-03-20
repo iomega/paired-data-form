@@ -4,6 +4,7 @@ import { store } from './init';
 import { enrichAllProjects } from './tasks';
 import { Validator } from './validate';
 import { migrate } from './migrate';
+import { publish2zenodo } from './util/publish2zenodo';
 
 yargs.command(
     'enrich',
@@ -49,5 +50,29 @@ yargs.command(
         await store.initialize();
         await migrate(store);
         process.exit(0);
-    }
-).help().version().argv;
+    }).command(
+        'publish2zenodo',
+        'Publish all approved projects to Zenodo',
+        (args) => {
+            return args
+                .option('access_token', {
+                    type: 'string',
+                    description: 'Zenodo access token. If not set then ZENODO_ACCESS_TOKEN env var is used.'
+                })
+                .option('deposition_id', {
+                    type: 'number',
+                    description: 'Zenodo deposition identifier. If not set then ZENODO_DEPOSITION_ID env var is used.'
+                })
+                .option('sandbox', {
+                    type: 'boolean',
+                    default: false,
+                    description: 'Publish to Zenodo sandbox environment instead of Zenodo production environment'
+                })
+                ;
+        },
+        async (argv) => {
+            await store.initialize();
+            await publish2zenodo(store, argv.access_token, argv.deposition_id, argv.sandbox);
+            process.exit(0);
+        }
+    ).help().version().argv;
