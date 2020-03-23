@@ -66,13 +66,17 @@ yargs.command(
                 .option('sandbox', {
                     type: 'boolean',
                     default: false,
-                    description: 'Publish to Zenodo sandbox environment instead of Zenodo production environment'
+                    description: 'Publish to Zenodo sandbox (https://sandbox.zenodo.org) environment instead of Zenodo production environment'
                 })
                 ;
         },
         async (argv) => {
             await store.initialize();
-            await publish2zenodo(store, argv.access_token, argv.deposition_id, argv.sandbox);
+            if (argv.sandbox) {
+                await publish2zenodo(store, argv.access_token, argv.deposition_id, 'https://sandbox.zenodo.org/api');
+            } else {
+                await publish2zenodo(store, argv.access_token, argv.deposition_id);
+            }
             process.exit(0);
         }
     ).help().version().argv;
