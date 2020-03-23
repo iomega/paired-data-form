@@ -12,6 +12,132 @@ import { ProjectDocumentStore } from '../projectdocumentstore';
 
 const mockedfetch = ((fetch as any) as jest.Mock);
 
+const mockedZenodoSandboxAPI = (url: string) => {
+    if (url === 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/actions/newversion') {
+        const response: any = {
+            'created': '2016-06-15T16:10:03.319363+00:00',
+            'files': [],
+            'id': 1234567,
+            'links': {
+                'discard': 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/actions/discard',
+                'edit': 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/actions/edit',
+                'files': 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/files',
+                'publish': 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/actions/publish',
+                'newversion': 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/actions/newversion',
+                'self': 'https://sandbox.zenodo.org/api/deposit/depositions/1234567',
+                'latest_draft': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321'
+            },
+            'metadata': {
+                'prereserve_doi': {
+                    'doi': '10.5072/zenodo.1234567',
+                    'recid': 1234567
+                }
+            },
+            'modified': '2016-06-15T16:10:03.319371+00:00',
+            'owner': 1,
+            'record_id': 1234567,
+            'state': 'unsubmitted',
+            'submitted': false,
+            'title': 'paired omics data platform dataset'
+        };
+        const init = {
+            status: 201,
+            statusText: 'Created',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        return new Response(JSON.stringify(response), init);
+    } else if (url === 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/files') {
+        const response = {
+            id: 'fileid1',
+            filename: 'database.zip',
+            filesize: 168,
+            checksum: '4e74fa271381933159558bf36bed0a50'
+        };
+        const init = {
+            status: 201,
+            statusText: 'Created',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        return new Response(JSON.stringify(response), init);
+    } else if (url === 'https://sandbox.zenodo.org/api/deposit/depositions/7654321') {
+        const response: any = {
+            'created': '2016-06-15T16:10:03.319363+00:00',
+            'files': [],
+            'id': 7654321,
+            'links': {
+                'discard': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/discard',
+                'edit': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/edit',
+                'files': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/files',
+                'publish': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/publish',
+                'newversion': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/newversion',
+                'self': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321'
+            },
+            'metadata': {
+                'prereserve_doi': {
+                    'doi': '10.5072/zenodo.1234567',
+                    'recid': 1234567
+                },
+                'version': current_version()
+            },
+            'modified': '2016-06-15T16:10:03.319371+00:00',
+            'owner': 1,
+            'record_id': 7654321,
+            'state': 'unsubmitted',
+            'submitted': false,
+            'title': 'paired omics data platform dataset'
+        };
+        const init = {
+            status: 200,
+            statusText: 'Accepted',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        return new Response(JSON.stringify(response), init);
+    } else if (url === 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/publish') {
+        const response: any = {
+            'created': '2016-06-15T16:10:03.319363+00:00',
+            'files': [],
+            'id': 7654321,
+            'links': {
+                'discard': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/discard',
+                'edit': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/edit',
+                'files': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/files',
+                'publish': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/publish',
+                'newversion': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/newversion',
+                'self': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321',
+                'doi': 'https://doi.org/10.5072/zenodo.7654321'
+            },
+            'metadata': {
+                'prereserve_doi': {
+                    'doi': '10.5072/zenodo.1234567',
+                    'recid': 1234567
+                },
+                'version': current_version()
+            },
+            'modified': '2016-06-15T16:10:03.319371+00:00',
+            'owner': 1,
+            'record_id': 7654321,
+            'state': 'done',
+            'submitted': true,
+            'title': 'paired omics data platform dataset'
+        };
+        const init = {
+            status: 202,
+            statusText: 'Accepted',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        return new Response(JSON.stringify(response), init);
+    }
+    throw new Error('URL not mocked, ' + url);
+};
+
 describe('publish2zenodo', () => {
     const access_token = 'sometoken';
     const deposition_id = 1234567;
@@ -32,138 +158,13 @@ describe('publish2zenodo', () => {
             };
         });
 
-        describe('to Zenodo sandbox', () => {
-            const use_sandbox = true;
+        describe('against mocked Zenodo sandbox API', () => {
             let doi: string;
 
             beforeEach(async () => {
-                mockedfetch.mockImplementation(async (url) => {
-                    if (url === 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/actions/newversion') {
-                        const response: any = {
-                                'created': '2016-06-15T16:10:03.319363+00:00',
-                                'files': [],
-                                'id': 1234567,
-                                'links': {
-                                  'discard': 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/actions/discard',
-                                  'edit': 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/actions/edit',
-                                  'files': 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/files',
-                                  'publish': 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/actions/publish',
-                                  'newversion': 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/actions/newversion',
-                                  'self': 'https://sandbox.zenodo.org/api/deposit/depositions/1234567',
-                                  'latest_draft': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321'
-                                },
-                                'metadata': {
-                                  'prereserve_doi': {
-                                    'doi': '10.5072/zenodo.1234567',
-                                    'recid': 1234567
-                                  }
-                                },
-                                'modified': '2016-06-15T16:10:03.319371+00:00',
-                                'owner': 1,
-                                'record_id': 1234567,
-                                'state': 'unsubmitted',
-                                'submitted': false,
-                                'title': 'paired omics data platform dataset'
-                        };
-                        const init = {
-                            status: 201,
-                            statusText: 'Created',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        };
-                        return new Response(JSON.stringify(response), init);
-                    } else if (url === 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/files') {
-                        const response = {
-                            id: 'fileid1',
-                            filename: 'database.zip',
-                            filesize: 168,
-                            checksum: '4e74fa271381933159558bf36bed0a50'
-                        };
-                        const init = {
-                            status: 201,
-                            statusText: 'Created',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        };
-                        return new Response(JSON.stringify(response), init);
-                    } else if (url === 'https://sandbox.zenodo.org/api/deposit/depositions/7654321') {
-                        const response: any = {
-                            'created': '2016-06-15T16:10:03.319363+00:00',
-                            'files': [],
-                            'id': 7654321,
-                            'links': {
-                              'discard': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/discard',
-                              'edit': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/edit',
-                              'files': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/files',
-                              'publish': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/publish',
-                              'newversion': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/newversion',
-                              'self': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321'
-                            },
-                            'metadata': {
-                              'prereserve_doi': {
-                                'doi': '10.5072/zenodo.1234567',
-                                'recid': 1234567
-                              },
-                              'version': current_version()
-                            },
-                            'modified': '2016-06-15T16:10:03.319371+00:00',
-                            'owner': 1,
-                            'record_id': 7654321,
-                            'state': 'unsubmitted',
-                            'submitted': false,
-                            'title': 'paired omics data platform dataset'
-                        };
-                        const init = {
-                            status: 200,
-                            statusText: 'Accepted',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        };
-                        return new Response(JSON.stringify(response), init);
-                    } else if (url === 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/publish') {
-                        const response: any = {
-                            'created': '2016-06-15T16:10:03.319363+00:00',
-                            'files': [],
-                            'id': 7654321,
-                            'links': {
-                              'discard': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/discard',
-                              'edit': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/edit',
-                              'files': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/files',
-                              'publish': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/publish',
-                              'newversion': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/newversion',
-                              'self': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321',
-                              'doi': 'https://doi.org/10.5072/zenodo.7654321'
-                            },
-                            'metadata': {
-                              'prereserve_doi': {
-                                'doi': '10.5072/zenodo.1234567',
-                                'recid': 1234567
-                              },
-                              'version': current_version()
-                            },
-                            'modified': '2016-06-15T16:10:03.319371+00:00',
-                            'owner': 1,
-                            'record_id': 7654321,
-                            'state': 'done',
-                            'submitted': true,
-                            'title': 'paired omics data platform dataset'
-                        };
-                        const init = {
-                            status: 202,
-                            statusText: 'Accepted',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        };
-                        return new Response(JSON.stringify(response), init);
-                    }
-                    throw new Error('URL not mocked, ' + url);
-                });
+                mockedfetch.mockImplementation(mockedZenodoSandboxAPI);
 
-                doi = await publish2zenodo(store, access_token, deposition_id, use_sandbox);
+                doi = await publish2zenodo(store, access_token, deposition_id, 'https://sandbox.zenodo.org/api');
             });
 
             it('should create a new version for the Zenodo deposition id', () => {
@@ -226,6 +227,35 @@ describe('publish2zenodo', () => {
                 expect(doi).toEqual(expected_doi);
             });
         });
+
+        describe('aganst mocked broken Zenodo API', () => {
+
+            describe.each([
+                ['when wrong deposition id is given', 'https://sandbox.zenodo.org/api/deposit/depositions/1234567/actions/newversion'],
+                ['when upload fails', 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/files'],
+                ['when setting version fails', 'https://sandbox.zenodo.org/api/deposit/depositions/7654321'],
+                ['when publishing fails', 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/publish']
+            ])('should throw error', (why, broken_url) => {
+                it(why, async () => {
+                    expect.assertions(1);
+                    mockedfetch.mockImplementation((url) => {
+                        if (url === broken_url) {
+                            return new Response('error', {
+                                status: 404,
+                                statusText: 'Not found'
+                            });
+                        }
+                        return mockedZenodoSandboxAPI(url);
+                    });
+
+                    try {
+                        await publish2zenodo(store, access_token, deposition_id, 'https://sandbox.zenodo.org/api');
+                    } catch (error) {
+                        expect(error).toEqual((new Error('Zenodo API communication error: Not found')));
+                    }
+                });
+            });
+        });
     });
 });
 
@@ -245,7 +275,7 @@ describe('create_archive()', () => {
                 }
             };
             const archive = await create_archive(store as ProjectDocumentStore);
-            const zip = archive.pipe(Parse({forceStream: true} as any));
+            const zip = archive.pipe(Parse({ forceStream: true } as any));
             entries = [];
             for await (const entry of zip) {
                 const content = JSON.parse((await entry.buffer()).toString('utf8'));

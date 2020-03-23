@@ -4,9 +4,9 @@ import archiver, { Archiver } from 'archiver';
 
 import { ProjectDocumentStore } from '../projectdocumentstore';
 
-export async function publish2zenodo(store: ProjectDocumentStore, access_token: string, deposition_id: number, sandbox = false) {
+export async function publish2zenodo(store: ProjectDocumentStore, access_token: string, deposition_id: number, api_base_url = 'https://zenodo.org/api') {
     const archive = await create_archive(store);
-    const versioned_deposition_url = await create_new_version(access_token, deposition_id, sandbox);
+    const versioned_deposition_url = await create_new_version(access_token, deposition_id, api_base_url);
     await upload_file(versioned_deposition_url, access_token, archive);
     await update_new_version(versioned_deposition_url, access_token);
     return await publish_deposition(versioned_deposition_url, access_token);
@@ -28,21 +28,14 @@ export function current_version() {
     return new Date().toISOString().substr(0, 10);
 }
 
-function base_url(sandbox: boolean) {
-    if (sandbox) {
-        return 'https://sandbox.zenodo.org/api';
-    }
-    return 'https://zenodo.org/api';
-}
-
 function auth_headers(access_token: string) {
     return {
         'Authorization': `Bearer ${access_token}`
     };
 }
 
-async function create_new_version(access_token: string, deposition_id: number, sandbox: boolean) {
-    const url = base_url(sandbox) + `/deposit/depositions/${deposition_id}/actions/newversion`;
+async function create_new_version(access_token: string, deposition_id: number, api_base_url: string) {
+    const url = api_base_url + `/deposit/depositions/${deposition_id}/actions/newversion`;
     const init = {
         method: 'POST',
         headers: auth_headers(access_token)
@@ -52,7 +45,7 @@ async function create_new_version(access_token: string, deposition_id: number, s
         const body = await response.json();
         return body.links.latest_draft;
     } else {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`Zenodo API communication error: ${response.statusText}`);
     }
 }
 
@@ -74,7 +67,7 @@ async function upload_file(deposition_url: string, access_token: string, archive
         const body = await response.json();
         return body.id;
     } else {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`Zenodo API communication error: ${response.statusText}`);
     }
 }
 
@@ -96,7 +89,7 @@ async function update_new_version(deposition_url: string, access_token: string) 
     };
     const response = await fetch(url, init as any);
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`Zenodo API communication error: ${response.statusText}`);
     }
 }
 
@@ -111,6 +104,6 @@ async function publish_deposition(deposition_url: string, access_token: string) 
         const body = await response.json();
         return body.links.doi;
     } else {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`Zenodo API communication error: ${response.statusText}`);
     }
 }
