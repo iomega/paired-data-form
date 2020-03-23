@@ -3,10 +3,10 @@ jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-import { loadJSONDocument, loadDocument } from './io';
+import { loadJSONDocument } from './io';
 import { EXAMPLE_PROJECT_JSON_FN } from '../testhelpers';
 import { EnrichedProjectDocument } from '../store/enrichments';
-import { publish2zenodo, create_archive } from './publish2zenodo';
+import { publish2zenodo, create_archive, current_version } from './publish2zenodo';
 import { Parse } from 'unzipper';
 import { ProjectDocumentStore } from '../projectdocumentstore';
 
@@ -34,6 +34,7 @@ describe('publish2zenodo', () => {
 
         describe('to Zenodo sandbox', () => {
             const use_sandbox = true;
+            let doi: string;
 
             beforeEach(async () => {
                 mockedfetch.mockImplementation(async (url) => {
@@ -62,7 +63,7 @@ describe('publish2zenodo', () => {
                                 'record_id': 1234567,
                                 'state': 'unsubmitted',
                                 'submitted': false,
-                                'title': ''
+                                'title': 'paired omics data platform dataset'
                         };
                         const init = {
                             status: 201,
@@ -87,7 +88,7 @@ describe('publish2zenodo', () => {
                             }
                         };
                         return new Response(JSON.stringify(response), init);
-                    } else if (url === 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/publish') {
+                    } else if (url === 'https://sandbox.zenodo.org/api/deposit/depositions/7654321') {
                         const response: any = {
                             'created': '2016-06-15T16:10:03.319363+00:00',
                             'files': [],
@@ -104,28 +105,65 @@ describe('publish2zenodo', () => {
                               'prereserve_doi': {
                                 'doi': '10.5072/zenodo.1234567',
                                 'recid': 1234567
-                              }
+                              },
+                              'version': current_version()
+                            },
+                            'modified': '2016-06-15T16:10:03.319371+00:00',
+                            'owner': 1,
+                            'record_id': 7654321,
+                            'state': 'unsubmitted',
+                            'submitted': false,
+                            'title': 'paired omics data platform dataset'
+                        };
+                        const init = {
+                            status: 200,
+                            statusText: 'Accepted',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        };
+                        return new Response(JSON.stringify(response), init);
+                    } else if (url === 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/publish') {
+                        const response: any = {
+                            'created': '2016-06-15T16:10:03.319363+00:00',
+                            'files': [],
+                            'id': 7654321,
+                            'links': {
+                              'discard': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/discard',
+                              'edit': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/edit',
+                              'files': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/files',
+                              'publish': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/publish',
+                              'newversion': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/newversion',
+                              'self': 'https://sandbox.zenodo.org/api/deposit/depositions/7654321',
+                              'doi': 'https://doi.org/10.5072/zenodo.7654321'
+                            },
+                            'metadata': {
+                              'prereserve_doi': {
+                                'doi': '10.5072/zenodo.1234567',
+                                'recid': 1234567
+                              },
+                              'version': current_version()
                             },
                             'modified': '2016-06-15T16:10:03.319371+00:00',
                             'owner': 1,
                             'record_id': 7654321,
                             'state': 'done',
                             'submitted': true,
-                            'title': ''
-                    };
-                    const init = {
-                        status: 202,
-                        statusText: 'Accepted',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    };
+                            'title': 'paired omics data platform dataset'
+                        };
+                        const init = {
+                            status: 202,
+                            statusText: 'Accepted',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        };
                         return new Response(JSON.stringify(response), init);
                     }
-                    throw new Error('URL not mocked');
+                    throw new Error('URL not mocked, ' + url);
                 });
 
-                await publish2zenodo(store, access_token, deposition_id, use_sandbox);
+                doi = await publish2zenodo(store, access_token, deposition_id, use_sandbox);
             });
 
             it('should create a new version for the Zenodo deposition id', () => {
@@ -154,7 +192,23 @@ describe('publish2zenodo', () => {
                 expect(fn).toEqual('database.zip');
             });
 
-            test.todo('should the version to the current date');
+            it('should set the version to the current date', () => {
+                const expected_url = 'https://sandbox.zenodo.org/api/deposit/depositions/7654321';
+                const expected_body = {
+                    metadata: {
+                        version: current_version()
+                    }
+                };
+                const expected_init = {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'Bearer sometoken',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(expected_body)
+                };
+                expect(fetch).toBeCalledWith(expected_url, expected_init);
+            });
 
             it('should publish new version for the Zenodo deposition', () => {
                 const expected_url = 'https://sandbox.zenodo.org/api/deposit/depositions/7654321/actions/publish';
@@ -167,7 +221,10 @@ describe('publish2zenodo', () => {
                 expect(fetch).toBeCalledWith(expected_url, expected_init);
             });
 
-            test.todo('should return the doi of the new version');
+            it('should return the doi of the new version', () => {
+                const expected_doi = 'https://doi.org/10.5072/zenodo.7654321';
+                expect(doi).toEqual(expected_doi);
+            });
         });
     });
 });
