@@ -50,33 +50,36 @@ yargs.command(
         await store.initialize();
         await migrate(store);
         process.exit(0);
-    }).command(
-        'publish2zenodo',
-        'Publish all approved projects to Zenodo',
-        (args) => {
-            return args
-                .option('access_token', {
-                    type: 'string',
-                    description: 'Zenodo access token. If not set then ZENODO_ACCESS_TOKEN env var is used.'
-                })
-                .option('deposition_id', {
-                    type: 'number',
-                    description: 'Zenodo deposition identifier. If not set then ZENODO_DEPOSITION_ID env var is used.'
-                })
-                .option('sandbox', {
-                    type: 'boolean',
-                    default: false,
-                    description: 'Publish to Zenodo sandbox (https://sandbox.zenodo.org) environment instead of Zenodo production environment'
-                })
-                ;
-        },
-        async (argv) => {
-            await store.initialize();
-            if (argv.sandbox) {
-                await publish2zenodo(store, argv.access_token, argv.deposition_id, 'https://sandbox.zenodo.org/api');
-            } else {
-                await publish2zenodo(store, argv.access_token, argv.deposition_id);
-            }
-            process.exit(0);
+    }
+).command(
+    'publish2zenodo',
+    'Publish all approved projects to Zenodo',
+    (args) => {
+        return args
+            .option('access_token', {
+                type: 'string',
+                description: 'Zenodo access token. If not set then ZENODO_ACCESS_TOKEN env var is used.'
+            })
+            .option('deposition_id', {
+                type: 'number',
+                description: 'Zenodo deposition identifier. If not set then ZENODO_DEPOSITION_ID env var is used.'
+            })
+            .option('sandbox', {
+                type: 'boolean',
+                default: false,
+                description: 'Publish to Zenodo sandbox (https://sandbox.zenodo.org) environment instead of Zenodo production environment'
+            })
+            ;
+    },
+    async (argv) => {
+        await store.initialize();
+        let api_base_url = 'https://zenodo.org/api';
+        if (argv.sandbox) {
+            api_base_url = 'https://sandbox.zenodo.org/api';
         }
-    ).help().version().argv;
+        const doi = await publish2zenodo(store, argv.access_token, argv.deposition_id, api_base_url);
+        console.log(`Generated new versioned DOI: ${doi}`);
+
+        process.exit(0);
+    }
+).help().version().argv;

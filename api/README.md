@@ -24,6 +24,11 @@ npm install
 Create `.env` file.
 Use `.env.example` as example.
 
+### Zenodo access token
+
+To publish the data collection to Zenodo, a [Zenodo personal access token]( https://sandbox.zenodo.org/account/settings/applications/tokens/new/) is needed.
+During token generation check the `deposit:actions` and `deposit:write` scopes.
+
 ## Build & Run
 
 Redis can be started using docker or using docker-compose to run the whole stack.
@@ -81,4 +86,13 @@ The projects can be validated with
 
 ```shell
 npm run validateall
+```
+
+## Publish collection on Zenodo
+
+The approved projects can be published to Zendo by running
+
+```shell
+npm run publish2zenodo -- --sandbox --deposition_id xxxx --access_token xxxxxxxxxxxxx
+
 ```
