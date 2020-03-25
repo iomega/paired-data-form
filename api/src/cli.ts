@@ -73,11 +73,7 @@ yargs.command(
     },
     async (argv) => {
         await store.initialize();
-        let api_base_url = 'https://zenodo.org/api';
-        if (argv.sandbox) {
-            api_base_url = 'https://sandbox.zenodo.org/api';
-        }
-        const doi = await publish2zenodo(store, argv.access_token, argv.deposition_id, api_base_url);
+        const doi = await publish2zenodo(store, argv.access_token, argv.deposition_id, argv.sandbox);
         console.log(`Generated new versioned DOI: ${doi}`);
 
         process.exit(0);

@@ -26,7 +26,7 @@ Use `.env.example` as example.
 
 ### Zenodo access token
 
-To publish the data collection to Zenodo, a [Zenodo personal access token]( https://sandbox.zenodo.org/account/settings/applications/tokens/new/) is needed.
+To publish the data collection to Zenodo, a [Zenodo personal access token](https://sandbox.zenodo.org/account/settings/applications/tokens/new/) is needed.
 During token generation check the `deposit:actions` and `deposit:write` scopes.
 
 ## Build & Run
