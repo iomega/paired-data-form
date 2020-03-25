@@ -5,6 +5,7 @@ import { enrichAllProjects } from './tasks';
 import { Validator } from './validate';
 import { migrate } from './migrate';
 import { publish2zenodo } from './util/publish2zenodo';
+import { ZENODO_ACCESS_TOKEN, ZENODO_DEPOSITION_ID } from './util/secrets';
 
 yargs.command(
     'enrich',
@@ -73,6 +74,15 @@ yargs.command(
     },
     async (argv) => {
         await store.initialize();
+        let access_token = argv.access_token;
+        if (!access_token) {
+            access_token = ZENODO_ACCESS_TOKEN;
+        }
+        let deposition_id = argv.deposition_id;
+        if (!deposition_id) {
+            deposition_id = ZENODO_DEPOSITION_ID;
+        }
+
         const result = await publish2zenodo(store, argv.access_token, argv.deposition_id, argv.sandbox);
         console.log(`Generated new versioned DOI: ${result.doi}, can take a while to be found`);
         console.log(`Generated new Zenodo upload: ${result.html}`);

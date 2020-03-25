@@ -27,3 +27,5 @@ if (SHARED_TOKEN === 'ashdfjhasdlkjfhalksdjhflak' && ENVIRONMENT === 'production
 }
 export const DATADIR = getenvvar('DATADIR', 'No data directory');
 export const REDIS_URL = getenvvar('REDIS_URL', 'No redis url');
+export const ZENODO_ACCESS_TOKEN = getenvvar('ZENODO_ACCESS_TOKEN', 'No Zenodo access token');
+export const ZENODO_DEPOSITION_ID = parseInt(getenvvar('REDIS_URL', 'No Zenodo deposition id'));

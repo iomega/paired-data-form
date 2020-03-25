@@ -21,8 +21,7 @@ npm install
 
 ## Configure
 
-Create `.env` file.
-Use `.env.example` as example.
+Create `./.env` file, use `./.env.example` as an example.
 
 ### Zenodo access token
 
@@ -94,5 +93,4 @@ The approved projects can be published to Zendo by running
 
 ```shell
 npm run publish2zenodo -- --sandbox --deposition_id xxxx --access_token xxxxxxxxxxxxx
-
 ```
