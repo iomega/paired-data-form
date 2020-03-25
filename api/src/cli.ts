@@ -73,9 +73,9 @@ yargs.command(
     },
     async (argv) => {
         await store.initialize();
-        const doi = await publish2zenodo(store, argv.access_token, argv.deposition_id, argv.sandbox);
-        console.log(`Generated new versioned DOI: ${doi}`);
-
+        const result = await publish2zenodo(store, argv.access_token, argv.deposition_id, argv.sandbox);
+        console.log(`Generated new versioned DOI: ${result.doi}, can take a while to be found`);
+        console.log(`Generated new Zenodo upload: ${result.html}`);
         process.exit(0);
     }
 ).help().version().argv;

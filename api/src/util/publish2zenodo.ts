@@ -37,5 +37,5 @@ export async function create_archive(store: ProjectDocumentStore, path: string) 
 }
 
 export function current_version() {
-    return new Date().toISOString().substr(0, 10) + 'dev2';
+    return new Date().toISOString().substr(0, 10);
 }
