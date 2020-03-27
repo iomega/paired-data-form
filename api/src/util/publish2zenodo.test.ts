@@ -50,7 +50,8 @@ describe('publish2zenodo', () => {
             });
 
             it('should call zenodo_upload with a zip file', () => {
-                expect(mockedZenodoUpload).toHaveBeenCalledWith(deposition_id, expect.anything(), current_version(), access_token, true);
+                const expected_options = {sandbox: true, checksum: true};
+                expect(mockedZenodoUpload).toHaveBeenCalledWith(deposition_id, expect.anything(), current_version(), access_token, expected_options);
                 const submitted_file = mockedZenodoUpload.mock.calls[0][1];
                 expect(submitted_file).toMatch(/.*database.zip$/);
             });

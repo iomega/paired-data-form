@@ -6,6 +6,7 @@ import { Validator } from './validate';
 import { migrate } from './migrate';
 import { publish2zenodo } from './util/publish2zenodo';
 import { ZENODO_ACCESS_TOKEN, ZENODO_DEPOSITION_ID } from './util/secrets';
+import { DraftDiscardedError } from '@iomeg/zenodo-upload';
 
 yargs.command(
     'enrich',
@@ -70,6 +71,11 @@ yargs.command(
                 default: false,
                 description: 'Publish to Zenodo sandbox (https://sandbox.zenodo.org) environment instead of Zenodo production environment'
             })
+            .option('checksum', {
+                type: 'boolean',
+                default: true,
+                description: 'Only create new Zenodo version when checksum of file is different'
+            })
             ;
     },
     async (argv) => {
@@ -83,9 +89,23 @@ yargs.command(
             deposition_id = ZENODO_DEPOSITION_ID;
         }
 
-        const result = await publish2zenodo(store, argv.access_token, argv.deposition_id, argv.sandbox);
-        console.log(`Generated new versioned DOI: ${result.doi}, can take a while to be found`);
-        console.log(`Generated new Zenodo upload: ${result.html}`);
-        process.exit(0);
+        try {
+            const result = await publish2zenodo(
+                store,
+                argv.access_token,
+                argv.deposition_id,
+                argv.sandbox,
+                argv.checksum
+            );
+            console.log(`Generated new versioned DOI: ${result.doi}, can take a while to be found`);
+            console.log(`Generated new Zenodo upload: ${result.html}`);
+            process.exit(0);
+        } catch (error) {
+            if (error instanceof DraftDiscardedError) {
+                console.log('Publish discarded, due to unchanged projects');
+                process.exit(1);
+            }
+            throw error;
+        }
     }
 ).help().version().argv;

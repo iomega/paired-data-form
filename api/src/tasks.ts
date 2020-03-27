@@ -5,6 +5,7 @@ import { ProjectEnrichmentStore } from './store/enrichments';
 import { enrich } from './enrich';
 import { ProjectDocumentStore } from './projectdocumentstore';
 import { publish2zenodo } from './util/publish2zenodo';
+import { DraftDiscardedError } from '@iomeg/zenodo-upload';
 
 export function buildEnrichQueue(store: ProjectEnrichmentStore) {
     const queue = new Bull<[string, ProjectDocument]>('enrichqueue', REDIS_URL);
@@ -62,9 +63,15 @@ export function scheduledZenodoUploads(store: ProjectDocumentStore) {
 }
 
 export async function publish2zenodoTask(store: ProjectDocumentStore) {
-    console.log('Publish to Zenodo started');
-    // TODO check if database has changed compared to latest Zenodo entry
-    const result = await publish2zenodo(store, ZENODO_ACCESS_TOKEN, ZENODO_DEPOSITION_ID, true);
-    console.log(`Publish completed: ${result.html}`);
-    return result;
+    console.debug('Publish to Zenodo started');
+    try {
+        const result = await publish2zenodo(store, ZENODO_ACCESS_TOKEN, ZENODO_DEPOSITION_ID, true);
+        console.debug(`Publish completed: ${result.html}`);
+        return result;
+    } catch (error) {
+        if (error instanceof DraftDiscardedError) {
+            console.debug('Publish discarded, due to unchanged projects');
+        }
+        throw error;
+    }
 }
