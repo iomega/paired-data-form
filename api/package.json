@@ -4,7 +4,7 @@
   "description": "",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "npm run serve",
+    "start": "npm run build && npm run serve",
     "build": "npm run build-ts && npm run tslint",
     "serve": "node dist/server.js",
     "watch-node": "nodemon -i data dist/server.js",
