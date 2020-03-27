@@ -30,6 +30,9 @@ describe('publish2zenodo', () => {
             store = {
                 listProjects: async () => {
                     return [eproject];
+                },
+                projectCreationDate: async () => {
+                    return new Date('2020-03-27T09:38:40.719Z');
                 }
             };
         });
@@ -88,16 +91,20 @@ describe('create_archive()', () => {
             const store = {
                 listProjects: async () => {
                     return [eproject];
+                },
+                projectCreationDate: async () => {
+                    return new Date('2020-03-27T09:38:40.000Z');
                 }
             };
             const tmpfile = await file();
             cleanup = tmpfile.cleanup;
-            await create_archive(store as ProjectDocumentStore, tmpfile.path);
+            await create_archive((store as any) as ProjectDocumentStore, tmpfile.path);
             const zip = fs.createReadStream(tmpfile.path).pipe(Parse({ forceStream: true } as any));
             entries = [];
             for await (const entry of zip) {
                 const content = JSON.parse((await entry.buffer()).toString('utf8'));
-                entries.push([entry.path, content]);
+                const dt = entry.vars.lastModifiedDateTime;
+                entries.push([entry.path, content, dt]);
             }
         });
 
@@ -107,7 +114,7 @@ describe('create_archive()', () => {
 
         it('should have archive with a single project file packed inside', async () => {
             const expected_entries = [[
-                'projectid1.1.json', await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN)
+                'projectid1.1.json', await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN), new Date('2020-03-27T09:38:40.000Z')
             ]];
             expect(entries).toEqual(expected_entries);
         });

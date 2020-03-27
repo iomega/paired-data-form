@@ -135,6 +135,11 @@ describe('ProjectDocumentStore', () => {
                     expect(project).toEqual(submitted_project);
                 });
 
+                it('should have a creation date', async () => {
+                    const date = await store.projectCreationDate(project_id);
+                    expect(date.getFullYear()).toBeGreaterThan(1970);
+                });
+
                 describe('when project has been edited', () => {
                     let second_project: IOMEGAPairedOmicsDataPlatform;
                     let second_project_id: string;

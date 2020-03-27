@@ -93,4 +93,9 @@ export class ProjectDocumentDiskStore {
     async readPendingProjects() {
         return await readProjects(this.pendingDir);
     }
+
+    async projectStats(project_id: string) {
+        const fn = path.join(this.approvedDir, project_id + '.json');
+        return await fs.promises.stat(fn);
+    }
 }

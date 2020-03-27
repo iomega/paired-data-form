@@ -12,18 +12,19 @@ export async function publish2zenodo(store: ProjectDocumentStore, access_token: 
         const file = join(o.path, 'database.zip');
         await create_archive(store, file);
         const version = current_version();
-        return await zenodo_upload(deposition_id, file, version, access_token, {sandbox, checksum});
+        return await zenodo_upload(deposition_id, file, version, access_token, { sandbox, checksum });
     }, { unsafeCleanup: true });
 }
 
 export async function create_archive(store: ProjectDocumentStore, path: string) {
     const archive = archiver('zip');
     const projects = await store.listProjects();
-    projects.forEach((p) => {
+    for (const p of projects) {
         const name = `${p._id}.json`;
         const body = JSON.stringify(p.project, undefined, 4);
-        archive.append(body, {name});
-    });
+        const date = await store.projectCreationDate(p._id);
+        archive.append(body, { name, date });
+    }
     const wstream = fs.createWriteStream(path);
 
     archive.pipe(wstream);
