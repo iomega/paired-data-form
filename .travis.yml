@@ -13,7 +13,7 @@ script:
   - cd api
   - npm install
   - npm run build
-  - npm test src
+  - npm test
   - npm run validate ../app/public/examples/paired_datarecord_MSV000078839_example.json
   - cd ..
   # Frontend

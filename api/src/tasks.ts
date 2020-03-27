@@ -1,21 +1,23 @@
 import Bull from 'bull';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
-import { REDIS_URL } from './util/secrets';
+import { REDIS_URL, ZENODO_DEPOSITION_ID, ZENODO_ACCESS_TOKEN } from './util/secrets';
 import { ProjectEnrichmentStore } from './store/enrichments';
 import { enrich } from './enrich';
 import { ProjectDocumentStore } from './projectdocumentstore';
+import { publish2zenodo } from './util/publish2zenodo';
+import { DraftDiscardedError } from '@iomeg/zenodo-upload';
 
 export function buildEnrichQueue(store: ProjectEnrichmentStore) {
-    const enrichqueue = new Bull<[string, ProjectDocument]>('enrichqueue', REDIS_URL);
-    enrichqueue.process(async (job) => {
+    const queue = new Bull<[string, ProjectDocument]>('enrichqueue', REDIS_URL);
+    queue.process(async (job) => {
         return await enrichProject(store, job.data[0], job.data[1]);
     });
-    enrichqueue
+    queue
         .on('error', (e) => console.log('bull error', e))
         .on('failed', (e) => console.log('bull failed', e))
         .on('stalled', (e) => console.log('bull stalled', e))
     ;
-    return enrichqueue;
+    return queue;
 }
 
 export const enrichProject = async (store: ProjectEnrichmentStore, project_id: string, project: ProjectDocument) => {
@@ -40,5 +42,36 @@ export async function enrichAllProjects(store: ProjectDocumentStore) {
     for (const project of pending_projects) {
         await enrichProject(store.enrichment_store, project._id, project.project);
         console.log(`Enriched ${project._id}`);
+    }
+}
+
+export function scheduledZenodoUploads(store: ProjectDocumentStore) {
+    const queue = new Bull('zenodoupload', REDIS_URL);
+
+    queue.process(async () => {
+        await publish2zenodoTask(store);
+    });
+    queue
+        .on('error', (e) => console.log('bull error', e))
+        .on('failed', (e) => console.log('bull failed', e))
+        .on('stalled', (e) => console.log('bull stalled', e))
+    ;
+
+    // At 12:00 AM, on day 1 of the month
+    const cron = '0 0 1 * *';
+    queue.add([], {repeat: {cron}});
+}
+
+export async function publish2zenodoTask(store: ProjectDocumentStore) {
+    console.debug('Publish to Zenodo started');
+    try {
+        const result = await publish2zenodo(store, ZENODO_ACCESS_TOKEN, ZENODO_DEPOSITION_ID, true);
+        console.debug(`Publish completed: ${result.html}`);
+        return result;
+    } catch (error) {
+        if (error instanceof DraftDiscardedError) {
+            console.debug('Publish discarded, due to unchanged projects');
+        }
+        throw error;
     }
 }

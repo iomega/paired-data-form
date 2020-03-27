@@ -89,4 +89,10 @@ export class ProjectDocumentStore {
             archived
         };
     }
+
+    async projectCreationDate(project_id: string) {
+        // Use creation date of file on disk for in archive
+        const stats = await this.disk_store.projectStats(project_id);
+        return stats.ctime;
+    }
 }

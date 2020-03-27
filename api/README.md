@@ -21,8 +21,12 @@ npm install
 
 ## Configure
 
-Create `.env` file.
-Use `.env.example` as example.
+Create `./.env` file, use `./.env.example` as an example.
+
+### Zenodo access token
+
+To publish the data collection to Zenodo, a [Zenodo personal access token](https://zenodo.org/account/settings/applications/tokens/new/) is needed.
+During token generation check the `deposit:actions` and `deposit:write` scopes.
 
 ## Build & Run
 
@@ -81,4 +85,12 @@ The projects can be validated with
 
 ```shell
 npm run validateall
+```
+
+## Publish collection on Zenodo
+
+The approved projects can be published to Zendo by running
+
+```shell
+npm run publish2zenodo -- --sandbox --deposition_id xxxx --access_token xxxxxxxxxxxxx
 ```
