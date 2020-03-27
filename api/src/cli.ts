@@ -92,8 +92,8 @@ yargs.command(
         try {
             const result = await publish2zenodo(
                 store,
-                argv.access_token,
-                argv.deposition_id,
+                access_token,
+                deposition_id,
                 argv.sandbox,
                 argv.checksum
             );
