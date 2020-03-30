@@ -5,7 +5,7 @@ import { Validator } from './validate';
 import { Queue } from 'bull';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { computeStats } from './util/stats';
-import { summarizeProject } from './summarize';
+import { summarizeProject, compareMetaboliteID } from './summarize';
 
 function getStore(req: Request) {
     return req.app.get('store') as ProjectDocumentStore;
@@ -78,7 +78,7 @@ export async function denyProject(req: Request, res: Response) {
 export async function listProjects(req: Request, res: Response) {
     const store = getStore(req);
     const projects = await store.listProjects();
-    const data = projects.map(summarizeProject);
+    const data = projects.map(summarizeProject).sort(compareMetaboliteID);
     res.json({data});
 }
 
