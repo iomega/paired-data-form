@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Mention JSON schema on add form ([#115](https://github.com/iomega/paired-data-form/issues/115))
 
+### Fixed
+
+* Submitter email is used where PI email is expected ([#118](https://github.com/iomega/paired-data-form/issues/118))
+
 ## [0.4.0] - 2020-03-20
 
 This version requires following migration steps.
