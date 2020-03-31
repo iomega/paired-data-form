@@ -2,12 +2,16 @@ import * as React from "react";
 
 import nlesc_logo from './about/nlesc.png';
 import wur_logo from './about/wur.png';
+import { VersionInfo } from "../VersionInfo";
 
 const style = { padding: '10px' };
 
 export const About = () => (
     <div style={style}>
         <h2>About</h2>
+
+        <VersionInfo />
+
         <h3>Who we are</h3>
         <ul>
             <li>Stefan Verhoeven, Netherlands eScience Center</li>
@@ -18,8 +22,8 @@ export const About = () => (
         </ul>
 
         <div>
-            <a href="https://www.esciencecenter.nl"><img style={{width: '500px'}} src={nlesc_logo} alt="Netherlands eScience Center"/></a>
-            <a href="https://www.wur.nl"><img src={wur_logo} alt="Wageningen University"/></a>
+            <a href="https://www.esciencecenter.nl"><img style={{ width: '500px' }} src={nlesc_logo} alt="Netherlands eScience Center" /></a>
+            <a href="https://www.wur.nl"><img src={wur_logo} alt="Wageningen University" /></a>
         </div>
 
         <a href="https://github.com/iomega/paired-data-form/issues">Technical questions and suggestions</a>

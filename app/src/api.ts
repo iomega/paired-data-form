@@ -170,3 +170,12 @@ export const approvePendingProject = async (project_id: string, token: string) =
     const response = await fetch(url, init);
     return response.headers.get('Location')!;
 }
+
+export interface IVersionInfo {
+    api: string;
+    doi: string;
+}
+
+export const useVersionInfo = () => {
+    return useFetch<IVersionInfo>(`${API_BASE_URL}//version`);
+}
