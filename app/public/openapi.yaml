@@ -83,6 +83,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Stats'
+  /version:
+    get:
+      description: Retrieve version info of web service
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo:'
 components:
   schemas:
     ProjectsResponse:
@@ -295,3 +305,14 @@ components:
                   oneOf:
                     - type: string
                     - type: number
+    VersionInfo:
+      type: object
+      properties:
+        api:
+          type: string
+          description: Version of web service
+        doi:
+          type: string
+          description: DOI of dataset
+      required: [api]
+      additionalProperties: false

@@ -330,5 +330,19 @@ describe('app', () => {
 
         });
 
+        describe('GET /api/version', () => {
+            it('should return version info', async () => {
+                const response = await supertest(app)
+                    .get('/api/version')
+                ;
+                expect(response.status).toBe(200);
+                const body = JSON.parse(response.text);
+                const expected: any = {
+                    doi: expect.stringContaining('https://doi.org/10.5281/zenodo'),
+                    api: expect.stringMatching(/\d+\.\d+.\d+/)
+                };
+                expect(body).toEqual(expected);
+            });
+        });
     });
 });
