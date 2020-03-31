@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Mention JSON schema on add form ([#115](https://github.com/iomega/paired-data-form/issues/115))
 * Project list can be sorted by clicking on column header ([#117](https://github.com/iomega/paired-data-form/issues/117))
+* Show DOI and software version on about page ([#109](https://github.com/iomega/paired-data-form/issues/109))
 
 ### Changed
 

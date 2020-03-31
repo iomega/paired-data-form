@@ -6,6 +6,8 @@ import { Queue } from 'bull';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { computeStats } from './util/stats';
 import { summarizeProject, compareMetaboliteID } from './summarize';
+import { ZENODO_DEPOSITION_ID } from './util/secrets';
+
 
 function getStore(req: Request) {
     return req.app.get('store') as ProjectDocumentStore;
@@ -140,4 +142,15 @@ export async function getStats(req: Request, res: Response) {
     const projects = await store.listProjects();
     const stats = computeStats(projects, validator.schema);
     res.json(stats);
+}
+
+export function getVersionInfo(req: Request, res: Response) {
+    const doi = 'https://doi.org/10.5281/zenodo.' + ZENODO_DEPOSITION_ID;
+    const mypackage = require('../package.json');
+    const api = mypackage.version;
+    const info = {
+        api,
+        doi
+    };
+    res.json(info);
 }
