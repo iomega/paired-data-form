@@ -51,3 +51,15 @@ export const summarizeProject = (d: EnrichedProjectDocument): ProjectSummary => 
     }
     return summary;
 };
+
+export const compareMetaboliteID = (a: ProjectSummary, b: ProjectSummary): 1 | -1 | 0 => {
+    const ia = a.GNPSMassIVE_ID ? a.GNPSMassIVE_ID : a.metabolights_study_id;
+    const ib = b.GNPSMassIVE_ID ? b.GNPSMassIVE_ID : b.metabolights_study_id;
+    if (ia < ib) {
+        return -1;
+    }
+    if (ia > ib) {
+        return 1;
+    }
+    return 0;
+};

@@ -10,6 +10,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * Mention JSON schema on add form ([#115](https://github.com/iomega/paired-data-form/issues/115))
+* Project list can be sorted by clicking on column header ([#117](https://github.com/iomega/paired-data-form/issues/117))
+
+### Changed
+
+* Project list sorted on metabolite id ([#117](https://github.com/iomega/paired-data-form/issues/117))
+
+### Fixed
+
+* Submitter email is used where PI email is expected ([#118](https://github.com/iomega/paired-data-form/issues/118))
+* Download button on pending page yields incorrectly formatted json files ([#120](https://github.com/iomega/paired-data-form/issues/120))
 
 ## [0.4.0] - 2020-03-20
 
