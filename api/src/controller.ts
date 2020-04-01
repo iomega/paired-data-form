@@ -146,11 +146,15 @@ export async function getStats(req: Request, res: Response) {
 
 export function getVersionInfo(req: Request, res: Response) {
     const doi = 'https://doi.org/10.5281/zenodo.' + ZENODO_DEPOSITION_ID;
+    const zenodo = 'https://zenodo.org/record/' + ZENODO_DEPOSITION_ID;
     const mypackage = require('../package.json');
     const api = mypackage.version;
     const info = {
         api,
-        doi
+        dataset: {
+            zenodo,
+            doi,
+        }
     };
     res.json(info);
 }

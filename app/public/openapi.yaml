@@ -92,7 +92,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VersionInfo:'
+                $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
     ProjectsResponse:
@@ -311,8 +311,16 @@ components:
         api:
           type: string
           description: Version of web service
-        doi:
-          type: string
-          description: DOI of dataset
+        dataset:
+          type: object
+          properties:
+            doi:
+              type: string
+              description: DOI link of dataset
+            zenodo:
+              type: string
+              description: Zenodo upload url of dataset
+          required: [doi, zenodo]
+          additionalProperties: false
       required: [api]
       additionalProperties: false

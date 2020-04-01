@@ -173,7 +173,10 @@ export const approvePendingProject = async (project_id: string, token: string) =
 
 export interface IVersionInfo {
     api: string;
-    doi: string;
+    dataset: {
+        zenodo: string,
+        doi: string,
+    }
 }
 
 export const useVersionInfo = () => {

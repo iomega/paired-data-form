@@ -338,7 +338,10 @@ describe('app', () => {
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
-                    doi: expect.stringContaining('https://doi.org/10.5281/zenodo'),
+                    dataset: {
+                        doi: expect.stringContaining('https://doi.org/10.5281/zenodo'),
+                        zenodo: expect.stringContaining('https://zenodo.org/record/'),
+                    },
                     api: expect.stringMatching(/\d+\.\d+.\d+/)
                 };
                 expect(body).toEqual(expected);
