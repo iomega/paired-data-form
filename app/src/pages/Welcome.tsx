@@ -11,7 +11,7 @@ import slide5 from './welcome/slide5.png';
 const style = { padding: '10px', fontFamily: 'Roboto Condensed' };
 const textStyle = { fontSize: '1.8em' };
 const imgStyle = { width: '100%' };
-const rowStyle = { marginBottom: '50px' };
+const rowStyle = { marginBottom: '50px', marginRight: '0px', marginLeft: '0px' };
 const colStyle = { 
     paddingLeft: '40px'
 };
