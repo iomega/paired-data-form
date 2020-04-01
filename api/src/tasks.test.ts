@@ -2,7 +2,7 @@ import { enrichAllProjects } from './tasks';
 import { ProjectDocumentStore } from './projectdocumentstore';
 import { loadJSONDocument } from './util/io';
 import { EXAMPLE_PROJECT_JSON_FN } from './testhelpers';
-import { EnrichedProjectDocument, ProjectEnrichmentStore } from './store/enrichments';
+import { EnrichedProjectDocument } from './store/enrichments';
 import { enrich } from './enrich';
 
 jest.mock('./enrich');
