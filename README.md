@@ -36,7 +36,7 @@ The application can be configured using environment variables:
 * PORT, http port application is running on. Default is 8443.
 * SHARED_TOKEN, token required to login to review area.
 * ZENODO_ACCESS_TOKEN, Zenodo access token  used for uploading database to Zenodo.
-* ZENODO_DEPOSITION_ID, Zenodo deposition identifier used for uploading database to Zenodo.
+* ZENODO_DEPOSITION_ID, Zenodo deposition identifier used for uploading database to Zenodo. Set to -1 to disable scheduled uploading.
 
 The environment variables can be set in the terminal or be put in a `.env` file.
 
