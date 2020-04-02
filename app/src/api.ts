@@ -180,5 +180,5 @@ export interface IVersionInfo {
 }
 
 export const useVersionInfo = () => {
-    return useFetch<IVersionInfo>(`${API_BASE_URL}//version`);
+    return useFetch<IVersionInfo>(`${API_BASE_URL}/version`);
 }

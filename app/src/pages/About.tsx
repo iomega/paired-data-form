@@ -28,7 +28,7 @@ export const About = () => {
             </div>
 
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/iomega/paired-data-form/issues">Technical questions and suggestions</a>
-            <div>This site is running on version <a target="_blank" rel="noopener noreferrer" href={url}>{version}</a> of the software.</div>
+            <div>This site is running version <a target="_blank" rel="noopener noreferrer" href={url}>{version}</a></div>
         </div>
     )
 };
