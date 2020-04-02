@@ -44,10 +44,10 @@ export interface EnrichedProjectDocument {
 export const compareProjectSummary = function(key: string): (a: ProjectSummary, b: ProjectSummary) => number {
     if (key === '_id') {
         return (a, b) => {
-            if (a._id < b._id) {
+            if (a._id > b._id) {
                 return -1;
             }
-            if (a._id > b._id) {
+            if (a._id < b._id) {
                 return 1;
             }
             return 0;

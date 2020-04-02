@@ -80,7 +80,7 @@ export async function denyProject(req: Request, res: Response) {
 export async function listProjects(req: Request, res: Response) {
     const store = getStore(req);
     const projects = await store.listProjects();
-    const data = projects.map(summarizeProject).sort(compareMetaboliteID);
+    const data = projects.map(summarizeProject).sort(compareMetaboliteID).reverse();
     res.json({data});
 }
 
