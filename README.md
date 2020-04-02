@@ -73,5 +73,7 @@ To make a new release of the platform do:
 
 5. Commit & push changes
 6. Create a GitHub release
-7. Update author list on [https://doi.org/10.5281/zenodo.2656630](https://doi.org/10.5281/zenodo.2656630)
+7. On [https://doi.org/10.5281/zenodo.2656630](https://doi.org/10.5281/zenodo.2656630)
+    * Update author list
+    * Add `https://doi.org/10.5281/zenodo.3736463`, `is compiled/create by this upload` as `Dataset` in related identifiers section.
 8. Update version & release date in CITATION.cff
