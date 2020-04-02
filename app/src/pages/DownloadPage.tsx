@@ -13,7 +13,7 @@ export const DownloadPage = () => {
             <h3>How to cite</h3>
             <ul>
                 <li>Please cite <a target="_blank" rel="noopener noreferrer" href={doiLink}>{doi}</a> if you use the projects dataset.</li>
-                <li>Please cite <a target="_blank" rel="noopener noreferrer" href="https://doi.org/10.5281/zenodo.2656630">https://doi.org/10.5281/zenodo.2656630</a> if you use this site or the <a target="_blank" rel="noopener noreferrer" href="https://github.com/iomega/paired-data-form/blob/master/manuals/developers.md#web-service">web service</a>.</li>
+                <li>Please cite <a target="_blank" rel="noopener noreferrer" href="https://doi.org/10.5281/zenodo.2656630">10.5281/zenodo.2656630</a> if you use this site or the <a target="_blank" rel="noopener noreferrer" href="https://github.com/iomega/paired-data-form/blob/master/manuals/developers.md#web-service">web service</a>.</li>
             </ul>
         </div>
     );
