@@ -12,11 +12,9 @@ export function buildEnrichQueue(store: ProjectEnrichmentStore) {
     queue.process(async (job) => {
         return await enrichProject(store, job.data[0], job.data[1]);
     });
-    queue
-        .on('error', (e) => console.log('bull error', e))
-        .on('failed', (e) => console.log('bull failed', e))
-        .on('stalled', (e) => console.log('bull stalled', e))
-    ;
+    queue.on('error', (e) => console.log('bull error', e));
+    queue.on('failed', (e) => console.log('bull failed', e));
+    queue.on('stalled', (e) => console.log('bull stalled', e));
     return queue;
 }
 
@@ -51,11 +49,9 @@ export function scheduledZenodoUploads(store: ProjectDocumentStore) {
     queue.process(async () => {
         await publish2zenodoTask(store);
     });
-    queue
-        .on('error', (e) => console.log('bull error', e))
-        .on('failed', (e) => console.log('bull failed', e))
-        .on('stalled', (e) => console.log('bull stalled', e))
-    ;
+    queue.on('error', (e) => console.log('bull error', e));
+    queue.on('failed', (e) => console.log('bull failed', e));
+    queue.on('stalled', (e) => console.log('bull stalled', e));
 
     // At 12:00 AM, on day 1 of the month
     const cron = '0 0 1 * *';

@@ -120,6 +120,16 @@ describe('app', () => {
             });
         });
 
+        describe('GET /api/pending/projects/projectid1.1 with incorrect token', () => {
+            it('should unauthenticated error', async () => {
+                const response = await supertest(app)
+                    .get('/api/pending/projects/projectid1.1')
+                    .set('Authorization', 'Bearer incorrecttoken')
+                ;
+                expect(response.status).toBe(401);
+            });
+        });
+
         describe('GET /api/stats', () => {
             it('should return empty stats', async () => {
                 const response = await supertest(app).get('/api/stats');
