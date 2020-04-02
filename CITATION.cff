@@ -17,7 +17,7 @@ authors:
   family-names: van der Hooft
   affiliation: Wageningen University and Research Center
   orcid: https://orcid.org/0000-0002-9340-5511
-version: 0.4.0
-date-released: 2020-02-20
+version: 0.5.0
+date-released: 2020-04-02
 repository-code: https://github.com/iomega/paired-data-form
 license: Apache-2.0
