@@ -94,3 +94,9 @@ The approved projects can be published to Zendo by running
 ```shell
 npm run publish2zenodo -- --sandbox --deposition_id xxxx --access_token xxxxxxxxxxxxx
 ```
+
+Or when running with docker-composose in production use
+
+```shell
+docker-compose exec api npm run publish2zenodo
+```
