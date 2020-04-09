@@ -34,7 +34,7 @@ export interface IStats {
         submitters: [string, number][]
         genome_types: [string, number][]
         species: [string, number][]
-        instruments_types: [string, number][]
+        instrument_types: [string, number][]
         growth_media: [string, number][]
         metagenomic_environment: [string, number][]
         solvents: [string, number][]

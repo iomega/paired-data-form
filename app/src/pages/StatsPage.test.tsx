@@ -21,7 +21,7 @@ jest.mock('../api', () => ({
                     submitters: [['me', 5]],
                     genome_types: [['genome', 6]],
                     species: [['Human', 7]],
-                    instruments_types: [['Time-of-flight (TOF)', 8]],
+                    instrument_types: [['Time-of-flight (TOF)', 8]],
                     growth_media: [['A1 medium', 9]],
                     solvents: [['Methanol', 10]],
                     metagenomic_environment: [['Human', 12]]

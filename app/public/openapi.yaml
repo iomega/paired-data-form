@@ -235,7 +235,7 @@ components:
           - principal_investigators
           - submitters
           - genome_types
-          - instruments_types
+          - instrument_types
           - growth_media
           - solvents
           - species
@@ -265,7 +265,7 @@ components:
                   oneOf:
                     - type: string
                     - type: number
-            instruments_types:
+            instrument_types:
               type: array
               items:
                 type: array

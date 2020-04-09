@@ -146,7 +146,7 @@ describe('app', () => {
                         'principal_investigators': [],
                         'submitters': [],
                         'genome_types': [],
-                        'instruments_types': [],
+                        'instrument_types': [],
                         'growth_media': [],
                         'solvents': [],
                         'species': [],

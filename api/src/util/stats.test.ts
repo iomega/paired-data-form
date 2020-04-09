@@ -48,7 +48,7 @@ describe('computeStats()', () => {
                         'genome_types': [
                             ['genome', 3]
                         ],
-                        'instruments_types': [
+                        'instrument_types': [
                             ['Time-of-flight (TOF)', 1]
                         ],
                         'growth_media': [
@@ -133,7 +133,7 @@ describe('computeStats()', () => {
                             'genome_types': [
                                 ['genome', 3]
                             ],
-                            'instruments_types': [
+                            'instrument_types': [
                                 ['Time-of-flight (TOF)', 1]
                             ],
                             'growth_media': [
@@ -189,7 +189,7 @@ describe('computeStats()', () => {
                             'genome_types': [
                                 ['genome', 3]
                             ],
-                            'instruments_types': [
+                            'instrument_types': [
                                 ['Time-of-flight (TOF)', 1]
                             ],
                             'growth_media': [

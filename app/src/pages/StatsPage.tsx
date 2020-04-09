@@ -76,7 +76,7 @@ export const StatsPage = () => {
                         <fieldset>
                             <legend>Instrument types</legend>
                             <ListGroup>
-                                {data.top.instruments_types.map(
+                                {data.top.instrument_types.map(
                                     ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
                                 )}
                             </ListGroup>
