@@ -3,6 +3,11 @@ import path from 'path';
 
 import Ajv from 'ajv';
 
+export const loadSchema = (schema_fn = '../../app/public/schema.json') => {
+    const fn = path.join(__dirname, schema_fn);
+    return JSON.parse(fs.readFileSync(fn, 'utf-8'));
+};
+
 export class Validator {
     ajv: Ajv.Ajv;
     schema: object;
@@ -10,13 +15,8 @@ export class Validator {
 
     constructor(schema_fn = '../../app/public/schema.json') { // TODO use path relative to this file
         this.ajv = new Ajv();
-        this.schema = this.loadSchema(schema_fn);
+        this.schema = loadSchema(schema_fn);
         this.compiled = this.ajv.compile(this.schema);
-    }
-
-    loadSchema(schema_fn: string) {
-        const fn = path.join(__dirname, schema_fn);
-        return JSON.parse(fs.readFileSync(fn, 'utf-8'));
     }
 
     validate(data: any) {
