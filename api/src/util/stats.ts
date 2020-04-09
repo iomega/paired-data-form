@@ -81,7 +81,7 @@ function countProjectCollectionField(
     };
 }
 
-function enum2map(choices: any[]) {
+export function enum2map(choices: any[]) {
     return new Map<string, string>(
         choices.map((c) => [c.enum[0], c.title])
     );
