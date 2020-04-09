@@ -8,7 +8,7 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers: 
   - description: Production
-    url: http://pairedomicsdata.bioinformatics.nl/api
+    url: https://pairedomicsdata.bioinformatics.nl/api
   - description: Local deployment
     url: http://localhost:8443/api
 paths:
@@ -34,7 +34,7 @@ paths:
             type: string
       responses:
         '200':
-          description: A project like [example project](http://pairedomicsdata.bioinformatics.nl/examples/paired_datarecord_MSV000078839_example.json).
+          description: A project like [example project](https://pairedomicsdata.bioinformatics.nl/examples/paired_datarecord_MSV000078839_example.json).
           content:
             application/json:
               schema:

@@ -6,7 +6,7 @@ When a project has been submitted it has to be reviewed and either be approved o
 
 To review a project
 
-1. Goto [http://pairedomicsdata.bioinformatics.nl/pending](http://pairedomicsdata.bioinformatics.nl/pending) for the list of pending projects
+1. Goto [https://pairedomicsdata.bioinformatics.nl/pending](https://pairedomicsdata.bioinformatics.nl/pending) for the list of pending projects
 1. Login with supplied password if not already logged in
 1. Perform review by either
     1. Clicking on the `Metabolomics project identifier` to see the project rendered as if it was public.

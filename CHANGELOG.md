@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+* Replaced http with https ([#126](https://github.com/iomega/paired-data-form/issues/126))
+
 ## [0.5.0] - 2020-04-02
 
 ### Added

@@ -6,7 +6,7 @@ How to contribute as a developer to the platform is described in [../CONTRIBUTIN
 
 ## Web service
 
-To consume the [web service](http://pairedomicsdata.bioinformatics.nl/api) some examples are provided and a specification.
+To consume the [web service](https://pairedomicsdata.bioinformatics.nl/api) some examples are provided and a specification.
 
 ### Examples
 
@@ -35,6 +35,6 @@ Change `ashdfjhasdlkjfhalksdjhflak` token to what you got as an authentication t
 ### OpenAPI specification
 
 The web services ships with an [OpenAPI specification](https://www.openapis.org/).
-The specification is available at [http://pairedomicsdata.bioinformatics.nl/openapi.yaml](http://pairedomicsdata.bioinformatics.nl/openapi.yaml).
+The specification is available at [https://pairedomicsdata.bioinformatics.nl/openapi.yaml](https://pairedomicsdata.bioinformatics.nl/openapi.yaml).
 
-To try out the specification you can use the [Swagger UI](https://swagger.io/tools/swagger-ui/) at [/api/ui/?url=/openapi.yaml](http://pairedomicsdata.bioinformatics.nl/api/ui/?url=/openapi.yaml). When trying out a local deployment don't forget to pick the right server in the Swagger UI.
+To try out the specification you can use the [Swagger UI](https://swagger.io/tools/swagger-ui/) at [/api/ui/?url=/openapi.yaml](https://pairedomicsdata.bioinformatics.nl/api/ui/?url=/openapi.yaml). When trying out a local deployment don't forget to pick the right server in the Swagger UI.

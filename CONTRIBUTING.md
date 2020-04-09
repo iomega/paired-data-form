@@ -14,12 +14,12 @@ The sections below outline the steps in each case.
 
 ## You want to contribute a project
 
-You are free to add projects on [http://pairedomicsdata.bioinformatics.nl/add](http://pairedomicsdata.bioinformatics.nl/add).
-After submission, the project will be reviewed and if approved will appear in the [list of projects](http://pairedomicsdata.bioinformatics.nl/projects).
+You are free to add projects on [https://pairedomicsdata.bioinformatics.nl/add](https://pairedomicsdata.bioinformatics.nl/add).
+After submission, the project will be reviewed and if approved will appear in the [list of projects](https://pairedomicsdata.bioinformatics.nl/projects).
 
 ## You want to use the data in the platform
 
-Each project page on [http://pairedomicsdata.bioinformatics.nl](http://pairedomicsdata.bioinformatics.nl) has a download button, which gives you the JSON document of the project.
+Each project page on [https://pairedomicsdata.bioinformatics.nl](https://pairedomicsdata.bioinformatics.nl) has a download button, which gives you the JSON document of the project.
 
 To access the platform in a programmatic manner see the [developer manual](manuals/developers.md).
 

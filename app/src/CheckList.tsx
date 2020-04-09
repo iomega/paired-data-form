@@ -32,7 +32,7 @@ export const CheckList = () => (
                 To save your work, complete sections 1-4 for at least one sample and make at least one link in section 5, then press the Preview button, scroll down to the table created and press the Download button. You can later use the Upload button to upload this file to continue working. Validation errors may appear at the top of the page and must be resolved before you can download the file.
             </li>
             <li>
-                A file can also be uploaded at the bottom of the form. The file should adhere to the <a href="http://pairedomicsdata.bioinformatics.nl/schema.json">JSON schema</a>.
+                A file can also be uploaded at the bottom of the form. The file should adhere to the <a href="https://pairedomicsdata.bioinformatics.nl/schema.json">JSON schema</a>.
             </li>
         </ul>
     </div>
