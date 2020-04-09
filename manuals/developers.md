@@ -16,17 +16,17 @@ Using [httpie](https://httpie.org) as a http client.
 # Install httpie
 pip install httpie
 # Submit a project
-http -j pairedomicsdata.bioinformatics.nl/api/projects < ../app/public/examples/paired_datarecord_MSV000078839_example.json
+https -j pairedomicsdata.bioinformatics.nl/api/projects < ../app/public/examples/paired_datarecord_MSV000078839_example.json
 # List pending projects
-http pairedomicsdata.bioinformatics.nl/api/pending/projects 'Authorization: Bearer ashdfjhasdlkjfhalksdjhflak'
+https pairedomicsdata.bioinformatics.nl/api/pending/projects 'Authorization: Bearer ashdfjhasdlkjfhalksdjhflak'
 # Approve pending projects
-http POST pairedomicsdata.bioinformatics.nl/api/pending/projects/a6f87bdf-6998-4336-8fb1-eca5b4fdb882.1 'Authorization: Bearer ashdfjhasdlkjfhalksdjhflak'
+https POST pairedomicsdata.bioinformatics.nl/api/pending/projects/a6f87bdf-6998-4336-8fb1-eca5b4fdb882.1 'Authorization: Bearer ashdfjhasdlkjfhalksdjhflak'
 # List summary of projects
-http pairedomicsdata.bioinformatics.nl/api/projects
+https pairedomicsdata.bioinformatics.nl/api/projects
 # Get single project
-http pairedomicsdata.bioinformatics.nl/api/projects/a6f87bdf-6998-4336-8fb1-eca5b4fdb882.1
+https pairedomicsdata.bioinformatics.nl/api/projects/a6f87bdf-6998-4336-8fb1-eca5b4fdb882.1
 # Get stats
-http pairedomicsdata.bioinformatics.nl/api/stats
+https pairedomicsdata.bioinformatics.nl/api/stats
 ```
 
 Change `a6f87bdf-6998-4336-8fb1-eca5b4fdb882.1` project id to what previous requests return.
