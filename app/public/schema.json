@@ -16,7 +16,8 @@
     "version": {
       "type": "string",
       "readonly": true,
-      "default": "2"
+      "default": "2",
+      "enum": ["2"]
     },
     "personal": {
       "type": "object",
