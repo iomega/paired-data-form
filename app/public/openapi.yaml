@@ -6,22 +6,58 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-servers: 
+servers:
   - description: Production
     url: https://pairedomicsdata.bioinformatics.nl/api
-  - description: Local deployment
+  - description: Local compose deployment
     url: http://localhost:8443/api
 paths:
   /projects:
     get:
       description: Retrieve summary of all projects
+      parameters:
+        - name: q
+          in: query
+          description: Search query. Accepts [simple-query-string-syntax](https://www.elastic.co/guide/en/elasticsearch/reference/7.5/query-dsl-simple-query-string-query.html#simple-query-string-syntax) as syntax.
+          schema:
+            type: string
+          example: MSV000078839
+        - name: fk
+          in: query
+          description: Filter projects by a key/value pair. This is the key.
+          example: principal_investigator
+          schema:
+            type: string
+            enum:
+              [
+                "principal_investigator",
+                "submitter",
+                "genome_type",
+                "species",
+                "metagenomic_environment",
+                "instrument_type",
+                "growth_medium",
+                "solvent",
+              ]
+        - name: fv
+          in: query
+          description: Filter projects by a key/value pair. This is the value.
+          example: Pieter C. Dorrestein
+          schema:
+            type: string
       responses:
-        '200':
+        "200":
           description: Successful Response
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/ProjectsResponse'
+                $ref: "#/components/schemas/ProjectsResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestResponse"
   /projects/{project_id}:
     get:
       description: Retrieve a project
@@ -33,12 +69,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: A project like [example project](https://pairedomicsdata.bioinformatics.nl/examples/paired_datarecord_MSV000078839_example.json).
           content:
             application/json:
               schema:
-                $ref: '/schema.json'
+                $ref: "/schema.json"
   /projects/{project_id}/enriched:
     get:
       description: Retrieve project enriched with information from following the genome database identifiers.
@@ -50,12 +86,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EnrichedProject'
+                $ref: "#/components/schemas/EnrichedProject"
   /projects/{project_id}/history:
     get:
       description: Retrieve current and previous versions
@@ -67,32 +103,32 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProjectHistory'
+                $ref: "#/components/schemas/ProjectHistory"
   /stats:
     get:
       description: Retrieve statistics of all available projects inside platform
       responses:
-        '200':
+        "200":
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Stats'
+                $ref: "#/components/schemas/Stats"
   /version:
     get:
       description: Retrieve version info of web service
       responses:
-        '200':
+        "200":
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VersionInfo'
+                $ref: "#/components/schemas/VersionInfo"
 components:
   schemas:
     ProjectsResponse:
@@ -101,7 +137,7 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/ProjectSummary'
+            $ref: "#/components/schemas/ProjectSummary"
       required: [data]
       additionalProperties: false
     ProjectSummary:
@@ -142,28 +178,34 @@ components:
         - nr_genome_metabolmics_links
         - nr_genecluster_mspectra_links
       additionalProperties: false
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required: [message]
     EnrichedProject:
       type: object
       properties:
         _id:
           type: string
         project:
-          $ref: '/schema.json'
+          $ref: "/schema.json"
         enrichments:
-          $ref: '#/components/schemas/Enrichments'
+          $ref: "#/components/schemas/Enrichments"
       required: [_id, project]
       additionalProperties: false
     Enrichments:
       type: object
       properties:
         genomes:
-          $ref: '#/components/schemas/GenomeEnrichments'
+          $ref: "#/components/schemas/GenomeEnrichments"
       required: [genomes]
       additionalProperties: false
     GenomeEnrichment:
       properties:
         species:
-          $ref: '#/components/schemas/Species'
+          $ref: "#/components/schemas/Species"
         title:
           type: string
         url:
@@ -173,7 +215,7 @@ components:
       additionalProperties: false
     GenomeEnrichments:
       additionalProperties:
-        $ref: '#/components/schemas/GenomeEnrichment'
+        $ref: "#/components/schemas/GenomeEnrichment"
       type: object
     Species:
       properties:
@@ -188,11 +230,11 @@ components:
       type: object
       properties:
         current:
-          $ref: '/schema.json'
+          $ref: "/schema.json"
         archived:
           type: array
           items:
-            $ref: '#/components/schemas/ArchivedProject'
+            $ref: "#/components/schemas/ArchivedProject"
       required: [current, archived]
       additionalProperties: false
     ArchivedProject:
@@ -202,24 +244,24 @@ components:
         _id:
           type: string
           description: Project identifier
-        project: 
-          $ref: '/schema.json'
+        project:
+          $ref: "/schema.json"
       required: [_id, project]
       additionalProperties: false
     Stats:
       type: object
       required:
-      - global
-      - top
+        - global
+        - top
       additionalProperties: false
       properties:
         global:
           type: object
           required:
-          - projects
-          - principal_investigators
-          - metabolome_samples
-          - bgc_ms2
+            - projects
+            - principal_investigators
+            - metabolome_samples
+            - bgc_ms2
           properties:
             projects:
               type: integer
@@ -232,14 +274,14 @@ components:
         top:
           type: object
           required:
-          - principal_investigators
-          - submitters
-          - genome_types
-          - instrument_types
-          - growth_media
-          - solvents
-          - species
-          - metagenomic_environment
+            - principal_investigators
+            - submitters
+            - genome_types
+            - instrument_types
+            - growth_media
+            - solvents
+            - species
+            - metagenomic_environment
           properties:
             principal_investigators:
               type: array

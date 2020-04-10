@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { ProjectDocumentStore, NotFoundException } from './projectdocumentstore';
+import { ProjectDocumentStore, NotFoundException, ListOptions } from './projectdocumentstore';
 import { Validator } from './validate';
 import { Queue } from 'bull';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
@@ -79,7 +79,28 @@ export async function denyProject(req: Request, res: Response) {
 
 export async function listProjects(req: Request, res: Response) {
     const store = getStore(req);
-    const projects = await store.listProjects();
+    const options: ListOptions = {};
+    if (req.query.q) {
+        options.query = req.query.q;
+    }
+    if (req.query.fk || req.query.fv) {
+        if (req.query.fk && req.query.fv) {
+            options.filter = {
+                key: req.query.fk,
+                value: req.query.fv
+            };
+        } else {
+            res.status(400);
+            res.json({ message: 'Require both `fk` and `fv` to filter'});
+            return;
+        }
+        if (req.query.query) {
+            res.status(400);
+            res.json({ message: 'Eiter search with `q` or filter with `fk` and `fv`'});
+            return;
+        }
+    }
+    const projects = await store.listProjects(options);
     const data = projects.map(summarizeProject).sort(compareMetaboliteID).reverse();
     res.json({data});
 }
