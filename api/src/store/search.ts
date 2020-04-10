@@ -95,7 +95,35 @@ export class SearchEngine {
     }
 
     async initialize(projects: EnrichedProjectDocument[]) {
-        projects.forEach((p) => this.add(p));
+        if (!await this.hasIndex()) {
+            await this.createIndex();
+        }
+        await this.addMany(projects);
+    }
+
+    private async hasIndex() {
+        const index_exists = await this.client.indices.exists({ index: this.index });
+        return index_exists.body;
+    }
+
+    private async createIndex() {
+        // Force all detected integers to be floats
+        // Due to dynamic mapping `1` will be mapped to a long while other documents will require a float.
+        await this.client.indices.create({
+            index: this.index,
+            body: {
+                mappings: {
+                    dynamic_templates: [{
+                        floats: {
+                            match_mapping_type: 'long',
+                            mapping: {
+                                type: 'float'
+                            }
+                        }
+                    }]
+                }
+            }
+        });
     }
 
     async addMany(projects: EnrichedProjectDocument[]) {
@@ -108,21 +136,15 @@ export class SearchEngine {
             },
             expandEnrichedProjectDocument(p, this.schema)
         ]);
-        const r = await this.client.bulk({ body });
+        await this.client.bulk({ body });
     }
 
     async add(project: EnrichedProjectDocument) {
-        try {
-            await this.client.index({
-                index: this.index,
-                id: project._id,
-                body: expandEnrichedProjectDocument(project, this.schema)
-            });
-        } catch (error) {
-            console.log('===================================================================');
-            console.log(JSON.stringify(error));
-            console.log('==============================================');
-        }
+        await this.client.index({
+            index: this.index,
+            id: project._id,
+            body: expandEnrichedProjectDocument(project, this.schema)
+        });
     }
 
     async delete(project_identifier: string) {

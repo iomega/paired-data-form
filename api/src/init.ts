@@ -8,7 +8,7 @@ import { buildEnrichQueue, scheduledZenodoUploads } from './tasks';
 dotenv.config({ path: '.env.example' });
 
 export const store = new ProjectDocumentStore(DATADIR, REDIS_URL, ELASTICSEARCH_URL);
-export const enrichqueue = buildEnrichQueue(store.enrichment_store);
+export const enrichqueue = buildEnrichQueue(store);
 
 if (ZENODO_UPLOAD_ENABLED) {
     scheduledZenodoUploads(store);

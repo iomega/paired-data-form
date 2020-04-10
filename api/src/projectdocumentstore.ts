@@ -5,6 +5,7 @@ import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import logger from './util/logger';
 import { ProjectEnrichmentStore, EnrichedProjectDocument } from './store/enrichments';
 import { SearchEngine } from './store/search';
+import { ProjectEnrichments } from './enrich';
 
 export const NotFoundException = MemoryNotFoundException;
 
@@ -76,6 +77,12 @@ export class ProjectDocumentStore {
         await this.archivePreviousProject(project_id);
         this.memory_store.approveProject(project_id);
         await this.disk_store.approveProject(project_id);
+        await this.search_engine.add(
+            await this.enrichment_store.merge(
+                project_id,
+                this.memory_store.getProject(project_id)
+            )
+        );
     }
 
     private async archivePreviousProject(project_id: string) {
@@ -83,6 +90,8 @@ export class ProjectDocumentStore {
         if (prev_project_id) {
             this.memory_store.deleteApproved(prev_project_id);
             await this.disk_store.archiveProject(prev_project_id);
+            this.enrichment_store.delete(prev_project_id);
+            await this.search_engine.delete(prev_project_id);
         }
     }
 
@@ -100,5 +109,15 @@ export class ProjectDocumentStore {
         // Use creation date of file on disk for in archive
         const stats = await this.disk_store.projectStats(project_id);
         return stats.ctime;
+    }
+
+    async addEnrichments(project_id: string, enrichments: ProjectEnrichments) {
+        await this.enrichment_store.set(project_id, enrichments);
+        await this.search_engine.add(
+            await this.enrichment_store.merge(
+                project_id,
+                this.memory_store.getProject(project_id)
+            )
+        );
     }
 }
