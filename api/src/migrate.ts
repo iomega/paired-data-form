@@ -32,7 +32,7 @@ export const migrations: Migration[] = [
                         delete r.BGC_ID.similar_MIBiG_number;
                     } else {
                         r.BGC_ID.similar_MIBiG_number = bgc2string(r.BGC_ID.similar_MIBiG_number);
-                        delete r.BGC_ID.BGC;
+                        delete r.BGC_ID.MIBiG_number;
                     }
                 });
             }
