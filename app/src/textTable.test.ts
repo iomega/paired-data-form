@@ -1,6 +1,5 @@
 import { kitchenSinkDoc, minimalDoc } from './test.fixtures';
 import { jsonDocument, textTable, tsvUrl } from './textTable';
-import { IOMEGAPairedOmicsDataPlatform } from './schema';
 
 describe('with schema loaded', () => {
     let schema: any;
@@ -79,7 +78,7 @@ describe('with schema loaded', () => {
     describe('tsvUrl', () => {
         it('should render doc with no links as just header', () => {
             const doc = {
-                "version": "1",
+                "version": "2",
                 "personal": {},
                 "metabolomics": {
                     "project": {

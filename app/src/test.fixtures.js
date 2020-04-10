@@ -185,7 +185,7 @@ export const kitchenSinkEnrichedDoc = {
 export const minimalGrowthMediumDoc = {
     _id: 'minimal-growth-medium-id',
     project: {
-        "version": "1",
+        "version": "2",
         "personal": {},
         "metabolomics": {
             "project": {
