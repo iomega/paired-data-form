@@ -47,6 +47,11 @@ services:
     image: "elasticsearch:7.6.2"
     volumes:
       - search:/usr/share/elasticsearch/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
 volumes:
   redis:
   search:
