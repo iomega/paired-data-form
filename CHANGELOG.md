@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+* Schema version not constant ([#127](https://github.com/iomega/paired-data-form/issues/127))
 * Submitter email is used where PI email is expected ([#118](https://github.com/iomega/paired-data-form/issues/118))
 * Download button on pending page yields incorrectly formatted json files ([#120](https://github.com/iomega/paired-data-form/issues/120))
 
