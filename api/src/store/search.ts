@@ -5,24 +5,83 @@ import { enum2map } from '../util/stats';
 
 interface Hit {
     _id: string;
+    _score: number;
+    _source: any;
 }
 
-export const map2fullTextDocument = (project: EnrichedProjectDocument, schema: any) => {
+export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, schema: any) {
     const doc = JSON.parse(JSON.stringify(project));
 
     const growth_media_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
     const growth_media_lookup = enum2map(growth_media_oneOf);
-    doc.project.experimental.sample_preparation.forEach((s: any) => {
-        if (s.medium_details.medium) {
-            s.medium_details.medium = growth_media_lookup.get(s.medium_details.medium);
+    const metagenomic_environment_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[0].properties.metagenomic_environment.oneOf;
+    const metagenomic_environment_lookup = enum2map(metagenomic_environment_oneOf);
+    doc.project.experimental.sample_preparation.forEach((d: any) => {
+        if (d.medium_details.medium_type === 'metagenome') {
+            const metagenomic_environment_title = metagenomic_environment_lookup.get(d.medium_details.metagenomic_environment);
+            if (metagenomic_environment_title) {
+                d.medium_details.metagenomic_environment_title = metagenomic_environment_title;
+            }
+            // TODO other
         }
+        const medium_title = growth_media_lookup.get(d.medium_details.medium);
+        if (medium_title) {
+            d.medium_details.medium_title = medium_title;
+        }
+        // TODO other
     });
 
-    // TODO replace url with title from schema
-    return doc;
-};
+    const instruments_type_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf);
+    doc.project.experimental.instrumentation_methods.forEach((d: any) => {
+        const title = instruments_type_lookup.get(d.instrumentation.instrument);
+        if (title) {
+            d.instrumentation.instrument_title = title;
+        }
+        // TODO other
+    });
 
-type FilterField = 'principal_investigator' | 'submitter' | 'genome_type' | 'species' | 'metagenomic_environment' | 'instrument_type' | 'growth_medium' | 'solvent';
+    const solvents_lookup_enum = schema.properties.experimental.properties.extraction_methods.items.properties.solvents.items.properties.solvent.anyOf;
+    const solvents_lookup = enum2map(solvents_lookup_enum);
+    doc.project.experimental.extraction_methods.forEach((m: any) => {
+        m.solvents.forEach((d: any) => {
+            const title = solvents_lookup.get(d.solvent);
+            if (title) {
+                d.solvent_title = title;
+            }
+            // TODO other
+        });
+    });
+
+    // TODO species label fallback for unenriched project
+
+    delete doc._id;
+
+    return doc;
+}
+
+export function collapseHit(hit: Hit): EnrichedProjectDocument {
+    const project = hit._source;
+    project.project.experimental.sample_preparation.forEach(
+        (d: any) => {
+            delete d.medium_details.medium_title;
+            delete d.medium_details.metagenomic_environment_title;
+        }
+    );
+    project.project.experimental.instrumentation_methods.forEach(
+        (d: any) => delete d.instrumentation.instrument_title
+    );
+    project.project.experimental.extraction_methods.forEach(
+        (m: any) => m.solvents.forEach(
+            (d: any) => delete d.solvent_title
+        )
+    );
+
+    project._id = hit._id;
+
+    return project;
+}
+
+export type FilterField = 'principal_investigator' | 'submitter' | 'genome_type' | 'species' | 'metagenomic_environment' | 'instrument_type' | 'growth_medium' | 'solvent';
 
 export class SearchEngine {
     private schema: any;
@@ -35,11 +94,35 @@ export class SearchEngine {
         this.index = index;
     }
 
+    async initialize(projects: EnrichedProjectDocument[]) {
+        projects.forEach((p) => this.add(p));
+    }
+
+    async addMany(projects: EnrichedProjectDocument[]) {
+        const body = projects.flatMap(p => [
+            {
+                index: {
+                    _index: this.index,
+                    _id: p._id
+                }
+            },
+            expandEnrichedProjectDocument(p, this.schema)
+        ]);
+        const r = await this.client.bulk({ body });
+    }
+
     async add(project: EnrichedProjectDocument) {
-        await this.client.index({
-            index: this.index,
-            body: map2fullTextDocument(project, this.schema)
-        });
+        try {
+            await this.client.index({
+                index: this.index,
+                id: project._id,
+                body: expandEnrichedProjectDocument(project, this.schema)
+            });
+        } catch (error) {
+            console.log('===================================================================');
+            console.log(JSON.stringify(error));
+            console.log('==============================================');
+        }
     }
 
     async delete(project_identifier: string) {
@@ -57,11 +140,11 @@ export class SearchEngine {
                     'simple_query_string': {
                         query
                     }
-                },
-                '_source': false
+                }
             }
         });
-        return body.hits.hits.map((h: Hit) => h._id);
+        const hits: EnrichedProjectDocument[] = body.hits.hits.map(collapseHit);
+        return hits;
     }
 
     async filter(key: FilterField, value: string) {
@@ -81,10 +164,10 @@ export class SearchEngine {
                 principal_investigator: 'project.personal.PI_name.keyword',
                 genome_type: 'project.genomes.genome_ID.genome_type.keyword',
                 species: 'enrichments.genomes.species.scientific_name.keyword',
-                metagenomic_environment: 'project.experimental.sample_preparation.medium_details.metagenomic_environment.keyword',
-                instrument_type: 'project.experimental.instrumentation_methods.instrumentation.instrument.keyword',
-                growth_medium: 'project.experimental.sample_preparation.medium_details.medium.keyword',
-                solvent: 'project.experimental.extraction_methods.solvents.solvent.keyword',
+                metagenomic_environment: 'project.experimental.sample_preparation.medium_details.metagenomic_environment_title.keyword',
+                instrument_type: 'project.experimental.instrumentation_methods.instrumentation.instrument_title.keyword',
+                growth_medium: 'project.experimental.sample_preparation.medium_details.medium_title.keyword',
+                solvent: 'project.experimental.extraction_methods.solvents.solvent_title.keyword',
             };
             query.match = {};
             query.match[key2eskey[key]] = value;
@@ -92,10 +175,10 @@ export class SearchEngine {
         const { body } = await this.client.search({
             index: this.index,
             body: {
-                query,
-                '_source': false
+                query
             }
         });
-        return body.hits.hits.map((h: Hit) => h._id);
+        const hits: EnrichedProjectDocument[] = body.hits.hits.map(collapseHit);
+        return hits;
     }
 }

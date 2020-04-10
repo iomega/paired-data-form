@@ -4,6 +4,7 @@ import { ProjectDocumentDiskStore } from './store/Disk';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import logger from './util/logger';
 import { ProjectEnrichmentStore, EnrichedProjectDocument } from './store/enrichments';
+import { SearchEngine } from './store/search';
 
 export const NotFoundException = MemoryNotFoundException;
 
@@ -11,10 +12,12 @@ export class ProjectDocumentStore {
     memory_store = new ProjectDocumentMemoryStore();
     disk_store: ProjectDocumentDiskStore;
     enrichment_store: ProjectEnrichmentStore;
+    search_engine: SearchEngine;
 
-    constructor(datadir: string, redis_url: string) {
+    constructor(datadir: string, redis_url: string, elasticsearch_url: string) {
         this.disk_store = new ProjectDocumentDiskStore(datadir);
         this.enrichment_store = new ProjectEnrichmentStore(redis_url);
+        this.search_engine = new SearchEngine(elasticsearch_url);
     }
 
     async initialize() {
@@ -22,6 +25,9 @@ export class ProjectDocumentStore {
         this.memory_store.initialize(
             await this.disk_store.readApprovedProjects(),
             await this.disk_store.readPendingProjects()
+        );
+        this.search_engine.initialize(
+            await this.enrichment_store.mergeMany(this.memory_store.listProjects())
         );
         // TODO enrich unenriched projects
     }

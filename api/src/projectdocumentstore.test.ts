@@ -35,7 +35,7 @@ describe('ProjectDocumentStore', () => {
 
     beforeEach(async () => {
         datadir = fs.mkdtempSync(path.join(os.tmpdir(), 'pdp'));
-        store = new ProjectDocumentStore(datadir, '');
+        store = new ProjectDocumentStore(datadir, '', '');
         await store.initialize();
     });
 
