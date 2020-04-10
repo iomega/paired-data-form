@@ -55,7 +55,6 @@ export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, 
     // TODO species label fallback for unenriched project
 
     delete doc._id;
-
     return doc;
 }
 
@@ -140,10 +139,11 @@ export class SearchEngine {
     }
 
     async add(project: EnrichedProjectDocument) {
+        const body = expandEnrichedProjectDocument(project, this.schema);
         await this.client.index({
             index: this.index,
             id: project._id,
-            body: expandEnrichedProjectDocument(project, this.schema)
+            body
         });
     }
 

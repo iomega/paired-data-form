@@ -126,11 +126,14 @@ export class ProjectDocumentStore {
 
     async addEnrichments(project_id: string, enrichments: ProjectEnrichments) {
         await this.enrichment_store.set(project_id, enrichments);
-        await this.search_engine.add(
-            await this.enrichment_store.merge(
-                project_id,
-                this.memory_store.getProject(project_id)
-            )
+        const project = this.memory_store.getProject(project_id);
+        const eproject = await this.enrichment_store.merge(
+            project_id,
+            project
         );
+        console.log('-----------------^^^^^^^^^^^^^^^^^^^^---------------------------------------------');
+        console.log(eproject);
+        console.log('----------------------^^^^^^^^^^^^^^^^^^^----------------------------------------');
+        await this.search_engine.add(eproject);
     }
 }

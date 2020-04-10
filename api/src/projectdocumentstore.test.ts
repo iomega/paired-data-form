@@ -8,7 +8,11 @@ import { ProjectDocumentStore } from './projectdocumentstore';
 import { EnrichedProjectDocument } from './store/enrichments';
 import { IOMEGAPairedOmicsDataPlatform } from './schema';
 import { loadJSONDocument } from './util/io';
-import { EXAMPLE_PROJECT_JSON_FN } from './testhelpers';
+import { EXAMPLE_PROJECT_JSON_FN, mockedElasticSearchClient } from './testhelpers';
+import { Client } from '@elastic/elasticsearch';
+jest.mock('@elastic/elasticsearch');
+
+const MockedElasticSearchClient: jest.Mock = Client as any;
 
 expect.extend({
     toBeSubdirectoryInDirectory(basename: string, prefix: string) {
@@ -32,10 +36,13 @@ expect.extend({
 describe('ProjectDocumentStore', () => {
     let datadir: string;
     let store: ProjectDocumentStore;
+    let client: any;
 
     beforeEach(async () => {
         datadir = fs.mkdtempSync(path.join(os.tmpdir(), 'pdp'));
-        store = new ProjectDocumentStore(datadir, '', '');
+        client = await mockedElasticSearchClient();
+        MockedElasticSearchClient.mockImplementation(() => client);
+        store = new ProjectDocumentStore(datadir, '', 'http://localhost:9200');
         await store.initialize();
     });
 
@@ -60,6 +67,10 @@ describe('ProjectDocumentStore', () => {
             (expect('approved') as any).toBeSubdirectoryInDirectory(datadir);
             (expect('thrash') as any).toBeSubdirectoryInDirectory(datadir);
             (expect('archive') as any).toBeSubdirectoryInDirectory(datadir);
+        });
+
+        it('should have constructed a elastic search client', () => {
+            expect(MockedElasticSearchClient).toBeCalledWith({ node: 'http://localhost:9200' });
         });
 
         describe('when project has been submitted', () => {
@@ -110,13 +121,60 @@ describe('ProjectDocumentStore', () => {
                     expect(approved_project).toEqual(submitted_project);
                 });
 
-                it('should be listed by listProjects()', async () => {
-                    expect.assertions(1);
+                describe('listProjects()', () => {
+                    describe('without arguments', () => {
+                        it('should be listed', async () => {
+                            expect.assertions(1);
 
-                    const projects = await store.listProjects();
-                    const project_ids = new Set(projects.map(p => p._id));
+                            const projects = await store.listProjects();
+                            const project_ids = new Set(projects.map(p => p._id));
 
-                    expect(project_ids).toEqual(new Set([project_id]));
+                            expect(project_ids).toEqual(new Set([project_id]));
+                        });
+                    });
+
+                    describe('with query=Justin', () => {
+                        it('should be listed', async () => {
+                            expect.assertions(1);
+
+                            const projects = await store.listProjects({
+                                query: 'Justin'
+                            });
+                            const project_ids = new Set(projects.map(p => p._id));
+
+                            expect(project_ids).toEqual(new Set(['projectid1']));
+                        });
+                    });
+
+                    describe('with filter `principal_investigator=Pieter C. Dorrestein`', () => {
+                        it('should be listed', async () => {
+                            expect.assertions(1);
+
+                            const projects = await store.listProjects({
+                                filter: {
+                                    key: 'principal_investigator',
+                                    value: 'Pieter C. Dorrestein'
+                                }
+                            });
+                            const project_ids = new Set(projects.map(p => p._id));
+
+                            expect(project_ids).toEqual(new Set(['projectid1']));
+                        });
+                    });
+                });
+
+                describe('addEnrichments()', () => {
+                    it('should update project in search engine with enrichments', async () => {
+                        client.index.mockClear();
+                        await store.addEnrichments(project_id, { genomes: {} });
+
+                        expect(client.index).toBeCalled();
+                        const call = client.index.mock.calls[0][0];
+                        expect(call.index).toEqual('podp');
+                        expect(call.id).toEqual(project_id);
+                        expect(call.body.project).toBeTruthy();
+                        expect(call.body.enrichments).toBeTruthy();
+                    });
                 });
 
                 it('should not be listed by listPendingProjects()', async () => {

@@ -1,5 +1,5 @@
 import { loadJSONDocument } from '../util/io';
-import { EXAMPLE_PROJECT_JSON_FN } from '../testhelpers';
+import { EXAMPLE_PROJECT_JSON_FN, mockedElasticSearchClient } from '../testhelpers';
 import { SearchEngine, FilterField } from './search';
 import { Client } from '@elastic/elasticsearch';
 jest.mock('@elastic/elasticsearch');
@@ -10,15 +10,27 @@ describe('new SearchEngine()', () => {
     let searchEngine: SearchEngine;
     let client: any;
 
-    beforeAll(() => {
-        client = {
-            index: jest.fn(),
-            search: jest.fn(),
-            delete: jest.fn(),
-        };
+    beforeAll(async () => {
+        client = await mockedElasticSearchClient();
+        client.indices.exists.mockResolvedValue({body: false});
         MockedClient.mockImplementation(() => client);
         searchEngine = new SearchEngine('http://localhost:9200');
     });
+
+    describe('initialized without projects', () => {
+        beforeAll(async () => {
+            await searchEngine.initialize([]);
+        });
+
+        it('should have created an index', () => {
+            expect(client.indices.create).toHaveBeenCalledWith({
+                index: 'podp',
+                body: expect.anything()
+            });
+        });
+        it('should have bulk loaded zero docs', () => {
+            expect(client.bulk).toHaveBeenCalledWith({'body': []});
+        });
 
     describe('with a single genome project', () => {
         beforeAll(async () => {
@@ -44,7 +56,11 @@ describe('new SearchEngine()', () => {
         it('should have called client.index', () => {
             expect(client.index).toHaveBeenCalledWith({
                 index: 'podp',
-                body: expect.anything()
+                id: 'projectid1',
+                body: {
+                    project: expect.anything(),
+                    enrichments: expect.anything()
+                }
             });
         });
 
@@ -152,21 +168,6 @@ describe('new SearchEngine()', () => {
         ])('filter(\'%s\', \'%s\')', (key: FilterField, value) => {
             let hits: any;
             beforeAll(async () => {
-                const project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
-                client.search.mockReturnValue({
-                    body: {
-                        hits: {
-                            hits: [{
-                                _id: 'projectid1',
-                                _score: 0.5,
-                                _source: {
-                                    _id: 'projectid1',
-                                    project
-                                }
-                            }]
-                        }
-                    }
-                });
                 hits = await searchEngine.filter(key, value);
             });
 
@@ -224,5 +225,7 @@ describe('new SearchEngine()', () => {
             expect(titles).toEqual(expected_titles);
         });
     });
+    });
+
     });
 });
