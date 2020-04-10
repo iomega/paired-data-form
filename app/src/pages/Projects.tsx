@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { Table, Glyphicon } from "react-bootstrap";
+import { Table, Glyphicon, FormControl, Button, Form, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { useProjects } from "../api";
@@ -25,6 +25,7 @@ const ColumnHeader = ({ active, skey, onClick, title }: ColumnHeaderProps) => (
 )
 
 export function Projects() {
+    const [query, setQuery] = useState<string>('');
     const projects = useProjects();
     const [sortkey, setSortKey] = useState('met_id');
 
@@ -32,7 +33,7 @@ export function Projects() {
         // TODO reverse sort when sorted column is clicked again
         const data = [...projects.data];
         data.sort(compareProjectSummary(key));
-        projects.setData({data});
+        projects.setData({ data });
         setSortKey(key);
     }
 
@@ -58,6 +59,36 @@ export function Projects() {
     return (
         <div style={style}>
             <h2>Available projects</h2>
+            <Form onSubmit={(e) => {
+                e.preventDefault();
+                projects.setQuery(query);
+            }}>
+                <InputGroup>
+                    <FormControl
+                        type="text"
+                        value={query}
+                        placeholder="Search ..."
+                        onChange={(e: any) => setQuery(e.target.value)}
+                    />
+                    {query && (
+                        <InputGroup.Button>
+                            <Button type="reset" onClick={() => {
+                                setQuery('');
+                                if (projects.query) {
+                                    projects.setQuery('');
+                                }
+                            }}>
+                                <Glyphicon glyph="remove" />
+                            </Button>
+                        </InputGroup.Button>
+                    )}
+                    <InputGroup.Button>
+                        <Button type="submit">
+                            <Glyphicon glyph="search" />
+                        </Button>
+                    </InputGroup.Button>
+                </InputGroup>
+            </Form>
             <Table>
                 <thead>
                     <tr>

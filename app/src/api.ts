@@ -9,8 +9,13 @@ import { UiSchema } from "react-jsonschema-form";
 
 export const API_BASE_URL = '/api';
 
-export const useProjects = () => {
-    const url = API_BASE_URL + '/projects';
+export const useProjects = (initialQuery:string = '') => {
+    const [query, setQuery] = useState<string>(initialQuery);
+    const searchParams = new URLSearchParams();
+    if (query) {
+        searchParams.set('q', query);
+    }
+    const url = API_BASE_URL + '/projects?' + searchParams.toString();
     const response = useFetch<{ data: ProjectSummary[] }>(url);
     let data: ProjectSummary[] = [];
     if (response.data) {
@@ -18,7 +23,9 @@ export const useProjects = () => {
     }
     return {
         ...response,
-        data
+        data,
+        query,
+        setQuery
     };
 };
 
