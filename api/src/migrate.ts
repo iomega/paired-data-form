@@ -10,6 +10,13 @@ export interface Migration {
     up(p: any): IOMEGAPairedOmicsDataPlatform;
 }
 
+function bgc2string(value: string | number) {
+    if (value.toString().startsWith('BGC')) {
+        return value;
+    }
+    return 'BGC' + value.toString().padStart(7, '0');
+}
+
 export const migrations: Migration[] = [
     {
         applicable: (p: any) => p.version === '1' && schemaVersion === '2',
@@ -21,9 +28,11 @@ export const migrations: Migration[] = [
             if (project.BGC_MS2_links) {
                 project.BGC_MS2_links.forEach((r: any) => {
                     if (r.BGC_ID.BGC === 'MIBiG number associated with this exact BGC') {
-                        r.BGC_ID.MIBiG_number = 'BGC' + r.BGC_ID.MIBiG_number.toString().padStart(7, '0');
+                        r.BGC_ID.MIBiG_number = bgc2string(r.BGC_ID.MIBiG_number);
+                        delete r.BGC_ID.similar_MIBiG_number;
                     } else {
-                        r.BGC_ID.similar_MIBiG_number = 'BGC' + r.BGC_ID.similar_MIBiG_number.toString().padStart(7, '0');
+                        r.BGC_ID.similar_MIBiG_number = bgc2string(r.BGC_ID.similar_MIBiG_number);
+                        delete r.BGC_ID.MIBiG_number;
                     }
                 });
             }
