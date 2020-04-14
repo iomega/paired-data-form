@@ -45,13 +45,13 @@ export const ProjectSearch = (props: Props) => {
                 />
                 {query && (
                     <InputGroup.Button>
-                        <Button type="reset" onClick={clearSearch}>
+                        <Button title="Clear" type="reset" onClick={clearSearch}>
                             <Glyphicon glyph="remove" />
                         </Button>
                     </InputGroup.Button>
                 )}
                 <InputGroup.Button>
-                    <Button type="submit">
+                    <Button title="Search" type="submit">
                         <Glyphicon glyph="search" />
                     </Button>
                 </InputGroup.Button>

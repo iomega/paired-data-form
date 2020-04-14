@@ -27,7 +27,7 @@ export function Projects() {
         loading,
         data: projects,
         setData: setProjects
-    } = useProjects(q!, filter);
+    } = useProjects(q, filter);
 
     const [sortkey, setSortKey] = useState('met_id');
     const sortOn = (key: string) => {
