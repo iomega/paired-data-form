@@ -43,7 +43,7 @@ Or using [docker-compose](../README.md#run-using-docker-compose) to run the whol
 Elastic search can be started usingf docker:
 
 ```shell
-docker run --name elasticsearch -p 9200:9200 -e "discovery.type=single-node" elasticsearch:7.6.2
+docker run --name elasticsearch -d -p 9200:9200 -e "discovery.type=single-node" elasticsearch:7.6.2
 ```
 
 Or using [docker-compose](../README.md#run-using-docker-compose) to run the whole stack.
