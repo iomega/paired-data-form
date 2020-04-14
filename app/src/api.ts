@@ -9,11 +9,14 @@ import { UiSchema } from "react-jsonschema-form";
 
 export const API_BASE_URL = '/api';
 
-export const useProjects = (initialQuery:string = '') => {
-    const [query, setQuery] = useState<string>(initialQuery);
+export const useProjects = (query='', filter={ key: '', value: '' }) => {
     const searchParams = new URLSearchParams();
     if (query) {
         searchParams.set('q', query);
+    }
+    if (filter.key && filter.value) {
+        searchParams.set('fk', filter.key);
+        searchParams.set('fv', filter.value);
     }
     const url = API_BASE_URL + '/projects?' + searchParams.toString();
     const response = useFetch<{ data: ProjectSummary[] }>(url);
@@ -24,8 +27,6 @@ export const useProjects = (initialQuery:string = '') => {
     return {
         ...response,
         data,
-        query,
-        setQuery
     };
 };
 
@@ -137,7 +138,7 @@ export const useSubmitProject = (project_id?: string): [IdentifiedProjectDocumen
             Accept: 'application/json',
             'Content-Type': 'application/json'
         });
- 
+
         try {
             const init = {
                 headers,
@@ -146,8 +147,8 @@ export const useSubmitProject = (project_id?: string): [IdentifiedProjectDocumen
             }
             const response = await fetch(url, init);
             if (response.ok) {
-                const {project_id: new_project_id} = await response.json();
-                setSubmitted({project, _id: new_project_id});
+                const { project_id: new_project_id } = await response.json();
+                setSubmitted({ project, _id: new_project_id });
             } else {
                 setError(response.statusText);
                 console.warn(response);

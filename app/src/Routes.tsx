@@ -51,12 +51,12 @@ export function Routes() {
             </Navbar>
             <Switch>
                 <Route path="/" exact component={Welcome} />
-                <Route path="/projects" exact component={Projects} />
                 <Route path="/add" exact component={AddProject} />
                 <Route path="/projects/:id/edit" component={EditProject} />
                 <Route path="/projects/:id/clone" component={CloneProject} />
                 <Route path="/projects/:id/history" component={HistoryProject} />
                 <Route path="/projects/:id" component={Project} />
+                <Route path="/projects" component={Projects} />
                 <Route path="/stats" component={StatsPage} />
                 <Route path="/download" component={DownloadPage}/>
                 <Route path="/about" component={About}/>
