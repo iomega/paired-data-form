@@ -54,6 +54,9 @@ export function PendingProjects() {
             <td><DownloadPendingProject project_id={d._id} token={token}/></td>
         </tr>
     ));
+    if (projects.data!.data.length === 0) {
+        rows.push(<tr><td colSpan={10}>No pending projects found.</td></tr>);
+    }
     return (
         <div style={style}>
             <h2>Pending projects that require approval</h2>

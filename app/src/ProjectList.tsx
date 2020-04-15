@@ -40,6 +40,9 @@ export const ProjectList = ({ projects, setSortedOn, sortedOn }: Props) => {
             <td>{d.nr_genecluster_mspectra_links}</td>
         </tr>
     ));
+    if (projects.length === 0) {
+        rows.push(<tr><td colSpan={9}>No projects found.</td></tr>);
+    }
     return (
         <Table>
             <thead>

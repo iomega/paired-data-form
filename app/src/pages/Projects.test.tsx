@@ -60,6 +60,32 @@ describe('<Projects>', () => {
         });
     });
 
+    describe('with 0 projects loaded', () => {
+        beforeEach(() => {
+            const data = {
+                loading: false,
+                error: null,
+                data: []
+            };
+            (useProjects as jest.Mock).mockImplementation(() => {
+                return {
+                    ...data,
+                    setData: (ndata: any) => data.data = ndata.data
+                };
+            }
+            );
+            wrapper = render(
+                <MemoryRouter>
+                    <Projects/>
+                </MemoryRouter>
+            );
+        });
+
+        it('should have no projects found message', () => {
+            expect(wrapper.baseElement).toHaveTextContent('No projects found.');
+        });
+    });
+
     describe('with 2 projects loaded', () => {
         let history: MemoryHistory<History.PoorMansUnknown>;
 
