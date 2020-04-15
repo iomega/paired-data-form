@@ -47,6 +47,8 @@ services:
     image: "elasticsearch:7.6.2"
     volumes:
       - search:/usr/share/elasticsearch/data
+    environment:
+      discovery.type: single-node
     logging:
       driver: "json-file"
       options:
