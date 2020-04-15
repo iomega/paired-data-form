@@ -107,6 +107,22 @@ describe('ProjectDocumentStore', () => {
                 expect(project_ids).toEqual(new Set([project_id]));
             });
 
+            describe('addEnrichments()', () => {
+                beforeEach(async () => {
+                    client.index.mockClear();
+                    await store.addEnrichments(project_id, { genomes: {} });
+                });
+
+                it('should add enrichments to enrichment store', async () => {
+                    const enrichments = await store.enrichment_store.get(project_id);
+                    expect(enrichments).toEqual({ genomes: {} });
+                });
+
+                it('should not update project in search engine with enrichments', () => {
+                    expect(client.index).not.toBeCalled();
+                });
+            });
+
             describe('when approved', () => {
                 beforeEach(async () => {
                     await store.approveProject(project_id);
@@ -164,10 +180,17 @@ describe('ProjectDocumentStore', () => {
                 });
 
                 describe('addEnrichments()', () => {
-                    it('should update project in search engine with enrichments', async () => {
+                    beforeEach(async () => {
                         client.index.mockClear();
                         await store.addEnrichments(project_id, { genomes: {} });
+                    });
 
+                    it('should add enrichments to enrichment store', async () => {
+                        const enrichments = await store.enrichment_store.get(project_id);
+                        expect(enrichments).toEqual({ genomes: {} });
+                    });
+
+                    it('should update project in search engine with enrichments', () => {
                         expect(client.index).toBeCalled();
                         const call = client.index.mock.calls[0][0];
                         expect(call.index).toEqual('podp');

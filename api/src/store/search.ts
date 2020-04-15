@@ -126,6 +126,9 @@ export class SearchEngine {
     }
 
     async addMany(projects: EnrichedProjectDocument[]) {
+        if (projects.length === 0) {
+            return;
+        }
         const body = projects.flatMap(p => [
             {
                 index: {
