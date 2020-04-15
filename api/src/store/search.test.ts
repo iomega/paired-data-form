@@ -12,7 +12,6 @@ describe('new SearchEngine()', () => {
 
     beforeAll(async () => {
         client = await mockedElasticSearchClient();
-        client.indices.exists.mockResolvedValue({ body: false });
         MockedClient.mockImplementation(() => client);
         searchEngine = new SearchEngine('http://localhost:9200');
     });
@@ -20,6 +19,13 @@ describe('new SearchEngine()', () => {
     describe('initialized without projects', () => {
         beforeAll(async () => {
             await searchEngine.initialize([]);
+        });
+
+        it('should have deleted an index', () => {
+            expect(client.indices.delete).toHaveBeenCalledWith({
+                index: 'podp',
+                ignore_unavailable: true
+            });
         });
 
         it('should have created an index', () => {

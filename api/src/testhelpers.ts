@@ -6,7 +6,7 @@ export async function mockedElasticSearchClient() {
     const project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
     const client = {
         indices: {
-            exists: jest.fn(),
+            delete: jest.fn(),
             create: jest.fn()
         },
         index: jest.fn(),
@@ -14,7 +14,6 @@ export async function mockedElasticSearchClient() {
         search: jest.fn(),
         delete: jest.fn(),
     };
-    client.indices.exists.mockResolvedValue({body: true});
     client.search.mockResolvedValue({
         body: {
             hits: {

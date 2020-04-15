@@ -94,15 +94,16 @@ export class SearchEngine {
     }
 
     async initialize(projects: EnrichedProjectDocument[]) {
-        if (!await this.hasIndex()) {
-            await this.createIndex();
-        }
+        await this.deleteIndex();
+        await this.createIndex();
         await this.addMany(projects);
     }
 
-    private async hasIndex() {
-        const index_exists = await this.client.indices.exists({ index: this.index });
-        return index_exists.body;
+    private async deleteIndex() {
+        await this.client.indices.delete({
+            index: this.index,
+            ignore_unavailable: true
+        });
     }
 
     private async createIndex() {
