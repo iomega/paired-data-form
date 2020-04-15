@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs';
 
-import logger from '../util/logger';
 import { loadJSONDocument, mkdirDirOptional } from '../util/io';
 import { parseProjectFilename, toAccession } from '../util/id';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from '../schema';
@@ -80,7 +79,6 @@ export class ProjectDocumentDiskStore {
 
     async archivedVersions(project_id: string) {
         const project_accession = toAccession(project_id);
-        logger.info('Reading history of ' + project_accession + ' project from ' + this.archiveDir);
         const files = await fs.promises.readdir(this.archiveDir);
         const checkFilename = (fn: string) => fn.startsWith(project_accession + '.') && fn.endsWith('.json');
         return await Promise.all(files.filter(checkFilename).sort().reverse().map(loadProject(this.archiveDir)));
