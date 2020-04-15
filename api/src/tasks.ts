@@ -22,6 +22,7 @@ export const enrichProject = async (store: ProjectDocumentStore, project_id: str
     console.log('Enriching project ' + project_id);
     const enrichments = await enrich(project);
     await store.addEnrichments(project_id, enrichments);
+    console.log('Enriched project ' + project_id);
 };
 
 export async function enrichAllProjects(store: ProjectDocumentStore) {
@@ -31,7 +32,6 @@ export async function enrichAllProjects(store: ProjectDocumentStore) {
     console.log(`Found ${projects.length} approved projects without enrichments`);
     for (const project of projects) {
         await enrichProject(store, project._id, project.project);
-        console.log(`Enriched ${project._id}`);
     }
 
     console.log('Finding pending projects without enrichments');
@@ -39,7 +39,6 @@ export async function enrichAllProjects(store: ProjectDocumentStore) {
     console.log(`Found ${pending_projects.length} pending projects without enrichments`);
     for (const project of pending_projects) {
         await enrichProject(store, project._id, project.project);
-        console.log(`Enriched ${project._id}`);
     }
 }
 
