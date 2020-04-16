@@ -62,6 +62,30 @@ describe('<PendingProjects>', () => {
         });
     });
 
+    describe('with zero projects loaded', () => {
+        beforeEach(() => {
+            (usePendingProjects as jest.Mock).mockImplementation(() => {
+                return {
+                    loading: false,
+                    error: null,
+                    data: {
+                        data: []
+                    },
+                    setData: jest.fn()
+                };
+            });
+            wrapper = setup();
+        });
+
+        it('should render a header', () => {
+            expect(wrapper.baseElement).toHaveTextContent('Pending projects that require approval');
+        });
+
+        it('should have no projects found message', () => {
+            expect(wrapper.baseElement).toHaveTextContent('No pending projects found.');
+        });
+    })
+
     describe('with a pending project loaded', () => {
 
         beforeEach(() => {
@@ -87,10 +111,6 @@ describe('<PendingProjects>', () => {
                 };
             });
             wrapper = setup();
-        });
-
-        it('should render a header', () => {
-            expect(wrapper.baseElement).toHaveTextContent('Pending projects that require approval');
         });
 
         it('should have a single row', () => {

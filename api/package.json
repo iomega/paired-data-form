@@ -1,12 +1,13 @@
 {
   "name": "podp-api",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "npm run serve",
+    "start": "npm run waiton:elastic && npm run serve",
     "build": "npm run build-ts && npm run tslint",
-    "serve": "node dist/server.js",
+    "serve": "node --unhandled-rejections=strict dist/server.js",
+    "waiton:elastic": "wait-on -t 30000 ${ELASTICSEARCH_URL:-http://localhost:9200}",
     "watch-node": "nodemon -i data dist/server.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
     "test": "jest",
@@ -25,6 +26,7 @@
     "publish2zenodo": "node dist/cli.js publish2zenodo"
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^7.6.1",
     "@iomeg/zenodo-upload": "0.5.0",
     "@keyv/redis": "^1.3.8",
     "@types/swagger-ui-dist": "^3.0.5",
@@ -50,6 +52,7 @@
     "tmp-promise": "^2.0.2",
     "umzug": "^2.2.0",
     "uuid": "^3.3.2",
+    "wait-on": "^4.0.2",
     "winston": "^2.4.0",
     "yargs": "^13.2.4"
   },

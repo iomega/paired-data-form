@@ -4,17 +4,29 @@ import { ProjectDocumentDiskStore } from './store/Disk';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import logger from './util/logger';
 import { ProjectEnrichmentStore, EnrichedProjectDocument } from './store/enrichments';
+import { SearchEngine, FilterField } from './store/search';
+import { ProjectEnrichments } from './enrich';
 
 export const NotFoundException = MemoryNotFoundException;
+
+export interface ListOptions {
+    query?: string;
+    filter?: {
+        key: FilterField;
+        value: string;
+    };
+}
 
 export class ProjectDocumentStore {
     memory_store = new ProjectDocumentMemoryStore();
     disk_store: ProjectDocumentDiskStore;
     enrichment_store: ProjectEnrichmentStore;
+    search_engine: SearchEngine;
 
-    constructor(datadir: string, redis_url: string) {
+    constructor(datadir: string, redis_url: string, elasticsearch_url: string) {
         this.disk_store = new ProjectDocumentDiskStore(datadir);
         this.enrichment_store = new ProjectEnrichmentStore(redis_url);
+        this.search_engine = new SearchEngine(elasticsearch_url);
     }
 
     async initialize() {
@@ -22,6 +34,9 @@ export class ProjectDocumentStore {
         this.memory_store.initialize(
             await this.disk_store.readApprovedProjects(),
             await this.disk_store.readPendingProjects()
+        );
+        this.search_engine.initialize(
+            await this.enrichment_store.mergeMany(this.memory_store.listProjects())
         );
         // TODO enrich unenriched projects
     }
@@ -40,7 +55,12 @@ export class ProjectDocumentStore {
         return new_project_id;
     }
 
-    async listProjects() {
+    async listProjects(options: ListOptions = {}) {
+        if (options.query) {
+            return await this.search_engine.search(options.query);
+        } else if (options.filter) {
+            return await this.search_engine.filter(options.filter.key, options.filter.value);
+        }
         const entries = this.memory_store.listProjects();
         return await this.enrichment_store.mergeMany(entries);
     }
@@ -70,6 +90,12 @@ export class ProjectDocumentStore {
         await this.archivePreviousProject(project_id);
         this.memory_store.approveProject(project_id);
         await this.disk_store.approveProject(project_id);
+        await this.search_engine.add(
+            await this.enrichment_store.merge(
+                project_id,
+                this.memory_store.getProject(project_id)
+            )
+        );
     }
 
     private async archivePreviousProject(project_id: string) {
@@ -77,6 +103,8 @@ export class ProjectDocumentStore {
         if (prev_project_id) {
             this.memory_store.deleteApproved(prev_project_id);
             await this.disk_store.archiveProject(prev_project_id);
+            this.enrichment_store.delete(prev_project_id);
+            await this.search_engine.delete(prev_project_id);
         }
     }
 
@@ -94,5 +122,23 @@ export class ProjectDocumentStore {
         // Use creation date of file on disk for in archive
         const stats = await this.disk_store.projectStats(project_id);
         return stats.ctime;
+    }
+
+    async addEnrichments(project_id: string, enrichments: ProjectEnrichments) {
+        await this.enrichment_store.set(project_id, enrichments);
+        try {
+            const project = this.memory_store.getProject(project_id);
+            const eproject = await this.enrichment_store.merge(
+                project_id,
+                project
+            );
+            await this.search_engine.add(eproject);
+        } catch (error) {
+            if (error instanceof NotFoundException) {
+                // Project not approved, not adding to search engine
+                return;
+            }
+            throw error;
+        }
     }
 }

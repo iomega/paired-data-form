@@ -11,16 +11,12 @@ jest.mock('@iomeg/zenodo-upload');
 jest.mock('bull');
 
 describe('with mocked store', () => {
-    let enrichment_store: any;
     let store: any;
 
     beforeEach(() => {
         (enrich as jest.Mock).mockImplementation(() => {
             return 'MockedEnrichments';
         });
-        enrichment_store = {
-            set: jest.fn()
-        };
         store = {
             listProjects: async () => {
                 return [{
@@ -35,7 +31,7 @@ describe('with mocked store', () => {
                 }];
             },
             projectCreationDate: () => new Date(2020, 4, 2),
-            enrichment_store
+            addEnrichments: jest.fn()
         };
     });
 
@@ -80,11 +76,11 @@ describe('with mocked store', () => {
         });
 
         it('should store enrichments of approved project', () => {
-            expect(enrichment_store.set).toBeCalledWith('projectid1.1', 'MockedEnrichments');
+            expect(store.addEnrichments).toBeCalledWith('projectid1.1', 'MockedEnrichments');
         });
 
         it('should store enrichments of pending project', () => {
-            expect(enrichment_store.set).toBeCalledWith('projectid2.1', 'MockedEnrichments');
+            expect(store.addEnrichments).toBeCalledWith('projectid2.1', 'MockedEnrichments');
         });
     });
 

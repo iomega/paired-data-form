@@ -7,9 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] 2020-04-16
+
+Search functionality using elastic search has been added.
+
+### Added
+
+* Full text search functionality ([#123](https://github.com/iomega/paired-data-form/issues/123))
+* Filter projects on statistic functionality ([#124](https://github.com/iomega/paired-data-form/issues/124))
+
 ### Changed
 
 * Replaced http with https ([#126](https://github.com/iomega/paired-data-form/issues/126))
+
+### Fixed
+
+* Schema version not constant ([#127](https://github.com/iomega/paired-data-form/issues/127))
 
 ## [0.5.0] - 2020-04-02
 
@@ -26,7 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-* Schema version not constant ([#127](https://github.com/iomega/paired-data-form/issues/127))
 * Submitter email is used where PI email is expected ([#118](https://github.com/iomega/paired-data-form/issues/118))
 * Download button on pending page yields incorrectly formatted json files ([#120](https://github.com/iomega/paired-data-form/issues/120))
 

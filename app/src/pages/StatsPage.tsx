@@ -1,8 +1,21 @@
 import React from 'react'
 import { useStats } from '../api';
 import { ListGroup, ListGroupItem, Badge, Grid, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const style = { padding: '10px' };
+
+const ListItem = ({ title, value, count }: { title: string, value: string, count: number }) => (
+    <ListGroupItem key={value}>
+        <Link to={{
+            pathname: '/projects',
+            search: `fk=${title}&fv=${value}`
+        }}>
+            {value}
+        </Link>
+        <Badge>{count}</Badge>
+    </ListGroupItem>
+);
 
 export const StatsPage = () => {
     const stats = useStats();
@@ -35,7 +48,7 @@ export const StatsPage = () => {
                             <legend>Top principal investigators</legend>
                             <ListGroup>
                                 {data.top.principal_investigators.map(
-                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
+                                    ([value, count]) => <ListItem key={value} title="principal_investigator" value={value} count={count} />
                                 )}
                             </ListGroup>
                         </fieldset>
@@ -45,7 +58,7 @@ export const StatsPage = () => {
                             <legend>Top submitters</legend>
                             <ListGroup>
                                 {data.top.submitters.map(
-                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
+                                    ([value, count]) => <ListItem key={value} title="submitter" value={value} count={count} />
                                 )}
                             </ListGroup>
                         </fieldset>
@@ -57,7 +70,7 @@ export const StatsPage = () => {
                             <legend>Genome types</legend>
                             <ListGroup>
                                 {data.top.genome_types.map(
-                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
+                                    ([value, count]) => <ListItem key={value} title="genome_type" value={value} count={count} />
                                 )}
                             </ListGroup>
                         </fieldset>
@@ -67,7 +80,7 @@ export const StatsPage = () => {
                             <legend>Top species</legend>
                             <ListGroup>
                                 {data.top.species.map(
-                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
+                                    ([value, count]) => <ListItem key={value} title="species" value={value} count={count} />
                                 )}
                             </ListGroup>
                         </fieldset>
@@ -76,8 +89,8 @@ export const StatsPage = () => {
                         <fieldset>
                             <legend>Instrument types</legend>
                             <ListGroup>
-                                {data.top.instruments_types.map(
-                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
+                                {data.top.instrument_types.map(
+                                    ([value, count]) => <ListItem key={value} title="instrument_type" value={value} count={count} />
                                 )}
                             </ListGroup>
                         </fieldset>
@@ -89,7 +102,7 @@ export const StatsPage = () => {
                             <legend>Growth media</legend>
                             <ListGroup>
                                 {data.top.growth_media.map(
-                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
+                                    ([value, count]) => <ListItem key={value} title="growth_medium" value={value} count={count} />
                                 )}
                             </ListGroup>
                         </fieldset>
@@ -99,7 +112,7 @@ export const StatsPage = () => {
                             <legend>Metagenome host or isolation source</legend>
                             <ListGroup>
                                 {data.top.metagenomic_environment.map(
-                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count}</Badge></ListGroupItem>
+                                    ([value, count]) => <ListItem key={value} title="metagenomic_environment" value={value} count={count} />
                                 )}
                             </ListGroup>
                         </fieldset>
@@ -109,7 +122,7 @@ export const StatsPage = () => {
                             <legend>Top solvents</legend>
                             <ListGroup>
                                 {data.top.solvents.map(
-                                    ([value, count]) => <ListGroupItem key={value}>{value} <Badge>{count.toFixed(0)}</Badge></ListGroupItem>
+                                    ([value, count]) => <ListItem key={value} title="solvent" value={value} count={count} />
                                 )}
                             </ListGroup>
                         </fieldset>

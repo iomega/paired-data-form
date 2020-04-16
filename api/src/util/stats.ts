@@ -14,7 +14,7 @@ export interface IStats {
         genome_types: [string, number][]
         species: [string, number][]
         metagenomic_environment: [string, number][]
-        instruments_types: [string, number][]
+        instrument_types: [string, number][]
         growth_media: [string, number][]
         solvents: [string, number][]
     };
@@ -81,7 +81,7 @@ function countProjectCollectionField(
     };
 }
 
-function enum2map(choices: any[]) {
+export function enum2map(choices: any[]) {
     return new Map<string, string>(
         choices.map((c) => [c.enum[0], c.title])
     );
@@ -228,7 +228,7 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
     );
 
     const instruments_type_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf);
-    const instruments_types = countProjectCollectionField(
+    const instrument_types = countProjectCollectionField(
         projects,
         (p) => p.project.experimental.instrumentation_methods,
         (r) => r.instrumentation.instrument,
@@ -284,7 +284,7 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
             principal_investigators: principal_investigators.top,
             submitters: submitters.top,
             genome_types: genome_types.top,
-            instruments_types: instruments_types.top,
+            instrument_types: instrument_types.top,
             growth_media: growth_media.top,
             solvents: solvents.top,
             species,

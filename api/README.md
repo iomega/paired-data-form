@@ -9,7 +9,9 @@ The paired omics data platform api web service use a directories to store projec
 * archive/, when an existing project has been edited and approve, the previously approved project file is moved here.
 * thrash/, when an pending project has been denied it is moved from the `pending/` directory to the `thrash/` directory.
 
-Extra information is gathered for some of the identifiers and urls in a project json files. This extra information is called an enrichment. Redis is used to store enrichments and as job queue.
+Extra information is gathered for some of the identifiers and urls in a project json files. This extra information is called an enrichment. [Redis](https://redis.io/) is used to store enrichments and as job queue.
+
+[Elastic search](https://www.elastic.co/elasticsearch/) is used to perform full text search and filtering of projects.
 
 Consumption of the web service is explained in the [developers manual](../manuals/developers.md).
 
@@ -30,11 +32,21 @@ During token generation check the `deposit:actions` and `deposit:write` scopes.
 
 ## Build & Run
 
-Redis can be started using docker or using docker-compose to run the whole stack.
+Redis can be started using docker:
 
 ```shell
 docker run --name some-redis -d -p 6379:6379 redis
 ```
+
+Or using [docker-compose](../README.md#run-using-docker-compose) to run the whole stack.
+
+Elastic search can be started using docker:
+
+```shell
+docker run --name some-elasticsearch -d -p 9200:9200 -e "discovery.type=single-node" elasticsearch:7.6.2
+```
+
+Or using [docker-compose](../README.md#run-using-docker-compose) to run the whole stack.
 
 Build with
 

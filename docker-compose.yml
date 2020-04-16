@@ -12,8 +12,10 @@ services:
        REDIS_URL: redis://redis:6379
        ZENODO_ACCESS_TOKEN: ${ZENODO_ACCESS_TOKEN}
        ZENODO_DEPOSITION_ID: ${ZENODO_DEPOSITION_ID}
+       ELASTICSEARCH_URL: http://search:9200
     depends_on:
       - redis
+      - search
     logging:
       driver: "json-file"
       options:
@@ -41,5 +43,18 @@ services:
       options:
         max-size: "10m"
         max-file: "5"
+  search:
+    image: "elasticsearch:7.6.2"
+    volumes:
+      - search:/usr/share/elasticsearch/data
+    environment:
+      discovery.type: single-node
+      logger.level: warn
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
 volumes:
   redis:
+  search:
