@@ -50,6 +50,7 @@ services:
     environment:
       discovery.type: single-node
       logger.level: warn
+      cluster.routing.allocation.disk.threshold_enabled: 'false'
     logging:
       driver: "json-file"
       options:
