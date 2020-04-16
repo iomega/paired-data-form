@@ -40,9 +40,21 @@ describe('new SearchEngine()', () => {
 
 
         describe('with a single genome project', () => {
-            beforeAll(async () => {
+            beforeEach(async () => {
                 const eproject = await genomeProject();
                 await searchEngine.add(eproject);
+                const esproject = await esGenomeProject();
+                client.search.mockReturnValue({
+                    body: {
+                        hits: {
+                            hits: [{
+                                _id: 'projectid1',
+                                _score: 0.5,
+                                _source: esproject
+                            }]
+                        }
+                    }
+                });
             });
 
             it('should have called client.index', () => {
@@ -90,6 +102,18 @@ describe('new SearchEngine()', () => {
                     expect(titles).toEqual(expected_titles);
                 });
 
+                it('should have array of genome enrichments', () => {
+                    const expected = [{
+                        label: 'Streptomyces sp. CNB091',
+                        'species': {
+                            'scientific_name': 'Streptomyces sp. CNB091',
+                            'tax_id': 1169156
+                        },
+                        'title': 'Streptomyces sp. CNB091, whole genome shotgun sequencing project',
+                        'url': 'https://www.ncbi.nlm.nih.gov/nuccore/ARJI01000000'
+                    }];
+                    expect(doc.enrichments.genomes).toEqual(expected);
+                });
             });
 
             describe('search(\'Justin\')', () => {
@@ -97,21 +121,6 @@ describe('new SearchEngine()', () => {
                 let hits: any;
 
                 beforeAll(async () => {
-                    const project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
-                    client.search.mockReturnValue({
-                        body: {
-                            hits: {
-                                hits: [{
-                                    _id: 'projectid1',
-                                    _score: 0.5,
-                                    _source: {
-                                        _id: 'projectid1',
-                                        project
-                                    }
-                                }]
-                            }
-                        }
-                    });
                     hits = await searchEngine.search(query);
                 });
 
@@ -129,11 +138,8 @@ describe('new SearchEngine()', () => {
                 });
 
                 it('should return hits', async () => {
-                    const project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
-                    expect(hits).toEqual([{
-                        _id: 'projectid1',
-                        project
-                    }]);
+                    const expected = await genomeProject();
+                    expect(hits).toEqual([expected]);
                 });
             });
 
@@ -169,11 +175,8 @@ describe('new SearchEngine()', () => {
                 });
 
                 it('should return hits', async () => {
-                    const project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
-                    expect(hits).toEqual([{
-                        _id: 'projectid1',
-                        project
-                    }]);
+                    const expected = await genomeProject();
+                    expect(hits).toEqual([expected]);
                 });
             });
         });
@@ -240,6 +243,34 @@ describe('new SearchEngine()', () => {
 
     });
 });
+
+async function esGenomeProject() {
+    // Project as indexed in elastic search
+    const project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
+    project.experimental.sample_preparation[0].medium_details.medium_title = 'A1 medium';
+    project.experimental.sample_preparation[1].medium_details.medium_title = 'R5 medium';
+    project.experimental.sample_preparation[2].medium_details.medium_title = 'Mannitol soy flour medium (MS)';
+    project.experimental.extraction_methods[0].solvents[0].solvent_title = 'Ethyl acetate';
+    project.experimental.extraction_methods[1].solvents[0].solvent_title = 'Butanol';
+    project.experimental.extraction_methods[2].solvents[0].solvent_title = 'Methanol';
+    project.experimental.instrumentation_methods[0].instrumentation.instrument_title = 'Time-of-flight (TOF)';
+    const esproject = {
+        _id: 'projectid1',
+        project,
+        enrichments: {
+            genomes: [{
+                label: 'Streptomyces sp. CNB091',
+                'species': {
+                    'scientific_name': 'Streptomyces sp. CNB091',
+                    'tax_id': 1169156
+                },
+                'title': 'Streptomyces sp. CNB091, whole genome shotgun sequencing project',
+                'url': 'https://www.ncbi.nlm.nih.gov/nuccore/ARJI01000000'
+            }]
+        }
+    };
+    return esproject;
+}
 
 async function genomeProject() {
     const project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);

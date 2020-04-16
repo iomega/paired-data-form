@@ -22,13 +22,11 @@ export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, 
             if (metagenomic_environment_title) {
                 d.medium_details.metagenomic_environment_title = metagenomic_environment_title;
             }
-            // TODO other
         }
         const medium_title = growth_media_lookup.get(d.medium_details.medium);
         if (medium_title) {
             d.medium_details.medium_title = medium_title;
         }
-        // TODO other
     });
 
     const instruments_type_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf);
@@ -37,7 +35,6 @@ export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, 
         if (title) {
             d.instrumentation.instrument_title = title;
         }
-        // TODO other
     });
 
     const solvents_lookup_enum = schema.properties.experimental.properties.extraction_methods.items.properties.solvents.items.properties.solvent.anyOf;
@@ -48,10 +45,14 @@ export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, 
             if (title) {
                 d.solvent_title = title;
             }
-            // TODO other
         });
     });
 
+    if (doc.enrichments && doc.enrichments.genomes) {
+        doc.enrichments.genomes = Object.entries(doc.enrichments.genomes).map((keyval: any) => {
+            return {...keyval[1], label: keyval[0]};
+        });
+    }
     // TODO species label fallback for unenriched project
 
     delete doc._id;
@@ -74,6 +75,16 @@ export function collapseHit(hit: Hit): EnrichedProjectDocument {
             (d: any) => delete d.solvent_title
         )
     );
+
+    if (project.enrichments && project.enrichments.genomes) {
+        const array = project.enrichments.genomes;
+        const object: any = {};
+        array.forEach((item: any) => {
+            object[item.label] = item;
+            delete item.label;
+        });
+        project.enrichments.genomes = object;
+    }
 
     project._id = hit._id;
 
