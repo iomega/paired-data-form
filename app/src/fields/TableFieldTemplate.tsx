@@ -1,9 +1,9 @@
 import * as React from "react";
 
 import { Button, Table, Glyphicon, OverlayTrigger, Popover } from "react-bootstrap";
-import { FieldProps } from "react-jsonschema-form";
-import AddButton from 'react-jsonschema-form/lib/components/AddButton';
-import IconButton from 'react-jsonschema-form/lib/components/IconButton';
+import { FieldProps } from "@rjsf/core";
+import AddButton from '@rjsf/core/dist/cjs/components/AddButton';
+import IconButton from '@rjsf/core/dist/cjs/components/IconButton';
 
 import './TableFieldTemplate.css';
 import { isObject } from "util";

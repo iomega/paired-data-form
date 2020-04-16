@@ -4,8 +4,8 @@ import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { AuthContext } from "./auth";
 import { ProjectSummary, EnrichedProjectDocument } from "./summarize";
 import { useFetch } from "./useFetch";
-import { JSONSchema6 } from "json-schema";
-import { UiSchema } from "react-jsonschema-form";
+import { JSONSchema7 } from "json-schema";
+import { UiSchema } from "@rjsf/core";
 
 export const API_BASE_URL = '/api';
 
@@ -100,7 +100,7 @@ export const getProjectJSONUrl = (project_id: string) => {
 }
 
 export const useSchema = () => {
-    return useFetch<JSONSchema6>('/schema.json');
+    return useFetch<JSONSchema7>('/schema.json');
 };
 
 export const useUiSchema = () => {

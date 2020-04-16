@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Glyphicon } from "react-bootstrap";
-import { FieldProps } from "react-jsonschema-form";
+import { FieldProps } from "@rjsf/core";
 import Select from "react-select";
 import { OptionsType } from "react-select/lib/types";
 import { findDuplicates } from "../validate";

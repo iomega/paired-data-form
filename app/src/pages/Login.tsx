@@ -1,6 +1,6 @@
 import * as React from "react";
-import Form, { ISubmitEvent } from "react-jsonschema-form";
-import { JSONSchema6 } from "json-schema";
+import Form, { ISubmitEvent } from "@rjsf/core";
+import { JSONSchema7 } from "json-schema";
 import { Label } from "react-bootstrap";
 
 export interface Credentials {
@@ -13,7 +13,7 @@ export interface IProps {
     error: string;
 }
 
-const schema: JSONSchema6 = {
+const schema: JSONSchema7 = {
     title: 'Reviewing pending projects requires login',
     type: 'object',
     required: ['username', 'password'],

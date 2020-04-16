@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { shallow } from "enzyme";
 import { JSONSchema6 } from "json-schema";
-import { IdSchema } from "react-jsonschema-form";
-import AddButton from 'react-jsonschema-form/lib/components/AddButton';
+import { IdSchema } from "@rjsf/core";
+import AddButton from '@rjsf/core/dist/cjs/components/AddButton';
 
 import { TableFieldTemplate } from "./TableFieldTemplate";
 

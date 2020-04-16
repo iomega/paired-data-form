@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { FieldProps } from 'react-jsonschema-form';
-import ArrayField from 'react-jsonschema-form/lib/components/fields/ArrayField';
+import { FieldProps } from '@rjsf/core';
+import ArrayField from '@rjsf/core/dist/cjs/components/fields/ArrayField';
 
 import { TableFieldTemplate } from "./TableFieldTemplate";
 import { TableRowFieldTemplate } from "./TableRowFieldTemplate";

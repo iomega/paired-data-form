@@ -3,7 +3,7 @@ import * as React from "react";
 import { useState, useRef } from "react";
 import { tsvParse } from 'd3-dsv';
 import { Button, Glyphicon, Alert } from 'react-bootstrap';
-import { FieldProps } from 'react-jsonschema-form';
+import { FieldProps } from '@rjsf/core';
 
 import { TableField } from "./TableField";
 
@@ -40,7 +40,6 @@ export const GenomeMetabolomeLinksField = (props: FieldProps) => {
         };
         reader.readAsText(file);
     }
-
     return (
         <>
             <TableField {...props} />

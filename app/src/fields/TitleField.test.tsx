@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { render } from "enzyme";
-import { FieldProps } from "react-jsonschema-form";
+import { FieldProps } from "@rjsf/core";
 
 import { MyTitleField } from "./TitleField";
 

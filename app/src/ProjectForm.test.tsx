@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { shallow } from "enzyme";
 
-import Form from "react-jsonschema-form";
+import Form from "@rjsf/core";
 import { Button } from "react-bootstrap";
 
 // Mock useFetch so it returns data immediately

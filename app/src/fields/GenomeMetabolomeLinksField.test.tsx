@@ -1,7 +1,8 @@
 import * as React from "react";
 
-import { render } from "enzyme";
-import { FieldProps } from "react-jsonschema-form";
+import { render } from "@testing-library/react";
+
+import { FieldProps } from "@rjsf/core";
 
 import { GenomeMetabolomeLinksField } from "./GenomeMetabolomeLinksField";
 
@@ -18,7 +19,6 @@ describe('GenomeMetabolomeLinksField', () => {
             formContext
         };
         const schema = {};
-
         const comp = render(<GenomeMetabolomeLinksField 
             {...props} 
             uiSchema={uiSchema} 
@@ -26,6 +26,6 @@ describe('GenomeMetabolomeLinksField', () => {
             schema={schema}
             registry={registry}
         />);
-        expect(comp.text()).toContain('Upload links');
+        expect(comp.container).toHaveTextContent('Upload links');
     });
 });

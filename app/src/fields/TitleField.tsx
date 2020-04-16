@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldProps } from "react-jsonschema-form";
+import { FieldProps } from "@rjsf/core";
 
 export function MyTitleField({id, title}: FieldProps) {
   const title_starts_with_number = title && !isNaN(Number.parseInt(title.charAt(0))) && title.charAt(1) === '.';

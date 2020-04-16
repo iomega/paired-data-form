@@ -1,12 +1,12 @@
 import * as React from "react";
 
 import { Button, ButtonGroup, ButtonToolbar, Glyphicon, Alert } from "react-bootstrap";
-import Form, { ISubmitEvent } from "react-jsonschema-form";
+import Form, { ISubmitEvent } from "@rjsf/core";
 import { useState, useRef } from "react";
-import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField";
 import Ajv from "ajv";
 
 import { useSchema, useUiSchema } from "./api";
+import { CollapsibleField } from "./fields/CollapsibleField";
 import { ForeignKeyField } from "./fields/ForeignKeyField";
 import { HtmlDescriptionField } from "./fields/HtmlDescriptionField";
 import { TableField } from './fields/TableField';
