@@ -49,6 +49,7 @@ services:
       - search:/usr/share/elasticsearch/data
     environment:
       discovery.type: single-node
+      logger.level: warn
     logging:
       driver: "json-file"
       options:
