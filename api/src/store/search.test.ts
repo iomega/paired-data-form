@@ -296,6 +296,7 @@ async function esGenomeProject() {
     project.experimental.extraction_methods[2].solvents[0].solvent_title = 'Methanol';
     project.experimental.instrumentation_methods[0].instrumentation.instrument_title = 'Time-of-flight (TOF)';
     project.experimental.instrumentation_methods[0].mode_title = 'Positive';
+    project.experimental.instrumentation_methods[0].ionization_type_title = 'Electrospray Ionization (ESI)';
     const esproject = {
         _id: 'projectid1',
         project,

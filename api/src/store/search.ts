@@ -31,6 +31,7 @@ export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, 
 
     const instruments_type_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf);
     const mode_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.mode.anyOf);
+    const ionization_type_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.ionization.properties.ionization_type.anyOf);
     doc.project.experimental.instrumentation_methods.forEach((d: any) => {
         const instrument_title = instruments_type_lookup.get(d.instrumentation.instrument);
         if (instrument_title) {
@@ -39,6 +40,10 @@ export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, 
         const mode_title = mode_lookup.get(d.mode);
         if (mode_title) {
             d.mode_title = mode_title;
+        }
+        const ionization_type_title =  ionization_type_lookup.get(d.ionization.ionization_type);
+        if (ionization_type_title) {
+            d.ionization_type_title = ionization_type_title;
         }
     });
 
@@ -76,6 +81,7 @@ export function collapseHit(hit: Hit): EnrichedProjectDocument {
         (d: any) => {
             delete d.instrumentation.instrument_title;
             delete d.mode_title;
+            delete d.ionization_type_title;
         }
     );
     project.project.experimental.extraction_methods.forEach(
