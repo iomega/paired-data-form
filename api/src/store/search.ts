@@ -105,7 +105,7 @@ export function collapseHit(hit: Hit): EnrichedProjectDocument {
     return project;
 }
 
-export type FilterField = 'principal_investigator' | 'submitter' | 'genome_type' | 'species' | 'metagenomic_environment' | 'instrument_type' | 'ionization_mode' | 'growth_medium' | 'solvent';
+export type FilterField = 'principal_investigator' | 'submitter' | 'genome_type' | 'species' | 'metagenomic_environment' | 'instrument_type' | 'ionization_mode' | 'ionization_type' | 'growth_medium' | 'solvent';
 
 export class SearchEngine {
     private schema: any;
@@ -218,6 +218,7 @@ export class SearchEngine {
                 metagenomic_environment: 'project.experimental.sample_preparation.medium_details.metagenomic_environment_title.keyword',
                 instrument_type: 'project.experimental.instrumentation_methods.instrumentation.instrument_title.keyword',
                 ionization_mode: 'project.experimental.instrumentation_methods.mode_title.keyword',
+                ionization_type: 'project.experimental.instrumentation_methods.ionization_type_title.keyword',
                 growth_medium: 'project.experimental.sample_preparation.medium_details.medium_title.keyword',
                 solvent: 'project.experimental.extraction_methods.solvents.solvent_title.keyword',
             };

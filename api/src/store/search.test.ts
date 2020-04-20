@@ -164,6 +164,7 @@ describe('new SearchEngine()', () => {
                 ['growth_medium', 'A1 medium'],
                 ['solvent', 'Butanol'],
                 ['ionization_mode', 'Positive'],
+                ['ionization_type', 'Electrospray Ionization (ESI)']
             ])('filter(\'%s\', \'%s\')', (key: FilterField, value) => {
                 let hits: any;
                 beforeEach(async () => {
