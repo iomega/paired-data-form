@@ -163,6 +163,7 @@ describe('new SearchEngine()', () => {
                 ['instrument_type', 'Time-of-flight (TOF)'],
                 ['growth_medium', 'A1 medium'],
                 ['solvent', 'Butanol'],
+                ['ionization_mode', 'Positive'],
             ])('filter(\'%s\', \'%s\')', (key: FilterField, value) => {
                 let hits: any;
                 beforeEach(async () => {
@@ -294,6 +295,7 @@ async function esGenomeProject() {
     project.experimental.extraction_methods[1].solvents[0].solvent_title = 'Butanol';
     project.experimental.extraction_methods[2].solvents[0].solvent_title = 'Methanol';
     project.experimental.instrumentation_methods[0].instrumentation.instrument_title = 'Time-of-flight (TOF)';
+    project.experimental.instrumentation_methods[0].mode_title = 'Positive';
     const esproject = {
         _id: 'projectid1',
         project,

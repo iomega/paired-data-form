@@ -30,10 +30,15 @@ export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, 
     });
 
     const instruments_type_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf);
+    const mode_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.mode.anyOf);
     doc.project.experimental.instrumentation_methods.forEach((d: any) => {
-        const title = instruments_type_lookup.get(d.instrumentation.instrument);
-        if (title) {
-            d.instrumentation.instrument_title = title;
+        const instrument_title = instruments_type_lookup.get(d.instrumentation.instrument);
+        if (instrument_title) {
+            d.instrumentation.instrument_title = instrument_title;
+        }
+        const mode_title = mode_lookup.get(d.mode);
+        if (mode_title) {
+            d.mode_title = mode_title;
         }
     });
 
@@ -68,7 +73,10 @@ export function collapseHit(hit: Hit): EnrichedProjectDocument {
         }
     );
     project.project.experimental.instrumentation_methods.forEach(
-        (d: any) => delete d.instrumentation.instrument_title
+        (d: any) => {
+            delete d.instrumentation.instrument_title;
+            delete d.mode_title;
+        }
     );
     project.project.experimental.extraction_methods.forEach(
         (m: any) => m.solvents.forEach(
@@ -91,7 +99,7 @@ export function collapseHit(hit: Hit): EnrichedProjectDocument {
     return project;
 }
 
-export type FilterField = 'principal_investigator' | 'submitter' | 'genome_type' | 'species' | 'metagenomic_environment' | 'instrument_type' | 'growth_medium' | 'solvent';
+export type FilterField = 'principal_investigator' | 'submitter' | 'genome_type' | 'species' | 'metagenomic_environment' | 'instrument_type' | 'ionization_mode' | 'growth_medium' | 'solvent';
 
 export class SearchEngine {
     private schema: any;
@@ -203,12 +211,13 @@ export class SearchEngine {
                 species: 'enrichments.genomes.species.scientific_name.keyword',
                 metagenomic_environment: 'project.experimental.sample_preparation.medium_details.metagenomic_environment_title.keyword',
                 instrument_type: 'project.experimental.instrumentation_methods.instrumentation.instrument_title.keyword',
+                ionization_mode: 'project.experimental.instrumentation_methods.mode_title.keyword',
                 growth_medium: 'project.experimental.sample_preparation.medium_details.medium_title.keyword',
                 solvent: 'project.experimental.extraction_methods.solvents.solvent_title.keyword',
             };
             const eskey = key2eskey[key];
             if (!eskey) {
-                throw Error('Invalid filter field');
+                throw new Error('Invalid filter field');
             }
             query.match = {};
             query.match[eskey] = value;
