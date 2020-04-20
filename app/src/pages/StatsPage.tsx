@@ -95,8 +95,16 @@ export const StatsPage = () => {
                             </ListGroup>
                         </fieldset>
                     </Col>
-                </Row>
-                <Row>
+                    <Col md={4}>
+                        <fieldset>
+                            <legend>Ionization modes</legend>
+                            <ListGroup>
+                                {data.top.ionization_modes.map(
+                                    ([value, count]) => <ListItem key={value} title="ionization_mode" value={value} count={count} />
+                                )}
+                            </ListGroup>
+                        </fieldset>
+                    </Col>
                     <Col md={4}>
                         <fieldset>
                             <legend>Growth media</legend>
