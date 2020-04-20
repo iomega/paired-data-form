@@ -43,6 +43,7 @@ export interface IStats {
         genome_types: [string, number][]
         species: [string, number][]
         instrument_types: [string, number][]
+        ionization_modes: [string, number][]
         growth_media: [string, number][]
         metagenomic_environment: [string, number][]
         solvents: [string, number][]

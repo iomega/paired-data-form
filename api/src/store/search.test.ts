@@ -163,20 +163,62 @@ describe('new SearchEngine()', () => {
                 ['instrument_type', 'Time-of-flight (TOF)'],
                 ['growth_medium', 'A1 medium'],
                 ['solvent', 'Butanol'],
+                ['ionization_mode', 'Positive'],
+                ['ionization_type', 'Electrospray Ionization (ESI)']
             ])('filter(\'%s\', \'%s\')', (key: FilterField, value) => {
                 let hits: any;
-                beforeAll(async () => {
+                beforeEach(async () => {
+                    client.search.mockClear();
                     hits = await searchEngine.filter(key, value);
                 });
 
                 it('should have called index.search', () => {
                     expect(client.search).toBeCalled();
-                    // TODO assert arguments
+                    const called = client.search.mock.calls[0][0];
+                    let expected = {
+                        index: 'podp',
+                        body: {
+                            query: {
+                                match: expect.anything()
+                            }
+                        }
+                    };
+                    if (key === 'submitter') {
+                        expected = {
+                            index: 'podp',
+                            body: {
+                                query: {
+                                    bool: {
+                                        should: [
+                                            {
+                                                match: expect.anything()
+                                            },
+                                            {
+                                                match: expect.anything()
+                                            }
+                                         ],
+                                    },
+                                },
+                            },
+                        } as any;
+                    }
+                    expect(called).toEqual(expected);
                 });
 
                 it('should return hits', async () => {
                     const expected = await genomeProject();
                     expect(hits).toEqual([expected]);
+                });
+            });
+
+            describe('filter(invalid field)', () => {
+                it('should throw Error', async () => {
+                    expect.assertions(1);
+                    try {
+                        await searchEngine.filter('some invalid key' as any, 'somevalue');
+                    } catch (error) {
+                        expect(error).toEqual(new Error('Invalid filter field'));
+                    }
                 });
             });
         });
@@ -254,6 +296,8 @@ async function esGenomeProject() {
     project.experimental.extraction_methods[1].solvents[0].solvent_title = 'Butanol';
     project.experimental.extraction_methods[2].solvents[0].solvent_title = 'Methanol';
     project.experimental.instrumentation_methods[0].instrumentation.instrument_title = 'Time-of-flight (TOF)';
+    project.experimental.instrumentation_methods[0].mode_title = 'Positive';
+    project.experimental.instrumentation_methods[0].ionization_type_title = 'Electrospray Ionization (ESI)';
     const esproject = {
         _id: 'projectid1',
         project,

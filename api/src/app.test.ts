@@ -147,6 +147,7 @@ describe('app', () => {
                         'submitters': [],
                         'genome_types': [],
                         'instrument_types': [],
+                        'ionization_modes': [],
                         'growth_media': [],
                         'solvents': [],
                         'species': [],
