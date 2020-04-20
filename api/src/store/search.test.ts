@@ -165,18 +165,58 @@ describe('new SearchEngine()', () => {
                 ['solvent', 'Butanol'],
             ])('filter(\'%s\', \'%s\')', (key: FilterField, value) => {
                 let hits: any;
-                beforeAll(async () => {
+                beforeEach(async () => {
+                    client.search.mockClear();
                     hits = await searchEngine.filter(key, value);
                 });
 
                 it('should have called index.search', () => {
                     expect(client.search).toBeCalled();
-                    // TODO assert arguments
+                    const called = client.search.mock.calls[0][0];
+                    let expected = {
+                        index: 'podp',
+                        body: {
+                            query: {
+                                match: expect.anything()
+                            }
+                        }
+                    };
+                    if (key === 'submitter') {
+                        expected = {
+                            index: 'podp',
+                            body: {
+                                query: {
+                                    bool: {
+                                        should: [
+                                            {
+                                                match: expect.anything()
+                                            },
+                                            {
+                                                match: expect.anything()
+                                            }
+                                         ],
+                                    },
+                                },
+                            },
+                        } as any;
+                    }
+                    expect(called).toEqual(expected);
                 });
 
                 it('should return hits', async () => {
                     const expected = await genomeProject();
                     expect(hits).toEqual([expected]);
+                });
+            });
+
+            describe('filter(invalid field)', () => {
+                it('should throw Error', async () => {
+                    expect.assertions(1);
+                    try {
+                        await searchEngine.filter('some invalid key' as any, 'somevalue');
+                    } catch (error) {
+                        expect(error).toEqual(new Error('Invalid filter field'));
+                    }
                 });
             });
         });

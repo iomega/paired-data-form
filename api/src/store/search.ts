@@ -206,8 +206,12 @@ export class SearchEngine {
                 growth_medium: 'project.experimental.sample_preparation.medium_details.medium_title.keyword',
                 solvent: 'project.experimental.extraction_methods.solvents.solvent_title.keyword',
             };
+            const eskey = key2eskey[key];
+            if (!eskey) {
+                throw Error('Invalid filter field');
+            }
             query.match = {};
-            query.match[key2eskey[key]] = value;
+            query.match[eskey] = value;
         }
         const { body } = await this.client.search({
             index: this.index,
