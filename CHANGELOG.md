@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.6.1] 2020-04-16
 
+### Added
+
+* Added ionization modes to stats page ([#132](https://github.com/iomega/paired-data-form/issues/132))
+
 ### Fixed
 
 * Enrichments cause Limit of total fields exceeded error in elastic search ([#131](https://github.com/iomega/paired-data-form/issues/131))
