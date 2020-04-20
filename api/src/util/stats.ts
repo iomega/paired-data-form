@@ -15,6 +15,7 @@ export interface IStats {
         species: [string, number][]
         metagenomic_environment: [string, number][]
         instrument_types: [string, number][]
+        ionization_modes: [string, number][]
         growth_media: [string, number][]
         solvents: [string, number][]
     };
@@ -235,6 +236,14 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
         instruments_type_lookup,
         instruments_type_lookup.size
     );
+    const ionization_mode_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.mode.anyOf);
+    const ionization_modes = countProjectCollectionField(
+        projects,
+        (p) => p.project.experimental.instrumentation_methods,
+        (r) => r.mode,
+        ionization_mode_lookup,
+        ionization_mode_lookup.size
+    );
 
     const growth_media_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
     const growth_media_lookup = enum2map(growth_media_oneOf);
@@ -285,6 +294,7 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
             submitters: submitters.top,
             genome_types: genome_types.top,
             instrument_types: instrument_types.top,
+            ionization_modes: ionization_modes.top,
             growth_media: growth_media.top,
             solvents: solvents.top,
             species,

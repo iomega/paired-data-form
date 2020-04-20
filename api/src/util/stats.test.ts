@@ -51,6 +51,9 @@ describe('computeStats()', () => {
                         'instrument_types': [
                             ['Time-of-flight (TOF)', 1]
                         ],
+                        'ionization_modes': [
+                            ['Positive', 1]
+                        ],
                         'growth_media': [
                             ['A1 medium', 1],
                             ['R5 medium', 1],
@@ -136,6 +139,9 @@ describe('computeStats()', () => {
                             'instrument_types': [
                                 ['Time-of-flight (TOF)', 1]
                             ],
+                            'ionization_modes': [
+                                ['Positive', 1]
+                            ],
                             'growth_media': [
                                 ['A1 medium', 1],
                                 ['R5 medium', 1],
@@ -191,6 +197,9 @@ describe('computeStats()', () => {
                             ],
                             'instrument_types': [
                                 ['Time-of-flight (TOF)', 1]
+                            ],
+                            'ionization_modes': [
+                                ['Positive', 1]
                             ],
                             'growth_media': [
                                 ['A1 medium', 1],
