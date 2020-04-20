@@ -13,6 +13,10 @@ function getStore(req: Request) {
     return req.app.get('store') as ProjectDocumentStore;
 }
 
+function getSchema(req: Request) {
+    return req.app.get('schema');
+}
+
 function getValidator(req: Request) {
     return req.app.get('validator') as Validator;
 }
@@ -159,9 +163,9 @@ export function notFoundHandler(error: any, req: Request, res: Response, next: a
 
 export async function getStats(req: Request, res: Response) {
     const store = getStore(req);
-    const validator = getValidator(req);
+    const schema = getSchema(req);
     const projects = await store.listProjects();
-    const stats = computeStats(projects, validator.schema);
+    const stats = computeStats(projects, schema);
     res.json(stats);
 }
 

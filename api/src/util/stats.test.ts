@@ -1,9 +1,9 @@
-import { Validator } from '../validate';
 import { loadJSONDocument } from './io';
 import { computeStats, IStats } from './stats';
 import { IOMEGAPairedOmicsDataPlatform } from '../schema';
 import { ProjectEnrichments } from '../enrich';
 import { EXAMPLE_PROJECT_JSON_FN } from '../testhelpers';
+import { loadSchema } from './schema';
 jest.mock('../projectdocumentstore');
 
 
@@ -13,8 +13,7 @@ describe('computeStats()', () => {
         let schema: object;
 
         beforeAll(() => {
-            const validator = new Validator();
-            schema = validator.schema;
+            schema = loadSchema();
         });
 
         describe('with example un-enriched project', () => {
