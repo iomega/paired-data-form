@@ -133,8 +133,8 @@ describe('new SearchEngine()', () => {
                         size: 1,
                         from: 2,
                         sort: [
-                            { 'project.metabolomics.project.metabolights_study_id.keyword': 'desc'},
-                            { 'project.metabolomics.project.GNPSMassIVE_ID.keyword': 'desc'}
+                            'project.metabolomics.project.metabolights_study_id.keyword:desc',
+                            'project.metabolomics.project.GNPSMassIVE_ID.keyword:desc'
                         ],
                         body: {
                             'query': {

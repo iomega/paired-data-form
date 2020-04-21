@@ -251,8 +251,8 @@ export class SearchEngine {
         };
         if (sortbymetaboliteid) {
             request.sort = [
-                { 'project.metabolomics.project.metabolights_study_id.keyword': 'desc' },
-                { 'project.metabolomics.project.GNPSMassIVE_ID.keyword': 'desc' }
+                'project.metabolomics.project.metabolights_study_id.keyword:desc',
+                'project.metabolomics.project.GNPSMassIVE_ID.keyword:desc'
             ];
         }
         const response = await this.client.search(request);
