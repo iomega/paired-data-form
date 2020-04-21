@@ -20,6 +20,13 @@ describe('app', () => {
                 listProjects: async () => {
                     return [] as EnrichedProjectDocument[];
                 },
+                searchProjects: jest.fn().mockImplementation(async () => {
+                    const data: EnrichedProjectDocument[] = [];
+                    return {
+                        data,
+                        total: 0
+                    };
+                }),
                 createProject: async () => {
                     return 'projectid1.1';
                 },
@@ -89,9 +96,54 @@ describe('app', () => {
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
-                    data: []
+                    data: [],
+                    total: 0
                 };
                 expect(body).toEqual(expected);
+            });
+
+            describe.each([
+                ['/api/projects', {}],
+                ['/api/projects?size=12', { size: 12 }],
+                ['/api/projects?offset=34', { from: 34 }],
+                ['/api/projects?size=12&offset=34', { size: 12, from: 34 }],
+                ['/api/projects?q=Justin', { query: 'Justin' }],
+                ['/api/projects?q=Justin&size=12&offset=34', { query: 'Justin', size: 12, from: 34 }],
+                ['/api/projects?fk=species&fv=somevalue', { filter: { key: 'species', value: 'somevalue' } }],
+                ['/api/projects?fk=species&fv=somevalue&size=12&offset=34', { filter: { key: 'species', value: 'somevalue' }, size: 12, from: 34 }],
+            ])('GET %s', (url, expected) => {
+                it('should call store.searchProjects', async () => {
+                    await supertest(app).get(url);
+                    expect(store.searchProjects).toBeCalledWith(expected);
+                });
+            });
+
+            describe.each([
+                ['/api/projects?fk=wrongfield&fv=somevalue', 'Invalid `fk`'],
+                ['/api/projects?fk=species', 'Require both `fk` and `fv` to filter'],
+                ['/api/projects?fv=somevalue', 'Require both `fk` and `fv` to filter'],
+                ['/api/projects?q=Justin&fk=species&fv=somevalue', 'Either search with `q` or filter with `fk` and `fv`'],
+                ['/api/projects?size=foo', 'Size is not an integer'],
+                ['/api/projects?size=-10', 'Size must be between `1` and `1000`'],
+                ['/api/projects?size=1110', 'Size must be between `1` and `1000`'],
+                ['/api/projects?offset=foo', 'Offset is not an integer'],
+                ['/api/projects?offset=-10', 'Offset must be between `0` and `100000`'],
+                ['/api/projects?offset=100001', 'Offset must be between `0` and `100000`'],
+            ])('GET %s', (url, expected) => {
+                let response: any;
+
+                beforeEach(async () => {
+                    response = await supertest(app).get(url);
+                });
+
+                it('should return a 400 status', () => {
+                    expect(response.status).toBe(400);
+                });
+
+                it('should return an error message', () => {
+                    const body = JSON.parse(response.text);
+                    expect(body.message).toEqual(expected);
+                });
             });
         });
 
@@ -100,7 +152,7 @@ describe('app', () => {
                 const response = await supertest(app)
                     .get('/api/pending/projects')
                     .set('Authorization', 'Bearer ashdfjhasdlkjfhalksdjhflak')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
@@ -115,7 +167,7 @@ describe('app', () => {
                 const response = await supertest(app)
                     .get('/api/pending/projects/projectid1.1')
                     .set('Authorization', 'Bearer ashdfjhasdlkjfhalksdjhflak')
-                ;
+                    ;
                 expect(response.status).toBe(404);
             });
         });
@@ -125,7 +177,7 @@ describe('app', () => {
                 const response = await supertest(app)
                     .get('/api/pending/projects/projectid1.1')
                     .set('Authorization', 'Bearer incorrecttoken')
-                ;
+                    ;
                 expect(response.status).toBe(401);
             });
         });
@@ -172,6 +224,12 @@ describe('app', () => {
                 listProjects: async () => {
                     return [eproject];
                 },
+                searchProjects: async () => {
+                    return {
+                        data: [eproject],
+                        total: 1
+                    };
+                },
                 createProject: async () => {
                     return 'projectid1.1';
                 },
@@ -209,7 +267,7 @@ describe('app', () => {
                 const response = await supertest(app)
                     .get('/api/pending/projects/projectid1.1')
                     .set('Authorization', 'Bearer ashdfjhasdlkjfhalksdjhflak')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
@@ -225,7 +283,7 @@ describe('app', () => {
                 const response = await supertest(app)
                     .post('/api/pending/projects/projectid1.1')
                     .set('Authorization', 'Bearer ashdfjhasdlkjfhalksdjhflak')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
@@ -241,7 +299,7 @@ describe('app', () => {
                 const response = await supertest(app)
                     .delete('/api/pending/projects/projectid1.1')
                     .set('Authorization', 'Bearer ashdfjhasdlkjfhalksdjhflak')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
@@ -255,7 +313,7 @@ describe('app', () => {
             it('should return project', async () => {
                 const response = await supertest(app)
                     .get('/api/projects/projectid1.1')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 expect(body).toEqual(project);
@@ -266,7 +324,7 @@ describe('app', () => {
             it('should return enriched project', async () => {
                 const response = await supertest(app)
                     .get('/api/projects/projectid1.1/enriched')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
@@ -281,7 +339,7 @@ describe('app', () => {
             it('should return enriched project', async () => {
                 const response = await supertest(app)
                     .get('/api/projects/projectid1.1/history')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
@@ -345,7 +403,7 @@ describe('app', () => {
             it('should return version info', async () => {
                 const response = await supertest(app)
                     .get('/api/version')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {

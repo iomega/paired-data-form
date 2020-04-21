@@ -2,6 +2,7 @@ import { loadJSONDocument } from '../util/io';
 import { EXAMPLE_PROJECT_JSON_FN, mockedElasticSearchClient } from '../testhelpers';
 import { SearchEngine, FilterField } from './search';
 import { Client } from '@elastic/elasticsearch';
+import { EnrichedProjectDocument } from './enrichments';
 jest.mock('@elastic/elasticsearch');
 
 const MockedClient: jest.Mock = Client as any;
@@ -51,7 +52,10 @@ describe('new SearchEngine()', () => {
                                 _id: 'projectid1',
                                 _score: 0.5,
                                 _source: esproject
-                            }]
+                            }],
+                            total: {
+                                value: 1
+                            }
                         }
                     }
                 });
@@ -71,7 +75,7 @@ describe('new SearchEngine()', () => {
             describe('the added document', () => {
                 let doc: any;
 
-                beforeAll(() => {
+                beforeEach(() => {
                     doc = client.index.mock.calls[0][0].body;
                 });
 
@@ -116,17 +120,53 @@ describe('new SearchEngine()', () => {
                 });
             });
 
+            describe('all(1, 2)', () => {
+                let hits: any;
+
+                beforeEach(async () => {
+                    hits = await searchEngine.all(1, 2);
+                });
+
+                it('should have called client.search', () => {
+                    expect(client.search).toHaveBeenCalledWith({
+                        index: 'podp',
+                        size: 1,
+                        from: 2,
+                        sort: [
+                            { 'project.metabolomics.project.metabolights_study_id.keyword': 'desc'},
+                            { 'project.metabolomics.project.GNPSMassIVE_ID.keyword': 'desc'}
+                        ],
+                        body: {
+                            'query': {
+                                match_all: {}
+                            }
+                        }
+                    });
+                });
+
+                it('should return hits', async () => {
+                    const expected_project = await genomeScoredProject();
+                    const expected = {
+                        data: [expected_project],
+                        total: 1
+                    };
+                    expect(hits).toEqual(expected);
+                });
+            });
+
             describe('search(\'Justin\')', () => {
                 const query = 'Justin';
                 let hits: any;
 
-                beforeAll(async () => {
+                beforeEach(async () => {
                     hits = await searchEngine.search(query);
                 });
 
                 it('should have called client.search', () => {
                     expect(client.search).toHaveBeenCalledWith({
                         index: 'podp',
+                        from: 0,
+                        size: 10,
                         body: {
                             'query': {
                                 simple_query_string: {
@@ -138,8 +178,12 @@ describe('new SearchEngine()', () => {
                 });
 
                 it('should return hits', async () => {
-                    const expected = await genomeProject();
-                    expect(hits).toEqual([expected]);
+                    const expected_project = await genomeScoredProject();
+                    const expected = {
+                        data: [expected_project],
+                        total: 1
+                    };
+                    expect(hits).toEqual(expected);
                 });
             });
 
@@ -177,6 +221,8 @@ describe('new SearchEngine()', () => {
                     const called = client.search.mock.calls[0][0];
                     let expected = {
                         index: 'podp',
+                        from: 0,
+                        size: 10,
                         body: {
                             query: {
                                 match: expect.anything()
@@ -185,7 +231,7 @@ describe('new SearchEngine()', () => {
                     };
                     if (key === 'submitter') {
                         expected = {
-                            index: 'podp',
+                            ...expected,
                             body: {
                                 query: {
                                     bool: {
@@ -196,7 +242,7 @@ describe('new SearchEngine()', () => {
                                             {
                                                 match: expect.anything()
                                             }
-                                         ],
+                                        ],
                                     },
                                 },
                             },
@@ -206,8 +252,12 @@ describe('new SearchEngine()', () => {
                 });
 
                 it('should return hits', async () => {
-                    const expected = await genomeProject();
-                    expect(hits).toEqual([expected]);
+                    const expected_project = await genomeScoredProject();
+                    const expected = {
+                        data: [expected_project],
+                        total: 1
+                    };
+                    expect(hits).toEqual(expected);
                 });
             });
 
@@ -300,6 +350,7 @@ async function esGenomeProject() {
     project.experimental.instrumentation_methods[0].ionization_type_title = 'Electrospray Ionization (ESI)';
     const esproject = {
         _id: 'projectid1',
+        score: 0.5,
         project,
         enrichments: {
             genomes: [{
@@ -334,5 +385,11 @@ async function genomeProject() {
             }
         }
     };
-    return eproject;
+    return eproject as EnrichedProjectDocument;
+}
+
+async function genomeScoredProject() {
+    const project = await genomeProject();
+    project.score = 0.5;
+    return project;
 }

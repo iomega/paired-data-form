@@ -1,7 +1,6 @@
 import { Client } from '@elastic/elasticsearch';
 import { EnrichedProjectDocument } from './enrichments';
 import { loadSchema, Lookups } from '../util/schema';
-import { Search } from '@elastic/elasticsearch/api/requestParams';
 
 interface Hit {
     _id: string;
@@ -98,9 +97,22 @@ export function collapseHit(hit: Hit): EnrichedProjectDocument {
     return project;
 }
 
-export type FilterField = 'principal_investigator' | 'submitter' | 'genome_type' | 'species' | 'metagenomic_environment' | 'instrument_type' | 'ionization_mode' | 'ionization_type' | 'growth_medium' | 'solvent';
+export enum FilterFields {
+    'principal_investigator',
+    'submitter',
+    'genome_type',
+    'species',
+    'metagenomic_environment',
+    'instrument_type',
+    'ionization_mode',
+    'ionization_type',
+    'growth_medium',
+    'solvent'
+}
 
-const DEFAULT_PAGE_SIZE = 10;
+export type FilterField = keyof typeof FilterFields;
+
+export const DEFAULT_PAGE_SIZE = 10;
 
 export class SearchEngine {
     private schema: any;

@@ -24,7 +24,10 @@ export async function mockedElasticSearchClient() {
                         _id: 'projectid1',
                         project
                     }
-                }]
+                }],
+                total: {
+                    value: 1
+                }
             }
         }
     });
