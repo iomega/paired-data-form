@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * Added ionization modes to stats page ([#132](https://github.com/iomega/paired-data-form/issues/132))
+* Search query examples ([#132](https://github.com/iomega/paired-data-form/issues/132))
 
 ### Fixed
 
