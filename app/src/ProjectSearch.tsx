@@ -71,30 +71,38 @@ export const ProjectSearch = (props: Props) => {
             )}
             <div>
                 <span>Example search queries: </span>
-                <Link title="Any project which contains Pieter" to={{
+                <Link title="Any project which contains Streptomyces, mostly found in a species name or genome label" to={{
                     pathname: '/projects',
-                    search: `q=Pieter`
-                }}>Pieter</Link>,&nbsp;
+                    search: `q=Streptomyces`
+                }}>Streptomyces</Link>,&nbsp;
+                <Link title="Any project which contains the biosample identifier" to={{
+                    pathname: '/projects',
+                    search: `q=SAMN02603879`
+                }}>SAMN02603879</Link>,&nbsp;
                 <Link title="Any project which contains a word that starts with scrip" to={{
                     pathname: '/projects',
                     search: `q=scrip*`
                 }}>scrip*</Link>,&nbsp;
+                <Link title="Any project which contains tubes or flask" to={{
+                    pathname: '/projects',
+                    search: `q=tubes | flask`
+                }}>tubes | flask</Link>,&nbsp;
                 <Link title="Any project which contains Pieter and Carmen" to={{
                     pathname: '/projects',
                     search: `q=Pieter+%2B+Carmen`
                 }}>Pieter + Carmen</Link>,&nbsp;
-                <Link title="Any project which contains Pieter or Paul" to={{
-                    pathname: '/projects',
-                    search: `q=Pieter | Paul`
-                }}>Pieter | Paul</Link>,&nbsp;
-                <Link title='Any project which contains "acetonitrile with" as a phrase' to={{
-                    pathname: '/projects',
-                    search: `q="acetonitrile with"`
-                }}>"acetonitrile with"</Link>,&nbsp;
                 <Link title="Any project which contains Pieter and not Carmen" to={{
                     pathname: '/projects',
                     search: `q=Pieter+%2B+-Carmen`
-                }}>Pieter + -Carmen</Link>
+                }}>Pieter + -Carmen</Link>,&nbsp;
+                <Link title='Any project which contains Pieter and Carmen or Emily' to={{
+                    pathname: '/projects',
+                    search: `q=Pieter %2B (Carmen | Emily)`
+                }}>Pieter + (Carmen | Emily)</Link>,&nbsp;
+                <Link title='Any project which contains Pieter and ' to={{
+                    pathname: '/projects',
+                    search: `q="acetonitrile with"`
+                }}>"acetonitrile with"</Link>
             </div>
         </Form>
     );
