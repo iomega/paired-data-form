@@ -166,7 +166,7 @@ describe('new SearchEngine()', () => {
                     expect(client.search).toHaveBeenCalledWith({
                         index: 'podp',
                         from: 0,
-                        size: 10,
+                        size: 500,
                         body: {
                             'query': {
                                 simple_query_string: {
@@ -222,7 +222,7 @@ describe('new SearchEngine()', () => {
                     let expected = {
                         index: 'podp',
                         from: 0,
-                        size: 10,
+                        size: 500,
                         body: {
                             query: {
                                 match: expect.anything()

@@ -112,7 +112,7 @@ export enum FilterFields {
 
 export type FilterField = keyof typeof FilterFields;
 
-export const DEFAULT_PAGE_SIZE = 10;
+export const DEFAULT_PAGE_SIZE = 500;
 
 export class SearchEngine {
     private schema: any;
