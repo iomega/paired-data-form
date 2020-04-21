@@ -1,6 +1,7 @@
 import { Client } from '@elastic/elasticsearch';
 import { EnrichedProjectDocument } from './enrichments';
 import { loadSchema, Lookups } from '../util/schema';
+import { Search } from '@elastic/elasticsearch/api/requestParams';
 
 interface Hit {
     _id: string;
@@ -34,7 +35,7 @@ export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, 
         if (mode_title) {
             d.mode_title = mode_title;
         }
-        const ionization_type_title =  lookups.ionization_type.get(d.ionization.ionization_type);
+        const ionization_type_title = lookups.ionization_type.get(d.ionization.ionization_type);
         if (ionization_type_title) {
             d.ionization_type_title = ionization_type_title;
         }
@@ -51,7 +52,7 @@ export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, 
 
     if (doc.enrichments && doc.enrichments.genomes) {
         doc.enrichments.genomes = Object.entries(doc.enrichments.genomes).map((keyval: any) => {
-            return {...keyval[1], label: keyval[0]};
+            return { ...keyval[1], label: keyval[0] };
         });
     }
     // TODO species label fallback for unenriched project
@@ -92,11 +93,14 @@ export function collapseHit(hit: Hit): EnrichedProjectDocument {
     }
 
     project._id = hit._id;
+    project.score = hit._score;
 
     return project;
 }
 
 export type FilterField = 'principal_investigator' | 'submitter' | 'genome_type' | 'species' | 'metagenomic_environment' | 'instrument_type' | 'ionization_mode' | 'ionization_type' | 'growth_medium' | 'solvent';
+
+const DEFAULT_PAGE_SIZE = 10;
 
 export class SearchEngine {
     private schema: any;
@@ -174,22 +178,23 @@ export class SearchEngine {
         });
     }
 
-    async search(query: string) {
-        const { body } = await this.client.search({
-            index: this.index,
-            body: {
-                'query': {
-                    'simple_query_string': {
-                        query
-                    }
-                }
-            }
-        });
-        const hits: EnrichedProjectDocument[] = body.hits.hits.map(collapseHit);
-        return hits;
+    async all(size = DEFAULT_PAGE_SIZE, from = 0) {
+        const query = {
+            match_all: {}
+        };
+        return await this._search(query, size, from, true);
     }
 
-    async filter(key: FilterField, value: string) {
+    async search(query: string, size = DEFAULT_PAGE_SIZE, from = 0) {
+        const qbody = {
+            'simple_query_string': {
+                query
+            }
+        };
+        return await this._search(qbody, size, from);
+    }
+
+    async filter(key: FilterField, value: string, size = DEFAULT_PAGE_SIZE, from = 0) {
         const query: any = {};
         if (key === 'submitter') {
             query.bool = {
@@ -220,13 +225,27 @@ export class SearchEngine {
             query.match = {};
             query.match[eskey] = value;
         }
-        const { body } = await this.client.search({
+        return await this._search(query, size, from);
+    }
+
+    private async _search(query: any, size: number, from: number, sortbymetaboliteid = false) {
+        const request: any = {
             index: this.index,
+            size: size,
+            from,
             body: {
                 query
             }
-        });
-        const hits: EnrichedProjectDocument[] = body.hits.hits.map(collapseHit);
-        return hits;
+        };
+        if (sortbymetaboliteid) {
+            request.sort = [
+                { 'project.metabolomics.project.metabolights_study_id.keyword': 'desc' },
+                { 'project.metabolomics.project.GNPSMassIVE_ID.keyword': 'desc' }
+            ];
+        }
+        const response = await this.client.search(request);
+        const data: EnrichedProjectDocument[] = response.body.hits.hits.map(collapseHit);
+        const total: number = response.body.hits.total.value;
+        return { data, total };
     }
 }

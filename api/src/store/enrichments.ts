@@ -9,6 +9,7 @@ export interface EnrichedProjectDocument {
     _id: string;
     project: ProjectDocument;
     enrichments?: ProjectEnrichments;
+    score?: number;
 }
 
 export class ProjectEnrichmentStore {
