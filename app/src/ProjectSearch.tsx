@@ -1,7 +1,8 @@
 import * as React from "react";
 
 import { Glyphicon, FormControl, Button, Form, InputGroup } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export type FilterKey = 'principal_investigator'
     | 'submitter' | 'genome_type' | 'species'
@@ -21,6 +22,10 @@ interface Props {
 
 export const ProjectSearch = (props: Props) => {
     const [query, setQuery] = useState<string>(props.query ? props.query : '');
+
+    useEffect(() => {
+        setQuery(props.query ? props.query : '');
+    }, [props.query])
 
     function submitSearch(e: React.FormEvent<Form>) {
         e.preventDefault();
@@ -64,6 +69,33 @@ export const ProjectSearch = (props: Props) => {
                     </Button>
                 </div>
             )}
+            <div>
+                <span>Example search queries: </span>
+                <Link title="Any project which contains Pieter" to={{
+                    pathname: '/projects',
+                    search: `q=Pieter`
+                }}>Pieter</Link>,&nbsp;
+                <Link title="Any project which contains a word that starts with scrip" to={{
+                    pathname: '/projects',
+                    search: `q=scrip*`
+                }}>scrip*</Link>,&nbsp;
+                <Link title="Any project which contains Pieter and Carmen" to={{
+                    pathname: '/projects',
+                    search: `q=Pieter+%2B+Carmen`
+                }}>Pieter + Carmen</Link>,&nbsp;
+                <Link title="Any project which contains Pieter or Paul" to={{
+                    pathname: '/projects',
+                    search: `q=Pieter | Paul`
+                }}>Pieter | Paul</Link>,&nbsp;
+                <Link title='Any project which contains "acetonitrile with" as a phrase' to={{
+                    pathname: '/projects',
+                    search: `q="acetonitrile with"`
+                }}>"acetonitrile with"</Link>,&nbsp;
+                <Link title="Any project which contains Pieter and not Carmen" to={{
+                    pathname: '/projects',
+                    search: `q=Pieter+%2B+-Carmen`
+                }}>Pieter + -Carmen</Link>
+            </div>
         </Form>
     );
 }
