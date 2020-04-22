@@ -1,12 +1,10 @@
 import * as React from "react";
-import { useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 
 import { useProjects } from "../api";
-import { compareProjectSummary } from "../summarize";
 import { ProjectList } from "../ProjectList";
 import { ProjectSearch, FilterKey } from "../ProjectSearch";
-import { Pager } from "react-bootstrap";
+import { ProjectPager } from "../ProjectPager";
 
 const style = { padding: '10px' };
 
@@ -23,27 +21,38 @@ export function Projects() {
             value: params.get('fv')!
         }
     }
-    const [page, setPage] = useState(0);
+    const defaultSortKey = q ? 'score' : 'met_id';
+    const sortKey = params.has('sort') ? params.get('sort')! : defaultSortKey;
+    const order = params.has('order') ? params.get('order')! : 'desc';
+    const page = params.has('page') ? parseInt(params.get('page')!) : 0;
     const {
         error,
         loading,
         data: projects,
-        setData: setProjects
-    } = useProjects(q, filter, page);
+        total,
+    } = useProjects(q, filter, page, sortKey, order);
 
-    const [sortkey, setSortKey] = useState('met_id');
     const sortOn = (key: string) => {
-        // TODO reverse sort when sorted column is clicked again
-        const data = [...projects];
-        data.sort(compareProjectSummary(key));
-        setProjects({ data });
-        setSortKey(key);
+        if (key === sortKey) {
+            params.set('order', order === 'asc' ? 'desc' : 'asc');
+        }
+        params.set('sort', key);
+        history.push("/projects?" + params.toString());
     }
+
     const prevPage = () => {
-        setPage(page - 1);
+        const newpage = page - 1;
+        if (newpage === 0) {
+            params.delete('page');
+        } else {
+            params.set('page', newpage.toString());
+        }
+        history.push("/projects?" + params.toString());
     };
     const nextPage = () => {
-        setPage(page + 1);
+        const newpage = page + 1;
+        params.set('page', newpage.toString());
+        history.push("/projects?" + params.toString());
     };
 
     let list = <span>Loading ...</span>;
@@ -52,16 +61,14 @@ export function Projects() {
     } else if (!loading) {
         list = (
             <>
-                <ProjectList projects={projects} sortedOn={sortkey} setSortedOn={sortOn} />
-                <Pager>
-                    <Pager.Item onClick={prevPage}>
-                        &larr; Previous
-                    </Pager.Item>
-                    {' '}
-                    <Pager.Item onClick={nextPage}>
-                        Next &rarr;
-                  </Pager.Item>
-                </Pager>
+                <ProjectList projects={projects} sortKey={sortKey!} sortOrder={order as 'desc' | 'asc'} setSortedOn={sortOn} />
+                <ProjectPager
+                    prevPage={prevPage}
+                    nextPage={nextPage}
+                    page={page}
+                    page_count={projects.length}
+                    total={total}
+                />
             </>
         );
     }

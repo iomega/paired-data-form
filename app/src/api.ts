@@ -9,10 +9,11 @@ import { UiSchema } from "react-jsonschema-form";
 
 export const API_BASE_URL = '/api';
 
-export const useProjects = (query='', filter={ key: '', value: '' }, page=0) => {
+export const PAGE_SIZE = 100;
+
+export const useProjects = (query = '', filter = { key: '', value: '' }, page = 0, sort = '', order = '') => {
     const params = new URLSearchParams();
-    const pageSize = 10;
-    params.set('size', pageSize.toString());
+    params.set('size', PAGE_SIZE.toString());
     params.set('page', page.toString());
     if (query) {
         params.set('q', query);
@@ -21,15 +22,24 @@ export const useProjects = (query='', filter={ key: '', value: '' }, page=0) => 
         params.set('fk', filter.key);
         params.set('fv', filter.value);
     }
+    if (sort) {
+        params.set('sort', sort);
+    }
+    if (order) {
+        params.set('order', order);
+    }
     const url = API_BASE_URL + '/projects?' + params.toString();
-    const response = useFetch<{ data: ProjectSummary[] }>(url);
+    const response = useFetch<{ data: ProjectSummary[], total: number }>(url);
     let data: ProjectSummary[] = [];
+    let total = 0;
     if (response.data) {
         data = response.data.data;
+        total = response.data.total;
     }
     return {
         ...response,
         data,
+        total
     };
 };
 
