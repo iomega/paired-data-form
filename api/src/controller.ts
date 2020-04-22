@@ -132,9 +132,8 @@ export async function listProjects(req: Request, res: Response) {
     const store = getStore(req);
     try {
         const options = validateSearchOptions(req.query);
-        const { data: projects, total} = await store.searchProjects(options);
-        const data = projects.map(summarizeProject);
-        res.json({data, total});
+        const hits = await store.searchProjects(options);
+        res.json(hits);
     } catch (message) {
         res.status(400);
         res.json({message});

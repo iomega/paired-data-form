@@ -1,6 +1,7 @@
 import { Client } from '@elastic/elasticsearch';
 import { EnrichedProjectDocument } from './enrichments';
 import { loadSchema, Lookups } from '../util/schema';
+import { summarizeProject, ProjectSummary } from '../summarize';
 
 interface Hit {
     _id: string;
@@ -56,45 +57,18 @@ export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, 
     }
     // TODO species label fallback for unenriched project
 
+    doc.summary = summarizeProject(project);
+    delete doc.summary._id;
+
     delete doc._id;
     return doc;
 }
 
-export function collapseHit(hit: Hit): EnrichedProjectDocument {
-    const project = hit._source;
-    project.project.experimental.sample_preparation.forEach(
-        (d: any) => {
-            delete d.medium_details.medium_title;
-            delete d.medium_details.metagenomic_environment_title;
-        }
-    );
-    project.project.experimental.instrumentation_methods.forEach(
-        (d: any) => {
-            delete d.instrumentation.instrument_title;
-            delete d.mode_title;
-            delete d.ionization_type_title;
-        }
-    );
-    project.project.experimental.extraction_methods.forEach(
-        (m: any) => m.solvents.forEach(
-            (d: any) => delete d.solvent_title
-        )
-    );
-
-    if (project.enrichments && project.enrichments.genomes) {
-        const array = project.enrichments.genomes;
-        const object: any = {};
-        array.forEach((item: any) => {
-            object[item.label] = item;
-            delete item.label;
-        });
-        project.enrichments.genomes = object;
-    }
-
-    project._id = hit._id;
-    project.score = hit._score;
-
-    return project;
+export function collapseHit(hit: Hit): ProjectSummary {
+    const summary = hit._source.summary;
+    summary.score = hit._score;
+    summary._id = hit._id;
+    return summary;
 }
 
 export enum FilterFields {
@@ -112,7 +86,7 @@ export enum FilterFields {
 
 export type FilterField = keyof typeof FilterFields;
 
-export const DEFAULT_PAGE_SIZE = 500;
+export const DEFAULT_PAGE_SIZE = 100;
 
 export class SearchEngine {
     private schema: any;
@@ -245,18 +219,18 @@ export class SearchEngine {
             index: this.index,
             size: size,
             from,
+            _source: 'summary',
             body: {
                 query
             }
         };
         if (sortbymetaboliteid) {
             request.sort = [
-                'project.metabolomics.project.metabolights_study_id.keyword:desc',
-                'project.metabolomics.project.GNPSMassIVE_ID.keyword:desc'
+                'summary.metabolite_id.keyword:desc'
             ];
         }
         const response = await this.client.search(request);
-        const data: EnrichedProjectDocument[] = response.body.hits.hits.map(collapseHit);
+        const data: ProjectSummary[] = response.body.hits.hits.map(collapseHit);
         const total: number = response.body.hits.total.value;
         return { data, total };
     }

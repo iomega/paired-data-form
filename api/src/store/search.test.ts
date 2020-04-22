@@ -61,13 +61,15 @@ describe('new SearchEngine()', () => {
                 });
             });
 
-            it('should have called client.index', () => {
+            it('should have called client.index', async () => {
+                const project = await esGenomeProject();
                 expect(client.index).toHaveBeenCalledWith({
                     index: 'podp',
                     id: 'projectid1',
                     body: {
-                        project: expect.anything(),
-                        enrichments: expect.anything()
+                        project: project.project,
+                        enrichments: project.enrichments,
+                        summary: project.summary
                     }
                 });
             });
@@ -132,9 +134,9 @@ describe('new SearchEngine()', () => {
                         index: 'podp',
                         size: 1,
                         from: 2,
+                        _source: 'summary',
                         sort: [
-                            'project.metabolomics.project.metabolights_study_id.keyword:desc',
-                            'project.metabolomics.project.GNPSMassIVE_ID.keyword:desc'
+                            'summary.metabolite_id.keyword:desc',
                         ],
                         body: {
                             'query': {
@@ -145,7 +147,7 @@ describe('new SearchEngine()', () => {
                 });
 
                 it('should return hits', async () => {
-                    const expected_project = await genomeScoredProject();
+                    const expected_project = await genomeProjectSummary();
                     const expected = {
                         data: [expected_project],
                         total: 1
@@ -166,7 +168,8 @@ describe('new SearchEngine()', () => {
                     expect(client.search).toHaveBeenCalledWith({
                         index: 'podp',
                         from: 0,
-                        size: 500,
+                        size: 100,
+                        _source: 'summary',
                         body: {
                             'query': {
                                 simple_query_string: {
@@ -178,7 +181,7 @@ describe('new SearchEngine()', () => {
                 });
 
                 it('should return hits', async () => {
-                    const expected_project = await genomeScoredProject();
+                    const expected_project = await genomeProjectSummary();
                     const expected = {
                         data: [expected_project],
                         total: 1
@@ -222,7 +225,8 @@ describe('new SearchEngine()', () => {
                     let expected = {
                         index: 'podp',
                         from: 0,
-                        size: 500,
+                        size: 100,
+                        _source: 'summary',
                         body: {
                             query: {
                                 match: expect.anything()
@@ -252,7 +256,7 @@ describe('new SearchEngine()', () => {
                 });
 
                 it('should return hits', async () => {
-                    const expected_project = await genomeScoredProject();
+                    const expected_project = await genomeProjectSummary();
                     const expected = {
                         data: [expected_project],
                         total: 1
@@ -350,7 +354,6 @@ async function esGenomeProject() {
     project.experimental.instrumentation_methods[0].ionization_type_title = 'Electrospray Ionization (ESI)';
     const esproject = {
         _id: 'projectid1',
-        score: 0.5,
         project,
         enrichments: {
             genomes: [{
@@ -362,6 +365,17 @@ async function esGenomeProject() {
                 'title': 'Streptomyces sp. CNB091, whole genome shotgun sequencing project',
                 'url': 'https://www.ncbi.nlm.nih.gov/nuccore/ARJI01000000'
             }]
+        },
+        summary: {
+            metabolite_id: 'MSV000078839',
+            PI_name: 'Marnix Medema',
+            submitters: 'Justin van der Hooft',
+            nr_extraction_methods: 3,
+            nr_genecluster_mspectra_links: 3,
+            nr_genome_metabolmics_links: 21,
+            nr_genomes: 3,
+            nr_growth_conditions: 3,
+            nr_instrumentation_methods: 1,
         }
     };
     return esproject;
@@ -388,8 +402,19 @@ async function genomeProject() {
     return eproject as EnrichedProjectDocument;
 }
 
-async function genomeScoredProject() {
-    const project = await genomeProject();
-    project.score = 0.5;
-    return project;
+async function genomeProjectSummary() {
+    const summary = {
+        _id: 'projectid1',
+        metabolite_id: 'MSV000078839',
+        PI_name: 'Marnix Medema',
+        submitters: 'Justin van der Hooft',
+        nr_extraction_methods: 3,
+        nr_genecluster_mspectra_links: 3,
+        nr_genome_metabolmics_links: 21,
+        nr_genomes: 3,
+        nr_growth_conditions: 3,
+        nr_instrumentation_methods: 1,
+        score: 0.5,
+    };
+    return summary;
 }

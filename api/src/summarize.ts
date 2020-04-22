@@ -1,10 +1,9 @@
 import { GNPSMassIVE, MetaboLights } from './schema';
 import { EnrichedProjectDocument } from './store/enrichments';
 
-interface ProjectSummary {
+export interface ProjectSummary {
     _id: string;
-    GNPSMassIVE_ID: string;
-    metabolights_study_id: string;
+    metabolite_id: string;
     PI_name: string;
     submitters: string;
     nr_genomes: number;
@@ -13,6 +12,7 @@ interface ProjectSummary {
     nr_instrumentation_methods: number;
     nr_genome_metabolmics_links: number;
     nr_genecluster_mspectra_links: number;
+    score?: number;
 }
 
 function isMetaboLights(project: GNPSMassIVE | MetaboLights): project is MetaboLights {
@@ -33,8 +33,7 @@ export const summarizeProject = (d: EnrichedProjectDocument): ProjectSummary => 
     const nr_genecluster_mspectra_links = project['BGC_MS2_links'] ? project['BGC_MS2_links']!.length : 0;
     const summary = {
         _id: d._id,
-        metabolights_study_id: '',
-        GNPSMassIVE_ID: '',
+        metabolite_id: '',
         PI_name: project['personal']['PI_name']!,
         submitters,
         nr_genomes,
@@ -45,21 +44,9 @@ export const summarizeProject = (d: EnrichedProjectDocument): ProjectSummary => 
         nr_genecluster_mspectra_links,
     };
     if (isMetaboLights(project.metabolomics.project)) {
-        summary.metabolights_study_id = project.metabolomics.project.metabolights_study_id;
+        summary.metabolite_id = project.metabolomics.project.metabolights_study_id;
     } else {
-        summary.GNPSMassIVE_ID = project.metabolomics.project.GNPSMassIVE_ID;
+        summary.metabolite_id = project.metabolomics.project.GNPSMassIVE_ID;
     }
     return summary;
-};
-
-export const compareMetaboliteID = (a: ProjectSummary, b: ProjectSummary): 1 | -1 | 0 => {
-    const ia = a.GNPSMassIVE_ID ? a.GNPSMassIVE_ID : a.metabolights_study_id;
-    const ib = b.GNPSMassIVE_ID ? b.GNPSMassIVE_ID : b.metabolights_study_id;
-    if (ia < ib) {
-        return -1;
-    }
-    if (ia > ib) {
-        return 1;
-    }
-    return 0;
 };
