@@ -19,7 +19,7 @@ describe('summarizeProject()', () => {
             'submitters': 'Justin van der Hooft',
             'nr_extraction_methods': 3,
             'nr_genecluster_mspectra_links': 3,
-            'nr_genome_metabolmics_links': 21,
+            'nr_genome_metabolomics_links': 21,
             'nr_genomes': 3,
             'nr_growth_conditions': 3,
             'nr_instrumentation_methods': 1
@@ -45,7 +45,7 @@ describe('summarizeProject()', () => {
                 'submitters': 'Justin van der Hooft & Stefan Verhoeven',
                 'nr_extraction_methods': 3,
                 'nr_genecluster_mspectra_links': 3,
-                'nr_genome_metabolmics_links': 21,
+                'nr_genome_metabolomics_links': 21,
                 'nr_genomes': 3,
                 'nr_growth_conditions': 3,
                 'nr_instrumentation_methods': 1
