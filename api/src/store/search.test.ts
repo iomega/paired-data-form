@@ -284,6 +284,7 @@ describe('new SearchEngine()', () => {
 
                 describe('filter & query', () => {
                     it('should have called index.search', async () => {
+                        client.search.mockClear();
                         const query = 'Justin';
                         const filter = { key: 'solvent' as FilterField, value: 'Butanol' };
 
