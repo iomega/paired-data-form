@@ -3,6 +3,55 @@ import { EnrichedProjectDocument } from './enrichments';
 import { loadSchema, Lookups } from '../util/schema';
 import { summarizeProject, ProjectSummary } from '../summarize';
 
+export interface SearchOptions {
+    query?: string;
+    filter?: {
+        key: FilterField;
+        value: string;
+    };
+    from?: number;
+    size?: number;
+    sort?: SortField;
+    order?: Order;
+}
+
+export enum FilterFields {
+    principal_investigator = 'project.personal.PI_name.keyword',
+    submitter = 'summary.submitters.keyword',
+    genome_type = 'project.genomes.genome_ID.genome_type.keyword',
+    species = 'enrichments.genomes.species.scientific_name.keyword',
+    metagenomic_environment = 'project.experimental.sample_preparation.medium_details.metagenomic_environment_title.keyword',
+    instrument_type = 'project.experimental.instrumentation_methods.instrumentation.instrument_title.keyword',
+    ionization_mode = 'project.experimental.instrumentation_methods.mode_title.keyword',
+    ionization_type = 'project.experimental.instrumentation_methods.ionization_type_title.keyword',
+    growth_medium = 'project.experimental.sample_preparation.medium_details.medium_title.keyword',
+    solvent = 'project.experimental.extraction_methods.solvents.solvent_title.keyword',
+}
+
+export type FilterField = keyof typeof FilterFields;
+
+export enum SortFields {
+    score = 'score',
+    _id = 'project_id.keyword',
+    met_id = 'summary.metabolite_id.keyword',
+    PI_name = 'summary.PI_name.keyword',
+    submitters = 'summary.submitters.keyword',
+    nr_genomes = 'summary.nr_genomes',
+    nr_growth_conditions = 'summary.nr_growth_conditions',
+    nr_extraction_methods = 'summary.nr_extraction_methods',
+    nr_instrumentation_methods = 'summary.nr_instrumentation_methods',
+    nr_genome_metabolomics_links = 'summary.nr_genome_metabolomics_links',
+    nr_genecluster_mspectra_links = 'summary.nr_genecluster_mspectra_links',
+}
+export type SortField = keyof typeof SortFields;
+
+export enum Order {
+    desc = 'desc',
+    asc = 'asc'
+}
+
+export const DEFAULT_PAGE_SIZE = 100;
+
 interface Hit {
     _id: string;
     _score: number;
@@ -59,34 +108,76 @@ export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, 
 
     doc.summary = summarizeProject(project);
     delete doc.summary._id;
-
+    // To sort on _id we need to store id in es, but es does not like _id name
+    // so storing as project_id
+    doc.project_id = doc._id;
     delete doc._id;
     return doc;
 }
 
 export function collapseHit(hit: Hit): ProjectSummary {
     const summary = hit._source.summary;
-    summary.score = hit._score;
+    if (hit._score) {
+        summary.score = hit._score;
+    }
     summary._id = hit._id;
+    delete hit._source.project_id;
     return summary;
 }
 
-export enum FilterFields {
-    'principal_investigator',
-    'submitter',
-    'genome_type',
-    'species',
-    'metagenomic_environment',
-    'instrument_type',
-    'ionization_mode',
-    'ionization_type',
-    'growth_medium',
-    'solvent'
+function buildAll() {
+    return {
+        match_all: {}
+    };
 }
 
-export type FilterField = keyof typeof FilterFields;
+function buildQuery(query: string) {
+    return {
+        'simple_query_string': {
+            query
+        }
+    };
+}
 
-export const DEFAULT_PAGE_SIZE = 100;
+function buildFilter(key: FilterField, value: string) {
+    const eskey = FilterFields[key];
+    if (!eskey) {
+        throw new Error('Invalid filter field');
+    }
+    const match: { [key: string]: string } = {};
+    match[eskey] = value;
+    return {
+        match
+    };
+}
+
+function buildQueryFilter(query: any, filter: any) {
+    return {
+        bool: {
+            must: {
+                query
+            },
+            filter: {
+                filter
+            }
+        }
+    };
+}
+
+function buildBody(options: SearchOptions) {
+    if (options.query && options.filter) {
+        return buildQueryFilter(
+            buildQuery(options.query),
+            buildFilter(options.filter.key, options.filter.value)
+        );
+    } else if (options.query) {
+        return buildQuery(options.query);
+    } else if (options.filter) {
+        return buildFilter(options.filter.key, options.filter.value);
+    } else {
+        return buildAll();
+    }
+}
 
 export class SearchEngine {
     private schema: any;
@@ -113,7 +204,7 @@ export class SearchEngine {
     }
 
     private async createIndex() {
-        // Force all detected integers to be floats
+        // Force all detected integers to be floats except fields that start with nr_
         // Due to dynamic mapping `1` will be mapped to a long while other documents will require a float.
         await this.client.indices.create({
             index: this.index,
@@ -121,6 +212,7 @@ export class SearchEngine {
                 mappings: {
                     dynamic_templates: [{
                         floats: {
+                            unmatch: 'nr_*',
                             match_mapping_type: 'long',
                             mapping: {
                                 type: 'float'
@@ -164,57 +256,19 @@ export class SearchEngine {
         });
     }
 
-    async all(size = DEFAULT_PAGE_SIZE, from = 0) {
-        const query = {
-            match_all: {}
-        };
-        return await this._search(query, size, from, true);
+    async search(options: SearchOptions = {}) {
+        const defaultSort = (options.query || options.filter) ? 'score' : 'met_id';
+        const {
+            size = DEFAULT_PAGE_SIZE,
+            from = 0,
+            sort = defaultSort,
+            order = Order.desc
+        } = options;
+        const qbody = buildBody(options);
+        return await this._search(qbody, size, from, sort, order);
     }
 
-    async search(query: string, size = DEFAULT_PAGE_SIZE, from = 0) {
-        const qbody = {
-            'simple_query_string': {
-                query
-            }
-        };
-        return await this._search(qbody, size, from);
-    }
-
-    async filter(key: FilterField, value: string, size = DEFAULT_PAGE_SIZE, from = 0) {
-        const query: any = {};
-        if (key === 'submitter') {
-            query.bool = {
-                should: [{
-                    'match': {}
-                }, {
-                    'match': {}
-                }]
-            };
-            query.bool.should[0].match['project.personal.submitter_name.keyword'] = value;
-            query.bool.should[1].match['project.personal.submitter_name_secondary.keyword'] = value;
-        } else {
-            const key2eskey = {
-                principal_investigator: 'project.personal.PI_name.keyword',
-                genome_type: 'project.genomes.genome_ID.genome_type.keyword',
-                species: 'enrichments.genomes.species.scientific_name.keyword',
-                metagenomic_environment: 'project.experimental.sample_preparation.medium_details.metagenomic_environment_title.keyword',
-                instrument_type: 'project.experimental.instrumentation_methods.instrumentation.instrument_title.keyword',
-                ionization_mode: 'project.experimental.instrumentation_methods.mode_title.keyword',
-                ionization_type: 'project.experimental.instrumentation_methods.ionization_type_title.keyword',
-                growth_medium: 'project.experimental.sample_preparation.medium_details.medium_title.keyword',
-                solvent: 'project.experimental.extraction_methods.solvents.solvent_title.keyword',
-            };
-            const eskey = key2eskey[key];
-            if (!eskey) {
-                throw new Error('Invalid filter field');
-            }
-            query.match = {};
-            query.match[eskey] = value;
-        }
-        return await this._search(query, size, from);
-    }
-
-    private async _search(query: any, size: number, from: number, sortbymetaboliteid = false) {
+    private async _search(query: any, size: number, from: number, sort: SortField, order: Order) {
         const request: any = {
             index: this.index,
             size: size,
@@ -224,10 +278,8 @@ export class SearchEngine {
                 query
             }
         };
-        if (sortbymetaboliteid) {
-            request.sort = [
-                'summary.metabolite_id.keyword:desc'
-            ];
+        if (sort && sort !== 'score') {
+            request.sort = SortFields[sort] + ':' + order;
         }
         const response = await this.client.search(request);
         const data: ProjectSummary[] = response.body.hits.hits.map(collapseHit);

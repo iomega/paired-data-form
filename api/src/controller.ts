@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 
-import { ProjectDocumentStore, NotFoundException, SearchOptions } from './projectdocumentstore';
+import { ProjectDocumentStore, NotFoundException } from './projectdocumentstore';
 import { Validator } from './validate';
 import { Queue } from 'bull';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { computeStats } from './util/stats';
 import { summarizeProject } from './summarize';
 import { ZENODO_DEPOSITION_ID } from './util/secrets';
-import { FilterFields, DEFAULT_PAGE_SIZE } from './store/search';
+import { FilterFields, DEFAULT_PAGE_SIZE, Order, SearchOptions, SortFields } from './store/search';
 
 
 function getStore(req: Request) {
@@ -124,6 +124,18 @@ function validateSearchOptions(query: any) {
         options.from = checkRange(query.page, 'Page', 0, 1000) * options.size;
     } else {
         options.from = 0;
+    }
+    if (query.sort) {
+        if (!(query.sort in SortFields)) {
+            throw 'Invalid `sort`';
+        }
+        options.sort = query.sort;
+    }
+    if (query.order) {
+        if (!(query.order in Order)) {
+            throw 'Invalid `order`, must be either `desc` or `asc`';
+        }
+        options.order = Order[query.order as 'desc' | 'asc'];
     }
     return options;
 }

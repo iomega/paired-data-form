@@ -6,6 +6,7 @@ import { useProjects } from "../api";
 import { compareProjectSummary } from "../summarize";
 import { ProjectList } from "../ProjectList";
 import { ProjectSearch, FilterKey } from "../ProjectSearch";
+import { Pager } from "react-bootstrap";
 
 const style = { padding: '10px' };
 
@@ -22,12 +23,13 @@ export function Projects() {
             value: params.get('fv')!
         }
     }
+    const [page, setPage] = useState(0);
     const {
         error,
         loading,
         data: projects,
         setData: setProjects
-    } = useProjects(q, filter);
+    } = useProjects(q, filter, page);
 
     const [sortkey, setSortKey] = useState('met_id');
     const sortOn = (key: string) => {
@@ -37,12 +39,31 @@ export function Projects() {
         setProjects({ data });
         setSortKey(key);
     }
+    const prevPage = () => {
+        setPage(page - 1);
+    };
+    const nextPage = () => {
+        setPage(page + 1);
+    };
 
     let list = <span>Loading ...</span>;
     if (error) {
         list = <span>Error: {error.message}</span>
     } else if (!loading) {
-        list = <ProjectList projects={projects} sortedOn={sortkey} setSortedOn={sortOn} />
+        list = (
+            <>
+                <ProjectList projects={projects} sortedOn={sortkey} setSortedOn={sortOn} />
+                <Pager>
+                    <Pager.Item onClick={prevPage}>
+                        &larr; Previous
+                    </Pager.Item>
+                    {' '}
+                    <Pager.Item onClick={nextPage}>
+                        Next &rarr;
+                  </Pager.Item>
+                </Pager>
+            </>
+        );
     }
 
     function clearFilter() {

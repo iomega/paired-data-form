@@ -14,10 +14,9 @@ describe('summarizeProject()', () => {
 
         const expected = {
             '_id': 'some-project-id',
-            'GNPSMassIVE_ID': 'MSV000078839',
+            'metabolite_id': 'MSV000078839',
             'PI_name': 'Marnix Medema',
             'submitters': 'Justin van der Hooft',
-            'metabolights_study_id': '',
             'nr_extraction_methods': 3,
             'nr_genecluster_mspectra_links': 3,
             'nr_genome_metabolmics_links': 21,
@@ -41,10 +40,9 @@ describe('summarizeProject()', () => {
 
             const expected = {
                 '_id': 'some-project-id',
-                'GNPSMassIVE_ID': 'MSV000078839',
+                'metabolite_id': 'MSV000078839',
                 'PI_name': 'Marnix Medema',
                 'submitters': 'Justin van der Hooft & Stefan Verhoeven',
-                'metabolights_study_id': '',
                 'nr_extraction_methods': 3,
                 'nr_genecluster_mspectra_links': 3,
                 'nr_genome_metabolmics_links': 21,

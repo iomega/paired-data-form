@@ -39,7 +39,6 @@ describe('new SearchEngine()', () => {
             expect(client.bulk).not.toHaveBeenCalled();
         });
 
-
         describe('with a single genome project', () => {
             beforeEach(async () => {
                 const eproject = await genomeProject();
@@ -65,8 +64,9 @@ describe('new SearchEngine()', () => {
                 const project = await esGenomeProject();
                 expect(client.index).toHaveBeenCalledWith({
                     index: 'podp',
-                    id: 'projectid1',
+                    id: project.project_id,
                     body: {
+                        project_id: project.project_id,
                         project: project.project,
                         enrichments: project.enrichments,
                         summary: project.summary
@@ -122,11 +122,11 @@ describe('new SearchEngine()', () => {
                 });
             });
 
-            describe('all(1, 2)', () => {
+            describe('search({size:1, from:2})', () => {
                 let hits: any;
 
                 beforeEach(async () => {
-                    hits = await searchEngine.all(1, 2);
+                    hits = await searchEngine.search({ size: 1, from: 2 });
                 });
 
                 it('should have called client.search', () => {
@@ -135,9 +135,7 @@ describe('new SearchEngine()', () => {
                         size: 1,
                         from: 2,
                         _source: 'summary',
-                        sort: [
-                            'summary.metabolite_id.keyword:desc',
-                        ],
+                        sort: 'summary.metabolite_id.keyword:desc',
                         body: {
                             'query': {
                                 match_all: {}
@@ -161,7 +159,7 @@ describe('new SearchEngine()', () => {
                 let hits: any;
 
                 beforeEach(async () => {
-                    hits = await searchEngine.search(query);
+                    hits = await searchEngine.search({ query });
                 });
 
                 it('should have called client.search', () => {
@@ -212,17 +210,17 @@ describe('new SearchEngine()', () => {
                 ['solvent', 'Butanol'],
                 ['ionization_mode', 'Positive'],
                 ['ionization_type', 'Electrospray Ionization (ESI)']
-            ])('filter(\'%s\', \'%s\')', (key: FilterField, value) => {
+            ])('search({filter:{key:\'%s\', value:\'%s\'}})', (key: FilterField, value) => {
                 let hits: any;
                 beforeEach(async () => {
                     client.search.mockClear();
-                    hits = await searchEngine.filter(key, value);
+                    hits = await searchEngine.search({ filter: { key, value } });
                 });
 
                 it('should have called index.search', () => {
                     expect(client.search).toBeCalled();
                     const called = client.search.mock.calls[0][0];
-                    let expected = {
+                    const expected = {
                         index: 'podp',
                         from: 0,
                         size: 100,
@@ -233,25 +231,6 @@ describe('new SearchEngine()', () => {
                             }
                         }
                     };
-                    if (key === 'submitter') {
-                        expected = {
-                            ...expected,
-                            body: {
-                                query: {
-                                    bool: {
-                                        should: [
-                                            {
-                                                match: expect.anything()
-                                            },
-                                            {
-                                                match: expect.anything()
-                                            }
-                                        ],
-                                    },
-                                },
-                            },
-                        } as any;
-                    }
                     expect(called).toEqual(expected);
                 });
 
@@ -265,11 +244,16 @@ describe('new SearchEngine()', () => {
                 });
             });
 
-            describe('filter(invalid field)', () => {
+            describe('search({filter:{key:`invalid field`}})', () => {
                 it('should throw Error', async () => {
                     expect.assertions(1);
                     try {
-                        await searchEngine.filter('some invalid key' as any, 'somevalue');
+                        await searchEngine.search({
+                            filter: {
+                                key: 'some invalid key' as any,
+                                value: 'somevalue'
+                            }
+                        });
                     } catch (error) {
                         expect(error).toEqual(new Error('Invalid filter field'));
                     }
@@ -353,7 +337,7 @@ async function esGenomeProject() {
     project.experimental.instrumentation_methods[0].mode_title = 'Positive';
     project.experimental.instrumentation_methods[0].ionization_type_title = 'Electrospray Ionization (ESI)';
     const esproject = {
-        _id: 'projectid1',
+        project_id: 'projectid1',
         project,
         enrichments: {
             genomes: [{
