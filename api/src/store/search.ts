@@ -154,12 +154,8 @@ function buildFilter(key: FilterField, value: string) {
 function buildQueryFilter(query: any, filter: any) {
     return {
         bool: {
-            must: {
-                query
-            },
-            filter: {
-                filter
-            }
+            must: query,
+            filter
         }
     };
 }
@@ -256,7 +252,7 @@ export class SearchEngine {
         });
     }
 
-    async search(options: SearchOptions = {}) {
+    async search(options: SearchOptions) {
         const defaultSort = (options.query || options.filter) ? 'score' : 'met_id';
         const {
             size = DEFAULT_PAGE_SIZE,

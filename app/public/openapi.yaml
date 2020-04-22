@@ -65,6 +65,22 @@ paths:
             default: 0
             minimum: 0
             maximum: 1000
+        - name: sort
+          in: query
+          description: Field to sort on
+          example: nr_genomes
+          schema:
+            type: string
+            default: 'met_id'
+            enum: ["nr_genomes" , "score" , "_id" , "met_id" , "PI_name" , "submitters" , "nr_growth_conditions" , "nr_extraction_methods" , "nr_instrumentation_methods" , "nr_genome_metabolomics_links" , "nr_genecluster_mspectra_links"]
+        - name: order
+          in: query
+          description: Order to sort
+          example: asc
+          schema:
+            type: string
+            default: 'desc'
+            enum: ['asc', 'desc']
       responses:
         "200":
           description: Successful Response

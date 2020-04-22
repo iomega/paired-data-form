@@ -101,9 +101,6 @@ function validateSearchOptions(query: any) {
     }
     if (query.fk || query.fv) {
         if (query.fk && query.fv) {
-            if (query.q) {
-                throw 'Either search with `q` or filter with `fk` and `fv`';
-            }
             if (!(query.fk in FilterFields)) {
                 throw 'Invalid `fk`';
             }

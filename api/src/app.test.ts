@@ -107,10 +107,14 @@ describe('app', () => {
                 ['/api/projects?size=12', { size: 12, from: 0 }],
                 ['/api/projects?page=2', {  size: 100, from: 200 }],
                 ['/api/projects?size=12&page=3', { size: 12, from: 36 }],
+                ['/api/projects?sort=nr_genomes', { size: 100, from: 0, sort: 'nr_genomes' }],
+                ['/api/projects?order=asc', { size: 100, from: 0, order: 'asc' }],
+                ['/api/projects?sort=nr_genomes&order=desc', { size: 100, from: 0, sort: 'nr_genomes', order: 'desc' }],
                 ['/api/projects?q=Justin', { query: 'Justin', size: 100, from: 0 }],
                 ['/api/projects?q=Justin&size=12&page=3', { query: 'Justin', size: 12, from: 36 }],
                 ['/api/projects?fk=species&fv=somevalue', { filter: { key: 'species', value: 'somevalue' }, size: 100, from: 0 }],
                 ['/api/projects?fk=species&fv=somevalue&size=12&page=3', { filter: { key: 'species', value: 'somevalue' }, size: 12, from: 36 }],
+                ['/api/projects?q=Justin&fk=species&fv=somevalue', { query: 'Justin', filter: { key: 'species', value: 'somevalue' }, size: 100, from: 0 }],
             ])('GET %s', (url, expected) => {
                 it('should call store.searchProjects', async () => {
                     await supertest(app).get(url);
@@ -122,13 +126,14 @@ describe('app', () => {
                 ['/api/projects?fk=wrongfield&fv=somevalue', 'Invalid `fk`'],
                 ['/api/projects?fk=species', 'Require both `fk` and `fv` to filter'],
                 ['/api/projects?fv=somevalue', 'Require both `fk` and `fv` to filter'],
-                ['/api/projects?q=Justin&fk=species&fv=somevalue', 'Either search with `q` or filter with `fk` and `fv`'],
                 ['/api/projects?size=foo', 'Size is not an integer'],
                 ['/api/projects?size=-10', 'Size must be between `1` and `1000`'],
                 ['/api/projects?size=1110', 'Size must be between `1` and `1000`'],
                 ['/api/projects?page=foo', 'Page is not an integer'],
                 ['/api/projects?page=-10', 'Page must be between `0` and `1000`'],
                 ['/api/projects?page=1111', 'Page must be between `0` and `1000`'],
+                ['/api/projects?sort=somebadfield', 'Invalid `sort`'],
+                ['/api/projects?order=somebadorder', 'Invalid `order`, must be either `desc` or `asc`'],
             ])('GET %s', (url, expected) => {
                 let response: any;
 

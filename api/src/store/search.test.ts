@@ -122,69 +122,200 @@ describe('new SearchEngine()', () => {
                 });
             });
 
-            describe('search({size:1, from:2})', () => {
-                let hits: any;
+            describe('search()', () => {
+                describe('defaults', () => {
+                    let hits: any;
 
-                beforeEach(async () => {
-                    hits = await searchEngine.search({ size: 1, from: 2 });
-                });
-
-                it('should have called client.search', () => {
-                    expect(client.search).toHaveBeenCalledWith({
-                        index: 'podp',
-                        size: 1,
-                        from: 2,
-                        _source: 'summary',
-                        sort: 'summary.metabolite_id.keyword:desc',
-                        body: {
-                            'query': {
-                                match_all: {}
-                            }
-                        }
+                    beforeEach(async () => {
+                        hits = await searchEngine.search({});
                     });
-                });
 
-                it('should return hits', async () => {
-                    const expected_project = await genomeProjectSummary();
-                    const expected = {
-                        data: [expected_project],
-                        total: 1
-                    };
-                    expect(hits).toEqual(expected);
-                });
-            });
-
-            describe('search(\'Justin\')', () => {
-                const query = 'Justin';
-                let hits: any;
-
-                beforeEach(async () => {
-                    hits = await searchEngine.search({ query });
-                });
-
-                it('should have called client.search', () => {
-                    expect(client.search).toHaveBeenCalledWith({
-                        index: 'podp',
-                        from: 0,
-                        size: 100,
-                        _source: 'summary',
-                        body: {
-                            'query': {
-                                simple_query_string: {
-                                    query
+                    it('should have called client.search', () => {
+                        expect(client.search).toHaveBeenCalledWith({
+                            index: 'podp',
+                            size: 100,
+                            from: 0,
+                            _source: 'summary',
+                            sort: 'summary.metabolite_id.keyword:desc',
+                            body: {
+                                'query': {
+                                    match_all: {}
                                 }
                             }
+                        });
+                    });
+
+                    it('should return hits', async () => {
+                        const expected_project = await genomeProjectSummary();
+                        const expected = {
+                            data: [expected_project],
+                            total: 1
+                        };
+                        expect(hits).toEqual(expected);
+                    });
+                });
+
+                describe('paging', () => {
+                    let hits: any;
+
+                    beforeEach(async () => {
+                        hits = await searchEngine.search({ size: 1, from: 2 });
+                    });
+
+                    it('should have called client.search', () => {
+                        expect(client.search).toHaveBeenCalledWith({
+                            index: 'podp',
+                            size: 1,
+                            from: 2,
+                            _source: 'summary',
+                            sort: 'summary.metabolite_id.keyword:desc',
+                            body: {
+                                'query': {
+                                    match_all: {}
+                                }
+                            }
+                        });
+                    });
+
+                    it('should return hits', async () => {
+                        const expected_project = await genomeProjectSummary();
+                        const expected = {
+                            data: [expected_project],
+                            total: 1
+                        };
+                        expect(hits).toEqual(expected);
+                    });
+                });
+
+                describe('query=\'Justin\'', () => {
+                    const query = 'Justin';
+                    let hits: any;
+
+                    beforeEach(async () => {
+                        hits = await searchEngine.search({ query });
+                    });
+
+                    it('should have called client.search', () => {
+                        expect(client.search).toHaveBeenCalledWith({
+                            index: 'podp',
+                            from: 0,
+                            size: 100,
+                            _source: 'summary',
+                            body: {
+                                'query': {
+                                    simple_query_string: {
+                                        query
+                                    }
+                                }
+                            }
+                        });
+                    });
+
+                    it('should return hits', async () => {
+                        const expected_project = await genomeProjectSummary();
+                        const expected = {
+                            data: [expected_project],
+                            total: 1
+                        };
+                        expect(hits).toEqual(expected);
+                    });
+                });
+
+                describe.each([
+                    ['principal_investigator', 'Marnix Medema'],
+                    ['submitter', 'Justin van der Hooft'],
+                    ['genome_type', 'genome'],
+                    ['species', 'Streptomyces sp. CNB091'],
+                    ['metagenomic_environment', 'Soil'],
+                    ['instrument_type', 'Time-of-flight (TOF)'],
+                    ['growth_medium', 'A1 medium'],
+                    ['solvent', 'Butanol'],
+                    ['ionization_mode', 'Positive'],
+                    ['ionization_type', 'Electrospray Ionization (ESI)']
+                ])('filter={key:\'%s\', value:\'%s\'}', (key: FilterField, value) => {
+                    let hits: any;
+                    beforeEach(async () => {
+                        client.search.mockClear();
+                        hits = await searchEngine.search({ filter: { key, value } });
+                    });
+
+                    it('should have called index.search', () => {
+                        expect(client.search).toBeCalled();
+                        const called = client.search.mock.calls[0][0];
+                        const expected = {
+                            index: 'podp',
+                            from: 0,
+                            size: 100,
+                            _source: 'summary',
+                            body: {
+                                query: {
+                                    match: expect.anything()
+                                }
+                            }
+                        };
+                        expect(called).toEqual(expected);
+                    });
+
+                    it('should return hits', async () => {
+                        const expected_project = await genomeProjectSummary();
+                        const expected = {
+                            data: [expected_project],
+                            total: 1
+                        };
+                        expect(hits).toEqual(expected);
+                    });
+                });
+
+                describe('invalid filter field', () => {
+                    it('should throw Error', async () => {
+                        expect.assertions(1);
+                        try {
+                            await searchEngine.search({
+                                filter: {
+                                    key: 'some invalid key' as any,
+                                    value: 'somevalue'
+                                }
+                            });
+                        } catch (error) {
+                            expect(error).toEqual(new Error('Invalid filter field'));
                         }
                     });
                 });
 
-                it('should return hits', async () => {
-                    const expected_project = await genomeProjectSummary();
-                    const expected = {
-                        data: [expected_project],
-                        total: 1
-                    };
-                    expect(hits).toEqual(expected);
+                describe('filter & query', () => {
+                    it('should have called index.search', async () => {
+                        const query = 'Justin';
+                        const filter = { key: 'solvent' as FilterField, value: 'Butanol' };
+
+                        await searchEngine.search({ query, filter });
+
+                        expect(client.search).toBeCalled();
+                        const called = client.search.mock.calls[0][0];
+                        const expected = {
+                            index: 'podp',
+                            from: 0,
+                            size: 100,
+                            _source: 'summary',
+                            body: {
+                                query: {
+                                    bool: {
+                                        must: {
+                                            simple_query_string: {
+                                                query: 'Justin'
+                                            }
+                                        },
+                                        filter: {
+                                            match: {
+                                                'project.experimental.extraction_methods.solvents.solvent_title.keyword': 'Butanol'
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        };
+                        expect(called).toEqual(expected);
+                    });
+
                 });
             });
 
@@ -199,66 +330,6 @@ describe('new SearchEngine()', () => {
                 });
             });
 
-            describe.each([
-                ['principal_investigator', 'Marnix Medema'],
-                ['submitter', 'Justin van der Hooft'],
-                ['genome_type', 'genome'],
-                ['species', 'Streptomyces sp. CNB091'],
-                ['metagenomic_environment', 'Soil'],
-                ['instrument_type', 'Time-of-flight (TOF)'],
-                ['growth_medium', 'A1 medium'],
-                ['solvent', 'Butanol'],
-                ['ionization_mode', 'Positive'],
-                ['ionization_type', 'Electrospray Ionization (ESI)']
-            ])('search({filter:{key:\'%s\', value:\'%s\'}})', (key: FilterField, value) => {
-                let hits: any;
-                beforeEach(async () => {
-                    client.search.mockClear();
-                    hits = await searchEngine.search({ filter: { key, value } });
-                });
-
-                it('should have called index.search', () => {
-                    expect(client.search).toBeCalled();
-                    const called = client.search.mock.calls[0][0];
-                    const expected = {
-                        index: 'podp',
-                        from: 0,
-                        size: 100,
-                        _source: 'summary',
-                        body: {
-                            query: {
-                                match: expect.anything()
-                            }
-                        }
-                    };
-                    expect(called).toEqual(expected);
-                });
-
-                it('should return hits', async () => {
-                    const expected_project = await genomeProjectSummary();
-                    const expected = {
-                        data: [expected_project],
-                        total: 1
-                    };
-                    expect(hits).toEqual(expected);
-                });
-            });
-
-            describe('search({filter:{key:`invalid field`}})', () => {
-                it('should throw Error', async () => {
-                    expect.assertions(1);
-                    try {
-                        await searchEngine.search({
-                            filter: {
-                                key: 'some invalid key' as any,
-                                value: 'somevalue'
-                            }
-                        });
-                    } catch (error) {
-                        expect(error).toEqual(new Error('Invalid filter field'));
-                    }
-                });
-            });
         });
 
         describe('with a single metagenome project', () => {
