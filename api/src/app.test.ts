@@ -103,14 +103,14 @@ describe('app', () => {
             });
 
             describe.each([
-                ['/api/projects', {}],
-                ['/api/projects?size=12', { size: 12 }],
-                ['/api/projects?offset=34', { from: 34 }],
-                ['/api/projects?size=12&offset=34', { size: 12, from: 34 }],
-                ['/api/projects?q=Justin', { query: 'Justin' }],
-                ['/api/projects?q=Justin&size=12&offset=34', { query: 'Justin', size: 12, from: 34 }],
-                ['/api/projects?fk=species&fv=somevalue', { filter: { key: 'species', value: 'somevalue' } }],
-                ['/api/projects?fk=species&fv=somevalue&size=12&offset=34', { filter: { key: 'species', value: 'somevalue' }, size: 12, from: 34 }],
+                ['/api/projects', { size: 100, from: 0 }],
+                ['/api/projects?size=12', { size: 12, from: 0 }],
+                ['/api/projects?page=2', {  size: 100, from: 200 }],
+                ['/api/projects?size=12&page=3', { size: 12, from: 36 }],
+                ['/api/projects?q=Justin', { query: 'Justin', size: 100, from: 0 }],
+                ['/api/projects?q=Justin&size=12&page=3', { query: 'Justin', size: 12, from: 36 }],
+                ['/api/projects?fk=species&fv=somevalue', { filter: { key: 'species', value: 'somevalue' }, size: 100, from: 0 }],
+                ['/api/projects?fk=species&fv=somevalue&size=12&page=3', { filter: { key: 'species', value: 'somevalue' }, size: 12, from: 36 }],
             ])('GET %s', (url, expected) => {
                 it('should call store.searchProjects', async () => {
                     await supertest(app).get(url);
@@ -126,9 +126,9 @@ describe('app', () => {
                 ['/api/projects?size=foo', 'Size is not an integer'],
                 ['/api/projects?size=-10', 'Size must be between `1` and `1000`'],
                 ['/api/projects?size=1110', 'Size must be between `1` and `1000`'],
-                ['/api/projects?offset=foo', 'Offset is not an integer'],
-                ['/api/projects?offset=-10', 'Offset must be between `0` and `100000`'],
-                ['/api/projects?offset=100001', 'Offset must be between `0` and `100000`'],
+                ['/api/projects?page=foo', 'Page is not an integer'],
+                ['/api/projects?page=-10', 'Page must be between `0` and `1000`'],
+                ['/api/projects?page=1111', 'Page must be between `0` and `1000`'],
             ])('GET %s', (url, expected) => {
                 let response: any;
 

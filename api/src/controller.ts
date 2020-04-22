@@ -7,7 +7,7 @@ import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { computeStats } from './util/stats';
 import { summarizeProject } from './summarize';
 import { ZENODO_DEPOSITION_ID } from './util/secrets';
-import { FilterFields } from './store/search';
+import { FilterFields, DEFAULT_PAGE_SIZE } from './store/search';
 
 
 function getStore(req: Request) {
@@ -115,11 +115,15 @@ function validateSearchOptions(query: any) {
             throw 'Require both `fk` and `fv` to filter';
         }
     }
-    if (query.offset) {
-        options.from = checkRange(query.offset, 'Offset', 0, 100000);
-    }
     if (query.size) {
         options.size = checkRange(query.size, 'Size', 1, 1000);
+    } else {
+        options.size = DEFAULT_PAGE_SIZE;
+    }
+    if (query.page) {
+        options.from = checkRange(query.page, 'Page', 0, 1000) * options.size;
+    } else {
+        options.from = 0;
     }
     return options;
 }
