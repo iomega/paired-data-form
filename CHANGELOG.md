@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.2] - 2020-04-23
+
 ### Added
 
 * Paging projects ([#137](https://github.com/iomega/paired-data-form/issues/137))
@@ -16,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Sort projects moved from web application to elastic search ([#138](https://github.com/iomega/paired-data-form/issues/138))
 * Allow search and filter to be combined
 
-## [0.6.1] 2020-04-16
+## [0.6.1] - 2020-04-16
 
 ### Added
 
@@ -27,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Enrichments cause Limit of total fields exceeded error in elastic search ([#131](https://github.com/iomega/paired-data-form/issues/131))
 
-## [0.6.0] 2020-04-16
+## [0.6.0] - 2020-04-16
 
 Search functionality using elastic search has been added.
 
