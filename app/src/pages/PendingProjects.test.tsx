@@ -96,7 +96,7 @@ describe('<PendingProjects>', () => {
                     data: {
                         data: [{
                             _id: 'id1',
-                            GNPSMassIVE_ID: 'somegnpsid',
+                            metabolite_id: 'somegnpsid',
                             PI_name: 'somepi',
                             submitter: 'somesubmitter',
                             nr_genomes: 3,

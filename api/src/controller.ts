@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 
-import { ProjectDocumentStore, NotFoundException, ListOptions } from './projectdocumentstore';
+import { ProjectDocumentStore, NotFoundException } from './projectdocumentstore';
 import { Validator } from './validate';
 import { Queue } from 'bull';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { computeStats } from './util/stats';
-import { summarizeProject, compareMetaboliteID } from './summarize';
+import { summarizeProject } from './summarize';
 import { ZENODO_DEPOSITION_ID } from './util/secrets';
+import { FilterFields, DEFAULT_PAGE_SIZE, Order, SearchOptions, SortFields } from './store/search';
 
 
 function getStore(req: Request) {
@@ -81,32 +82,71 @@ export async function denyProject(req: Request, res: Response) {
     res.json({'message': 'Denied pending project'});
 }
 
-export async function listProjects(req: Request, res: Response) {
-    const store = getStore(req);
-    const options: ListOptions = {};
-    if (req.query.q) {
-        options.query = req.query.q;
+function checkRange(svalue: string, label: string, min: number, max: number) {
+    const value = parseInt(svalue);
+    if (Number.isNaN(value)) {
+        throw `${label} is not an integer`;
     }
-    if (req.query.fk || req.query.fv) {
-        if (req.query.fk && req.query.fv) {
+    if (value < min || value > max ) {
+        throw `${label} must be between \`${min}\` and \`${max}\``;
+    }
+    return value;
+}
+
+function validateSearchOptions(query: any) {
+    const options: SearchOptions = {};
+
+    if (query.q) {
+        options.query = query.q;
+    }
+    if (query.fk || query.fv) {
+        if (query.fk && query.fv) {
+            if (!(query.fk in FilterFields)) {
+                throw 'Invalid `fk`';
+            }
             options.filter = {
-                key: req.query.fk,
-                value: req.query.fv
+                key: query.fk,
+                value: query.fv
             };
         } else {
-            res.status(400);
-            res.json({ message: 'Require both `fk` and `fv` to filter'});
-            return;
-        }
-        if (req.query.query) {
-            res.status(400);
-            res.json({ message: 'Eiter search with `q` or filter with `fk` and `fv`'});
-            return;
+            throw 'Require both `fk` and `fv` to filter';
         }
     }
-    const projects = await store.listProjects(options);
-    const data = projects.map(summarizeProject).sort(compareMetaboliteID).reverse();
-    res.json({data});
+    if (query.size) {
+        options.size = checkRange(query.size, 'Size', 1, 1000);
+    } else {
+        options.size = DEFAULT_PAGE_SIZE;
+    }
+    if (query.page) {
+        options.from = checkRange(query.page, 'Page', 0, 1000) * options.size;
+    } else {
+        options.from = 0;
+    }
+    if (query.sort) {
+        if (!(query.sort in SortFields)) {
+            throw 'Invalid `sort`';
+        }
+        options.sort = query.sort;
+    }
+    if (query.order) {
+        if (!(query.order in Order)) {
+            throw 'Invalid `order`, must be either `desc` or `asc`';
+        }
+        options.order = Order[query.order as 'desc' | 'asc'];
+    }
+    return options;
+}
+
+export async function listProjects(req: Request, res: Response) {
+    const store = getStore(req);
+    try {
+        const options = validateSearchOptions(req.query);
+        const hits = await store.searchProjects(options);
+        res.json(hits);
+    } catch (message) {
+        res.status(400);
+        res.json({message});
+    }
 }
 
 export async function getProject(req: Request, res: Response) {

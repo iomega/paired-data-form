@@ -20,6 +20,13 @@ describe('app', () => {
                 listProjects: async () => {
                     return [] as EnrichedProjectDocument[];
                 },
+                searchProjects: jest.fn().mockImplementation(async () => {
+                    const data: EnrichedProjectDocument[] = [];
+                    return {
+                        data,
+                        total: 0
+                    };
+                }),
                 createProject: async () => {
                     return 'projectid1.1';
                 },
@@ -89,9 +96,59 @@ describe('app', () => {
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
-                    data: []
+                    data: [],
+                    total: 0
                 };
                 expect(body).toEqual(expected);
+            });
+
+            describe.each([
+                ['/api/projects', { size: 100, from: 0 }],
+                ['/api/projects?size=12', { size: 12, from: 0 }],
+                ['/api/projects?page=2', {  size: 100, from: 200 }],
+                ['/api/projects?size=12&page=3', { size: 12, from: 36 }],
+                ['/api/projects?sort=nr_genomes', { size: 100, from: 0, sort: 'nr_genomes' }],
+                ['/api/projects?order=asc', { size: 100, from: 0, order: 'asc' }],
+                ['/api/projects?sort=nr_genomes&order=desc', { size: 100, from: 0, sort: 'nr_genomes', order: 'desc' }],
+                ['/api/projects?q=Justin', { query: 'Justin', size: 100, from: 0 }],
+                ['/api/projects?q=Justin&size=12&page=3', { query: 'Justin', size: 12, from: 36 }],
+                ['/api/projects?fk=species&fv=somevalue', { filter: { key: 'species', value: 'somevalue' }, size: 100, from: 0 }],
+                ['/api/projects?fk=species&fv=somevalue&size=12&page=3', { filter: { key: 'species', value: 'somevalue' }, size: 12, from: 36 }],
+                ['/api/projects?q=Justin&fk=species&fv=somevalue', { query: 'Justin', filter: { key: 'species', value: 'somevalue' }, size: 100, from: 0 }],
+            ])('GET %s', (url, expected) => {
+                it('should call store.searchProjects', async () => {
+                    await supertest(app).get(url);
+                    expect(store.searchProjects).toBeCalledWith(expected);
+                });
+            });
+
+            describe.each([
+                ['/api/projects?fk=wrongfield&fv=somevalue', 'Invalid `fk`'],
+                ['/api/projects?fk=species', 'Require both `fk` and `fv` to filter'],
+                ['/api/projects?fv=somevalue', 'Require both `fk` and `fv` to filter'],
+                ['/api/projects?size=foo', 'Size is not an integer'],
+                ['/api/projects?size=-10', 'Size must be between `1` and `1000`'],
+                ['/api/projects?size=1110', 'Size must be between `1` and `1000`'],
+                ['/api/projects?page=foo', 'Page is not an integer'],
+                ['/api/projects?page=-10', 'Page must be between `0` and `1000`'],
+                ['/api/projects?page=1111', 'Page must be between `0` and `1000`'],
+                ['/api/projects?sort=somebadfield', 'Invalid `sort`'],
+                ['/api/projects?order=somebadorder', 'Invalid `order`, must be either `desc` or `asc`'],
+            ])('GET %s', (url, expected) => {
+                let response: any;
+
+                beforeEach(async () => {
+                    response = await supertest(app).get(url);
+                });
+
+                it('should return a 400 status', () => {
+                    expect(response.status).toBe(400);
+                });
+
+                it('should return an error message', () => {
+                    const body = JSON.parse(response.text);
+                    expect(body.message).toEqual(expected);
+                });
             });
         });
 
@@ -100,7 +157,7 @@ describe('app', () => {
                 const response = await supertest(app)
                     .get('/api/pending/projects')
                     .set('Authorization', 'Bearer ashdfjhasdlkjfhalksdjhflak')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
@@ -115,7 +172,7 @@ describe('app', () => {
                 const response = await supertest(app)
                     .get('/api/pending/projects/projectid1.1')
                     .set('Authorization', 'Bearer ashdfjhasdlkjfhalksdjhflak')
-                ;
+                    ;
                 expect(response.status).toBe(404);
             });
         });
@@ -125,7 +182,7 @@ describe('app', () => {
                 const response = await supertest(app)
                     .get('/api/pending/projects/projectid1.1')
                     .set('Authorization', 'Bearer incorrecttoken')
-                ;
+                    ;
                 expect(response.status).toBe(401);
             });
         });
@@ -172,6 +229,12 @@ describe('app', () => {
                 listProjects: async () => {
                     return [eproject];
                 },
+                searchProjects: async () => {
+                    return {
+                        data: [eproject],
+                        total: 1
+                    };
+                },
                 createProject: async () => {
                     return 'projectid1.1';
                 },
@@ -209,7 +272,7 @@ describe('app', () => {
                 const response = await supertest(app)
                     .get('/api/pending/projects/projectid1.1')
                     .set('Authorization', 'Bearer ashdfjhasdlkjfhalksdjhflak')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
@@ -225,7 +288,7 @@ describe('app', () => {
                 const response = await supertest(app)
                     .post('/api/pending/projects/projectid1.1')
                     .set('Authorization', 'Bearer ashdfjhasdlkjfhalksdjhflak')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
@@ -241,7 +304,7 @@ describe('app', () => {
                 const response = await supertest(app)
                     .delete('/api/pending/projects/projectid1.1')
                     .set('Authorization', 'Bearer ashdfjhasdlkjfhalksdjhflak')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
@@ -255,7 +318,7 @@ describe('app', () => {
             it('should return project', async () => {
                 const response = await supertest(app)
                     .get('/api/projects/projectid1.1')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 expect(body).toEqual(project);
@@ -266,7 +329,7 @@ describe('app', () => {
             it('should return enriched project', async () => {
                 const response = await supertest(app)
                     .get('/api/projects/projectid1.1/enriched')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
@@ -281,7 +344,7 @@ describe('app', () => {
             it('should return enriched project', async () => {
                 const response = await supertest(app)
                     .get('/api/projects/projectid1.1/history')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {
@@ -345,7 +408,7 @@ describe('app', () => {
             it('should return version info', async () => {
                 const response = await supertest(app)
                     .get('/api/version')
-                ;
+                    ;
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected: any = {

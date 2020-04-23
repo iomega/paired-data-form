@@ -30,32 +30,32 @@ export function PendingProjects() {
     const onDeny = (project_id: string) => async () => {
         await denyPendingProject(project_id, token);
         const pruned_projects = dropProject(project_id, projects.data!.data)
-        projects.setData({data: pruned_projects});
+        projects.setData({ data: pruned_projects });
     };
     const onApprove = (project_id: string) => async () => {
         await approvePendingProject(project_id, token);
         const pruned_projects = dropProject(project_id, projects.data!.data)
-        projects.setData({data: pruned_projects});
+        projects.setData({ data: pruned_projects });
     };
     const rows = projects.data!.data.map(d => (
         <tr key={d._id} role="listitem">
             <td>
                 <Decide onDeny={onDeny(d._id)} onApprove={onApprove(d._id)} />
             </td>
-            <td><Link to={`/pending/${d._id}`}>{ d.GNPSMassIVE_ID ? d.GNPSMassIVE_ID : d.metabolights_study_id }</Link></td>
+            <td><Link to={`/pending/${d._id}`}>{d.metabolite_id}</Link></td>
             <td>{d.PI_name}</td>
             <td>{d.submitters}</td>
             <td>{d.nr_genomes}</td>
             <td>{d.nr_growth_conditions}</td>
             <td>{d.nr_extraction_methods}</td>
             <td>{d.nr_instrumentation_methods}</td>
-            <td>{d.nr_genome_metabolmics_links}</td>
+            <td>{d.nr_genome_metabolomics_links}</td>
             <td>{d.nr_genecluster_mspectra_links}</td>
-            <td><DownloadPendingProject project_id={d._id} token={token}/></td>
+            <td><DownloadPendingProject project_id={d._id} token={token} /></td>
         </tr>
     ));
     if (projects.data!.data.length === 0) {
-        rows.push(<tr><td colSpan={10}>No pending projects found.</td></tr>);
+        rows.push(<tr key="empty"><td colSpan={10}>No pending projects found.</td></tr>);
     }
     return (
         <div style={style}>

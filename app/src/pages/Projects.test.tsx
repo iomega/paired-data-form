@@ -138,14 +138,19 @@ describe('<Projects>', () => {
 
         describe('click on PI column header', () => {
             beforeEach(() => {
+                (useProjects as jest.Mock).mockClear();
                 const button = wrapper.getByText('Principal investigator');
                 fireEvent.click(button);
             });
 
             it('should have sorted rows on PI', () => {
                 const cells = wrapper.getAllByRole('cell');
-                expect(cells[1].textContent).toEqual('otherpi');
-                expect(cells[10].textContent).toEqual('somepi');
+                expect(cells[10].textContent).toEqual('otherpi');
+                expect(cells[1].textContent).toEqual('somepi');
+            });
+
+            it('should call api with sort on PI', () => {
+                expect(useProjects).toHaveBeenCalledWith(undefined, undefined, 0, 'PI_name', 'desc');
             });
         });
 
@@ -167,12 +172,13 @@ describe('<Projects>', () => {
 
             describe('when search is submitted', () => {
                 beforeEach(() => {
+                    (useProjects as jest.Mock).mockClear();
                     const search = wrapper.getByTitle('Search');
                     fireEvent.click(search);
                 });
 
                 it('should pass search query to api', () => {
-                    expect(useProjects).toHaveBeenCalledWith('foobar', undefined);
+                    expect(useProjects).toHaveBeenCalledWith('foobar', undefined, 0, "score", "desc");
                 });
 
                 it('should include search query in url', () => {
@@ -187,7 +193,7 @@ describe('<Projects>', () => {
                     });
 
                     it('should clear search query to api', () => {
-                        expect(useProjects).toHaveBeenCalledWith(undefined, undefined);
+                        expect(useProjects).toHaveBeenCalledWith(undefined, undefined, 0, "met_id", "desc");
                     });
 
                     it('should no longer include search query in url',() => {
@@ -203,6 +209,7 @@ describe('<Projects>', () => {
 
         describe('when filter is in url', () => {
             beforeEach(() => {
+                (useProjects as jest.Mock).mockClear();
                 const route = '/projects?fk=submitter&fv=submitter3';
                 history.push(route);
             });
@@ -221,7 +228,7 @@ describe('<Projects>', () => {
                 expect(useProjects).toHaveBeenCalledWith(undefined, {
                     key: 'submitter',
                     value: 'submitter3'
-                });
+                }, 0, "met_id", "desc");
             });
 
             describe('when clear filter button is clicked', () => {

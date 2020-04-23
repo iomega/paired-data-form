@@ -2,6 +2,7 @@ import { loadJSONDocument } from '../util/io';
 import { EXAMPLE_PROJECT_JSON_FN, mockedElasticSearchClient } from '../testhelpers';
 import { SearchEngine, FilterField } from './search';
 import { Client } from '@elastic/elasticsearch';
+import { EnrichedProjectDocument } from './enrichments';
 jest.mock('@elastic/elasticsearch');
 
 const MockedClient: jest.Mock = Client as any;
@@ -38,7 +39,6 @@ describe('new SearchEngine()', () => {
             expect(client.bulk).not.toHaveBeenCalled();
         });
 
-
         describe('with a single genome project', () => {
             beforeEach(async () => {
                 const eproject = await genomeProject();
@@ -51,19 +51,25 @@ describe('new SearchEngine()', () => {
                                 _id: 'projectid1',
                                 _score: 0.5,
                                 _source: esproject
-                            }]
+                            }],
+                            total: {
+                                value: 1
+                            }
                         }
                     }
                 });
             });
 
-            it('should have called client.index', () => {
+            it('should have called client.index', async () => {
+                const project = await esGenomeProject();
                 expect(client.index).toHaveBeenCalledWith({
                     index: 'podp',
-                    id: 'projectid1',
+                    id: project.project_id,
                     body: {
-                        project: expect.anything(),
-                        enrichments: expect.anything()
+                        project_id: project.project_id,
+                        project: project.project,
+                        enrichments: project.enrichments,
+                        summary: project.summary
                     }
                 });
             });
@@ -71,7 +77,7 @@ describe('new SearchEngine()', () => {
             describe('the added document', () => {
                 let doc: any;
 
-                beforeAll(() => {
+                beforeEach(() => {
                     doc = client.index.mock.calls[0][0].body;
                 });
 
@@ -116,30 +122,201 @@ describe('new SearchEngine()', () => {
                 });
             });
 
-            describe('search(\'Justin\')', () => {
-                const query = 'Justin';
-                let hits: any;
+            describe('search()', () => {
+                describe('defaults', () => {
+                    let hits: any;
 
-                beforeAll(async () => {
-                    hits = await searchEngine.search(query);
-                });
+                    beforeEach(async () => {
+                        hits = await searchEngine.search({});
+                    });
 
-                it('should have called client.search', () => {
-                    expect(client.search).toHaveBeenCalledWith({
-                        index: 'podp',
-                        body: {
-                            'query': {
-                                simple_query_string: {
-                                    query
+                    it('should have called client.search', () => {
+                        expect(client.search).toHaveBeenCalledWith({
+                            index: 'podp',
+                            size: 100,
+                            from: 0,
+                            _source: 'summary',
+                            sort: 'summary.metabolite_id.keyword:desc',
+                            body: {
+                                'query': {
+                                    match_all: {}
                                 }
                             }
+                        });
+                    });
+
+                    it('should return hits', async () => {
+                        const expected_project = await genomeProjectSummary();
+                        const expected = {
+                            data: [expected_project],
+                            total: 1
+                        };
+                        expect(hits).toEqual(expected);
+                    });
+                });
+
+                describe('paging', () => {
+                    let hits: any;
+
+                    beforeEach(async () => {
+                        hits = await searchEngine.search({ size: 1, from: 2 });
+                    });
+
+                    it('should have called client.search', () => {
+                        expect(client.search).toHaveBeenCalledWith({
+                            index: 'podp',
+                            size: 1,
+                            from: 2,
+                            _source: 'summary',
+                            sort: 'summary.metabolite_id.keyword:desc',
+                            body: {
+                                'query': {
+                                    match_all: {}
+                                }
+                            }
+                        });
+                    });
+
+                    it('should return hits', async () => {
+                        const expected_project = await genomeProjectSummary();
+                        const expected = {
+                            data: [expected_project],
+                            total: 1
+                        };
+                        expect(hits).toEqual(expected);
+                    });
+                });
+
+                describe('query=\'Justin\'', () => {
+                    const query = 'Justin';
+                    let hits: any;
+
+                    beforeEach(async () => {
+                        hits = await searchEngine.search({ query });
+                    });
+
+                    it('should have called client.search', () => {
+                        expect(client.search).toHaveBeenCalledWith({
+                            index: 'podp',
+                            from: 0,
+                            size: 100,
+                            _source: 'summary',
+                            body: {
+                                'query': {
+                                    simple_query_string: {
+                                        query
+                                    }
+                                }
+                            }
+                        });
+                    });
+
+                    it('should return hits', async () => {
+                        const expected_project = await genomeProjectSummary();
+                        const expected = {
+                            data: [expected_project],
+                            total: 1
+                        };
+                        expect(hits).toEqual(expected);
+                    });
+                });
+
+                describe.each([
+                    ['principal_investigator', 'Marnix Medema'],
+                    ['submitter', 'Justin van der Hooft'],
+                    ['genome_type', 'genome'],
+                    ['species', 'Streptomyces sp. CNB091'],
+                    ['metagenomic_environment', 'Soil'],
+                    ['instrument_type', 'Time-of-flight (TOF)'],
+                    ['growth_medium', 'A1 medium'],
+                    ['solvent', 'Butanol'],
+                    ['ionization_mode', 'Positive'],
+                    ['ionization_type', 'Electrospray Ionization (ESI)']
+                ])('filter={key:\'%s\', value:\'%s\'}', (key: FilterField, value) => {
+                    let hits: any;
+                    beforeEach(async () => {
+                        client.search.mockClear();
+                        hits = await searchEngine.search({ filter: { key, value } });
+                    });
+
+                    it('should have called index.search', () => {
+                        expect(client.search).toBeCalled();
+                        const called = client.search.mock.calls[0][0];
+                        const expected = {
+                            index: 'podp',
+                            from: 0,
+                            size: 100,
+                            _source: 'summary',
+                            body: {
+                                query: {
+                                    match: expect.anything()
+                                }
+                            }
+                        };
+                        expect(called).toEqual(expected);
+                    });
+
+                    it('should return hits', async () => {
+                        const expected_project = await genomeProjectSummary();
+                        const expected = {
+                            data: [expected_project],
+                            total: 1
+                        };
+                        expect(hits).toEqual(expected);
+                    });
+                });
+
+                describe('invalid filter field', () => {
+                    it('should throw Error', async () => {
+                        expect.assertions(1);
+                        try {
+                            await searchEngine.search({
+                                filter: {
+                                    key: 'some invalid key' as any,
+                                    value: 'somevalue'
+                                }
+                            });
+                        } catch (error) {
+                            expect(error).toEqual(new Error('Invalid filter field'));
                         }
                     });
                 });
 
-                it('should return hits', async () => {
-                    const expected = await genomeProject();
-                    expect(hits).toEqual([expected]);
+                describe('filter & query', () => {
+                    it('should have called index.search', async () => {
+                        client.search.mockClear();
+                        const query = 'Justin';
+                        const filter = { key: 'solvent' as FilterField, value: 'Butanol' };
+
+                        await searchEngine.search({ query, filter });
+
+                        expect(client.search).toBeCalled();
+                        const called = client.search.mock.calls[0][0];
+                        const expected = {
+                            index: 'podp',
+                            from: 0,
+                            size: 100,
+                            _source: 'summary',
+                            body: {
+                                query: {
+                                    bool: {
+                                        must: {
+                                            simple_query_string: {
+                                                query: 'Justin'
+                                            }
+                                        },
+                                        filter: {
+                                            match: {
+                                                'project.experimental.extraction_methods.solvents.solvent_title.keyword': 'Butanol'
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        };
+                        expect(called).toEqual(expected);
+                    });
+
                 });
             });
 
@@ -154,73 +331,6 @@ describe('new SearchEngine()', () => {
                 });
             });
 
-            describe.each([
-                ['principal_investigator', 'Marnix Medema'],
-                ['submitter', 'Justin van der Hooft'],
-                ['genome_type', 'genome'],
-                ['species', 'Streptomyces sp. CNB091'],
-                ['metagenomic_environment', 'Soil'],
-                ['instrument_type', 'Time-of-flight (TOF)'],
-                ['growth_medium', 'A1 medium'],
-                ['solvent', 'Butanol'],
-                ['ionization_mode', 'Positive'],
-                ['ionization_type', 'Electrospray Ionization (ESI)']
-            ])('filter(\'%s\', \'%s\')', (key: FilterField, value) => {
-                let hits: any;
-                beforeEach(async () => {
-                    client.search.mockClear();
-                    hits = await searchEngine.filter(key, value);
-                });
-
-                it('should have called index.search', () => {
-                    expect(client.search).toBeCalled();
-                    const called = client.search.mock.calls[0][0];
-                    let expected = {
-                        index: 'podp',
-                        body: {
-                            query: {
-                                match: expect.anything()
-                            }
-                        }
-                    };
-                    if (key === 'submitter') {
-                        expected = {
-                            index: 'podp',
-                            body: {
-                                query: {
-                                    bool: {
-                                        should: [
-                                            {
-                                                match: expect.anything()
-                                            },
-                                            {
-                                                match: expect.anything()
-                                            }
-                                         ],
-                                    },
-                                },
-                            },
-                        } as any;
-                    }
-                    expect(called).toEqual(expected);
-                });
-
-                it('should return hits', async () => {
-                    const expected = await genomeProject();
-                    expect(hits).toEqual([expected]);
-                });
-            });
-
-            describe('filter(invalid field)', () => {
-                it('should throw Error', async () => {
-                    expect.assertions(1);
-                    try {
-                        await searchEngine.filter('some invalid key' as any, 'somevalue');
-                    } catch (error) {
-                        expect(error).toEqual(new Error('Invalid filter field'));
-                    }
-                });
-            });
         });
 
         describe('with a single metagenome project', () => {
@@ -299,7 +409,7 @@ async function esGenomeProject() {
     project.experimental.instrumentation_methods[0].mode_title = 'Positive';
     project.experimental.instrumentation_methods[0].ionization_type_title = 'Electrospray Ionization (ESI)';
     const esproject = {
-        _id: 'projectid1',
+        project_id: 'projectid1',
         project,
         enrichments: {
             genomes: [{
@@ -311,6 +421,17 @@ async function esGenomeProject() {
                 'title': 'Streptomyces sp. CNB091, whole genome shotgun sequencing project',
                 'url': 'https://www.ncbi.nlm.nih.gov/nuccore/ARJI01000000'
             }]
+        },
+        summary: {
+            metabolite_id: 'MSV000078839',
+            PI_name: 'Marnix Medema',
+            submitters: 'Justin van der Hooft',
+            nr_extraction_methods: 3,
+            nr_genecluster_mspectra_links: 3,
+            nr_genome_metabolomics_links: 21,
+            nr_genomes: 3,
+            nr_growth_conditions: 3,
+            nr_instrumentation_methods: 1,
         }
     };
     return esproject;
@@ -334,5 +455,22 @@ async function genomeProject() {
             }
         }
     };
-    return eproject;
+    return eproject as EnrichedProjectDocument;
+}
+
+async function genomeProjectSummary() {
+    const summary = {
+        _id: 'projectid1',
+        metabolite_id: 'MSV000078839',
+        PI_name: 'Marnix Medema',
+        submitters: 'Justin van der Hooft',
+        nr_extraction_methods: 3,
+        nr_genecluster_mspectra_links: 3,
+        nr_genome_metabolomics_links: 21,
+        nr_genomes: 3,
+        nr_growth_conditions: 3,
+        nr_instrumentation_methods: 1,
+        score: 0.5,
+    };
+    return summary;
 }

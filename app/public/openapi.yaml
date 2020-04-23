@@ -36,6 +36,8 @@ paths:
                 "species",
                 "metagenomic_environment",
                 "instrument_type",
+                "ionization_mode",
+                "ionization_type",
                 "growth_medium",
                 "solvent",
               ]
@@ -45,6 +47,40 @@ paths:
           example: Pieter C. Dorrestein
           schema:
             type: string
+        - name: size
+          in: query
+          description: Page size
+          example: 50
+          schema:
+            type: integer
+            default: 100
+            minimum: 1
+            maximum: 1000
+        - name: page
+          in: query
+          description: Page number
+          example: 25
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+            maximum: 1000
+        - name: sort
+          in: query
+          description: Field to sort on
+          example: nr_genomes
+          schema:
+            type: string
+            default: 'met_id'
+            enum: ["nr_genomes" , "score" , "_id" , "met_id" , "PI_name" , "submitters" , "nr_growth_conditions" , "nr_extraction_methods" , "nr_instrumentation_methods" , "nr_genome_metabolomics_links" , "nr_genecluster_mspectra_links"]
+        - name: order
+          in: query
+          description: Order to sort
+          example: asc
+          schema:
+            type: string
+            default: 'desc'
+            enum: ['asc', 'desc']
       responses:
         "200":
           description: Successful Response
@@ -135,10 +171,14 @@ components:
       type: object
       properties:
         data:
+          description: Projects on current page
           type: array
           items:
             $ref: "#/components/schemas/ProjectSummary"
-      required: [data]
+        total:
+          description: Total number of projects
+          type: integer
+      required: [data, total]
       additionalProperties: false
     ProjectSummary:
       type: object
@@ -193,6 +233,9 @@ components:
           $ref: "/schema.json"
         enrichments:
           $ref: "#/components/schemas/Enrichments"
+        score:
+          description: Search score
+          type: number
       required: [_id, project]
       additionalProperties: false
     Enrichments:
