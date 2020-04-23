@@ -7,13 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* Paging projects ([#137](https://github.com/iomega/paired-data-form/issues/137))
+
+### Changed
+
+* Sort projects moved from web application to elastic search ([#138](https://github.com/iomega/paired-data-form/issues/138))
+* Allow search and filter to be combined
+
 ## [0.6.1] 2020-04-16
 
 ### Added
 
 * Added ionization modes to stats page ([#132](https://github.com/iomega/paired-data-form/issues/132))
 * Search query examples ([#132](https://github.com/iomega/paired-data-form/issues/132))
-* Paging projects ([#137](https://github.com/iomega/paired-data-form/issues/137))
 
 ### Fixed
 
