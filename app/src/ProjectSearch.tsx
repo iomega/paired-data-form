@@ -99,7 +99,7 @@ export const ProjectSearch = (props: Props) => {
                     pathname: '/projects',
                     search: `q=Pieter %2B (Carmen | Emily)`
                 }}>Pieter + (Carmen | Emily)</Link>,&nbsp;
-                <Link title='Any project which contains Pieter and ' to={{
+                <Link title='Any project which contains `acetonitrile with` as a phrase' to={{
                     pathname: '/projects',
                     search: `q="acetonitrile with"`
                 }}>"acetonitrile with"</Link>
