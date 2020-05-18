@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+* Correct title for acetonitrile search example ([#141](https://github.com/iomega/paired-data-form/issues/141))
+
 ## [0.6.2] - 2020-04-23
 
 ### Added
@@ -164,3 +168,13 @@ This version requires following migration steps.
 ## [0.1.0] - 2019-05-01
 
 Initial release.
+
+[Unreleased]: https://github.com/iomega/paired-data-form/compare/v0.6.2...HEAD
+[0.6.2]: https://github.com/iomega/paired-data-form/compare/v0.6.1...v0.6.2
+[0.6.1]: https://github.com/iomega/paired-data-form/compare/v0.6.0...v0.6.1
+[0.6.0]: https://github.com/iomega/paired-data-form/compare/v0.5.9...v0.6.1
+[0.5.0]: https://github.com/iomega/paired-data-form/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/iomega/paired-data-form/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/iomega/paired-data-form/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/iomega/paired-data-form/compare/v0.0.1...v0.2.0
+[0.1.0]: https://github.com/iomega/paired-data-form/releases/tag/v0.1.0
