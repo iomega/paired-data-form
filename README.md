@@ -29,6 +29,8 @@ The paired omics data platform consists of:
 1. A Web application, user interface, see [app/](app/) directory
 2. An API web service, service responsible for storing projects, see [api.](api/) directory
 
+[![Architecture diagram](manuals/images/architecture.svg)](manuals/images/architecture.svg)
+
 ## Run using Docker compose
 
 The application can be configured using environment variables:
