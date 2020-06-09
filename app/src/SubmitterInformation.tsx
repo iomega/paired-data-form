@@ -11,7 +11,7 @@ interface IProps {
 }
 
 export const SubmitterInformation = ({ project_id, personal }: IProps) => {
-    const subject = "Regarding paired omics data platform project: " + project_id;
+    const subject = "Regarding Pairing Omics Data Platform project: " + project_id;
     const submitter_mailto = "mailto:" + personal.submitter_email + "?subject=" + subject;
     const pi_mailto = "mailto:" + personal.PI_email + "?subject=" + subject;
     return (

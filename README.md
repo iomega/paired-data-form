@@ -1,4 +1,4 @@
-# Paired omics data platform
+# Pairing Omics Data Platform
 
 Linking mas spectra and genomic information to discover new chemistry.
 
@@ -24,7 +24,7 @@ If you want to contribute to the platform, have a look at the [contribution guid
 
 ## Architecture
 
-The paired omics data platform consists of:
+The Pairing Omics Data Platform consists of:
 
 1. A Web application, user interface, see [app/](app/) directory
 2. An API web service, service responsible for storing projects, see [api.](api/) directory

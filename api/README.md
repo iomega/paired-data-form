@@ -1,8 +1,8 @@
-# Api web service for paired omics data platform
+# Api web service for Pairing Omics Data Platform
 
 ## Architecture
 
-The paired omics data platform api web service use a directories to store project json files.
+The Pairing Omics Data Platform api web service use a directories to store project json files.
 
 * pending/, any projects added via POST to `/api/projects` or `/api/projects/:id` will end up here. Ready for reviewing
 * approved/, all public visible projects. Once a project is approved it is moved from the `pending/` directory to the `approved/` directory.
