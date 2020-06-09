@@ -17,7 +17,7 @@ export const About = () => {
             <ul>
                 <li>Stefan Verhoeven, Netherlands eScience Center</li>
                 <li>Justin van der Hooft, Wageningen University</li>
-                <li>Michelle Shorn, Wageningen University</li>
+                <li>Michelle Schorn, Wageningen University</li>
                 <li>Marnix Medema, Wageningen University</li>
                 <li>Pieter Dorrestein, University of California San Diego</li>
             </ul>
