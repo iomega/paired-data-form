@@ -21,7 +21,7 @@ export function Welcome() {
         <div style={style}>
             <Row style={rowStyle}>
                 <Col md={4} mdOffset={2} style={colStyle}>
-                    <h1>Pairing Omics Data Platform</h1>
+                    <h1>Paired Omics Data Platform</h1>
                     <p style={textStyle}>The Paired Omics Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer readable format to further the field of natural products discovery. The goals are to link molecules to their producers, find large scale genome-metabolome associations, use genomic data to assist in structural elucidation of molecules, and provide a centralized database for paired datasets.</p>
                 </Col>
                 <Col md={4} style={colStyle}>
