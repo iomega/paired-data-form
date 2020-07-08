@@ -67,7 +67,7 @@ export const ProjectList = ({ projects, setSortedOn, sortKey, sortOrder }: Props
                     <ColumnHeader sortOrder={sortOrder} skey="nr_extraction_methods" active={sortKey} onClick={setSortedOn} title="Nr of extraction methods" />
                     <ColumnHeader sortOrder={sortOrder} skey="nr_instrumentation_methods" active={sortKey} onClick={setSortedOn} title="Nr of instrumentation methods" />
                     <ColumnHeader sortOrder={sortOrder} skey="nr_genome_metabolomics_links" active={sortKey} onClick={setSortedOn} title="Nr of links between genome and metabolome samples" />
-                    <ColumnHeader sortOrder={sortOrder} skey="nr_genecluster_mspectra_links" active={sortKey} onClick={setSortedOn} title="Nr of links between gene clusters and MS2 spectra" />
+                    <ColumnHeader sortOrder={sortOrder} skey="nr_genecluster_mspectra_links" active={sortKey} onClick={setSortedOn} title="Nr of links between biosynthetic gene clusters and MS/MS spectra" />
                 </tr>
             </thead>
             <tbody>
