@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* SEO optimizations like static sitemap, dynamic sitemap for projects and each project has structured data ([#148](https://github.com/iomega/paired-data-form/pull/148))
+
 ### Changed
 
-* Titles synced with draft paper [#146](https://github.com/iomega/paired-data-form/pull/146)
+* Titles synced with draft paper ([#146](https://github.com/iomega/paired-data-form/pull/146))
 
 ### Fixed
 
