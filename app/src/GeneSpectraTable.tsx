@@ -10,7 +10,7 @@ interface IProps {
 export const GeneSpectraTable = (props: IProps) => {
   const pure_project = props.data.project;
   if (!pure_project.BGC_MS2_links || pure_project.BGC_MS2_links.length === 0) {
-    return <p>No links between gene clusters and MS2 spectra.</p>;
+    return <p>No links between biosynthetic gene clusters and MS/MS spectra.</p>;
   }
   const mySchema = props.schema.properties.BGC_MS2_links.items;
   const myProps = mySchema.properties;
@@ -44,7 +44,7 @@ export const GeneSpectraTable = (props: IProps) => {
       <tr key={i}>
         <td>{r.known_link}</td>
         <td>{r.verification.join(', ')}</td>
-        <td>{r.SMILES}</td>
+        <td><div style={{maxWidth: '300px', overflow: 'auto'}}>{r.SMILES}</div></td>
         <td>{r.IUPAC}</td>
         <td>{bgc}</td>
         <td>{link}</td>

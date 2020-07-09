@@ -19,7 +19,7 @@ describe('<GenomeMetabolomicsTable/>', () => {
             });
 
             it('should show warning if there are no links', () => {
-                const warning = <p>No links between gene clusters and MS2 spectra.</p>;
+                const warning = <p>No links between biosynthetic gene clusters and MS/MS spectra.</p>;
                 expect(comp.contains(warning)).toBeTruthy();
             });
         });
@@ -35,7 +35,7 @@ describe('<GenomeMetabolomicsTable/>', () => {
             });
 
             it('should not show warning if there are no links', () => {
-                const warning = <p>No links between gene clusters and MS2 spectra.</p>;
+                const warning = <p>No links between biosynthetic gene clusters and MS/MS spectra.</p>;
                 expect(comp.contains(warning)).toBeFalsy();
             });
 

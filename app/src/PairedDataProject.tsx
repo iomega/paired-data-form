@@ -23,9 +23,9 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
   const filename = `paired_datarecord_${project_id}.json`;
   return (
     <div>
-      <h3>iOMEGA Paired data project</h3>
+      <h3>Project</h3>
 
-      <div>Project identifier: {project_id}</div>
+      <div>Identifier: {project_id}</div>
       <ProjectActions project_id={project_id} data_url={data_url} filename={filename} inreview={inreview}/>
 
       <Panel>
@@ -37,11 +37,11 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
         <Panel.Body><MetabolomicsProjectDetails data={pure_project.metabolomics} /></Panel.Body>
       </Panel>
       <Panel>
-        <Panel.Heading>Links between genomes and metabolomics data</Panel.Heading>
+        <Panel.Heading>Links between (meta)genomes and metabolomics data</Panel.Heading>
         <Panel.Body><GenomeMetabolomicsTable data={project} schema={schema} /></Panel.Body>
       </Panel>
       <Panel>
-        <Panel.Heading>Linked gene clusters and MS2 spectra</Panel.Heading>
+        <Panel.Heading>Linked biosynthetic gene clusters and MS/MS spectra</Panel.Heading>
         <Panel.Body style={{ overflowY: 'auto' }}><GeneSpectraTable data={project} schema={schema} /></Panel.Body>
       </Panel>
       <ProjectActions project_id={project_id} data_url={data_url} filename={filename} inreview={inreview}/>

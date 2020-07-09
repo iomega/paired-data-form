@@ -16,7 +16,7 @@ interface IProps {
 export const GenomeMetabolomicsTable = (props: IProps) => {
     const pure_project: IOMEGAPairedOmicsDataPlatform = props.data.project;
     if (!pure_project.genome_metabolome_links || pure_project.genome_metabolome_links.length === 0) {
-        return <p>No links between (meta)genomes and metabolimics data files.</p>;
+        return <p>No links between (meta)genomes and metabolomics data files.</p>;
     }
     const genome_enrichments = props.data.enrichments && props.data.enrichments.genomes ? props.data.enrichments.genomes : {};
     const gmProps = props.schema.properties.genome_metabolome_links.items.properties;

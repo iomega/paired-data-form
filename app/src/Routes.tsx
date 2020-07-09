@@ -25,7 +25,7 @@ export function Routes() {
             <Navbar>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <Link to="/" >Pairing Omics Data Platform</Link>
+                        <Link to="/" >Paired Omics Data Platform</Link>
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Nav>
