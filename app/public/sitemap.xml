@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <sitemap>
+      <loc>https://pairedomicsdata.bioinformatics.nl/api/sitemap</loc>
+    </sitemap>
+  </sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
+  <url>
+    <loc>https://pairedomicsdata.bioinformatics.nl/stats</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://pairedomicsdata.bioinformatics.nl/download</loc>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://pairedomicsdata.bioinformatics.nl/about</loc>
+    <changefreq>yearly</changefreq>
+  </url>
+</urlset>

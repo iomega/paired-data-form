@@ -1,12 +1,16 @@
 import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
+import { Helmet } from "react-helmet";
+import { DataCatalog } from "schema-dts";
+import { helmetJsonLdProp } from "react-schemaorg";
 
 import slide1 from './welcome/slide1.png';
 import slide2 from './welcome/slide2.png';
 import slide3 from './welcome/slide3.png';
 import slide4 from './welcome/slide4.png';
 import slide5 from './welcome/slide5.png';
+import { jsonldDataCatalog } from "../constants";
 
 const style = { padding: '10px', fontFamily: 'Roboto Condensed' };
 const textStyle = { fontSize: '1.8em' };
@@ -17,8 +21,13 @@ const colStyle = {
 };
 
 export function Welcome() {
+    const jsonld = helmetJsonLdProp<DataCatalog>({
+        "@context": "https://schema.org",
+        ...jsonldDataCatalog
+    }, { space: 2 });
     return (
         <div style={style}>
+            <Helmet script={[jsonld]} />
             <Row style={rowStyle}>
                 <Col md={4} mdOffset={2} style={colStyle}>
                     <h1>Paired Omics Data Platform</h1>

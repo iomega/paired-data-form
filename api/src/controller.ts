@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
+import { Queue } from 'bull';
+import { SitemapStream } from 'sitemap';
+import { createGzip } from 'zlib';
 
 import { ProjectDocumentStore, NotFoundException } from './projectdocumentstore';
 import { Validator } from './validate';
-import { Queue } from 'bull';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { computeStats } from './util/stats';
 import { summarizeProject } from './summarize';
@@ -222,4 +224,31 @@ export function getVersionInfo(req: Request, res: Response) {
         }
     };
     res.json(info);
+}
+
+export async function getSiteMap(req: Request, res: Response) {
+    const store = getStore(req);
+    const projects = await store.listProjects();
+
+    res.header('Content-Type', 'application/xml');
+    res.header('Content-Encoding', 'gzip');
+
+    try {
+        const smStream = new SitemapStream({ hostname: 'https://pairedomicsdata.bioinformatics.nl/projects/' });
+        const pipeline = smStream.pipe(createGzip());
+
+        projects.forEach(p => {
+            smStream.write({
+                url: p._id,
+                changefreq: 'yearly',
+                priority: 0.5
+            });
+        });
+        smStream.end();
+
+        pipeline.pipe(res).on('error', (e) => {throw e; });
+    } catch (error) {
+        console.error(error);
+        res.status(500).end();
+    }
 }

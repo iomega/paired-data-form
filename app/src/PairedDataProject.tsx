@@ -12,6 +12,7 @@ import { MetabolomicsProjectDetails } from "./MetabolomicsProjectDetails";
 import { SubmitterInformation } from "./SubmitterInformation";
 import { ProjectActions } from "./ProjectActions";
 import { record2dataUrl } from "./record2dataUrl";
+import { jsonldDataCatalog } from "./constants";
 
 interface IProps {
   project: EnrichedProjectDocument;
@@ -35,26 +36,18 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
     license: 'https://creativecommons.org/licenses/by/4.0/legalcode',
     distribution: [{
       "@type": "DataDownload",
-      encodingFormat: "JSON",
+      encodingFormat: "application/json",
       contentUrl: `https://pairedomicsdata.bioinformatics.nl/api/projects/${project_id}`
     }],
-    includedInDataCatalog: {
-      "@type": "DataCatalog",
-      name: "Paired Omics Data Platform",
-      about: 'Linking mas spectra and genomic information to discover new chemistry',
-      url: 'http://pairedomicsdata.bioinformatics.nl',
-      identifier: [
-        'https://doi.org/10.5281/zenodo.3736430'
-      ],
-      }
-  }, {space: 2});
+    includedInDataCatalog: jsonldDataCatalog
+  }, { space: 2 });
   return (
     <div>
       <Helmet script={[jsonld]} />
       <h3>Project</h3>
 
       <div>Identifier: {project_id}</div>
-      <ProjectActions project_id={project_id} data_url={data_url} filename={filename} inreview={inreview}/>
+      <ProjectActions project_id={project_id} data_url={data_url} filename={filename} inreview={inreview} />
 
       <Panel>
         <Panel.Heading>Submitter Information</Panel.Heading>
@@ -72,7 +65,7 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
         <Panel.Heading>Linked biosynthetic gene clusters and MS/MS spectra</Panel.Heading>
         <Panel.Body style={{ overflowY: 'auto' }}><GeneSpectraTable data={project} schema={schema} /></Panel.Body>
       </Panel>
-      <ProjectActions project_id={project_id} data_url={data_url} filename={filename} inreview={inreview}/>
+      <ProjectActions project_id={project_id} data_url={data_url} filename={filename} inreview={inreview} />
     </div>
   );
 };
