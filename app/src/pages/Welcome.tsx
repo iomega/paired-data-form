@@ -27,7 +27,9 @@ export function Welcome() {
     }, { space: 2 });
     return (
         <div style={style}>
-            <Helmet script={[jsonld]} />
+            <Helmet script={[jsonld]}>
+                <meta name="description" content="The Paired Omics Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer readable format to further the field of natural products discovery. The goals are to link molecules to their producers, find large scale genome-metabolome associations, use genomic data to assist in structural elucidation of molecules, and provide a centralized database for paired datasets."/>
+            </Helmet>
             <Row style={rowStyle}>
                 <Col md={4} mdOffset={2} style={colStyle}>
                     <h1>Paired Omics Data Platform</h1>
