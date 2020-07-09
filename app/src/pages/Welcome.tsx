@@ -79,7 +79,7 @@ export function Welcome() {
                 </p>
                 </Col>
                 <Col md={4} style={colStyle}>
-                    <img style={{...imgStyle, paddingTop: '30px'}} src={slide5} alt="Gene Cluster – Molecule Linking" />
+                    <img style={{...imgStyle, paddingTop: '30px'}} src={slide5} alt="Gene Cluster - Molecule Linking" />
                 </Col>
             </Row>
         </div>
