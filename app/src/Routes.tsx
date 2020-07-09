@@ -1,23 +1,35 @@
 import * as React from "react";
 
+import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
-import { Welcome } from './pages/Welcome';
-import { Projects } from "./pages/Projects";
-import { Project } from "./pages/Project";
-import { AddProject } from "./pages/AddProject";
-import { EditProject } from "./pages/EditProject";
-import { PendingProjects } from "./pages/PendingProjects";
-import { ReviewProject } from "./pages/ReviewProject";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { CloneProject } from "./pages/CloneProject";
-import { HistoryProject } from "./pages/HistoryProject";
+import { Welcome } from './pages/Welcome';
 import { About } from "./pages/About";
-import { StatsPage } from "./pages/StatsPage";
 import { DownloadPage } from "./pages/DownloadPage";
+
+
+const chunk = import('./chunk');
+
+function lazyNamed(name: string) {
+    return lazy(async () => {
+        const module: any = await chunk;
+        return  {default: module[name]};
+    });
+}
+
+const Projects = lazyNamed('Projects');
+const AddProject = lazyNamed('AddProject');
+const EditProject = lazyNamed('EditProject');
+const CloneProject = lazyNamed('CloneProject');
+const HistoryProject = lazyNamed('HistoryProject');
+const Project = lazyNamed('Project');
+const PendingProjects = lazyNamed('PendingProjects');
+const ReviewProject = lazyNamed('ReviewProject');
+const StatsPage = lazyNamed('StatsPage');
+
 
 export function Routes() {
     return (
@@ -49,20 +61,22 @@ export function Routes() {
                     </LinkContainer>
                 </Nav>
             </Navbar>
-            <Switch>
-                <Route path="/" exact component={Welcome} />
-                <Route path="/add" exact component={AddProject} />
-                <Route path="/projects/:id/edit" component={EditProject} />
-                <Route path="/projects/:id/clone" component={CloneProject} />
-                <Route path="/projects/:id/history" component={HistoryProject} />
-                <Route path="/projects/:id" component={Project} />
-                <Route path="/projects" component={Projects} />
-                <Route path="/stats" component={StatsPage} />
-                <Route path="/download" component={DownloadPage}/>
-                <Route path="/about" component={About}/>
-                <ProtectedRoute path="/pending" exact component={PendingProjects} />
-                <ProtectedRoute path="/pending/:id" component={ReviewProject} />
-            </Switch>
+            <Suspense fallback={<div>Loading...</div>}>
+                <Switch>
+                    <Route path="/" exact component={Welcome} />
+                    <Route path="/add" exact component={AddProject} />
+                    <Route path="/projects/:id/edit" component={EditProject} />
+                    <Route path="/projects/:id/clone" component={CloneProject} />
+                    <Route path="/projects/:id/history" component={HistoryProject} />
+                    <Route path="/projects/:id" component={Project} />
+                    <Route path="/projects" component={Projects} />
+                    <Route path="/stats" component={StatsPage} />
+                    <Route path="/download" component={DownloadPage}/>
+                    <Route path="/about" component={About}/>
+                    <ProtectedRoute path="/pending" exact component={PendingProjects} />
+                    <ProtectedRoute path="/pending/:id" component={ReviewProject} />
+                </Switch>
+            </Suspense>
         </Router>
     );
 }
