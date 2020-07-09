@@ -44,7 +44,7 @@ export const GeneSpectraTable = (props: IProps) => {
       <tr key={i}>
         <td>{r.known_link}</td>
         <td>{r.verification.join(', ')}</td>
-        <td>{r.SMILES}</td>
+        <td><div style={{maxWidth: '300px', overflow: 'auto'}}>{r.SMILES}</div></td>
         <td>{r.IUPAC}</td>
         <td>{bgc}</td>
         <td>{link}</td>

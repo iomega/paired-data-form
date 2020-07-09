@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+* Titles synced with draft paper [#146](https://github.com/iomega/paired-data-form/pull/146)
+
 ### Fixed
 
 * Correct title for acetonitrile search example ([#141](https://github.com/iomega/paired-data-form/issues/141))
 * Consistent casing of platform name ([#143](https://github.com/iomega/paired-data-form/issues/143))
+* Smiles render with own optional scrollbar ([#147](https://github.com/iomega/paired-data-form/issues/147))
 
 ## [0.6.2] - 2020-04-23
 
