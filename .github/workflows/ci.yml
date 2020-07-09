@@ -5,21 +5,21 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   schema:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-    - name: Schema validation
-      run: npx -p ajv-cli ajv compile -s app/public/schema.json
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Schema validation
+        run: npx -p ajv-cli ajv compile -s app/public/schema.json
   api:
     runs-on: ubuntu-latest
     defaults:
@@ -27,7 +27,7 @@ jobs:
         working-directory: api
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 
+      - name: Use Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
@@ -51,7 +51,7 @@ jobs:
         working-directory: app
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 
+      - name: Use Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app-coverage
-          path: app/coverage/lcov.info      
+          path: app/coverage/lcov.info
   sonar:
     runs-on: ubuntu-latest
     needs: [api, app]
@@ -81,10 +81,12 @@ jobs:
         with:
           name: app-coverage
           path: app/coverage
-      - run: ls -Rl 
+      - name: Correct coverage paths
+        run: sed -i "s+$PWD/++g" api/coverage/lcov.info app/coverage/lcov.info
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
+        with:
+          fetch-depth: 0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-     
