@@ -1,10 +1,10 @@
 import React from 'react';
+import { doiLink, doi } from '../constants';
 
 const style = { padding: '10px' };
 
 export const DownloadPage = () => {
-    const doiLink = 'https://doi.org/10.5281/zenodo.3736430';
-    const doi = '10.5281/zenodo.3736430';
+
     return (
         <div style={style}>
             <h2>Download</h2>

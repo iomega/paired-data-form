@@ -38,6 +38,7 @@ export function builder(mystore: ProjectDocumentStore, myenrichqueue: Bull.Queue
     app.get('/api/projects/:id/history', asyncHandler(controller.getProjectHistory));
     app.get('/api/stats', asyncHandler(controller.getStats));
     app.get('/api/version', controller.getVersionInfo);
+    app.get('/api/sitemap', asyncHandler(controller.getSiteMap));
     // Protected api
     const protected_api = passport.authenticate('bearer', { session: false });
     app.post('/api/auth', protected_api, okHandler);

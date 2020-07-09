@@ -1,12 +1,16 @@
 import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
+import { Helmet } from "react-helmet";
+import { DataCatalog } from "schema-dts";
+import { helmetJsonLdProp } from "react-schemaorg";
 
 import slide1 from './welcome/slide1.png';
 import slide2 from './welcome/slide2.png';
 import slide3 from './welcome/slide3.png';
 import slide4 from './welcome/slide4.png';
 import slide5 from './welcome/slide5.png';
+import { jsonldDataCatalog } from "../constants";
 
 const style = { padding: '10px', fontFamily: 'Roboto Condensed' };
 const textStyle = { fontSize: '1.8em' };
@@ -17,8 +21,15 @@ const colStyle = {
 };
 
 export function Welcome() {
+    const jsonld = helmetJsonLdProp<DataCatalog>({
+        "@context": "https://schema.org",
+        ...jsonldDataCatalog
+    }, { space: 2 });
     return (
         <div style={style}>
+            <Helmet script={[jsonld]}>
+                <meta name="description" content="The Paired Omics Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer readable format to further the field of natural products discovery. The goals are to link molecules to their producers, find large scale genome-metabolome associations, use genomic data to assist in structural elucidation of molecules, and provide a centralized database for paired datasets."/>
+            </Helmet>
             <Row style={rowStyle}>
                 <Col md={4} mdOffset={2} style={colStyle}>
                     <h1>Paired Omics Data Platform</h1>
