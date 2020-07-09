@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import { Express } from 'express';
 import Bull from 'bull';
+import { parseStringPromise } from 'xml2js';
 
 import { builder } from './app';
 import { ProjectDocumentStore, NotFoundException } from './projectdocumentstore';
@@ -105,7 +106,7 @@ describe('app', () => {
             describe.each([
                 ['/api/projects', { size: 100, from: 0 }],
                 ['/api/projects?size=12', { size: 12, from: 0 }],
-                ['/api/projects?page=2', {  size: 100, from: 200 }],
+                ['/api/projects?page=2', { size: 100, from: 200 }],
                 ['/api/projects?size=12&page=3', { size: 12, from: 36 }],
                 ['/api/projects?sort=nr_genomes', { size: 100, from: 0, sort: 'nr_genomes' }],
                 ['/api/projects?order=asc', { size: 100, from: 0, order: 'asc' }],
@@ -419,6 +420,34 @@ describe('app', () => {
                     api: expect.stringMatching(/\d+\.\d+.\d+/)
                 };
                 expect(body).toEqual(expected);
+            });
+        });
+
+        fdescribe('GET /api/sitemap', () => {
+            it('should return a sitemap with projectid1.1 url', async () => {
+                const response = await supertest(app)
+                    .get('/api/sitemap')
+                    ;
+
+                expect(response.status).toBe(200);
+                const sitemap = await parseStringPromise(response.text);
+                const expected = {
+                    urlset: {
+                        '$': {
+                            xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9',
+                            'xmlns:image': 'http://www.google.com/schemas/sitemap-image/1.1',
+                            'xmlns:news': 'http://www.google.com/schemas/sitemap-news/0.9',
+                            'xmlns:video': 'http://www.google.com/schemas/sitemap-video/1.1',
+                            'xmlns:xhtml': 'http://www.w3.org/1999/xhtml'
+                        },
+                        url: [{
+                            changefreq: ['yearly'],
+                            loc: ['https://pairedomicsdata.bioinformatics.nl/projects/projectid1.1'],
+                            priority: ['0.5']
+                        }]
+                    }
+                };
+                expect(sitemap).toEqual(expected);
             });
         });
     });

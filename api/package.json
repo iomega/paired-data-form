@@ -82,6 +82,7 @@
     "@types/umzug": "^2.2.3",
     "@types/unzipper": "^0.10.2",
     "@types/uuid": "^3.4.4",
+    "@types/xml2js": "^0.4.5",
     "@types/yargs": "^13.0.0",
     "concurrently": "^3.6.1",
     "jest": "^25.2.4",
@@ -94,7 +95,8 @@
     "ts-node": "^5.0.0",
     "tslint": "^5.9.1",
     "typescript": "^3.4.5",
-    "unzipper": "^0.10.10"
+    "unzipper": "^0.10.10",
+    "xml2js": "^0.4.23"
   },
   "engines": {
     "node": ">=10"
