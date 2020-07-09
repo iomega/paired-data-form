@@ -28,9 +28,10 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
   const jsonld = helmetJsonLdProp<Dataset>({
     "@context": "https://schema.org",
     "@type": "Dataset",
-    identifier: [`http://pairedomicsdata.bioinformatics.nl/project/${project_id}`],
-    url: `http://pairedomicsdata.bioinformatics.nl/project/${project_id}`,
+    identifier: [`https://pairedomicsdata.bioinformatics.nl/project/${project_id}`],
+    url: `https://pairedomicsdata.bioinformatics.nl/project/${project_id}`,
     name: `Project ${project_id}`,
+    description: "Paired Omics Data Platform project",
     license: 'https://creativecommons.org/licenses/by/4.0/legalcode',
     distribution: [{
       "@type": "DataDownload",
@@ -41,14 +42,18 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
       "@type": "DataCatalog",
       name: "Paired Omics Data Platform",
       about: 'Linking mas spectra and genomic information to discover new chemistry',
-    }
+      url: 'http://pairedomicsdata.bioinformatics.nl',
+      identifier: [
+        'https://doi.org/10.5281/zenodo.3736430'
+      ],
+      }
   }, {space: 2});
   return (
     <div>
       <Helmet script={[jsonld]} />
       <h3>Project</h3>
 
-      <div>Project identifier: {project_id}</div>
+      <div>Identifier: {project_id}</div>
       <ProjectActions project_id={project_id} data_url={data_url} filename={filename} inreview={inreview}/>
 
       <Panel>
