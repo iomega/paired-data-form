@@ -1,6 +1,9 @@
 import * as React from "react";
 
 import { Panel } from "react-bootstrap";
+import { Helmet } from "react-helmet";
+import { Dataset } from "schema-dts";
+import { helmetJsonLdProp } from "react-schemaorg";
 
 import { GeneSpectraTable } from "./GeneSpectraTable";
 import { GenomeMetabolomicsTable } from "./GenomeMetabolomicsTable";
@@ -21,9 +24,29 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
   const pure_project = project.project;
   const data_url = record2dataUrl(pure_project);
   const filename = `paired_datarecord_${project_id}.json`;
+
+  const jsonld = helmetJsonLdProp<Dataset>({
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    identifier: [`http://pairedomicsdata.bioinformatics.nl/project/${project_id}`],
+    url: `http://pairedomicsdata.bioinformatics.nl/project/${project_id}`,
+    name: `Project ${project_id}`,
+    license: 'https://creativecommons.org/licenses/by/4.0/legalcode',
+    distribution: [{
+      "@type": "DataDownload",
+      encodingFormat: "JSON",
+      contentUrl: `https://pairedomicsdata.bioinformatics.nl/api/projects/${project_id}`
+    }],
+    includedInDataCatalog: {
+      "@type": "DataCatalog",
+      name: "Paired Omics Data Platform",
+      about: 'Linking mas spectra and genomic information to discover new chemistry',
+    }
+  }, {space: 2});
   return (
     <div>
-      <h3>iOMEGA Paired data project</h3>
+      <Helmet script={[jsonld]} />
+      <h3>Project</h3>
 
       <div>Project identifier: {project_id}</div>
       <ProjectActions project_id={project_id} data_url={data_url} filename={filename} inreview={inreview}/>
