@@ -75,10 +75,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: api-coverage
+          path: api/coverage
       - name: Download app coverage
         uses: actions/download-artifact@v2
         with:
           name: app-coverage
+          path: app/coverage
       - run: ls -Rl 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
