@@ -23,9 +23,9 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
   const filename = `paired_datarecord_${project_id}.json`;
   return (
     <div>
-      <h3>iOMEGA Paired data project</h3>
+      <h3>Project</h3>
 
-      <div>Project identifier: {project_id}</div>
+      <div>Identifier: {project_id}</div>
       <ProjectActions project_id={project_id} data_url={data_url} filename={filename} inreview={inreview}/>
 
       <Panel>
