@@ -1,0 +1,88 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  schema:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Schema validation
+      run: npx -p ajv-cli ajv compile -s app/public/schema.json
+  api:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Install
+        run: npm ci
+      - name: Build
+        run: npm run build --if-present
+      - name: Tests
+        run: npm test
+      - name: Validate Example project document
+        run: npm run validate ../app/public/examples/paired_datarecord_MSV000078839_example.json
+      - name: Upload api coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: api-coverage
+          path: api/coverage/lcov.info
+  app:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Install
+        run: npm ci
+      - name: Build
+        run: npm run build --if-present
+      - name: Tests
+        run: npm test -- --coverage
+      - name: Upload app coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-coverage
+          path: app/coverage/lcov.info      
+  sonar:
+    runs-on: ubuntu-latest
+    needs: [api, app]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download api coverage
+        uses: actions/download-artifact@v2
+        with:
+          name: api-coverage
+      - name: Download app coverage
+        uses: actions/download-artifact@v2
+        with:
+          name: app-coverage
+      - run: ls -Rl 
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+     
