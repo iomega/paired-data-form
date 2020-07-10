@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2020-10-07
+
 ### Added
 
 * SEO optimizations like static sitemap, dynamic sitemap for projects and each project has structured data ([#148](https://github.com/iomega/paired-data-form/pull/148))
@@ -179,7 +181,8 @@ This version requires following migration steps.
 
 Initial release.
 
-[Unreleased]: https://github.com/iomega/paired-data-form/compare/v0.6.2...HEAD
+[Unreleased]: https://github.com/iomega/paired-data-form/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/iomega/paired-data-form/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/iomega/paired-data-form/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/iomega/paired-data-form/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/iomega/paired-data-form/compare/v0.5.9...v0.6.1
