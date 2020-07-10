@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
+        <loc>https://pairedomicsdata.bioinformatics.nl/projects</loc>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
         <loc>https://pairedomicsdata.bioinformatics.nl/stats</loc>
         <changefreq>monthly</changefreq>
     </url>

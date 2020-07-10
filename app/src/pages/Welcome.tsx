@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-import { DataCatalog } from "schema-dts";
+import { DataCatalog, SearchAction, PropertyValueSpecification, WebSite } from "schema-dts";
 import { helmetJsonLdProp } from "react-schemaorg";
 
 import slide1 from './welcome/slide1.png';
@@ -16,19 +16,30 @@ const style = { padding: '10px', fontFamily: 'Roboto Condensed' };
 const textStyle = { fontSize: '1.8em' };
 const imgStyle = { width: '100%' };
 const rowStyle = { marginBottom: '50px', marginRight: '0px', marginLeft: '0px' };
-const colStyle = { 
+const colStyle = {
     paddingLeft: '40px'
 };
 
 export function Welcome() {
-    const jsonld = helmetJsonLdProp<DataCatalog>({
+    type MySearchAction = SearchAction & {
+        "query-input": PropertyValueSpecification | String;
+    };
+    const potentialAction: MySearchAction = {
+        "@type": "SearchAction",
+        "target": "https://pairedomicsdata.bioinformatics.nl/projects?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+    };
+    const jsonld = helmetJsonLdProp<WebSite>({
         "@context": "https://schema.org",
-        ...jsonldDataCatalog
+        "@type": "WebSite",
+        "url": "https://pairedomicsdata.bioinformatics.nl",
+        potentialAction,
+        hasPart: jsonldDataCatalog
     }, { space: 2 });
     return (
         <div style={style}>
             <Helmet script={[jsonld]}>
-                <meta name="description" content="The Paired Omics Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer readable format to further the field of natural products discovery. The goals are to link molecules to their producers, find large scale genome-metabolome associations, use genomic data to assist in structural elucidation of molecules, and provide a centralized database for paired datasets."/>
+                <meta name="description" content="The Paired Omics Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer readable format to further the field of natural products discovery. The goals are to link molecules to their producers, find large scale genome-metabolome associations, use genomic data to assist in structural elucidation of molecules, and provide a centralized database for paired datasets." />
             </Helmet>
             <Row style={rowStyle}>
                 <Col md={4} mdOffset={2} style={colStyle}>
@@ -79,7 +90,7 @@ export function Welcome() {
                 </p>
                 </Col>
                 <Col md={4} style={colStyle}>
-                    <img style={{...imgStyle, paddingTop: '30px'}} src={slide5} alt="Gene Cluster - Molecule Linking" />
+                    <img style={{ ...imgStyle, paddingTop: '30px' }} src={slide5} alt="Gene Cluster - Molecule Linking" />
                 </Col>
             </Row>
         </div>
