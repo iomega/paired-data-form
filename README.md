@@ -13,7 +13,7 @@ The [JSON schema (app/public/schema.json)](app/public/schema.json) describes the
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=iomega_paired-data-form&metric=alert_status)](https://sonarcloud.io/dashboard?id=iomega_paired-data-form)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=iomega_paired-data-form&metric=coverage)](https://sonarcloud.io/dashboard?id=iomega_paired-data-form)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3757/badge)](https://bestpractices.coreinfrastructure.org/projects/3757)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3569588.svg)](https://doi.org/10.5281/zenodo.3569588)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2656630.svg)](https://doi.org/10.5281/zenodo.2656630)
 
 ## Documentation
 
@@ -79,4 +79,3 @@ To make a new release of the platform do:
 7. On [https://doi.org/10.5281/zenodo.2656630](https://doi.org/10.5281/zenodo.2656630)
     * Update author list
     * Add `https://doi.org/10.5281/zenodo.3736463`, `is compiled/create by this upload` as `Dataset` in related identifiers section.
-8. Update version & release date in CITATION.cff
