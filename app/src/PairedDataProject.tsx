@@ -28,8 +28,8 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
 
   const bgc_ms2_links = pure_project.BGC_MS2_links;
   const description = `Paired Omics Data Platform project by ${pure_project.personal.PI_name}` +
-    ` with ${bgc_ms2_links ? bgc_ms2_links.length : 0} (Meta)Genome - Metabolome links and` +
-    ` ${pure_project.BGC_MS2_links?.length} BGC - MS/MS links`;
+    ` with ${pure_project.genome_metabolome_links.length} (Meta)Genome - Metabolome links and` +
+    ` ${bgc_ms2_links ? bgc_ms2_links.length : 0} BGC - MS/MS links`;
   const jsonld = helmetJsonLdProp<Dataset>({
     "@context": "https://schema.org",
     "@type": "Dataset",
