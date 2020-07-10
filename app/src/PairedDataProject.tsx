@@ -26,13 +26,17 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
   const data_url = record2dataUrl(pure_project);
   const filename = `paired_datarecord_${project_id}.json`;
 
+  const bgc_ms2_links = pure_project.BGC_MS2_links;
+  const description = `Paired Omics Data Platform project by ${pure_project.personal.PI_name}` +
+    ` with ${bgc_ms2_links ? bgc_ms2_links.length : 0} (Meta)Genome - Metabolome links and` +
+    ` ${pure_project.BGC_MS2_links?.length} BGC - MS/MS links`;
   const jsonld = helmetJsonLdProp<Dataset>({
     "@context": "https://schema.org",
     "@type": "Dataset",
     identifier: [`https://pairedomicsdata.bioinformatics.nl/project/${project_id}`],
     url: `https://pairedomicsdata.bioinformatics.nl/project/${project_id}`,
     name: `Project ${project_id}`,
-    description: "Paired Omics Data Platform project",
+    description,
     license: 'https://creativecommons.org/licenses/by/4.0/legalcode',
     distribution: [{
       "@type": "DataDownload",
