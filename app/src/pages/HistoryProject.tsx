@@ -1,4 +1,6 @@
 import * as React from "react";
+
+import { Helmet } from "react-helmet";
 import { useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { ButtonGroup, Radio } from "react-bootstrap";
@@ -12,7 +14,7 @@ interface TParams {
     id: string
 }
 
-const style = {padding: '10px'};
+const style = { padding: '10px' };
 
 export function HistoryProject({ match }: RouteComponentProps<TParams>) {
     const project_id = match.params.id;
@@ -63,18 +65,21 @@ export function HistoryProject({ match }: RouteComponentProps<TParams>) {
     ).join('\n');
     const htmlified_diff = Diff2Html.getPrettyHtml(
         diff, {
-            outputFormat: 'side-by-side'
-        }
+        outputFormat: 'side-by-side'
+    }
     );
     return (
         <div style={style}>
+            <Helmet>
+                <link rel="canonical" href={`https://pairedomicsdata.bioinformatics.nl/projects/${project_id}`} />
+            </Helmet>
             <h3>
-            Compare <Link to={`/projects/${project_id}`}>{project_id}</Link> project to previous revision
+                Compare <Link to={`/projects/${project_id}`}>{project_id}</Link> project to previous revision
             </h3>
             <ul>
                 {revisions}
             </ul>
-            <div dangerouslySetInnerHTML={{ __html: htmlified_diff}}/>
+            <div dangerouslySetInnerHTML={{ __html: htmlified_diff }} />
             {nav}
         </div>
     );
