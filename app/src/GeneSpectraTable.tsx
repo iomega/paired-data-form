@@ -53,7 +53,7 @@ export const GeneSpectraTable = (props: IProps) => {
   });
 
   return (
-    <Table condensed={true} striped={true} bordered={true}>
+    <Table condensed={true} striped={true} bordered={true} responsive={true}>
       <thead>
         <tr>
           <td>{myProps['known_link'].title}</td>

@@ -247,7 +247,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                     </Button>
                 </OverlayTrigger>
             </td>
-            <td>{r.metabolomics_file}<Button bsStyle="link" href={r.metabolomics_file}><Glyphicon style={{color:"gray"}} glyph="download-alt"/></Button></td>
+            <td>{r.metabolomics_file}<Button title={`Download ${r.metabolomics_file}`} bsStyle="link" href={r.metabolomics_file}><Glyphicon style={{color:"gray"}} glyph="download-alt"/></Button></td>
             <td>
                 <OverlayTrigger
                     trigger="click"
@@ -289,7 +289,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
 
     return (
         <>
-            <Table condensed={true} striped={true} bordered={true}>
+            <Table condensed={true} striped={true} bordered={true} responsive={true}>
                 <thead>
                     <tr>
                         {headers}

@@ -56,7 +56,7 @@ export const ProjectList = ({ projects, setSortedOn, sortKey, sortOrder }: Props
         rows.push(<tr key="0"><td colSpan={9}>No projects found.</td></tr>);
     }
     return (
-        <Table>
+        <Table responsive={true}>
             <thead>
                 <tr>
                     <ColumnHeader sortOrder={sortOrder} skey="met_id" active={sortKey} onClick={setSortedOn} title="Metabolomics project identifier" />
