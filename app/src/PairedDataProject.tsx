@@ -13,6 +13,8 @@ import { SubmitterInformation } from "./SubmitterInformation";
 import { ProjectActions } from "./ProjectActions";
 import { record2dataUrl } from "./record2dataUrl";
 import { jsonldDataCatalog } from "./constants";
+import { isMetaboLights } from "./typeguards";
+import { publicationLink } from "./Publications";
 
 interface IProps {
   project: EnrichedProjectDocument;
@@ -25,15 +27,17 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
   const pure_project = project.project;
   const data_url = record2dataUrl(pure_project);
   const filename = `paired_datarecord_${project_id}.json`;
+  const metabolomics = pure_project.metabolomics;
 
   const bgc_ms2_links = pure_project.BGC_MS2_links;
-  const description = `Paired Omics Data Platform project by ${pure_project.personal.PI_name}` +
+  const metabolomics_id = isMetaboLights(metabolomics.project) ? metabolomics.project.metabolights_study_id : metabolomics.project.GNPSMassIVE_ID;
+  const description = `Paired Omics Data Platform project of ${metabolomics_id} metabolome` +
     ` with ${pure_project.genome_metabolome_links.length} (Meta)Genome - Metabolome links and` +
     ` ${bgc_ms2_links ? bgc_ms2_links.length : 0} BGC - MS/MS links`;
-  const jsonld = helmetJsonLdProp<Dataset>({
-    "@context": "https://schema.org",
+
+  const dataset: Dataset = {
     "@type": "Dataset",
-    identifier: [`https://pairedomicsdata.bioinformatics.nl/project/${project_id}`],
+    identifier: `https://pairedomicsdata.bioinformatics.nl/project/${project_id}`,
     url: `https://pairedomicsdata.bioinformatics.nl/project/${project_id}`,
     name: `Project ${project_id}`,
     description,
@@ -43,7 +47,47 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
       encodingFormat: "application/json",
       contentUrl: `https://pairedomicsdata.bioinformatics.nl/api/projects/${project_id}`
     }],
-    includedInDataCatalog: jsonldDataCatalog
+    keywords: [
+      "metabolomics",
+      "genomics",
+      "biosynthetic gene cluster",
+      "tandem mass spectrometry",
+    ],
+    includedInDataCatalog: jsonldDataCatalog,
+    creator: {
+      "@type": "Person",
+      "name": pure_project.personal.submitter_name,
+      "sameAs": pure_project.personal.submitter_orcid,
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "correspondence",
+        "email": pure_project.personal.submitter_email
+      }
+    },
+    accountablePerson: {
+      "@type": "Person",
+      "name": pure_project.personal.PI_name,
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "correspondence",
+        "email": pure_project.personal.PI_email
+      },
+      "affiliation": {
+        "@type": "Organization",
+        "name": pure_project.personal.PI_institution
+      }
+    },
+    // api does not return version of dataset, so assume any after '.' is version
+    version: project._id.slice(project._id.indexOf('.') + 1)
+  };
+  if (pure_project.metabolomics.publications) {
+    dataset.citation = publicationLink(
+      pure_project.metabolomics.publications.split(',')[0]
+    );
+  }
+  const jsonld = helmetJsonLdProp<Dataset>({
+    "@context": "https://schema.org",
+    ...dataset
   }, { space: 2 });
   return (
     <div>
@@ -59,7 +103,7 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
       </Panel>
       <Panel>
         <Panel.Heading>Metabolomics project details</Panel.Heading>
-        <Panel.Body><MetabolomicsProjectDetails data={pure_project.metabolomics} /></Panel.Body>
+        <Panel.Body><MetabolomicsProjectDetails data={metabolomics} /></Panel.Body>
       </Panel>
       <Panel>
         <Panel.Heading>Links between (meta)genomes and metabolomics data</Panel.Heading>
