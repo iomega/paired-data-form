@@ -16,7 +16,7 @@ export const Publications = ({publications}: IProps) => {
     if (!publications) {
         return <></>;
     }
-    const pubs = publications.split(/,/);
+    const pubs = publications.split(/,\s*/);
     const lis = pubs.map(p => {
         const href = publicationLink(p);
         return <span key={p}><a href={href}>{p}</a>&nbsp;</span>;
