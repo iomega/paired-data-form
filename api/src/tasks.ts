@@ -1,7 +1,6 @@
 import Bull from 'bull';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { REDIS_URL, ZENODO_DEPOSITION_ID, ZENODO_ACCESS_TOKEN } from './util/secrets';
-import { ProjectEnrichmentStore } from './store/enrichments';
 import { enrich } from './enrich';
 import { ProjectDocumentStore } from './projectdocumentstore';
 import { publish2zenodo } from './util/publish2zenodo';
