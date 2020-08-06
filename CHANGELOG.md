@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+* Render publications delimited by spaces ([#152](https://github.com/iomega/paired-data-form/pull/152))
+
 ## [0.7.0] - 2020-10-07
 
 ### Added
@@ -94,7 +98,7 @@ This version requires following migration steps.
     # Validate projects
     docker-compose exec api npm run validateall
     # Fix any validation errors and rerun validation until all projects are valid
-    # For example use VS Code extension https://marketplace.visualstudio.com/items?itemName=tiibun.vscode-docker-ws to edit file in Docker container 
+    # For example use VS Code extension https://marketplace.visualstudio.com/items?itemName=tiibun.vscode-docker-ws to edit file in Docker container
     # Edit CTRL-SHIFT-p, select dockerws command, select`paired-data-form_api_1` as Docker container and `/data` as path to open.
     code .
     # Restart api so new updated files are reindexed
