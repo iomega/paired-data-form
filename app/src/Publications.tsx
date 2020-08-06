@@ -4,7 +4,7 @@ interface IProps {
     publications: string;
 }
 
-export function publicationLink(p: string) {
+function publicationLink(p: string) {
     let href = 'https://identifiers.org/pubmed:' + p;
     if (p.indexOf('/') !== -1) {
         href = 'https://doi.org/' + p;
@@ -12,16 +12,20 @@ export function publicationLink(p: string) {
     return href;
 }
 
+export function publicationLinks(publications: string) {
+    const splitted = publications.split(/[, ]\s*/);
+    const linked: [string, string][] = splitted.map(p => [p, publicationLink(p)]);
+    return linked;
+}
+
 export const Publications = ({publications}: IProps) => {
     if (!publications) {
         return <></>;
     }
-    const pubs = publications.split(/,\s*/);
-    const lis = pubs.map(p => {
-        const href = publicationLink(p);
-        return <span key={p}><a href={href}>{p}</a>&nbsp;</span>;
-    });
+    const links = publicationLinks(publications).map(
+        ([text, href]) => <span key={text}><a href={href}>{text}</a>&nbsp;</span>
+    );
     return (
-        <>{lis}</>
+        <>{links}</>
     );
 };

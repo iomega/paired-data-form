@@ -1,52 +1,48 @@
-import * as React from 'react';
-import { Publications } from './Publications';
+import React from 'react';
 import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
-describe('<Publications/>', () => {
-    describe('zero publications', () => {
-        it('should render nothing', () => {
-            const comp = render(<Publications publications=""/>);
-            expect(comp.container.innerHTML).toEqual('');
-        });
-    });
+import { Publications } from './Publications';
 
-    describe('single doi', () => {
-        it('should render as single linked doi', () => {
-            const pubs = '10.5281/zenodo.3736430';
-            const comp = render(<Publications publications={pubs}/>);
-            const link = comp.getByText(pubs);
-            expect(link.getAttribute('href')).toEqual('https://doi.org/10.5281/zenodo.3736430');
-        });
-    });
+describe('<Publications>', () => {
 
-    describe('single pubmed', () => {
-        it('should render as single linked pubmed', () => {
-            const pubs = '28335604';
-            const comp = render(<Publications publications={pubs}/>);
-            const link = comp.getByText(pubs);
-            expect(link.getAttribute('href')).toEqual('https://identifiers.org/pubmed:28335604');
-        });
-    });
-
-    describe('comma seperated list', () => {
-        it('should render 2 links', () => {
-            const pubs = '28335604,10.5281/zenodo.3736430';
-            const comp = render(<Publications publications={pubs}/>);
-            const link1 = comp.getByText('28335604');
-            expect(link1.getAttribute('href')).toBeTruthy();
-            const link2 = comp.getByText('10.5281/zenodo.3736430');
-            expect(link2.getAttribute('href')).toBeTruthy();
-        });
-    });
-
-    describe('comma and space seperated list', () => {
-        it('should render 2 links', () => {
-            const pubs = '28335604, 10.5281/zenodo.3736430';
-            const comp = render(<Publications publications={pubs}/>);
-            const link1 = comp.getByText('28335604');
-            expect(link1.getAttribute('href')).toBeTruthy();
-            const link2 = comp.getByText('10.5281/zenodo.3736430');
-            expect(link2.getAttribute('href')).toBeTruthy();
+    const table: [string, [string, string][]][] = [
+        ['23402329', [
+            ['23402329', 'https://identifiers.org/pubmed:23402329']
+        ]],
+        ['29873888,29943987', [
+            ['29873888', 'https://identifiers.org/pubmed:29873888'],
+            ['29943987', 'https://identifiers.org/pubmed:29943987'],
+        ]],
+        ['29873888, 29943987', [
+            ['29873888', 'https://identifiers.org/pubmed:29873888'],
+            ['29943987', 'https://identifiers.org/pubmed:29943987'],
+        ]],
+        ['29873888 29943987', [
+            ['29873888', 'https://identifiers.org/pubmed:29873888'],
+            ['29943987', 'https://identifiers.org/pubmed:29943987'],
+        ]],
+        ['10.1016/s1074-5521(03)00120-0', [
+            ['10.1016/s1074-5521(03)00120-0', 'https://doi.org/10.1016/s1074-5521(03)00120-0']
+        ]],
+        ['10.1016/s1074-5521(03)00120-0,10.1073/pnas.1008285107', [
+            ['10.1016/s1074-5521(03)00120-0', 'https://doi.org/10.1016/s1074-5521(03)00120-0'],
+            ['10.1073/pnas.1008285107', 'https://doi.org/10.1073/pnas.1008285107']
+        ]],
+        ['10.1016/s1074-5521(03)00120-0, 10.1073/pnas.1008285107', [
+            ['10.1016/s1074-5521(03)00120-0', 'https://doi.org/10.1016/s1074-5521(03)00120-0'],
+            ['10.1073/pnas.1008285107', 'https://doi.org/10.1073/pnas.1008285107']
+        ]],
+        ['10.1016/s1074-5521(03)00120-0 10.1073/pnas.1008285107', [
+            ['10.1016/s1074-5521(03)00120-0', 'https://doi.org/10.1016/s1074-5521(03)00120-0'],
+            ['10.1073/pnas.1008285107', 'https://doi.org/10.1073/pnas.1008285107']
+        ]],
+    ];
+    test.each(table)('Renders with %s links(s)', (publications, links) => {
+        const container = render(<Publications publications={publications}/>);
+        expect.assertions(links.length);
+        links.forEach(([text, href]) => {
+            expect(container.getByText(text)).toHaveAttribute('href', href);
         });
     });
 });

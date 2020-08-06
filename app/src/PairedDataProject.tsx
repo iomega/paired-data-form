@@ -14,7 +14,7 @@ import { ProjectActions } from "./ProjectActions";
 import { record2dataUrl } from "./record2dataUrl";
 import { jsonldDataCatalog } from "./constants";
 import { isMetaboLights } from "./typeguards";
-import { publicationLink } from "./Publications";
+import { publicationLinks } from "./Publications";
 
 interface IProps {
   project: EnrichedProjectDocument;
@@ -81,9 +81,7 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
     version: project._id.slice(project._id.indexOf('.') + 1)
   };
   if (pure_project.metabolomics.publications) {
-    dataset.citation = publicationLink(
-      pure_project.metabolomics.publications.split(',')[0]
-    );
+    dataset.citation = publicationLinks(pure_project.metabolomics.publications)[0][1];
   }
   const jsonld = helmetJsonLdProp<Dataset>({
     "@context": "https://schema.org",
