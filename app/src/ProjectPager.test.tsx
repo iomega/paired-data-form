@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { render, RenderResult, getRoles, fireEvent } from '@testing-library/react';
+import { render, RenderResult, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { ProjectPager } from './ProjectPager';
 
