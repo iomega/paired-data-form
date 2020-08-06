@@ -61,7 +61,7 @@ export function Projects() {
     } else if (!loading) {
         list = (
             <>
-                <ProjectList projects={projects} sortKey={sortKey!} sortOrder={order as 'desc' | 'asc'} setSortedOn={sortOn} />
+                <ProjectList projects={projects} sortKey={sortKey} sortOrder={order as 'desc' | 'asc'} setSortedOn={sortOn} />
                 <ProjectPager
                     prevPage={prevPage}
                     nextPage={nextPage}

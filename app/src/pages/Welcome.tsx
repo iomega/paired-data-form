@@ -22,7 +22,7 @@ const colStyle = {
 
 export function Welcome() {
     type MySearchAction = SearchAction & {
-        "query-input": PropertyValueSpecification | String;
+        "query-input": PropertyValueSpecification | string;
     };
     const potentialAction: MySearchAction = {
         "@type": "SearchAction",

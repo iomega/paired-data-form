@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* Column check for uploading of genome links ([#154](https://github.com/iomega/paired-data-form/pull/154))
+
 ### Fixed
 
 * Render publications delimited by spaces ([#152](https://github.com/iomega/paired-data-form/pull/152))
