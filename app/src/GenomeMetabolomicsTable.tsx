@@ -77,10 +77,10 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             let environment = <></>;
             if (s.medium_details.metagenomic_environment === 'other') {
                 environment = s.medium_details.metagenomic_other_environment;
-            } else if (s.medium_details!.metagenomic_environment) {
+            } else if (s.medium_details.metagenomic_environment) {
                 const any_env = props.schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[0].properties.metagenomic_environment.oneOf;
                 const env_title = any_env.find((r: any) => r.enum[0] === s.medium_details.metagenomic_environment).title;
-                environment = <a href={s.medium_details!.metagenomic_environment}>{env_title}</a>;
+                environment = <a href={s.medium_details.metagenomic_environment}>{env_title}</a>;
             }
             medium = (
                 <p>Metagenome details
