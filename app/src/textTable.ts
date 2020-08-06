@@ -35,20 +35,32 @@ export function jsonDocument(project: IOMEGAPairedOmicsDataPlatform, rows: any[]
     if (!project.genomes) {
         throw new Error('No genomes or metagenomes have been defined');
     }
-    if (!project.experimental.sample_preparation) {
+    if (!project.experimental.sample_preparation?.length) {
         throw new Error('No sample growth conditions have been defined in the metabolomics experimental details section');
     }
-    if (!project.experimental.extraction_methods) {
+    if (!project.experimental.extraction_methods?.length ) {
         throw new Error('No extraction methods have been defined in the metabolomics experimental details section');
     }
-    if (!project.experimental.instrumentation_methods) {
+    if (!project.experimental.instrumentation_methods?.length) {
         throw new Error('No instrumentation methods have been defined in the metabolomics experimental details section');
     }
     const genomeLabels = new Set(project.genomes.map(d => d.genome_label));
     const samplePreparationLabels = new Set(project.experimental.sample_preparation.map(d => d.sample_preparation_method));
     const extractionMethodLabels = new Set(project.experimental.extraction_methods.map(d => d.extraction_method));
     const instrumentationMethodLabels = new Set(project.experimental.instrumentation_methods.map(d => d.instrumentation_method));
+    const requiredGmKeys = [
+        'Location of metabolomics data file',
+        'Genome/Metagenome',
+        'Sample Growth Conditions',
+        'Extraction Method',
+        'Instrumentation Method'
+    ];
     const gmRows: any[] = rows.map((row: any) => {
+        const keys = new Set(Object.getOwnPropertyNames(row));
+        const missingKeys = requiredGmKeys.filter(d => !keys.has(d));
+        if (missingKeys.length > 0) {
+            throw new Error(`${missingKeys.map(d => `'${d}'`).join(',')} columns are missing`);
+        }
         const metabolomicsFile = row['Location of metabolomics data file'];
         const genomeLabel = row['Genome/Metagenome'];
         if (!genomeLabels.has(genomeLabel)) {

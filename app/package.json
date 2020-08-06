@@ -35,9 +35,10 @@
     "schema2ts": "json2ts --input public/schema.json --output src/schema.ts --style.singleQuote"
   },
   "devDependencies": {
+    "@testing-library/dom": "^7.21.8",
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^10.0.1",
-    "@testing-library/user-event": "^10.0.1",
+    "@testing-library/user-event": "^12.1.0",
     "@types/d3-dsv": "^1.0.36",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
@@ -56,6 +57,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "gh-pages": "^2.2.0",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
     "json-schema-to-typescript": "^8.2.0",
     "schema-dts": "^0.6.0",
     "typescript": "^3.8.3"
