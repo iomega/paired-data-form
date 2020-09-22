@@ -30,7 +30,7 @@ The Pairing Omics Data Platform consists of:
 1. A Web application, user interface, see [app/](app/) directory
 2. An API web service, service responsible for storing projects, see [api.](api/) directory
 
-[![Architecture diagram](manuals/images/architecture.svg)](manuals/images/architecture.svg)
+[![Architecture diagram](app/src/pages/methods/architecture.svg)](app/src/pages/methods/architecture.svg)
 
 ## Run using Docker compose
 
