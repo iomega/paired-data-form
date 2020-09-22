@@ -32,6 +32,8 @@ The Pairing Omics Data Platform consists of:
 
 [![Architecture diagram](app/src/pages/methods/architecture.svg)](app/src/pages/methods/architecture.svg)
 
+The platform is implemented using Javascript based web service and a React (v16.13.1) based web application. The web application renders the submission form from the JSON schema. The web service stores each project as a file on disk. The application offers full text search functionality via web services using an elastic search (v7.6.2) index. The web service uses a redis queue (v5.0.5) to schedule jobs to fetch more information about the public identifiers and to upload the projects to Zenodo each month. For example, the scientific species name is fetched from GenBank using the public genome identifiers in the project. The web service has an OpenAPI (v3.0.3) specification ([https://www.openapis.org/](https://www.openapis.org/)) which can be used to submit and retrieve projects in a programmatic manner. The platform runs using Docker Compose (v1.25.4) with containers for the web application, web service and redis queue.
+
 ## Run using Docker compose
 
 The application can be configured using environment variables:

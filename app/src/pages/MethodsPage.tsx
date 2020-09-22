@@ -1,7 +1,7 @@
 import React from 'react';
 import architecture from './methods/architecture.svg';
-const style = { padding: '10px' };
 
+const style = { padding: '10px' };
 
 export const MethodsPage = () => {
     return (
