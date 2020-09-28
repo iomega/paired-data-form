@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Links to methods page ([#159](https://github.com/iomega/paired-data-form/issues/159))
+
 ## [0.8.0] - 2020-09-22
 
 ### Added

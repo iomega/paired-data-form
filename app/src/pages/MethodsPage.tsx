@@ -29,7 +29,7 @@ export const MethodsPage = () => {
             <h3>Format</h3>
 
             <p>
-                Each project is stored as a JSON formatted document which adheres to the platform’s JSON schema (https://pairedomicsdata.bioinformatics.nl/schema.json). The JSON schema describes which fields are required, gives human readable titles and descriptions for each field and describes when they are valid. The schema is versioned to make sure documents are compatible with the platform and can evolve over time. To add a project to the platform a submission form must be filled - this can be done without a login to promote ease of use. After the project is reviewed by the platform administrators (usually within two weeks), the project is listed on the site. The projects can be viewed individually, as overall statistics, or downloaded from Zenodo.
+                Each project is stored as a JSON formatted document which adheres to the platform’s JSON schema (<a href="https://pairedomicsdata.bioinformatics.nl/schema.json">https://pairedomicsdata.bioinformatics.nl/schema.json</a>). The JSON schema describes which fields are required, gives human readable titles and descriptions for each field and describes when they are valid. The schema is versioned to make sure documents are compatible with the platform and can evolve over time. To add a project to the platform a submission form must be filled - this can be done without a login to promote ease of use. After the project is reviewed by the platform administrators (usually within two weeks), the project is listed on the site. The projects can be viewed individually, as overall statistics, or downloaded from Zenodo.
             </p>
 
             <h3>Technical Implementation</h3>
@@ -38,9 +38,9 @@ export const MethodsPage = () => {
                 <img alt="Platform architecture" src={architecture} />
                 <figcaption>Platform architecture</figcaption>
             </figure>
-
+            <br/>
             <p>
-                The platform is implemented using Javascript based web service and a React (v16.13.1) based web application. The web application renders the submission form from the JSON schema. The web service stores each project as a file on disk. The application offers full text search functionality via web services using an elastic search (v7.6.2) index. The web service uses a redis queue (v5.0.5) to schedule jobs to fetch more information about the public identifiers and to upload the projects to Zenodo each month. For example, the scientific species name is fetched from GenBank using the public genome identifiers in the project. The web service has an OpenAPI (v3.0.3) specification (https://www.openapis.org/) which can be used to submit and retrieve projects in a programmatic manner. The platform runs using Docker Compose (v1.25.4) with containers for the web application, web service and redis queue.
+                The platform is implemented using Javascript based web service and a React (v16.13.1) based web application. The web application renders the submission form from the JSON schema. The web service stores each project as a file on disk. The application offers full text search functionality via web services using an elastic search (v7.6.2) index. The web service uses a redis queue (v5.0.5) to schedule jobs to fetch more information about the public identifiers and to upload the projects to Zenodo each month. For example, the scientific species name is fetched from GenBank using the public genome identifiers in the project. The web service has an OpenAPI (v3.0.3) specification (<a href="https://www.openapis.org/">https://www.openapis.org/</a>) which can be used to submit and retrieve projects in a programmatic manner. The platform runs using Docker Compose (v1.25.4) with containers for the web application, web service and redis queue.
             </p>
 
             <h3>Terminology</h3>
