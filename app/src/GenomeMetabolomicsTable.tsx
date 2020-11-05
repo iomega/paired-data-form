@@ -36,7 +36,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             const tax_url = 'https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=' + s.species.tax_id;
             species = <a href={tax_url}>{s.species.scientific_name}</a>;
         }
-        const bs_url = `https://www.ebi.ac.uk/biosamples/samples/${g.BioSample_accession}`;
+        const bs_url = `https://www.ncbi.nlm.nih.gov/biosample/${g.BioSample_accession}`;
         if (g.genome_ID.genome_type === 'metagenome') {
             const ena_url = `https://www.ebi.ac.uk/ena/browser/view/${g.genome_ID.ENA_NCBI_accession}`;
             const mgnify_url = `https://www.ebi.ac.uk/metagenomics/studies/${g.genome_ID.MGnify_accession}`;
