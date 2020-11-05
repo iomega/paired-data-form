@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.2] - 2020-11-05
+
+### Fixed
+
+* Use BioSample DB link to NCBI ([#162](https://github.com/iomega/paired-data-form/issues/162))
+
 ## [0.8.1] - 2020-09-28
 
 ### Added
