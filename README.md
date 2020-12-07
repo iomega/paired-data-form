@@ -63,7 +63,9 @@ This chapter is for developers of the platform.
 To make a new release of the platform do:
 
 1. Determine new version of release, using semantic versioning (x.y.z)
-2. Add version to CHANGELOG.md
+2. Add version to [CHANGELOG.md](CHANGELOG.md)
+    * Create a new `##` chapter for the new version
+    * Update version links at bottom of CHANGELOG
 3. Set new version of api web service by
 
     ```shell
