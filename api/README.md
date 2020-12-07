@@ -34,11 +34,12 @@ During token generation check the `deposit:actions` and `deposit:write` scopes.
 
 The service can post messages to a Slack channel when a project is submitted or pushed to Zenodo.
 
-1. [Create an Slack app](https://api.slack.com/apps), pick any name / workspace you want.
+1. [Create an Slack app](https://api.slack.com/apps), pick any name / workspace you want
+1. Optionally. Add collaborators so your are not the only one who can edit the Slack app
 1. Add `chat:write` to bot token scopes
-1. Install to workspace and allow bot to write chats.
-1. Copy token to `../.env:SLACK_TOKEN` value.
-1. Create channel to post messages to and set it's id (last bit of channel url) as `../.env:SLACK_CHANNEL` value.
+1. Install to workspace and allow bot to write chats
+1. Copy token to `../.env:SLACK_TOKEN` value
+1. Create channel to post messages to and set it's id (last bit of channel url) as `../.env:SLACK_CHANNEL` value
 1. In channel select `Add an app` and add the created app
 
 People that should be reviewing incoming projects should be invited to the Slack channel and be supplied with the review credentials.
