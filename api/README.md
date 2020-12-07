@@ -39,7 +39,9 @@ The service can post messages to a Slack channel when a project is submitted.
 1. Install to workspace and allow bot to write chats.
 1. Copy token to `../.env:SLACK_TOKEN` value.
 1. Create channel to post messages to and set it's id (last bit of channel url) as `../.env:SLACK_CHANNEL` value.
-1. In channel select `Add an app`.
+1. In channel select `Add an app` and add the created app
+
+People that should be reviewing incoming projects should be invited to the Slack channel and be supplied with the review credentials.
 
 ## Build & Run
 

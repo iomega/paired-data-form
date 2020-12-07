@@ -51,10 +51,7 @@ export async function createProject(req: Request, res: Response) {
     const queue = getEnrichQueue(req);
     queue.add([project_id, project]);
 
-    await notifyNewProject(
-        project.personal.submitter_name,
-        getPendingProjectUrl(req, project_id)
-    );
+    notifyNewProject(getPendingProjectUrl(req, project_id));
 
     res.set('Location', location);
     res.status(201);
@@ -199,10 +196,7 @@ export async function editProject(req: Request, res: Response) {
     const queue = getEnrichQueue(req);
     queue.add([new_project_id, project]);
 
-    await notifyNewProject(
-        project.personal.submitter_name,
-        getPendingProjectUrl(req, project_id)
-    );
+    notifyNewProject(getPendingProjectUrl(req, new_project_id));
 
     res.set('Location', location);
     res.status(201);
