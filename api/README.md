@@ -32,7 +32,7 @@ During token generation check the `deposit:actions` and `deposit:write` scopes.
 
 ### Slack integration
 
-The service can post messages to a Slack channel when a project is submitted.
+The service can post messages to a Slack channel when a project is submitted or pushed to Zenodo.
 
 1. [Create an Slack app](https://api.slack.com/apps), pick any name / workspace you want.
 1. Add `chat:write` to bot token scopes

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * Notify admins on Slack when new project is ready for review ([#155](https://github.com/iomega/paired-data-form/issues/155))
+* Notify admins on Slack when data archive on Zenodo is updated ([#163](https://github.com/iomega/paired-data-form/issues/163))
 
 ## [0.8.2] - 2020-11-05
 
