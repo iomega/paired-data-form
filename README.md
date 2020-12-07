@@ -42,6 +42,8 @@ The application can be configured using environment variables:
 * SHARED_TOKEN, token required to login to review area.
 * ZENODO_ACCESS_TOKEN, Zenodo access token used for uploading database to Zenodo.
 * ZENODO_DEPOSITION_ID, Zenodo deposition identifier used for uploading database to Zenodo. Set to -1 to disable scheduled uploading.
+* SLACK_TOKEN, Token of Slack app with chat:write permission in workspace of channel
+* SLACK_CHANNEL, Slack channel in which service should post messages
 
 The environment variables can be set in the terminal or be put in a `.env` file.
 

@@ -10,6 +10,7 @@ import { computeStats } from './util/stats';
 import { summarizeProject } from './summarize';
 import { ZENODO_DEPOSITION_ID } from './util/secrets';
 import { FilterFields, DEFAULT_PAGE_SIZE, Order, SearchOptions, SortFields } from './store/search';
+import { notifyNewProject } from './util/notify';
 
 
 function getStore(req: Request) {
@@ -26,6 +27,10 @@ function getValidator(req: Request) {
 
 function getEnrichQueue(req: Request) {
     return req.app.get('enrichqueue') as Queue<[string, ProjectDocument]>;
+}
+
+function getPendingProjectUrl(req: Request, project_id: string) {
+    return 'https://' + req.headers.host + '/pending/' + project_id;
 }
 
 export async function createProject(req: Request, res: Response) {
@@ -45,6 +50,11 @@ export async function createProject(req: Request, res: Response) {
     // Fire and forget enrichment job
     const queue = getEnrichQueue(req);
     queue.add([project_id, project]);
+
+    await notifyNewProject(
+        project.personal.submitter_name,
+        getPendingProjectUrl(req, project_id)
+    );
 
     res.set('Location', location);
     res.status(201);
@@ -188,6 +198,11 @@ export async function editProject(req: Request, res: Response) {
     // Fire and forget enrichment job
     const queue = getEnrichQueue(req);
     queue.add([new_project_id, project]);
+
+    await notifyNewProject(
+        project.personal.submitter_name,
+        getPendingProjectUrl(req, project_id)
+    );
 
     res.set('Location', location);
     res.status(201);

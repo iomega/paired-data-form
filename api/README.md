@@ -30,6 +30,17 @@ Create `./.env` file, use `./.env.example` as an example.
 To publish the data collection to Zenodo, a [Zenodo personal access token](https://zenodo.org/account/settings/applications/tokens/new/) is needed.
 During token generation check the `deposit:actions` and `deposit:write` scopes.
 
+### Slack integration
+
+The service can post messages to a Slack channel when a project is submitted.
+
+1. [Create an Slack app](https://api.slack.com/apps), pick any name / workspace you want.
+1. Add `chat:write` to bot token scopes
+1. Install to workspace and allow bot to write chats.
+1. Copy token to `../.env:SLACK_TOKEN` value.
+1. Create channel to post messages to and set it's id (last bit of channel url) as `../.env:SLACK_CHANNEL` value.
+1. In channel select `Add an app`.
+
 ## Build & Run
 
 Redis can be started using docker:

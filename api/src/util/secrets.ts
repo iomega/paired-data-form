@@ -31,3 +31,5 @@ export const ELASTICSEARCH_URL = getenvvar('ELASTICSEARCH_URL', 'No elastic sear
 export const ZENODO_ACCESS_TOKEN = getenvvar('ZENODO_ACCESS_TOKEN', 'No Zenodo access token');
 export const ZENODO_DEPOSITION_ID = parseInt(getenvvar('ZENODO_DEPOSITION_ID', 'No Zenodo deposition id'));
 export const ZENODO_UPLOAD_ENABLED = ZENODO_DEPOSITION_ID !== -1;
+export const SLACK_TOKEN = getenvvar('SLACK_TOKEN', 'No Slack token');
+export const SLACK_CHANNEL = getenvvar('SLACK_CHANNEL', 'No Slack channel for notifications');
