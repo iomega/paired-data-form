@@ -34,7 +34,7 @@ export const TableFieldTemplate = (props: FieldProps) => {
             ));
             const depDescs: any[] = [];
             const depCache = new Set();
-            if (s.dependencies) { 
+            if (s.dependencies) {
                 Object.values(s.dependencies).forEach((oneOf: any) => {
                     oneOf.oneOf.forEach((o: any) => {
                         Object.entries(o.properties).filter((d: any) => d[1].description).forEach(([okey, oschema]: any) => {
