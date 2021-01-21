@@ -5,10 +5,12 @@ import { EXAMPLE_PROJECT_JSON_FN } from './testhelpers';
 import { enrich } from './enrich';
 import mocked_zenodo_upload from '@iomeg/zenodo-upload';
 import mockedBull from 'bull';
+import { notifyPublish2Zenodo } from './util/notify';
 
 jest.mock('./enrich');
 jest.mock('@iomeg/zenodo-upload');
 jest.mock('bull');
+jest.mock('./util/notify');
 
 describe('with mocked store', () => {
     let store: any;
@@ -150,6 +152,10 @@ describe('with mocked store', () => {
                     doi: 'somedoi',
                     html: 'somehtmlurl'
                 });
+            });
+
+            it('should publish notification', () => {
+                expect(notifyPublish2Zenodo).toHaveBeenCalledWith('somehtmlurl');
             });
         });
 
