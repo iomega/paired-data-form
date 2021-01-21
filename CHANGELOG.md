@@ -11,8 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
-- Axios vulnerability ([CVE-2020-28168
-  ](https://github.com/advisories/GHSA-4w2v-q235-vp99))
+- Axios vulnerability ([CVE-2020-28168](https://github.com/advisories/GHSA-4w2v-q235-vp99))
+- node-notifier vulnerability ([CVE-2020-7789](https://github.com/advisories/GHSA-5fw9-fq32-wv5p))
 
 ## [0.9.0] - 2020-12-07
 
