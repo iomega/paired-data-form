@@ -13,6 +13,8 @@ services:
        ZENODO_ACCESS_TOKEN: ${ZENODO_ACCESS_TOKEN}
        ZENODO_DEPOSITION_ID: ${ZENODO_DEPOSITION_ID}
        ELASTICSEARCH_URL: http://search:9200
+       SLACK_TOKEN: ${SLACK_TOKEN}
+       SLACK_CHANNEL: ${SLACK_CHANNEL}
     depends_on:
       - redis
       - search
@@ -50,6 +52,7 @@ services:
     environment:
       discovery.type: single-node
       logger.level: warn
+      cluster.routing.allocation.disk.threshold_enabled: 'false'
     logging:
       driver: "json-file"
       options:

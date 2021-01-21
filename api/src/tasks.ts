@@ -1,11 +1,11 @@
 import Bull from 'bull';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { REDIS_URL, ZENODO_DEPOSITION_ID, ZENODO_ACCESS_TOKEN } from './util/secrets';
-import { ProjectEnrichmentStore } from './store/enrichments';
 import { enrich } from './enrich';
 import { ProjectDocumentStore } from './projectdocumentstore';
 import { publish2zenodo } from './util/publish2zenodo';
 import { DraftDiscardedError } from '@iomeg/zenodo-upload';
+import { notifyPublish2Zenodo } from './util/notify';
 
 export function buildEnrichQueue(store: ProjectDocumentStore) {
     const queue = new Bull<[string, ProjectDocument]>('enrichqueue', REDIS_URL);
@@ -61,6 +61,7 @@ export async function publish2zenodoTask(store: ProjectDocumentStore) {
     console.debug('Publish to Zenodo started');
     try {
         const result = await publish2zenodo(store, ZENODO_ACCESS_TOKEN, ZENODO_DEPOSITION_ID, true);
+        await notifyPublish2Zenodo(result.html);
         console.debug(`Publish completed: ${result.html}`);
         return result;
     } catch (error) {

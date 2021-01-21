@@ -18,6 +18,7 @@ import { HistoryProject } from "./pages/HistoryProject";
 import { About } from "./pages/About";
 import { StatsPage } from "./pages/StatsPage";
 import { DownloadPage } from "./pages/DownloadPage";
+import { MethodsPage } from "./pages/MethodsPage";
 
 export function Routes() {
     return (
@@ -25,7 +26,7 @@ export function Routes() {
             <Navbar>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <Link to="/" >Paired omics data platform</Link>
+                        <Link to="/" >Paired Omics Data Platform</Link>
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Nav>
@@ -44,6 +45,9 @@ export function Routes() {
                     <LinkContainer to="/download">
                         <NavItem>Download</NavItem>
                     </LinkContainer>
+                    <LinkContainer to="/methods">
+                        <NavItem>Methods</NavItem>
+                    </LinkContainer>
                     <LinkContainer to="/about">
                         <NavItem>About</NavItem>
                     </LinkContainer>
@@ -59,6 +63,7 @@ export function Routes() {
                 <Route path="/projects" component={Projects} />
                 <Route path="/stats" component={StatsPage} />
                 <Route path="/download" component={DownloadPage}/>
+                <Route path="/methods" component={MethodsPage}/>
                 <Route path="/about" component={About}/>
                 <ProtectedRoute path="/pending" exact component={PendingProjects} />
                 <ProtectedRoute path="/pending/:id" component={ReviewProject} />

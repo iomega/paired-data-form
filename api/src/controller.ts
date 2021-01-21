@@ -1,16 +1,24 @@
 import { Request, Response } from 'express';
-
-import { ProjectDocumentStore, NotFoundException, ListOptions } from './projectdocumentstore';
-import { Validator } from './validate';
 import { Queue } from 'bull';
+import { SitemapStream } from 'sitemap';
+import { createGzip } from 'zlib';
+
+import { ProjectDocumentStore, NotFoundException } from './projectdocumentstore';
+import { Validator } from './validate';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import { computeStats } from './util/stats';
-import { summarizeProject, compareMetaboliteID } from './summarize';
+import { summarizeProject } from './summarize';
 import { ZENODO_DEPOSITION_ID } from './util/secrets';
+import { FilterFields, DEFAULT_PAGE_SIZE, Order, SearchOptions, SortFields } from './store/search';
+import { notifyNewProject } from './util/notify';
 
 
 function getStore(req: Request) {
     return req.app.get('store') as ProjectDocumentStore;
+}
+
+function getSchema(req: Request) {
+    return req.app.get('schema');
 }
 
 function getValidator(req: Request) {
@@ -19,6 +27,10 @@ function getValidator(req: Request) {
 
 function getEnrichQueue(req: Request) {
     return req.app.get('enrichqueue') as Queue<[string, ProjectDocument]>;
+}
+
+function getPendingProjectUrl(req: Request, project_id: string) {
+    return 'https://' + req.headers.host + '/pending/' + project_id;
 }
 
 export async function createProject(req: Request, res: Response) {
@@ -38,6 +50,8 @@ export async function createProject(req: Request, res: Response) {
     // Fire and forget enrichment job
     const queue = getEnrichQueue(req);
     queue.add([project_id, project]);
+
+    notifyNewProject(getPendingProjectUrl(req, project_id));
 
     res.set('Location', location);
     res.status(201);
@@ -77,32 +91,71 @@ export async function denyProject(req: Request, res: Response) {
     res.json({'message': 'Denied pending project'});
 }
 
-export async function listProjects(req: Request, res: Response) {
-    const store = getStore(req);
-    const options: ListOptions = {};
-    if (req.query.q) {
-        options.query = req.query.q;
+function checkRange(svalue: string, label: string, min: number, max: number) {
+    const value = parseInt(svalue);
+    if (Number.isNaN(value)) {
+        throw `${label} is not an integer`;
     }
-    if (req.query.fk || req.query.fv) {
-        if (req.query.fk && req.query.fv) {
+    if (value < min || value > max ) {
+        throw `${label} must be between \`${min}\` and \`${max}\``;
+    }
+    return value;
+}
+
+function validateSearchOptions(query: any) {
+    const options: SearchOptions = {};
+
+    if (query.q) {
+        options.query = query.q;
+    }
+    if (query.fk || query.fv) {
+        if (query.fk && query.fv) {
+            if (!(query.fk in FilterFields)) {
+                throw 'Invalid `fk`';
+            }
             options.filter = {
-                key: req.query.fk,
-                value: req.query.fv
+                key: query.fk,
+                value: query.fv
             };
         } else {
-            res.status(400);
-            res.json({ message: 'Require both `fk` and `fv` to filter'});
-            return;
-        }
-        if (req.query.query) {
-            res.status(400);
-            res.json({ message: 'Eiter search with `q` or filter with `fk` and `fv`'});
-            return;
+            throw 'Require both `fk` and `fv` to filter';
         }
     }
-    const projects = await store.listProjects(options);
-    const data = projects.map(summarizeProject).sort(compareMetaboliteID).reverse();
-    res.json({data});
+    if (query.size) {
+        options.size = checkRange(query.size, 'Size', 1, 1000);
+    } else {
+        options.size = DEFAULT_PAGE_SIZE;
+    }
+    if (query.page) {
+        options.from = checkRange(query.page, 'Page', 0, 1000) * options.size;
+    } else {
+        options.from = 0;
+    }
+    if (query.sort) {
+        if (!(query.sort in SortFields)) {
+            throw 'Invalid `sort`';
+        }
+        options.sort = query.sort;
+    }
+    if (query.order) {
+        if (!(query.order in Order)) {
+            throw 'Invalid `order`, must be either `desc` or `asc`';
+        }
+        options.order = Order[query.order as 'desc' | 'asc'];
+    }
+    return options;
+}
+
+export async function listProjects(req: Request, res: Response) {
+    const store = getStore(req);
+    try {
+        const options = validateSearchOptions(req.query);
+        const hits = await store.searchProjects(options);
+        res.json(hits);
+    } catch (message) {
+        res.status(400);
+        res.json({message});
+    }
 }
 
 export async function getProject(req: Request, res: Response) {
@@ -143,6 +196,8 @@ export async function editProject(req: Request, res: Response) {
     const queue = getEnrichQueue(req);
     queue.add([new_project_id, project]);
 
+    notifyNewProject(getPendingProjectUrl(req, new_project_id));
+
     res.set('Location', location);
     res.status(201);
     res.json({'message': 'Created pending project', location, project_id: new_project_id});
@@ -159,9 +214,9 @@ export function notFoundHandler(error: any, req: Request, res: Response, next: a
 
 export async function getStats(req: Request, res: Response) {
     const store = getStore(req);
-    const validator = getValidator(req);
+    const schema = getSchema(req);
     const projects = await store.listProjects();
-    const stats = computeStats(projects, validator.schema);
+    const stats = computeStats(projects, schema);
     res.json(stats);
 }
 
@@ -178,4 +233,31 @@ export function getVersionInfo(req: Request, res: Response) {
         }
     };
     res.json(info);
+}
+
+export async function getSiteMap(req: Request, res: Response) {
+    const store = getStore(req);
+    const projects = await store.listProjects();
+
+    res.header('Content-Type', 'application/xml');
+    res.header('Content-Encoding', 'gzip');
+
+    try {
+        const smStream = new SitemapStream({ hostname: 'https://pairedomicsdata.bioinformatics.nl/projects/' });
+        const pipeline = smStream.pipe(createGzip());
+
+        projects.forEach(p => {
+            smStream.write({
+                url: p._id,
+                changefreq: 'yearly',
+                priority: 0.5
+            });
+        });
+        smStream.end();
+
+        pipeline.pipe(res).on('error', (e) => {throw e; });
+    } catch (error) {
+        console.error(error);
+        res.status(500).end();
+    }
 }

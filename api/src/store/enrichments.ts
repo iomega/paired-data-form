@@ -2,6 +2,7 @@ import Keyv from 'keyv';
 
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from '../schema';
 import { ProjectEnrichments } from '../enrich';
+import { ProjectSummary } from '../summarize';
 
 const PREFIX = 'enrichment:';
 
@@ -9,6 +10,7 @@ export interface EnrichedProjectDocument {
     _id: string;
     project: ProjectDocument;
     enrichments?: ProjectEnrichments;
+    summary?: ProjectSummary;
 }
 
 export class ProjectEnrichmentStore {

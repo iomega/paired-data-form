@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Helmet } from "react-helmet";
 import { RouteComponentProps } from "react-router";
 import { Button, Modal, Glyphicon } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -63,6 +64,9 @@ export function CloneProject({ match }: RouteComponentProps<TParams>) {
     }
     return (
         <>
+            <Helmet>
+                <link rel="canonical" href={`https://pairedomicsdata.bioinformatics.nl/projects/${project_id}`} />
+            </Helmet>
             <ProjectForm onSubmit={onSubmit} formData={project.data.project} />
             {modal}
         </>

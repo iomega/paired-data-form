@@ -137,23 +137,23 @@ describe('ProjectDocumentStore', () => {
                     expect(approved_project).toEqual(submitted_project);
                 });
 
-                describe('listProjects()', () => {
+                describe('searchProjects()', () => {
                     describe('without arguments', () => {
-                        it('should be listed', async () => {
+                        it('should have project1 in list', async () => {
                             expect.assertions(1);
 
-                            const projects = await store.listProjects();
+                            const {data: projects} = await store.searchProjects();
                             const project_ids = new Set(projects.map(p => p._id));
 
-                            expect(project_ids).toEqual(new Set([project_id]));
+                            expect(project_ids).toEqual(new Set(['projectid1']));
                         });
                     });
 
                     describe('with query=Justin', () => {
-                        it('should be listed', async () => {
+                        it('should have project1 in list', async () => {
                             expect.assertions(1);
 
-                            const projects = await store.listProjects({
+                            const {data: projects} = await store.searchProjects({
                                 query: 'Justin'
                             });
                             const project_ids = new Set(projects.map(p => p._id));
@@ -163,10 +163,10 @@ describe('ProjectDocumentStore', () => {
                     });
 
                     describe('with filter `principal_investigator=Pieter C. Dorrestein`', () => {
-                        it('should be listed', async () => {
+                        it('should have project1 in list', async () => {
                             expect.assertions(1);
 
-                            const projects = await store.listProjects({
+                            const {data: projects} = await store.searchProjects({
                                 filter: {
                                     key: 'principal_investigator',
                                     value: 'Pieter C. Dorrestein'
@@ -176,6 +176,17 @@ describe('ProjectDocumentStore', () => {
 
                             expect(project_ids).toEqual(new Set(['projectid1']));
                         });
+                    });
+                });
+
+                describe('listProjects()', () => {
+                    it('should have project1 in list', async () => {
+                        expect.assertions(1);
+
+                        const projects = await store.listProjects();
+                        const project_ids = new Set(projects.map(p => p._id));
+
+                        expect(project_ids).toEqual(new Set([project_id]));
                     });
                 });
 

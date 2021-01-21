@@ -91,8 +91,8 @@ export function ProjectForm({ onSubmit, formData }: IProps) {
         };
         reader.readAsText(file);
     }
-    const onWrappedSubmit = ({ formData }: ISubmitEvent<IOMEGAPairedOmicsDataPlatform>) => {
-        onSubmit(formData);
+    const onWrappedSubmit = (event: ISubmitEvent<IOMEGAPairedOmicsDataPlatform>) => {
+        onSubmit(event.formData);
     }
     const formRef = useRef<Form<IOMEGAPairedOmicsDataPlatform>>(null);
     if (uiSchema.data) {

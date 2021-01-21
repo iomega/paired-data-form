@@ -38,7 +38,7 @@ export const StatsPage = () => {
                                 <ListGroupItem>Number of projects <Badge>{data.global.projects}</Badge></ListGroupItem>
                                 <ListGroupItem>Number of unique principal investigators <Badge>{data.global.principal_investigators}</Badge></ListGroupItem>
                                 <ListGroupItem>Number of unique metabolome samples <Badge>{data.global.metabolome_samples}</Badge></ListGroupItem>
-                                <ListGroupItem>Number of unique links between gene clusters and MS2 spectra <Badge>{data.global.bgc_ms2}</Badge></ListGroupItem>
+                                <ListGroupItem>Number of unique links between biosynthetic gene clusters<br/> and MS/MS spectra <Badge>{data.global.bgc_ms2}</Badge></ListGroupItem>
                             </ListGroup>
                         </fieldset>
 
@@ -95,8 +95,16 @@ export const StatsPage = () => {
                             </ListGroup>
                         </fieldset>
                     </Col>
-                </Row>
-                <Row>
+                    <Col md={4}>
+                        <fieldset>
+                            <legend>Ionization modes</legend>
+                            <ListGroup>
+                                {data.top.ionization_modes.map(
+                                    ([value, count]) => <ListItem key={value} title="ionization_mode" value={value} count={count} />
+                                )}
+                            </ListGroup>
+                        </fieldset>
+                    </Col>
                     <Col md={4}>
                         <fieldset>
                             <legend>Growth media</legend>

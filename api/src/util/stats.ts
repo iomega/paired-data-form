@@ -1,5 +1,6 @@
 import { EnrichedProjectDocument } from '../store/enrichments';
 import { GeneClusterMassSpectraLinks } from '../schema';
+import { Lookups } from './schema';
 
 export interface IStats {
     global: {
@@ -15,6 +16,7 @@ export interface IStats {
         species: [string, number][]
         metagenomic_environment: [string, number][]
         instrument_types: [string, number][]
+        ionization_modes: [string, number][]
         growth_media: [string, number][]
         solvents: [string, number][]
     };
@@ -45,7 +47,7 @@ function countProjectCollectionField(
     projects: EnrichedProjectDocument[],
     collection_accessor: (project: EnrichedProjectDocument) => any[],
     field_accessor: (row: any) => string,
-    lookup: Map<string, string>,
+    lookup: ReadonlyMap<string, string>,
     top_size = 5,
     { count_unknowns } = { count_unknowns: true }
 ) {
@@ -81,15 +83,7 @@ function countProjectCollectionField(
     };
 }
 
-export function enum2map(choices: any[]) {
-    return new Map<string, string>(
-        choices.map((c) => [c.enum[0], c.title])
-    );
-}
-
-function countSolvents(projects: EnrichedProjectDocument[], schema: any, top_size = 5) {
-    const lookup_enum = schema.properties.experimental.properties.extraction_methods.items.properties.solvents.items.properties.solvent.anyOf;
-    const lookup = enum2map(lookup_enum);
+function countSolvents(projects: EnrichedProjectDocument[], lookup: ReadonlyMap<string, string>, top_size = 5) {
     const field_counts = new Map<string, number>();
     projects.forEach(project => {
         const collection = project.project.experimental.extraction_methods;
@@ -201,7 +195,11 @@ function countBgcMS2Links(projects: EnrichedProjectDocument[]) {
 }
 
 export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
-    const principal_investigators = countProjectField(projects, (p) => new Map([[p.project.personal.PI_name ? p.project.personal.PI_name : '', 1]]));
+    const lookups = new Lookups(schema);
+
+    const principal_investigators = countProjectField(projects,
+        (p) => new Map([[p.project.personal.PI_name ? p.project.personal.PI_name : '', 1]])
+    );
     const submitters = countProjectField(projects, (p) => {
         const submitters_values =  new Map<string, number>();
         if (p.project.personal.submitter_name) {
@@ -217,29 +215,31 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
         return new Map(submitters_values);
     });
 
-    const genome_types_enum: string[] = schema.properties.genomes.items.properties.genome_ID.properties.genome_type.enum;
-    const genome_types_lookup = new Map<string, string>(genome_types_enum.map(s => [s, s]));
     const genome_types = countProjectCollectionField(
         projects,
         (p) => p.project.genomes,
         (r) => r.genome_ID.genome_type,
-        genome_types_lookup,
-        genome_types_lookup.size
+        lookups.genome_type,
+        lookups.genome_type.size,
     );
 
-    const instruments_type_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf);
     const instrument_types = countProjectCollectionField(
         projects,
         (p) => p.project.experimental.instrumentation_methods,
         (r) => r.instrumentation.instrument,
-        instruments_type_lookup,
-        instruments_type_lookup.size
+        lookups.instrument,
+        lookups.instrument.size
+    );
+    const ionization_modes = countProjectCollectionField(
+        projects,
+        (p) => p.project.experimental.instrumentation_methods,
+        (r) => r.mode,
+        lookups.ionization_mode,
+        lookups.ionization_mode.size
     );
 
-    const growth_media_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
-    const growth_media_lookup = enum2map(growth_media_oneOf);
     const metagenome_medium = 'Not available, sample is metagenome';
-    growth_media_lookup.set(metagenome_medium, metagenome_medium);
+    lookups.growth_media.set(metagenome_medium, metagenome_medium);
     const growth_media = countProjectCollectionField(
         projects,
         (p) => p.project.experimental.sample_preparation,
@@ -249,11 +249,9 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
             }
             return r.medium_details.medium;
         },
-        growth_media_lookup,
-        growth_media_lookup.size
+        lookups.growth_media,
+        lookups.growth_media.size
     );
-    const metagenomic_environment_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[0].properties.metagenomic_environment.oneOf;
-    const metagenomic_environment_lookup = enum2map(metagenomic_environment_oneOf);
     const metagenomic_environment = countProjectCollectionField(
         projects,
         (p) => p.project.experimental.sample_preparation,
@@ -262,12 +260,12 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
                 return r.medium_details.metagenomic_environment;
             }
         },
-        metagenomic_environment_lookup,
-        metagenomic_environment_lookup.size,
+        lookups.metagenomic_environment,
+        lookups.metagenomic_environment.size,
         { count_unknowns: false }
     );
 
-    const solvents = countSolvents(projects, schema);
+    const solvents = countSolvents(projects, lookups.solvent);
     const metabolome_samples = countMetabolomeSamples(projects);
     const species = countSpecies(projects);
 
@@ -285,6 +283,7 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
             submitters: submitters.top,
             genome_types: genome_types.top,
             instrument_types: instrument_types.top,
+            ionization_modes: ionization_modes.top,
             growth_media: growth_media.top,
             solvents: solvents.top,
             species,

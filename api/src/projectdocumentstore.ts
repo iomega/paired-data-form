@@ -4,18 +4,10 @@ import { ProjectDocumentDiskStore } from './store/Disk';
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from './schema';
 import logger from './util/logger';
 import { ProjectEnrichmentStore, EnrichedProjectDocument } from './store/enrichments';
-import { SearchEngine, FilterField } from './store/search';
+import { SearchEngine, SearchOptions } from './store/search';
 import { ProjectEnrichments } from './enrich';
 
 export const NotFoundException = MemoryNotFoundException;
-
-export interface ListOptions {
-    query?: string;
-    filter?: {
-        key: FilterField;
-        value: string;
-    };
-}
 
 export class ProjectDocumentStore {
     memory_store = new ProjectDocumentMemoryStore();
@@ -55,12 +47,11 @@ export class ProjectDocumentStore {
         return new_project_id;
     }
 
-    async listProjects(options: ListOptions = {}) {
-        if (options.query) {
-            return await this.search_engine.search(options.query);
-        } else if (options.filter) {
-            return await this.search_engine.filter(options.filter.key, options.filter.value);
-        }
+    async searchProjects(options: SearchOptions = {}) {
+        return await this.search_engine.search(options);
+    }
+
+    async listProjects() {
         const entries = this.memory_store.listProjects();
         return await this.enrichment_store.mergeMany(entries);
     }

@@ -16,7 +16,7 @@ interface IProps {
 export const GenomeMetabolomicsTable = (props: IProps) => {
     const pure_project: IOMEGAPairedOmicsDataPlatform = props.data.project;
     if (!pure_project.genome_metabolome_links || pure_project.genome_metabolome_links.length === 0) {
-        return <p>No links between (meta)genomes and metabolimics data files.</p>;
+        return <p>No links between (meta)genomes and metabolomics data files.</p>;
     }
     const genome_enrichments = props.data.enrichments && props.data.enrichments.genomes ? props.data.enrichments.genomes : {};
     const gmProps = props.schema.properties.genome_metabolome_links.items.properties;
@@ -36,7 +36,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             const tax_url = 'https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=' + s.species.tax_id;
             species = <a href={tax_url}>{s.species.scientific_name}</a>;
         }
-        const bs_url = `https://www.ebi.ac.uk/biosamples/samples/${g.BioSample_accession}`;
+        const bs_url = `https://www.ncbi.nlm.nih.gov/biosample/${g.BioSample_accession}`;
         if (g.genome_ID.genome_type === 'metagenome') {
             const ena_url = `https://www.ebi.ac.uk/ena/browser/view/${g.genome_ID.ENA_NCBI_accession}`;
             const mgnify_url = `https://www.ebi.ac.uk/metagenomics/studies/${g.genome_ID.MGnify_accession}`;
@@ -77,10 +77,10 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             let environment = <></>;
             if (s.medium_details.metagenomic_environment === 'other') {
                 environment = s.medium_details.metagenomic_other_environment;
-            } else if (s.medium_details!.metagenomic_environment) {
+            } else if (s.medium_details.metagenomic_environment) {
                 const any_env = props.schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[0].properties.metagenomic_environment.oneOf;
                 const env_title = any_env.find((r: any) => r.enum[0] === s.medium_details.metagenomic_environment).title;
-                environment = <a href={s.medium_details!.metagenomic_environment}>{env_title}</a>;
+                environment = <a href={s.medium_details.metagenomic_environment}>{env_title}</a>;
             }
             medium = (
                 <p>Metagenome details
@@ -247,7 +247,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                     </Button>
                 </OverlayTrigger>
             </td>
-            <td>{r.metabolomics_file}<Button bsStyle="link" href={r.metabolomics_file}><Glyphicon style={{color:"gray"}} glyph="download-alt"/></Button></td>
+            <td>{r.metabolomics_file}<Button title={`Download ${r.metabolomics_file}`} bsStyle="link" href={r.metabolomics_file}><Glyphicon style={{color:"gray"}} glyph="download-alt"/></Button></td>
             <td>
                 <OverlayTrigger
                     trigger="click"
@@ -289,7 +289,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
 
     return (
         <>
-            <Table condensed={true} striped={true} bordered={true}>
+            <Table condensed={true} striped={true} bordered={true} responsive={true}>
                 <thead>
                     <tr>
                         {headers}

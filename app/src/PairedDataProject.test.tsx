@@ -16,7 +16,7 @@ describe('PairedDataRecord', ()=> {
         });
 
         it('should contain project identifier', ()=> {
-            const header = <div>Project identifier: kitchen-sink-id</div>;
+            const header = <div>Identifier: kitchen-sink-id</div>;
             expect(comp.contains(header)).toBeTruthy();
         });
     });

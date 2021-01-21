@@ -11,6 +11,7 @@ import { okHandler } from './config/passport';
 import { Validator } from './validate';
 import { ProjectDocumentStore } from './projectdocumentstore';
 import { IOMEGAPairedOmicsDataPlatform } from './schema';
+import { loadSchema } from './util/schema';
 
 export function builder(mystore: ProjectDocumentStore, myenrichqueue: Bull.Queue<[string, IOMEGAPairedOmicsDataPlatform]>) {
     // Create Express server
@@ -19,7 +20,8 @@ export function builder(mystore: ProjectDocumentStore, myenrichqueue: Bull.Queue
     // Express configuration
     app.set('port', process.env.PORT || 3000);
     app.set('store', mystore);
-    app.set('validator', new Validator());
+    app.set('schema', loadSchema());
+    app.set('validator', new Validator(app.get('schema')));
     app.set('enrichqueue', myenrichqueue);
     app.use(compression());
     app.use(express.json({limit: '1mb'}));
@@ -36,6 +38,7 @@ export function builder(mystore: ProjectDocumentStore, myenrichqueue: Bull.Queue
     app.get('/api/projects/:id/history', asyncHandler(controller.getProjectHistory));
     app.get('/api/stats', asyncHandler(controller.getStats));
     app.get('/api/version', controller.getVersionInfo);
+    app.get('/api/sitemap', asyncHandler(controller.getSiteMap));
     // Protected api
     const protected_api = passport.authenticate('bearer', { session: false });
     app.post('/api/auth', protected_api, okHandler);

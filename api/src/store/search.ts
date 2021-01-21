@@ -1,7 +1,56 @@
 import { Client } from '@elastic/elasticsearch';
 import { EnrichedProjectDocument } from './enrichments';
-import { loadSchema } from '../validate';
-import { enum2map } from '../util/stats';
+import { loadSchema, Lookups } from '../util/schema';
+import { summarizeProject, ProjectSummary } from '../summarize';
+
+export interface SearchOptions {
+    query?: string;
+    filter?: {
+        key: FilterField;
+        value: string;
+    };
+    from?: number;
+    size?: number;
+    sort?: SortField;
+    order?: Order;
+}
+
+export enum FilterFields {
+    principal_investigator = 'project.personal.PI_name.keyword',
+    submitter = 'summary.submitters.keyword',
+    genome_type = 'project.genomes.genome_ID.genome_type.keyword',
+    species = 'enrichments.genomes.species.scientific_name.keyword',
+    metagenomic_environment = 'project.experimental.sample_preparation.medium_details.metagenomic_environment_title.keyword',
+    instrument_type = 'project.experimental.instrumentation_methods.instrumentation.instrument_title.keyword',
+    ionization_mode = 'project.experimental.instrumentation_methods.mode_title.keyword',
+    ionization_type = 'project.experimental.instrumentation_methods.ionization_type_title.keyword',
+    growth_medium = 'project.experimental.sample_preparation.medium_details.medium_title.keyword',
+    solvent = 'project.experimental.extraction_methods.solvents.solvent_title.keyword',
+}
+
+export type FilterField = keyof typeof FilterFields;
+
+export enum SortFields {
+    score = 'score',
+    _id = 'project_id.keyword',
+    met_id = 'summary.metabolite_id.keyword',
+    PI_name = 'summary.PI_name.keyword',
+    submitters = 'summary.submitters.keyword',
+    nr_genomes = 'summary.nr_genomes',
+    nr_growth_conditions = 'summary.nr_growth_conditions',
+    nr_extraction_methods = 'summary.nr_extraction_methods',
+    nr_instrumentation_methods = 'summary.nr_instrumentation_methods',
+    nr_genome_metabolomics_links = 'summary.nr_genome_metabolomics_links',
+    nr_genecluster_mspectra_links = 'summary.nr_genecluster_mspectra_links',
+}
+export type SortField = keyof typeof SortFields;
+
+export enum Order {
+    desc = 'desc',
+    asc = 'asc'
+}
+
+export const DEFAULT_PAGE_SIZE = 100;
 
 interface Hit {
     _id: string;
@@ -10,77 +59,121 @@ interface Hit {
 }
 
 export function expandEnrichedProjectDocument(project: EnrichedProjectDocument, schema: any) {
+    const lookups = new Lookups(schema);
     const doc = JSON.parse(JSON.stringify(project));
 
-    const growth_media_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf;
-    const growth_media_lookup = enum2map(growth_media_oneOf);
-    const metagenomic_environment_oneOf = schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[0].properties.metagenomic_environment.oneOf;
-    const metagenomic_environment_lookup = enum2map(metagenomic_environment_oneOf);
     doc.project.experimental.sample_preparation.forEach((d: any) => {
         if (d.medium_details.medium_type === 'metagenome') {
-            const metagenomic_environment_title = metagenomic_environment_lookup.get(d.medium_details.metagenomic_environment);
+            const metagenomic_environment_title = lookups.metagenomic_environment.get(d.medium_details.metagenomic_environment);
             if (metagenomic_environment_title) {
                 d.medium_details.metagenomic_environment_title = metagenomic_environment_title;
             }
-            // TODO other
         }
-        const medium_title = growth_media_lookup.get(d.medium_details.medium);
+        const medium_title = lookups.growth_media.get(d.medium_details.medium);
         if (medium_title) {
             d.medium_details.medium_title = medium_title;
         }
-        // TODO other
     });
 
-    const instruments_type_lookup = enum2map(schema.properties.experimental.properties.instrumentation_methods.items.properties.instrumentation.properties.instrument.anyOf);
     doc.project.experimental.instrumentation_methods.forEach((d: any) => {
-        const title = instruments_type_lookup.get(d.instrumentation.instrument);
-        if (title) {
-            d.instrumentation.instrument_title = title;
+        const instrument_title = lookups.instrument.get(d.instrumentation.instrument);
+        if (instrument_title) {
+            d.instrumentation.instrument_title = instrument_title;
         }
-        // TODO other
+        const mode_title = lookups.ionization_mode.get(d.mode);
+        if (mode_title) {
+            d.mode_title = mode_title;
+        }
+        const ionization_type_title = lookups.ionization_type.get(d.ionization.ionization_type);
+        if (ionization_type_title) {
+            d.ionization_type_title = ionization_type_title;
+        }
     });
 
-    const solvents_lookup_enum = schema.properties.experimental.properties.extraction_methods.items.properties.solvents.items.properties.solvent.anyOf;
-    const solvents_lookup = enum2map(solvents_lookup_enum);
     doc.project.experimental.extraction_methods.forEach((m: any) => {
         m.solvents.forEach((d: any) => {
-            const title = solvents_lookup.get(d.solvent);
+            const title = lookups.solvent.get(d.solvent);
             if (title) {
                 d.solvent_title = title;
             }
-            // TODO other
         });
     });
 
+    if (doc.enrichments && doc.enrichments.genomes) {
+        doc.enrichments.genomes = Object.entries(doc.enrichments.genomes).map((keyval: any) => {
+            return { ...keyval[1], label: keyval[0] };
+        });
+    }
     // TODO species label fallback for unenriched project
 
+    doc.summary = summarizeProject(project);
+    delete doc.summary._id;
+    // To sort on _id we need to store id in es, but es does not like _id name
+    // so storing as project_id
+    doc.project_id = doc._id;
     delete doc._id;
     return doc;
 }
 
-export function collapseHit(hit: Hit): EnrichedProjectDocument {
-    const project = hit._source;
-    project.project.experimental.sample_preparation.forEach(
-        (d: any) => {
-            delete d.medium_details.medium_title;
-            delete d.medium_details.metagenomic_environment_title;
-        }
-    );
-    project.project.experimental.instrumentation_methods.forEach(
-        (d: any) => delete d.instrumentation.instrument_title
-    );
-    project.project.experimental.extraction_methods.forEach(
-        (m: any) => m.solvents.forEach(
-            (d: any) => delete d.solvent_title
-        )
-    );
-
-    project._id = hit._id;
-
-    return project;
+export function collapseHit(hit: Hit): ProjectSummary {
+    const summary = hit._source.summary;
+    if (hit._score) {
+        summary.score = hit._score;
+    }
+    summary._id = hit._id;
+    delete hit._source.project_id;
+    return summary;
 }
 
-export type FilterField = 'principal_investigator' | 'submitter' | 'genome_type' | 'species' | 'metagenomic_environment' | 'instrument_type' | 'growth_medium' | 'solvent';
+function buildAll() {
+    return {
+        match_all: {}
+    };
+}
+
+function buildQuery(query: string) {
+    return {
+        'simple_query_string': {
+            query
+        }
+    };
+}
+
+function buildFilter(key: FilterField, value: string) {
+    const eskey = FilterFields[key];
+    if (!eskey) {
+        throw new Error('Invalid filter field');
+    }
+    const match: { [key: string]: string } = {};
+    match[eskey] = value;
+    return {
+        match
+    };
+}
+
+function buildQueryFilter(query: any, filter: any) {
+    return {
+        bool: {
+            must: query,
+            filter
+        }
+    };
+}
+
+function buildBody(options: SearchOptions) {
+    if (options.query && options.filter) {
+        return buildQueryFilter(
+            buildQuery(options.query),
+            buildFilter(options.filter.key, options.filter.value)
+        );
+    } else if (options.query) {
+        return buildQuery(options.query);
+    } else if (options.filter) {
+        return buildFilter(options.filter.key, options.filter.value);
+    } else {
+        return buildAll();
+    }
+}
 
 export class SearchEngine {
     private schema: any;
@@ -107,7 +200,7 @@ export class SearchEngine {
     }
 
     private async createIndex() {
-        // Force all detected integers to be floats
+        // Force all detected integers to be floats except fields that start with nr_
         // Due to dynamic mapping `1` will be mapped to a long while other documents will require a float.
         await this.client.indices.create({
             index: this.index,
@@ -115,6 +208,7 @@ export class SearchEngine {
                 mappings: {
                     dynamic_templates: [{
                         floats: {
+                            unmatch: 'nr_*',
                             match_mapping_type: 'long',
                             mapping: {
                                 type: 'float'
@@ -158,53 +252,34 @@ export class SearchEngine {
         });
     }
 
-    async search(query: string) {
-        const { body } = await this.client.search({
-            index: this.index,
-            body: {
-                'query': {
-                    'simple_query_string': {
-                        query
-                    }
-                }
-            }
-        });
-        const hits: EnrichedProjectDocument[] = body.hits.hits.map(collapseHit);
-        return hits;
+    async search(options: SearchOptions) {
+        const defaultSort = (options.query || options.filter) ? 'score' : 'met_id';
+        const {
+            size = DEFAULT_PAGE_SIZE,
+            from = 0,
+            sort = defaultSort,
+            order = Order.desc
+        } = options;
+        const qbody = buildBody(options);
+        return await this._search(qbody, size, from, sort, order);
     }
 
-    async filter(key: FilterField, value: string) {
-        const query: any = {};
-        if (key === 'submitter') {
-            query.bool = {
-                should: [{
-                    'match': {}
-                }, {
-                    'match': {}
-                }]
-            };
-            query.bool.should[0].match['project.personal.submitter_name.keyword'] = value;
-            query.bool.should[1].match['project.personal.submitter_name_secondary.keyword'] = value;
-        } else {
-            const key2eskey = {
-                principal_investigator: 'project.personal.PI_name.keyword',
-                genome_type: 'project.genomes.genome_ID.genome_type.keyword',
-                species: 'enrichments.genomes.species.scientific_name.keyword',
-                metagenomic_environment: 'project.experimental.sample_preparation.medium_details.metagenomic_environment_title.keyword',
-                instrument_type: 'project.experimental.instrumentation_methods.instrumentation.instrument_title.keyword',
-                growth_medium: 'project.experimental.sample_preparation.medium_details.medium_title.keyword',
-                solvent: 'project.experimental.extraction_methods.solvents.solvent_title.keyword',
-            };
-            query.match = {};
-            query.match[key2eskey[key]] = value;
-        }
-        const { body } = await this.client.search({
+    private async _search(query: any, size: number, from: number, sort: SortField, order: Order) {
+        const request: any = {
             index: this.index,
+            size: size,
+            from,
+            _source: 'summary',
             body: {
                 query
             }
-        });
-        const hits: EnrichedProjectDocument[] = body.hits.hits.map(collapseHit);
-        return hits;
+        };
+        if (sort && sort !== 'score') {
+            request.sort = SortFields[sort] + ':' + order;
+        }
+        const response = await this.client.search(request);
+        const data: ProjectSummary[] = response.body.hits.hits.map(collapseHit);
+        const total: number = response.body.hits.total.value;
+        return { data, total };
     }
 }

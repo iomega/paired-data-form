@@ -15,7 +15,7 @@
   "properties": {
     "version": {
       "type": "string",
-      "readonly": true,
+      "readOnly": true,
       "default": "2",
       "enum": ["2"]
     },
@@ -146,7 +146,7 @@
     },
     "genomes": {
       "type": "array",
-      "title": "3. All Metagenomes/Genomes",
+      "title": "3. (Meta)genomic Information",
       "description": "Please add all genomes and/or metagenomes for which paired data is available as separate entries.",
       "items": {
         "type": "object",
@@ -827,14 +827,12 @@
                   "growth_temperature": {
                     "type": "number",
                     "title": "Temperature (℃)",
-                    "description": "Please enter the temperature of growth in degrees Celsius.",
-                    "pattern": "[0-9]{1,}"
+                    "description": "Please enter the temperature of growth in degrees Celsius."
                   },
                   "growth_duration": {
                     "type": "number",
                     "title": "Duration (h)",
-                    "description": "Please enter the growth duration in hours.",
-                    "pattern": "[0-9]{1,}"
+                    "description": "Please enter the growth duration in hours."
                   },
                   "growth_phase_OD": {
                     "type": "string",
@@ -1515,8 +1513,8 @@
     },
     "BGC_MS2_links": {
       "type": "array",
-      "title": "6. Gene Cluster - Mass Spectra Links",
-      "description": "If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide details in this section. Biosynthetic gene clusters can be found in <a href=\"https://mibig.secondarymetabolites.org/\" target=\"_blank\" rel=\"noopener noreferrer\">MIBiG</a>.",
+      "title": "6. Biosynthetic Gene Cluster - MS/MS Links",
+      "description": "If you already know of a biosynthetic gene cluster or biosynthetic gene cluster family that can be linked to a molecule or molecular family, please provide details in this section. Biosynthetic gene clusters can be found in <a href=\"https://mibig.secondarymetabolites.org/\" target=\"_blank\" rel=\"noopener noreferrer\">MIBiG</a>.",
       "items": {
         "type": "object",
         "required": [

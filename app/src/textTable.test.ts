@@ -1,5 +1,6 @@
 import { kitchenSinkDoc, minimalDoc } from './test.fixtures';
 import { jsonDocument, textTable, tsvUrl } from './textTable';
+import { IOMEGAPairedOmicsDataPlatform } from './schema';
 
 describe('with schema loaded', () => {
     let schema: any;
@@ -72,6 +73,110 @@ describe('with schema loaded', () => {
                 "sample_preparation_label": "agar"
             }];
             expect(doc).toEqual(expected);
+        });
+
+        it.each([
+            ['No genomes or metagenomes have been defined', {}, []],
+            ['No sample growth conditions have been defined in the metabolomics experimental details section', {
+                genomes: [{
+                    "genome_ID": {
+                        "genome_type": "genome",
+                        "GenBank_accession": "ARJI01000000"
+                    },
+                    "genome_label": "CNB091"
+                }],
+                experimental: {}
+            }, []],
+            ['No extraction methods have been defined in the metabolomics experimental details section', {
+                genomes: [{
+                    "genome_ID": {
+                        "genome_type": "genome",
+                        "GenBank_accession": "ARJI01000000"
+                    },
+                    "genome_label": "CNB091"
+                }],
+                experimental: {
+                    sample_preparation: [{
+                        "medium_details": {
+                            "medium_type": "liquid",
+                            "medium": "other",
+                            "Other_medium": "blood"
+                        },
+                        "growth_parameters": {
+                            "growth_temperature": 1
+                        },
+                        "aeration": {
+                            "aeration_type": "not shaking"
+                        },
+                        "sample_preparation_method": "blod"
+                    }]
+                }
+            }, []],
+            ['No instrumentation methods have been defined in the metabolomics experimental details section', {
+                genomes: [{
+                    "genome_ID": {
+                        "genome_type": "genome",
+                        "GenBank_accession": "ARJI01000000"
+                    },
+                    "genome_label": "CNB091"
+                }],
+                experimental: {
+                    sample_preparation: [{
+                        "medium_details": {
+                            "medium_type": "liquid",
+                            "medium": "other",
+                            "Other_medium": "blood"
+                        },
+                        "growth_parameters": {
+                            "growth_temperature": 1
+                        },
+                        "aeration": {
+                            "aeration_type": "not shaking"
+                        },
+                        "sample_preparation_method": "blod"
+                    }],
+                    extraction_methods: [{
+                        "solvents": [
+                            {
+                                "solvent": "http://purl.obolibrary.org/obo/CHEBI_17790",
+                                "ratio": 1
+                            }
+                        ],
+                        "extraction_method": "meth"
+                    }]
+                }
+            }, []],
+            ["'Location of metabolomics data file','Genome/Metagenome','Sample Growth Conditions','Extraction Method','Instrumentation Method' columns are missing", kitchenSinkDoc, [{foo: 'bar'}]],
+            ['badlabel is not known as genome label, please add the (meta)genome first', kitchenSinkDoc, [{
+                'Genome/Metagenome': 'badlabel',
+                'Location of metabolomics data file': 'ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNB091_A1_B.mzXML',
+                'Sample Growth Conditions': 'blod',
+                'Extraction Method': 'meth',
+                'Instrumentation Method': 'bh',
+            }]],
+            ['badlabel is not known as Sample Growth Conditions label, please add the sample growth condition first', kitchenSinkDoc, [{
+                'Genome/Metagenome': 'Streptomyces sp. CNB091',
+                'Location of metabolomics data file': 'ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNB091_A1_B.mzXML',
+                'Sample Growth Conditions': 'badlabel',
+                'Extraction Method': 'meth',
+                'Instrumentation Method': 'bh',
+            }]],
+            ['badlabel is not known as extraction method label, please add the extraction method first', kitchenSinkDoc, [{
+                'Genome/Metagenome': 'Streptomyces sp. CNB091',
+                'Location of metabolomics data file': 'ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNB091_A1_B.mzXML',
+                'Sample Growth Conditions': 'blod',
+                'Extraction Method': 'badlabel',
+                'Instrumentation Method': 'bh',
+            }]],
+            ['badlabel is not known as instrumentation method label, please add the instrumation method first', kitchenSinkDoc, [{
+                'Genome/Metagenome': 'Streptomyces sp. CNB091',
+                'Location of metabolomics data file': 'ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNB091_A1_B.mzXML',
+                'Sample Growth Conditions': 'blod',
+                'Extraction Method': 'meth',
+                'Instrumentation Method': 'badlabel',
+            }]],
+        ])('should complain about %s', (message, project, rows) => {
+            expect(() => jsonDocument(project as IOMEGAPairedOmicsDataPlatform, rows)).toThrowError(message);
         });
     });
 

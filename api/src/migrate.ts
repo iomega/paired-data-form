@@ -1,9 +1,9 @@
-import { Validator } from './validate';
 import { IOMEGAPairedOmicsDataPlatform } from './schema';
 import { ProjectDocumentStore } from './projectdocumentstore';
+import { loadSchema } from './util/schema';
 
-const validator = new Validator();
-const schemaVersion = (validator.schema as any).properties.version.default;
+const schema = loadSchema();
+const schemaVersion = schema.properties.version.default;
 
 export interface Migration {
     applicable(p: any): boolean;

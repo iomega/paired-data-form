@@ -1,8 +1,8 @@
-# Api web service for paired omics data platform
+# Api web service for Pairing Omics Data Platform
 
 ## Architecture
 
-The paired omics data platform api web service use a directories to store project json files.
+The Pairing Omics Data Platform api web service use a directories to store project json files.
 
 * pending/, any projects added via POST to `/api/projects` or `/api/projects/:id` will end up here. Ready for reviewing
 * approved/, all public visible projects. Once a project is approved it is moved from the `pending/` directory to the `approved/` directory.
@@ -29,6 +29,20 @@ Create `./.env` file, use `./.env.example` as an example.
 
 To publish the data collection to Zenodo, a [Zenodo personal access token](https://zenodo.org/account/settings/applications/tokens/new/) is needed.
 During token generation check the `deposit:actions` and `deposit:write` scopes.
+
+### Slack integration
+
+The service can post messages to a Slack channel when a project is submitted or pushed to Zenodo.
+
+1. [Create an Slack app](https://api.slack.com/apps), pick any name / workspace you want
+1. Optionally. Add collaborators so your are not the only one who can edit the Slack app
+1. Add `chat:write` to bot token scopes
+1. Install to workspace and allow bot to write chats
+1. Copy token to `../.env:SLACK_TOKEN` value
+1. Create channel to post messages to and set it's id (last bit of channel url) as `../.env:SLACK_CHANNEL` value
+1. In channel select `Add an app` and add the created app
+
+People that should be reviewing incoming projects should be invited to the Slack channel and be supplied with the review credentials.
 
 ## Build & Run
 

@@ -19,25 +19,21 @@ export const GenomeMetabolomeLinksField = (props: FieldProps) => {
 
     function fillLinksFromFile(event: React.ChangeEvent<HTMLInputElement>) {
         setUploadError('');
-        if (!event.target.files) {
+        if (!event.target.files || event.target.files.length === 0) {
             setUploadError('No file selected');
             return;
         }
         const file = event.target.files[0];
         const reader = new FileReader();
         reader.onload = () => {
-            if (reader.result) {
-                const rows = tsvParse(reader.result as string);
-                try {
-                    props.formContext.uploadGenomeMetabolomeLinks(rows);
-                } catch (error) {
-                    setUploadError(error.message);
-                }
-
-            } else {
-                setUploadError('Loading file failed: ' + reader.error);
+            const rows = tsvParse(reader.result as string).map(d => d);
+            try {
+                props.formContext.uploadGenomeMetabolomeLinks(rows);
+            } catch (error) {
+                setUploadError(error.message);
             }
         };
+        reader.onerror = () => setUploadError('Loading file failed: ' + reader.error);
         reader.readAsText(file);
     }
     return (
@@ -51,6 +47,7 @@ export const GenomeMetabolomeLinksField = (props: FieldProps) => {
                     onChange={fillLinksFromFile}
                     ref={uploadRef}
                     style={{ display: "none" }}
+                    data-testid="links-upload-input"
                 />
             </Button>
             {uploadError && <Alert bsStyle="danger">{uploadError}</Alert>}
