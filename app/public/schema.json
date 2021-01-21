@@ -15,7 +15,7 @@
   "properties": {
     "version": {
       "type": "string",
-      "readonly": true,
+      "readOnly": true,
       "default": "2",
       "enum": ["2"]
     },
@@ -827,14 +827,12 @@
                   "growth_temperature": {
                     "type": "number",
                     "title": "Temperature (℃)",
-                    "description": "Please enter the temperature of growth in degrees Celsius.",
-                    "pattern": "[0-9]{1,}"
+                    "description": "Please enter the temperature of growth in degrees Celsius."
                   },
                   "growth_duration": {
                     "type": "number",
                     "title": "Duration (h)",
-                    "description": "Please enter the growth duration in hours.",
-                    "pattern": "[0-9]{1,}"
+                    "description": "Please enter the growth duration in hours."
                   },
                   "growth_phase_OD": {
                     "type": "string",

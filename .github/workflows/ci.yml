@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 12.x
       - name: Schema validation
-        run: npx -p ajv-cli ajv compile -s app/public/schema.json
+        run: npx -p ajv-cli -p ajv-formats ajv compile -c ajv-formats -s app/public/schema.json
   api:
     runs-on: ubuntu-latest
     defaults:
