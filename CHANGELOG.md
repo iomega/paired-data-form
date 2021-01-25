@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+
+- Allow notifications to be disabled with `SLACK_TOKEN=false` environment variable
+
+## Fixed
+
+- URL in notification message is internal ([#168](https://github.com/iomega/paired-data-form/issues/168))
+
 ## [0.9.1] - 2021-01-21
 
 ### Security
