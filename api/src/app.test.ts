@@ -10,6 +10,14 @@ import { EnrichedProjectDocument } from './store/enrichments';
 import { loadJSONDocument } from './util/io';
 import { EXAMPLE_PROJECT_JSON_FN } from './testhelpers';
 
+jest.mock('./util/secrets', () => {
+    return {
+        SHARED_TOKEN: 'ashdfjhasdlkjfhalksdjhflak',
+        SLACK_ENABLED: false,
+        ZENODO_UPLOAD_ENABLED: false,
+    };
+});
+
 describe('app', () => {
     let app: Express;
     let store: any;
@@ -423,7 +431,7 @@ describe('app', () => {
             });
         });
 
-        fdescribe('GET /api/sitemap', () => {
+        describe('GET /api/sitemap', () => {
             it('should return a sitemap with projectid1.1 url', async () => {
                 const response = await supertest(app)
                     .get('/api/sitemap')
