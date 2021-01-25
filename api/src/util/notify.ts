@@ -1,8 +1,11 @@
 import { WebClient } from '@slack/web-api';
 
-import { SLACK_CHANNEL, SLACK_TOKEN } from './secrets';
+import { SLACK_CHANNEL, SLACK_ENABLED, SLACK_TOKEN } from './secrets';
 
 async function postMessage2Slack(message: string) {
+    if (!SLACK_ENABLED) {
+        return;
+    }
     const slack = new WebClient(SLACK_TOKEN);
     try {
         await slack.chat.postMessage({
