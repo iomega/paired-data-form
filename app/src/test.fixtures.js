@@ -28,7 +28,7 @@ export const kitchenSinkDoc = {
         "project": {
             "GNPSMassIVE_ID": "MSV000078839",
             "MaSSIVE_URL": "https://massive.ucsd.edu/ProteoSAFe/dataset.jsp?task=a507232a787243a5afd69a6c6fa1e508",
-            "molecular_network": "http://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9"
+            "molecular_network": "https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=c36f90ba29fe44c18e96db802de0c6b9"
         },
         "publications": "28335604"
     },
