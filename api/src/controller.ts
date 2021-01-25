@@ -30,7 +30,7 @@ function getEnrichQueue(req: Request) {
 }
 
 function getPendingProjectUrl(req: Request, project_id: string) {
-    return 'https://' + req.headers.host + '/pending/' + project_id;
+    return 'https://' + req.hostname + '/pending/' + project_id;
 }
 
 export async function createProject(req: Request, res: Response) {
