@@ -29,7 +29,7 @@ export async function createProject(req: Request, res: Response) {
     const queue = getEnrichQueue(req);
     queue.add([project_id, project]);
 
-    notifyNewProject(getPendingProjectUrl(req, project_id));
+    notifyNewProject(getPendingProjectUrl(project_id));
 
     res.set('Location', location);
     res.status(201);
@@ -119,7 +119,7 @@ export async function editProject(req: Request, res: Response) {
     const queue = getEnrichQueue(req);
     queue.add([new_project_id, project]);
 
-    notifyNewProject(getPendingProjectUrl(req, new_project_id));
+    notifyNewProject(getPendingProjectUrl(new_project_id));
 
     res.set('Location', location);
     res.status(201);

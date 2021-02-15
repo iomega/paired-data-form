@@ -20,6 +20,6 @@ export function getEnrichQueue(req: Request) {
     return req.app.get('enrichqueue') as Queue<[string, ProjectDocument]>;
 }
 
-export function getPendingProjectUrl(req: Request, project_id: string) {
-    return 'https://' + req.hostname + '/pending/' + project_id;
+export function getPendingProjectUrl(project_id: string) {
+    return 'https://pairedomicsdata.bioinformatics.nl/pending/' + project_id;
 }
