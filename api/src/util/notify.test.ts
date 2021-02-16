@@ -3,6 +3,7 @@ import { notifyNewProject, notifyPublish2Zenodo } from './notify';
 
 jest.mock('./secrets', () => {
     return {
+        SLACK_ENABLED: true,
         SLACK_TOKEN: 'fake-slack-token',
         SLACK_CHANNEL: 'fake-slack-channel'
     };

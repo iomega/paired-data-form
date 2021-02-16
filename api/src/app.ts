@@ -18,6 +18,7 @@ export function builder(mystore: ProjectDocumentStore, myenrichqueue: Bull.Queue
     const app = express();
 
     // Express configuration
+    app.enable('trust proxy');
     app.set('port', process.env.PORT || 3000);
     app.set('store', mystore);
     app.set('schema', loadSchema());

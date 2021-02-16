@@ -1,16 +1,18 @@
 import * as React from "react";
 
-import { shallow, ShallowWrapper } from "enzyme";
+import { render, RenderResult } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+
 import { About } from "./About";
 
-describe('<About>', () => {
-    let wrapper: ShallowWrapper;
+describe("<About>", () => {
+  let wrapper: RenderResult;
 
-    beforeEach(() => {
-        wrapper = shallow(<About/>);
-    });
+  beforeEach(() => {
+    wrapper = render(<About />);
+  });
 
-    it('should render', () => {
-        expect(wrapper.isEmptyRender()).toBeFalsy();
-    })
+  it("should render doi of dataset", () => {
+    expect(wrapper.baseElement).toHaveTextContent("10.5281/zenodo.3736430");
+  });
 });
