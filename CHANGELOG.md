@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added
 
 - Allow notifications to be disabled with `SLACK_TOKEN=false` environment variable
+- Mention CC BY 4.0 license on add and download page
 
 ## Fixed
 
