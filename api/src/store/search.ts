@@ -215,6 +215,9 @@ export class SearchEngine {
                             }
                         }
                     }]
+                },
+                settings: {
+                    number_of_replicas: 0
                 }
             }
         });
@@ -250,6 +253,16 @@ export class SearchEngine {
             id: project_identifier,
             index: this.index
         });
+    }
+
+    async health() {
+        const response = await this.client.cluster.health({
+            index: this.index,
+            level: 'indices'
+        });
+        const cluster_status = response.body.status;
+        const index_status = response.body.indices[this.index].status;
+        return cluster_status === 'green' && index_status === 'green';
     }
 
     async search(options: SearchOptions) {

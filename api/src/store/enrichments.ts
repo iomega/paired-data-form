@@ -1,8 +1,10 @@
 import Keyv from 'keyv';
+import Redis from 'ioredis';
 
 import { IOMEGAPairedOmicsDataPlatform as ProjectDocument } from '../schema';
 import { ProjectEnrichments } from '../enrich';
 import { ProjectSummary } from '../summarize';
+import { REDIS_URL } from '../util/secrets';
 
 const PREFIX = 'enrichment:';
 
@@ -63,5 +65,18 @@ export class ProjectEnrichmentStore {
             data.push(await this.merge(entry[0], entry[1]));
         }
         return data;
+    }
+
+    async health() {
+        const redis = new Redis(REDIS_URL, {enableReadyCheck : true, lazyConnect: true});
+        try {
+            await redis.connect();
+            return redis.status;
+        } catch (e) {
+            console.log(e);
+            return redis.status;
+        } finally {
+            redis.disconnect();
+        }
     }
 }
