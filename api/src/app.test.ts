@@ -44,6 +44,13 @@ describe('app', () => {
                 },
                 getPendingProject: (project_id: string) => {
                     throw new NotFoundException('Not found ' + project_id);
+                },
+                health: async () => {
+                    return {
+                        search: true,
+                        redis: true,
+                        disk: true,
+                    };
                 }
             };
             enrichqueue = {
@@ -218,6 +225,35 @@ describe('app', () => {
                         'solvents': [],
                         'species': [],
                         'metagenomic_environment': []
+                    }
+                };
+                expect(body).toEqual(expected);
+            });
+        });
+
+        describe('GET /api/health', () => {
+            it.only('should have status=pass', async () => {
+                const response = await supertest(app).get('/api/health');
+                expect(response.status).toBe(200);
+                const body = JSON.parse(response.text);
+                const expected = {
+                    "status": "pass",
+                    "checks": {
+                        "app": {
+                            "status": "pass"
+                        },
+                        "api": {
+                            "status": "pass"
+                        },
+                        "elasticsearch": {
+                            "status": "pass"
+                        },
+                        "redis": {
+                            "status": "pass"
+                        },
+                        "disk": {
+                            "status": "pass"
+                        }
                     }
                 };
                 expect(body).toEqual(expected);

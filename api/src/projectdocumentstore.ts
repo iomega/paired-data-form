@@ -132,4 +132,17 @@ export class ProjectDocumentStore {
             throw error;
         }
     }
+
+    async health() {
+        const [search, redis, disk ] = await Promise.all([
+            this.search_engine.health(),
+            this.enrichment_store.health(),
+            this.disk_store.health()
+        ]);
+        return {
+            search,
+            redis: redis === 'ready',
+            disk
+        };
+    }
 }

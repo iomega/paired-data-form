@@ -143,15 +143,11 @@ export async function getStats(req: Request, res: Response) {
     res.json(stats);
 }
 
-function getApiVersion() {
-    const mypackage = require('../package.json');
-    return mypackage.version;
-}
-
 export function getVersionInfo(req: Request, res: Response) {
     const doi = 'https://doi.org/10.5281/zenodo.' + ZENODO_DEPOSITION_ID;
     const zenodo = 'https://zenodo.org/record/' + ZENODO_DEPOSITION_ID;
-    const api = getApiVersion();
+    const mypackage = require('../package.json');
+    const api = mypackage.version;
     const info = {
         api,
         dataset: {
@@ -191,11 +187,7 @@ export async function getSiteMap(req: Request, res: Response) {
 
 export async function health(req: Request, res: Response) {
     const store = getStore(req);
-    const [search_health, redis_health, disk_health ] = await Promise.all([
-        store.search_engine.health(),
-        store.enrichment_store.health(),
-        store.disk_store.health()
-    ]);
+    const store_health = await store.health();
     const checks = {
         app: {
             status: 'pass' // always passes as api service is reached via reverse proxy of app
@@ -204,19 +196,18 @@ export async function health(req: Request, res: Response) {
             status: 'pass' // always passes as to get here api had to be called
         },
         elasticsearch: {
-            status: search_health ? 'pass' : 'fail'
+            status: store_health.search ? 'pass' : 'fail'
         },
         redis: {
-            status: redis_health === 'ready' ? 'pass' : 'fail'
+            status: store_health.redis ? 'pass' : 'fail'
         },
         disk: {
-            status: disk_health ? 'pass' : 'fail'
+            status: store_health.disk ? 'pass' : 'fail'
         }
     };
     const status = Object.values(checks).every((c) => c.status === 'pass');
     const h = {
         status: status ? 'pass' : 'fail',
-        version: getApiVersion(),
         checks
     };
     res.status(status ? 200 : 503);
