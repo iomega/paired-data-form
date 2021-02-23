@@ -261,6 +261,9 @@ export class SearchEngine {
             level: 'indices'
         });
         const cluster_status = response.body.status;
+        if (!(this.index in response.body.indices)) {
+            return false;
+        }
         const index_status = response.body.indices[this.index].status;
         return cluster_status === 'green' && index_status === 'green';
     }
