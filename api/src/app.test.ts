@@ -237,22 +237,22 @@ describe('app', () => {
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
                 const expected = {
-                    "status": "pass",
-                    "checks": {
-                        "app": {
-                            "status": "pass"
+                    'status': 'pass',
+                    'checks': {
+                        'app': {
+                            'status': 'pass'
                         },
-                        "api": {
-                            "status": "pass"
+                        'api': {
+                            'status': 'pass'
                         },
-                        "elasticsearch": {
-                            "status": "pass"
+                        'elasticsearch': {
+                            'status': 'pass'
                         },
-                        "redis": {
-                            "status": "pass"
+                        'redis': {
+                            'status': 'pass'
                         },
-                        "disk": {
-                            "status": "pass"
+                        'disk': {
+                            'status': 'pass'
                         }
                     }
                 };

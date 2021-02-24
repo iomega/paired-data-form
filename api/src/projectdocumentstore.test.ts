@@ -50,7 +50,7 @@ describe('ProjectDocumentStore', () => {
                 connect: jest.fn(),
                 disconnect: jest.fn(),
                 status: 'ready'
-            }
+            };
         });
         store = new ProjectDocumentStore(datadir, '', 'http://localhost:9200');
         await store.initialize();
@@ -329,9 +329,9 @@ describe('ProjectDocumentStore', () => {
                             search: true,
                             redis: true,
                             disk: true,
-                        }
+                        };
                         expect(await store.health()).toEqual(expected);
-                    })
+                    });
                 });
             });
 
