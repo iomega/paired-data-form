@@ -10,9 +10,12 @@ import { IOMEGAPairedOmicsDataPlatform } from './schema';
 import { loadJSONDocument } from './util/io';
 import { EXAMPLE_PROJECT_JSON_FN, mockedElasticSearchClient } from './testhelpers';
 import { Client } from '@elastic/elasticsearch';
+import Redis from 'ioredis';
 jest.mock('@elastic/elasticsearch');
+jest.mock('ioredis');
 
 const MockedElasticSearchClient: jest.Mock = Client as any;
+const MockedRedisClient: jest.Mock = Redis as any;
 
 expect.extend({
     toBeSubdirectoryInDirectory(basename: string, prefix: string) {
@@ -42,6 +45,13 @@ describe('ProjectDocumentStore', () => {
         datadir = fs.mkdtempSync(path.join(os.tmpdir(), 'pdp'));
         client = await mockedElasticSearchClient();
         MockedElasticSearchClient.mockImplementation(() => client);
+        MockedRedisClient.mockImplementation(() => {
+            return {
+                connect: jest.fn(),
+                disconnect: jest.fn(),
+                status: 'ready'
+            }
+        });
         store = new ProjectDocumentStore(datadir, '', 'http://localhost:9200');
         await store.initialize();
     });
@@ -298,6 +308,30 @@ describe('ProjectDocumentStore', () => {
                         });
                     });
 
+                });
+
+                describe('health()', () => {
+                    beforeEach(() => {
+                        client.cluster.health.mockResolvedValue({
+                            body: {
+                                status: 'green',
+                                indices: {
+                                    podp: {
+                                        status: 'green',
+                                    }
+                                }
+                            }
+                        });
+
+                    });
+                    it('should be healthy', async () => {
+                        const expected = {
+                            search: true,
+                            redis: true,
+                            disk: true,
+                        }
+                        expect(await store.health()).toEqual(expected);
+                    })
                 });
             });
 

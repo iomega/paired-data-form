@@ -394,6 +394,59 @@ describe('new SearchEngine()', () => {
         });
 
     });
+
+    describe('health()', () => {
+        describe('when cluster and index are mocked green', () => {
+            beforeEach(() => {
+                client.cluster.health.mockResolvedValue({
+                    body: {
+                        status: 'green',
+                        indices: {
+                            podp: {
+                                status: 'green',
+                            }
+                        }
+                    }
+                });
+            });
+            it('should return true', async () => {
+                expect(await searchEngine.health()).toBeTruthy();
+            });
+        });
+
+        describe('when cluster and index are mocked red', () => {
+            beforeEach(() => {
+                client.cluster.health.mockResolvedValue({
+                    body: {
+                        status: 'red',
+                        indices: {
+                            podp: {
+                                status: 'red',
+                            }
+                        }
+                    }
+                });
+            });
+            it('should return false', async () => {
+                expect(await searchEngine.health()).toBeFalsy();
+            });
+        });
+
+        describe('when cluster is green, but index missing', () => {
+            beforeEach(() => {
+                client.cluster.health.mockResolvedValue({
+                    body: {
+                        status: 'red',
+                        indices: {
+                        }
+                    }
+                });
+            });
+            it('should return false', async () => {
+                expect(await searchEngine.health()).toBeFalsy();
+            });
+        });
+    });
 });
 
 async function esGenomeProject() {

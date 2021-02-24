@@ -10,6 +10,9 @@ export async function mockedElasticSearchClient() {
         bulk: jest.fn(),
         search: jest.fn(),
         delete: jest.fn(),
+        cluster: {
+            health: jest.fn()
+        },
     };
     const summary = {
         metabolite_id: 'MSV000078839',

@@ -232,7 +232,7 @@ describe('app', () => {
         });
 
         describe('GET /api/health', () => {
-            it.only('should have status=pass', async () => {
+            it('should have status=pass', async () => {
                 const response = await supertest(app).get('/api/health');
                 expect(response.status).toBe(200);
                 const body = JSON.parse(response.text);
