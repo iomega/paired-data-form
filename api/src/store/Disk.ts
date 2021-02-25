@@ -106,7 +106,8 @@ export class ProjectDocumentDiskStore {
             );
             await fs.promises.unlink(fn);
             return true;
-        } catch {
+        } catch (e) {
+            console.error('disk health failure: ', e);
             return false;
         }
     }

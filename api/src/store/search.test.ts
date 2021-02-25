@@ -3,6 +3,7 @@ import { EXAMPLE_PROJECT_JSON_FN, mockedElasticSearchClient } from '../testhelpe
 import { SearchEngine, FilterField } from './search';
 import { Client } from '@elastic/elasticsearch';
 import { EnrichedProjectDocument } from './enrichments';
+import { ConnectionError } from '@elastic/elasticsearch/lib/errors';
 jest.mock('@elastic/elasticsearch');
 
 const MockedClient: jest.Mock = Client as any;
@@ -446,6 +447,15 @@ describe('new SearchEngine()', () => {
                 expect(await searchEngine.health()).toBeFalsy();
             });
         });
+
+        describe('when cluster is offline', () => {
+            beforeEach(() => {
+                client.cluster.health.mockRejectedValue(new ConnectionError('getaddrinfo EAI_AGAIN search', null));
+            });
+            it('should return false', async () => {
+                expect(await searchEngine.health()).toBeFalsy();
+            });
+        })
     });
 });
 

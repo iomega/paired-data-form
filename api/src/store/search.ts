@@ -256,16 +256,21 @@ export class SearchEngine {
     }
 
     async health() {
-        const response = await this.client.cluster.health({
-            index: this.index,
-            level: 'indices'
-        });
-        const cluster_status = response.body.status;
-        if (!(this.index in response.body.indices)) {
+        try {
+            const response = await this.client.cluster.health({
+                index: this.index,
+                level: 'indices'
+            });
+            const cluster_status = response.body.status;
+            if (!(this.index in response.body.indices)) {
+                return false;
+            }
+            const index_status = response.body.indices[this.index].status;
+            return cluster_status === 'green' && index_status === 'green';
+        } catch (error) {
+            console.error('es health failure: ', error);
             return false;
         }
-        const index_status = response.body.indices[this.index].status;
-        return cluster_status === 'green' && index_status === 'green';
     }
 
     async search(options: SearchOptions) {

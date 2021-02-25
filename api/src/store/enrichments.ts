@@ -73,7 +73,7 @@ export class ProjectEnrichmentStore {
             await redis.connect();
             return redis.status;
         } catch (e) {
-            console.log(e);
+            console.error('redis health failure: ', e);
             return redis.status;
         } finally {
             redis.disconnect();
