@@ -165,6 +165,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VersionInfo"
+  /health:
+    get:
+      description: Checks if all services of the platform are healthy
+      responses:
+        "200":
+          description: Healthy Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthInfo"
+        "503":
+          description: Unhealhtly Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthInfo"
 components:
   schemas:
     ProjectsResponse:
@@ -408,4 +424,31 @@ components:
           required: [doi, zenodo]
           additionalProperties: false
       required: [api]
+      additionalProperties: false
+    HealthInfo:
+      # Based on https://tools.ietf.org/html/draft-inadarei-api-health-check-05
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - pass
+            - warn
+            - fail
+        checks:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - pass
+                  - warn
+                  - fail
+            required:
+              - status
+            additionalProperties: false
+      required:
+        - status
       additionalProperties: false
