@@ -13,7 +13,7 @@ import { IOMEGAPairedOmicsDataPlatform } from './schema';
 import { EnrichedProjectDocument } from './store/enrichments';
 import { loadJSONDocument } from './util/io';
 import { EXAMPLE_PROJECT_JSON_FN, mockedElasticSearchClient } from './testhelpers';
-import { Client as ESClient} from '@elastic/elasticsearch';
+import { Client as ESClient } from '@elastic/elasticsearch';
 import Redis from 'ioredis';
 jest.mock('@elastic/elasticsearch');
 jest.mock('ioredis');

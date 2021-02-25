@@ -450,12 +450,12 @@ describe('new SearchEngine()', () => {
 
         describe('when cluster is offline', () => {
             beforeEach(() => {
-                client.cluster.health.mockRejectedValue(new ConnectionError('getaddrinfo EAI_AGAIN search', null));
+                client.cluster.health.mockRejectedValue(new ConnectionError('getaddrinfo EAI_AGAIN search', undefined));
             });
             it('should return false', async () => {
                 expect(await searchEngine.health()).toBeFalsy();
             });
-        })
+        });
     });
 });
 
