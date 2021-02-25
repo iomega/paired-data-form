@@ -426,7 +426,7 @@ components:
       required: [api]
       additionalProperties: false
     HealthInfo:
-      # Based on https://tools.ietf.org/html/draft-inadarei-api-health-check-05
+      description: Based on https://tools.ietf.org/html/draft-inadarei-api-health-check-05
       type: object
       properties:
         status:
