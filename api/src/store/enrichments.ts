@@ -71,10 +71,10 @@ export class ProjectEnrichmentStore {
         const redis = new Redis(REDIS_URL, {enableReadyCheck : true, lazyConnect: true});
         try {
             await redis.connect();
-            return redis.status;
+            return redis.status === 'ready';
         } catch (e) {
             console.error('redis health failure: ', e);
-            return redis.status;
+            return redis.status === 'ready';
         } finally {
             redis.disconnect();
         }

@@ -141,7 +141,7 @@ export class ProjectDocumentStore {
         ]);
         return {
             search,
-            redis: redis === 'ready',
+            redis,
             disk
         };
     }
