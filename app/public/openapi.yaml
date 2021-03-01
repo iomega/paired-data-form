@@ -436,8 +436,8 @@ components:
             - warn
             - fail
         checks:
-          type: array
-          items:
+          type: object
+          additionalProperties:
             type: object
             properties:
               status:
@@ -451,4 +451,5 @@ components:
             additionalProperties: false
       required:
         - status
+        - checks
       additionalProperties: false
