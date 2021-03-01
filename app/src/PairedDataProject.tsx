@@ -12,7 +12,6 @@ import { MetabolomicsProjectDetails } from "./MetabolomicsProjectDetails";
 import { SubmitterInformation } from "./SubmitterInformation";
 import { ProjectActions } from "./ProjectActions";
 import { record2dataUrl } from "./record2dataUrl";
-import { jsonldDataCatalog } from "./constants";
 import { isMetaboLights } from "./typeguards";
 import { publicationLinks } from "./Publications";
 
