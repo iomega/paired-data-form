@@ -40,7 +40,10 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
   const dataset: DctDataset = {
     "@type": "Dataset",
     identifier: `https://pairedomicsdata.bioinformatics.nl/project/${project_id}`,
-    "http://purl.org/dc/terms/conformsTo": { "@type": "CreativeWork", "@id": "https://bioschemas.org/profiles/Dataset/0.3-RELEASE-2019_06_14/" },
+    "http://purl.org/dc/terms/conformsTo": {
+      "@type": "CreativeWork",
+      "@id": "https://bioschemas.org/profiles/Dataset/0.3-RELEASE-2019_06_14/"
+    },
     url: `https://pairedomicsdata.bioinformatics.nl/project/${project_id}`,
     name: `Project ${project_id}`,
     description,

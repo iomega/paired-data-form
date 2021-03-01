@@ -8,5 +8,11 @@ export const jsonldDataCatalog: DataCatalog = {
   name: "Paired Omics Data Platform",
   about: 'Linking mas spectra and genomic information to discover new chemistry',
   url: 'https://pairedomicsdata.bioinformatics.nl',
-  identifier: doiLink
+  identifier: doiLink,
+  publication: {
+    "@type":  "PublicationEvent",
+    name: "A community resource for paired genomic and metabolomic data mining",
+    url: "https://www.nature.com/articles/s41589-020-00724-z"
+  },
+  license: 'https://creativecommons.org/licenses/by/4.0/legalcode',
 };
