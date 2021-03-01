@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Fixed
 
 - URL in notification message is internal ([#168](https://github.com/iomega/paired-data-form/issues/168))
+- Return 404 http error when path is not /api, a file or part of router paths ([#174](https://github.com/iomega/paired-data-form/issues/174))
 
 ## [0.9.1] - 2021-01-21
 
