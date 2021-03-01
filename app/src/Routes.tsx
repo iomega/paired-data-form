@@ -21,7 +21,7 @@ import { DownloadPage } from "./pages/DownloadPage";
 import { MethodsPage } from "./pages/MethodsPage";
 
 export function Routes() {
-  // Any route her should also be defined in ../dockerfiles/nginx.default.conf
+  // Any route here should also be defined in ../dockerfiles/nginx.default.conf
   return (
     <Router>
       <Navbar>
