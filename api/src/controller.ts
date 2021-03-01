@@ -184,3 +184,33 @@ export async function getSiteMap(req: Request, res: Response) {
         res.status(500).end();
     }
 }
+
+export async function health(req: Request, res: Response) {
+    const store = getStore(req);
+    const store_health = await store.health();
+    const checks = {
+        app: {
+            status: 'pass' // always passes as api service is reached via reverse proxy of app
+        },
+        api: {
+            status: 'pass' // always passes as to get here api had to be called
+        },
+        elasticsearch: {
+            status: store_health.search ? 'pass' : 'fail'
+        },
+        redis: {
+            status: store_health.redis ? 'pass' : 'fail'
+        },
+        disk: {
+            status: store_health.disk ? 'pass' : 'fail'
+        }
+    };
+    const status = Object.values(checks).every((c) => c.status === 'pass');
+    const h = {
+        status: status ? 'pass' : 'fail',
+        checks
+    };
+    res.status(status ? 200 : 503);
+    res.contentType('application/health+json');
+    res.json(h);
+}

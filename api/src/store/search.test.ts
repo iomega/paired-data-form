@@ -3,6 +3,7 @@ import { EXAMPLE_PROJECT_JSON_FN, mockedElasticSearchClient } from '../testhelpe
 import { SearchEngine, FilterField } from './search';
 import { Client } from '@elastic/elasticsearch';
 import { EnrichedProjectDocument } from './enrichments';
+import { ConnectionError } from '@elastic/elasticsearch/lib/errors';
 jest.mock('@elastic/elasticsearch');
 
 const MockedClient: jest.Mock = Client as any;
@@ -393,6 +394,68 @@ describe('new SearchEngine()', () => {
             });
         });
 
+    });
+
+    describe('health()', () => {
+        describe('when cluster and index are mocked green', () => {
+            beforeEach(() => {
+                client.cluster.health.mockResolvedValue({
+                    body: {
+                        status: 'green',
+                        indices: {
+                            podp: {
+                                status: 'green',
+                            }
+                        }
+                    }
+                });
+            });
+            it('should return true', async () => {
+                expect(await searchEngine.health()).toBeTruthy();
+            });
+        });
+
+        describe('when cluster and index are mocked red', () => {
+            beforeEach(() => {
+                client.cluster.health.mockResolvedValue({
+                    body: {
+                        status: 'red',
+                        indices: {
+                            podp: {
+                                status: 'red',
+                            }
+                        }
+                    }
+                });
+            });
+            it('should return false', async () => {
+                expect(await searchEngine.health()).toBeFalsy();
+            });
+        });
+
+        describe('when cluster is green, but index missing', () => {
+            beforeEach(() => {
+                client.cluster.health.mockResolvedValue({
+                    body: {
+                        status: 'red',
+                        indices: {
+                        }
+                    }
+                });
+            });
+            it('should return false', async () => {
+                expect(await searchEngine.health()).toBeFalsy();
+            });
+        });
+
+        describe('when cluster is offline', () => {
+            beforeEach(() => {
+                client.cluster.health.mockRejectedValue(new ConnectionError('getaddrinfo EAI_AGAIN search', undefined));
+            });
+            it('should return false', async () => {
+                expect(await searchEngine.health()).toBeFalsy();
+            });
+        });
     });
 });
 

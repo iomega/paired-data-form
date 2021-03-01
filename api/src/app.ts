@@ -47,6 +47,7 @@ export function builder(mystore: ProjectDocumentStore, myenrichqueue: Bull.Queue
     app.get('/api/pending/projects/:id', protected_api, asyncHandler(controller.getPendingProject));
     app.delete('/api/pending/projects/:id', protected_api, asyncHandler(controller.denyProject));
     app.post('/api/pending/projects/:id', protected_api, asyncHandler(controller.approveProject));
+    app.get('/api/health', asyncHandler(controller.health));
 
     // Swagger UI
     const swaggerui = getAbsoluteFSPath();

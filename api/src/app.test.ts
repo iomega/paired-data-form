@@ -1,3 +1,7 @@
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
+
 import supertest from 'supertest';
 import { Express } from 'express';
 import Bull from 'bull';
@@ -8,8 +12,11 @@ import { ProjectDocumentStore, NotFoundException } from './projectdocumentstore'
 import { IOMEGAPairedOmicsDataPlatform } from './schema';
 import { EnrichedProjectDocument } from './store/enrichments';
 import { loadJSONDocument } from './util/io';
-import { EXAMPLE_PROJECT_JSON_FN } from './testhelpers';
-
+import { EXAMPLE_PROJECT_JSON_FN, mockedElasticSearchClient } from './testhelpers';
+import { Client as ESClient } from '@elastic/elasticsearch';
+import Redis from 'ioredis';
+jest.mock('@elastic/elasticsearch');
+jest.mock('ioredis');
 jest.mock('./util/secrets', () => {
     return {
         SHARED_TOKEN: 'ashdfjhasdlkjfhalksdjhflak',
@@ -17,6 +24,9 @@ jest.mock('./util/secrets', () => {
         ZENODO_UPLOAD_ENABLED: false,
     };
 });
+
+const MockedElasticSearchClient: jest.Mock = ESClient as any;
+const MockedRedisClient: jest.Mock = Redis as any;
 
 describe('app', () => {
     let app: Express;
@@ -44,6 +54,13 @@ describe('app', () => {
                 },
                 getPendingProject: (project_id: string) => {
                     throw new NotFoundException('Not found ' + project_id);
+                },
+                health: async () => {
+                    return {
+                        search: true,
+                        redis: true,
+                        disk: true,
+                    };
                 }
             };
             enrichqueue = {
@@ -218,6 +235,35 @@ describe('app', () => {
                         'solvents': [],
                         'species': [],
                         'metagenomic_environment': []
+                    }
+                };
+                expect(body).toEqual(expected);
+            });
+        });
+
+        describe('GET /api/health', () => {
+            it('should have status=pass', async () => {
+                const response = await supertest(app).get('/api/health');
+                expect(response.status).toBe(200);
+                const body = JSON.parse(response.text);
+                const expected = {
+                    'status': 'pass',
+                    'checks': {
+                        'app': {
+                            'status': 'pass'
+                        },
+                        'api': {
+                            'status': 'pass'
+                        },
+                        'elasticsearch': {
+                            'status': 'pass'
+                        },
+                        'redis': {
+                            'status': 'pass'
+                        },
+                        'disk': {
+                            'status': 'pass'
+                        }
                     }
                 };
                 expect(body).toEqual(expected);
@@ -456,6 +502,62 @@ describe('app', () => {
                     }
                 };
                 expect(sitemap).toEqual(expected);
+            });
+        });
+    });
+
+    describe('with redis service offline', () => {
+        beforeEach(async () => {
+            const datadir = fs.mkdtempSync(path.join(os.tmpdir(), 'pdp'));
+            const esclient = await mockedElasticSearchClient();
+            esclient.cluster.health.mockResolvedValue({
+                body: {
+                    status: 'green',
+                    indices: {
+                        podp: {
+                            status: 'green',
+                        }
+                    }
+                }
+            });
+            MockedElasticSearchClient.mockImplementation(() => esclient);
+            MockedRedisClient.mockImplementation(() => {
+                return {
+                    connect: jest.fn().mockRejectedValue(new Error('connect ECONNREFUSED 172.20.0.3:6379')),
+                    disconnect: jest.fn(),
+                    status: 'closed'
+                };
+            });
+            store = new ProjectDocumentStore(datadir, '', 'http://localhost:9200');
+            enrichqueue = {};
+            app = builder(store as ProjectDocumentStore, enrichqueue as Bull.Queue<[string, IOMEGAPairedOmicsDataPlatform]>);
+        });
+        describe('/api/health', () => {
+            it('should have status=fail', async () => {
+                const response = await supertest(app).get('/api/health');
+                expect(response.status).toBe(503);
+                const body = JSON.parse(response.text);
+                const expected = {
+                    'status': 'fail',
+                    'checks': {
+                        'app': {
+                            'status': 'pass'
+                        },
+                        'api': {
+                            'status': 'pass'
+                        },
+                        'elasticsearch': {
+                            'status': 'pass'
+                        },
+                        'redis': {
+                            'status': 'fail'
+                        },
+                        'disk': {
+                            'status': 'pass'
+                        }
+                    }
+                };
+                expect(body).toEqual(expected);
             });
         });
     });

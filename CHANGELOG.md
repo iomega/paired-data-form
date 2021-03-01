@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Allow notifications to be disabled with `SLACK_TOKEN=false` environment variable
 - Mention CC BY 4.0 license on add and download page
+- Health check API endpoint ([#171](https://github.com/iomega/paired-data-form/issues/171))
 
 ## Fixed
 

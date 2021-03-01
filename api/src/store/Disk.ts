@@ -96,4 +96,19 @@ export class ProjectDocumentDiskStore {
         const fn = path.join(this.approvedDir, project_id + '.json');
         return await fs.promises.stat(fn);
     }
+
+    async health() {
+        try {
+            const fn = path.join(this.datadir, 'health.check');
+            await fs.promises.writeFile(
+                fn,
+                'test if data dir is writable'
+            );
+            await fs.promises.unlink(fn);
+            return true;
+        } catch (e) {
+            console.error('disk health failure: ', e);
+            return false;
+        }
+    }
 }
