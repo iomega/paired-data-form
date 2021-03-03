@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-import { WebSite, DataCatalog } from "schema-dts";
+import { WebSite } from "schema-dts";
 import { helmetJsonLdProp } from "react-schemaorg";
 
 import slide1 from './welcome/slide1.png';
