@@ -24,11 +24,8 @@ export function Welcome() {
     const helmetScripts = [
         helmetJsonLdProp<WebSite>({
             "@context": "https://schema.org",
-            ...jsonldWebsite
-        }, { space: 2 }),
-        helmetJsonLdProp<DataCatalog>({
-            "@context": "https://schema.org",
-            ...jsonldDataCatalog
+            ...jsonldWebsite,
+            hasPart: jsonldDataCatalog
         }, { space: 2 })
     ];
     return (
