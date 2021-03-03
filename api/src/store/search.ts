@@ -282,7 +282,7 @@ export class SearchEngine {
             order = Order.desc
         } = options;
         const qbody = buildBody(options);
-        return await this._search(qbody, size, from, sort, order);
+        return this._search(qbody, size, from, sort, order);
     }
 
     private async _search(query: any, size: number, from: number, sort: SortField, order: Order) {

@@ -194,7 +194,7 @@ function countBgcMS2Links(projects: EnrichedProjectDocument[]) {
     return field_counts.size;
 }
 
-export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
+export function computeStats(projects: EnrichedProjectDocument[], schema: any): IStats {
     const lookups = new Lookups(schema);
 
     const principal_investigators = countProjectField(projects,
@@ -271,7 +271,7 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
 
     const bgc_ms2 = countBgcMS2Links(projects);
 
-    const stats: IStats = {
+    return {
         global: {
             projects: projects.length,
             principal_investigators: principal_investigators.total,
@@ -290,5 +290,4 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any) {
             metagenomic_environment: metagenomic_environment.top
         }
     };
-    return stats;
 }

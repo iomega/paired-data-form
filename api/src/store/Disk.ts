@@ -17,7 +17,7 @@ const loadProject = (directory: string) => {
 async function readProjects(directory: string) {
     const files = await fs.promises.readdir(directory);
     const projects = files.map(loadProject(directory));
-    return await Promise.all(projects);
+    return Promise.all(projects);
 }
 
 export class ProjectDocumentDiskStore {
@@ -81,20 +81,20 @@ export class ProjectDocumentDiskStore {
         const project_accession = toAccession(project_id);
         const files = await fs.promises.readdir(this.archiveDir);
         const checkFilename = (fn: string) => fn.startsWith(project_accession + '.') && fn.endsWith('.json');
-        return await Promise.all(files.filter(checkFilename).sort().reverse().map(loadProject(this.archiveDir)));
+        return Promise.all(files.filter(checkFilename).sort().reverse().map(loadProject(this.archiveDir)));
     }
 
     async readApprovedProjects() {
-        return await readProjects(this.approvedDir);
+        return readProjects(this.approvedDir);
     }
 
     async readPendingProjects() {
-        return await readProjects(this.pendingDir);
+        return readProjects(this.pendingDir);
     }
 
     async projectStats(project_id: string) {
         const fn = path.join(this.approvedDir, project_id + '.json');
-        return await fs.promises.stat(fn);
+        return fs.promises.stat(fn);
     }
 
     async health() {
