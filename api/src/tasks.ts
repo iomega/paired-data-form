@@ -10,7 +10,7 @@ import { notifyPublish2Zenodo } from './util/notify';
 export function buildEnrichQueue(store: ProjectDocumentStore) {
     const queue = new Bull<[string, ProjectDocument]>('enrichqueue', REDIS_URL);
     queue.process(async (job) => {
-        return await enrichProject(store, job.data[0], job.data[1]);
+        return enrichProject(store, job.data[0], job.data[1]);
     });
     queue.on('error', (e) => console.log('bull error', e));
     queue.on('failed', (e) => console.log('bull failed', e));

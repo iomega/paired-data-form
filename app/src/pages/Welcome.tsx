@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-import { SearchAction, PropertyValueSpecification, WebSite } from "schema-dts";
+import { WebSite } from "schema-dts";
 import { helmetJsonLdProp } from "react-schemaorg";
 
 import slide1 from './welcome/slide1.png';
@@ -10,7 +10,7 @@ import slide2 from './welcome/slide2.png';
 import slide3 from './welcome/slide3.png';
 import slide4 from './welcome/slide4.png';
 import slide5 from './welcome/slide5.png';
-import { jsonldDataCatalog } from "../constants";
+import { jsonldDataCatalog, jsonldWebsite } from "../constants";
 
 const style = { padding: '10px', fontFamily: 'Roboto Condensed' };
 const textStyle = { fontSize: '1.8em' };
@@ -21,24 +21,16 @@ const colStyle = {
 };
 
 export function Welcome() {
-    type MySearchAction = SearchAction & {
-        "query-input": PropertyValueSpecification | string;
-    };
-    const potentialAction: MySearchAction = {
-        "@type": "SearchAction",
-        "target": "https://pairedomicsdata.bioinformatics.nl/projects?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-    };
-    const jsonld = helmetJsonLdProp<WebSite>({
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "url": "https://pairedomicsdata.bioinformatics.nl",
-        potentialAction,
-        hasPart: jsonldDataCatalog
-    }, { space: 2 });
+    const helmetScripts = [
+        helmetJsonLdProp<WebSite>({
+            "@context": "https://schema.org",
+            ...jsonldWebsite,
+            hasPart: jsonldDataCatalog
+        }, { space: 2 })
+    ];
     return (
         <div style={style}>
-            <Helmet script={[jsonld]}>
+            <Helmet script={helmetScripts}>
                 <meta name="description" content="The Paired Omics Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer readable format to further the field of natural products discovery. The goals are to link molecules to their producers, find large scale genome-metabolome associations, use genomic data to assist in structural elucidation of molecules, and provide a centralized database for paired datasets." />
             </Helmet>
             <Row style={rowStyle}>

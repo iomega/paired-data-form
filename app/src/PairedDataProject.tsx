@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Panel } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-import { Dataset } from "schema-dts";
+import { CreativeWork, Dataset } from "schema-dts";
 import { helmetJsonLdProp } from "react-schemaorg";
 
 import { GeneSpectraTable } from "./GeneSpectraTable";
@@ -12,7 +12,6 @@ import { MetabolomicsProjectDetails } from "./MetabolomicsProjectDetails";
 import { SubmitterInformation } from "./SubmitterInformation";
 import { ProjectActions } from "./ProjectActions";
 import { record2dataUrl } from "./record2dataUrl";
-import { jsonldDataCatalog } from "./constants";
 import { isMetaboLights } from "./typeguards";
 import { publicationLinks } from "./Publications";
 
@@ -35,10 +34,16 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
     ` with ${pure_project.genome_metabolome_links.length} (Meta)Genome - Metabolome links and` +
     ` ${bgc_ms2_links ? bgc_ms2_links.length : 0} BGC - MS/MS links`;
 
-  const dataset: Dataset = {
+  type DctDataset = Dataset & {
+    "http://purl.org/dc/terms/conformsTo": CreativeWork;
+  };
+  const dataset: DctDataset = {
     "@type": "Dataset",
     identifier: `https://pairedomicsdata.bioinformatics.nl/project/${project_id}`,
-    "http://purl.org/dc/terms/conformsTo": { "@type": "CreativeWork", "@id": "https://bioschemas.org/profiles/Dataset/0.3-RELEASE-2019_06_14/" },
+    "http://purl.org/dc/terms/conformsTo": {
+      "@type": "CreativeWork",
+      "@id": "https://bioschemas.org/profiles/Dataset/0.3-RELEASE-2019_06_14/"
+    },
     url: `https://pairedomicsdata.bioinformatics.nl/project/${project_id}`,
     name: `Project ${project_id}`,
     description,
@@ -54,7 +59,10 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
       "biosynthetic gene cluster",
       "tandem mass spectrometry",
     ],
-    includedInDataCatalog: jsonldDataCatalog,
+    includedInDataCatalog: {
+      "@type": "DataCatalog",
+      "@id": "https://pairedomicsdata.bioinformatics.nl",
+    },
     creator: {
       "@type": "Person",
       "name": pure_project.personal.submitter_name,

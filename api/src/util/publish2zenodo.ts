@@ -8,11 +8,11 @@ import zenodo_upload from '@iomeg/zenodo-upload';
 import { ProjectDocumentStore } from '../projectdocumentstore';
 
 export async function publish2zenodo(store: ProjectDocumentStore, access_token: string, deposition_id: number, sandbox = false, checksum = true) {
-    return await withDir(async (o) => {
+    return withDir(async (o) => {
         const file = join(o.path, 'database.zip');
         await create_archive(store, file);
         const version = current_version();
-        return await zenodo_upload(deposition_id, file, version, access_token, { sandbox, checksum });
+        return zenodo_upload(deposition_id, file, version, access_token, { sandbox, checksum });
     }, { unsafeCleanup: true });
 }
 

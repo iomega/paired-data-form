@@ -81,7 +81,7 @@ async function enrich_genome(genome: any) {
 
 async function enrich_genbank(genbank_id: string) {
     console.log('Enriching genbank: ' + genbank_id);
-    return await esummary('nuccore', genbank_id);
+    return esummary('nuccore', genbank_id);
 }
 
 async function esummary(db: string, id: string): Promise<GenomeEnrichment | undefined> {
@@ -197,7 +197,7 @@ async function enrich_biosample(biosample_accession: string): Promise<GenomeEnri
             return undefined;
         }
         // Use first title and organism name
-        const result = {
+        return {
             url: body._links.self.href,
             title: body.characteristics.title ? body.characteristics.title[0].text : body.characteristics['description title'][0].text,
             species: {
@@ -205,7 +205,6 @@ async function enrich_biosample(biosample_accession: string): Promise<GenomeEnri
                 scientific_name: body.characteristics.organism[0].text
             }
         };
-        return result;
     }
     return undefined;
 }

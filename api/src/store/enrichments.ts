@@ -28,7 +28,7 @@ export class ProjectEnrichmentStore {
     }
 
     async get(project_id: string) {
-        return await this.store.get(PREFIX + project_id);
+        return this.store.get(PREFIX + project_id);
     }
 
     async delete(project_id: string) {

@@ -48,27 +48,27 @@ export class ProjectDocumentStore {
     }
 
     async searchProjects(options: SearchOptions = {}) {
-        return await this.search_engine.search(options);
+        return this.search_engine.search(options);
     }
 
     async listProjects() {
         const entries = this.memory_store.listProjects();
-        return await this.enrichment_store.mergeMany(entries);
+        return this.enrichment_store.mergeMany(entries);
     }
 
     async getProject(project_id: string): Promise<EnrichedProjectDocument> {
         const project = this.memory_store.getProject(project_id);
-        return await this.enrichment_store.merge(project_id, project);
+        return this.enrichment_store.merge(project_id, project);
     }
 
     async listPendingProjects() {
         const entries = this.memory_store.listPendingProjects();
-        return await this.enrichment_store.mergeMany(entries);
+        return this.enrichment_store.mergeMany(entries);
     }
 
     async getPendingProject(project_id: string) {
         const project = this.memory_store.getPendingProject(project_id);
-        return await this.enrichment_store.merge(project_id, project);
+        return this.enrichment_store.merge(project_id, project);
     }
 
     async denyProject(project_id: string) {
