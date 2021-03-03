@@ -62,6 +62,7 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
     includedInDataCatalog: {
       "@type": "DataCatalog",
       "@id": "https://pairedomicsdata.bioinformatics.nl",
+      url: "https://pairedomicsdata.bioinformatics.nl"
     },
     creator: {
       "@type": "Person",
