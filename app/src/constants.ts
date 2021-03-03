@@ -1,9 +1,31 @@
-import { CreativeWork, DataCatalog } from "schema-dts";
+import {
+  CreativeWork,
+  DataCatalog,
+  PropertyValueSpecification,
+  SearchAction,
+  WebSite
+} from "schema-dts";
 
 export const doi = "10.5281/zenodo.3736430";
 export const doiLink = "https://doi.org/" + doi;
 
-type DctDataCatalog = DataCatalog & {
+type MySearchAction = SearchAction & {
+  "query-input": PropertyValueSpecification | string;
+};
+const potentialAction: MySearchAction = {
+  "@type": "SearchAction",
+  target:
+    "https://pairedomicsdata.bioinformatics.nl/projects?q={search_term_string}",
+  "query-input": "required name=search_term_string"
+};
+
+export const jsonldWebsite: WebSite = {
+  "@type": "WebSite",
+  url: "https://pairedomicsdata.bioinformatics.nl",
+  potentialAction
+};
+
+export type DctDataCatalog = DataCatalog & {
   "http://purl.org/dc/terms/conformsTo": CreativeWork;
 };
 
@@ -37,5 +59,5 @@ export const jsonldDataCatalog: DctDataCatalog = {
     "genomics",
     "biosynthetic gene cluster",
     "tandem mass spectrometry"
-  ],
+  ]
 };
