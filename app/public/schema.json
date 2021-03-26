@@ -9,6 +9,7 @@
     "personal",
     "metabolomics",
     "genomes",
+    "proteomics",
     "experimental",
     "genome_metabolome_links"
   ],
@@ -16,8 +17,10 @@
     "version": {
       "type": "string",
       "readOnly": true,
-      "default": "2",
-      "enum": ["2"]
+      "default": "3",
+      "enum": [
+        "3"
+      ]
     },
     "personal": {
       "type": "object",
@@ -246,6 +249,85 @@
             "title": "Genome label",
             "description": "Please assign a unique Genome Label for this genome or metagenome to help you recall it during the linking step. For example 'Streptomyces sp. CNB091'",
             "minLength": 1
+          }
+        }
+      }
+    },
+    "proteomics": {
+      "type": "object",
+      "properties": {
+        "project": {
+          "oneOf": [
+            {
+              "type": "object",
+              "title": "Full proteome",
+              "properties": {}
+            },
+            {
+              "type": "object",
+              "title": "Enriched",
+              "properties": {
+                "targets": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "target": {
+                        "type": "string",
+                        "oneOf": [
+                          {
+                            "title": "PKS machinery",
+                            "enum": [
+                              "pks"
+                            ]
+                          },
+                          {
+                            "title": "NRPS machinery",
+                            "enum": [
+                              "nrps"
+                            ]
+                          },
+                          {
+                            "title": "Other",
+                            "enum": [
+                              "other"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "raw_data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "enum": [
+                  "ProteomeXchange",
+                  "PRIDE",
+                  "iProX",
+                  "JPOST",
+                  "PeptideAtlas",
+                  "MassIVE",
+                  "Other"
+                ]
+              },
+              "proteomics_link": {
+                "type": "string",
+                "title": "Location of proteomics data",
+                "format": "uri"
+              },
+              "proteome_label": {
+                "type": "string"
+              }
+            }
           }
         }
       }
@@ -1469,7 +1551,7 @@
     },
     "genome_metabolome_links": {
       "type": "array",
-      "title": "5. Genome - Metabolome Links",
+      "title": "5. Genome - Proteome - Metabolome Links",
       "description": "Create a linked pair by selecting the Genome Label as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.",
       "items": {
         "type": "object",
@@ -1485,6 +1567,11 @@
             "type": "string",
             "title": "Genome/Metagenome",
             "description": "Please select the Genome Label to be linked to a metabolomics data file."
+          },
+          "proteome_label": {
+            "type": "string",
+            "title": "Proteome",
+            "description": "Please select the Proteome Label to be linked to a metabolomics data file."
           },
           "metabolomics_file": {
             "type": "string",
@@ -1579,10 +1666,13 @@
                         "type": "string",
                         "title": "MIBiG accession for exact BGC",
                         "description": "For example 'BGC0000259'.",
-                        "pattern":  "^BGC[0-9]{7}$"
+                        "pattern": "^BGC[0-9]{7}$"
                       }
                     },
-                    "required": ["BGC", "MIBiG_number"]
+                    "required": [
+                      "BGC",
+                      "MIBiG_number"
+                    ]
                   },
                   {
                     "properties": {
@@ -1595,7 +1685,7 @@
                         "type": "string",
                         "title": "MIBiG accession for similar BGC",
                         "description": "For example 'BGC0000259'.",
-                        "pattern":  "^BGC[0-9]{7}$"
+                        "pattern": "^BGC[0-9]{7}$"
                       },
                       "strain": {
                         "type": "string",
@@ -1608,7 +1698,10 @@
                         "description": "Please provide the beginning and end coordinates of the similar BGC from the genome specified above."
                       }
                     },
-                    "required": ["BGC", "similar_MIBiG_number"]
+                    "required": [
+                      "BGC",
+                      "similar_MIBiG_number"
+                    ]
                   }
                 ]
               }
@@ -1640,7 +1733,10 @@
                     "description": "Please provide the URL from GNPS for the network nodes page: first click 'View Spectral Families (In Browser Network Visualizer)' and then click 'Network Nodes' and copy this URL, e.g. <a target=\"\" href=\"https://gnps.ucsd.edu/ProteoSAFe/result.jsp?view=cluster_info_sliced&componentindex=290&show=true&task=c36f90ba29fe44c18e96db802de0c6b9#%7B%7D\">https://gnps.ucsd.edu/ProteoSAFe/result.jsp?view=cluster_info_sliced&componentindex=290&show=true&task=c36f90ba29fe44c18e96db802de0c6b9#%7B%7D</a>"
                   }
                 },
-                "required": ["link", "network_nodes_URL"]
+                "required": [
+                  "link",
+                  "network_nodes_URL"
+                ]
               },
               {
                 "properties": {
@@ -1661,7 +1757,11 @@
                     "description": "Please provide the MS2 scan number for the molecule to link."
                   }
                 },
-                "required": ["link", "MS2_URL", "MS2_scan"]
+                "required": [
+                  "link",
+                  "MS2_URL",
+                  "MS2_scan"
+                ]
               }
             ]
           }
