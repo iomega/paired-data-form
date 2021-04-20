@@ -273,11 +273,11 @@
             "properties": {
               "proteome_type": {
                 "type": "string",
-                "title": "Full proteome",
+                "title": "Type",
                 "enum": [
-                  "full", "enriched"
+                  "Full proteome", "Enriched"
                 ],
-                "default": "full"
+                "default": "Full proteome"
               }
             },
             "dependencies": {
@@ -285,16 +285,11 @@
                 "oneOf": [{
                   "properties": {
                     "proteome_type": {
-                      "enum": ["full"]
-                    }
-                  }
-                }, {
-                  "properties": {
-                    "proteome_type": {
-                      "enum": ["enriched"]
+                      "enum": ["Enriched"]
                     },
                     "targets": {
                       "type": "array",
+                      "title": "Targets",
                       "minItems": 1,
                       "items": {
                         "type": "object",
@@ -355,6 +350,7 @@
             "properties": {
               "database": {
                 "type": "object",
+                "title": "Proteome database",
                 "required": ["database_name"],
                 "properties": {
                   "database_name": {
@@ -1752,6 +1748,7 @@
           "quantitative_experiment": {
             "type": "object",
             "title": "Verified with quantitative experiment",
+            "required": ["quantitative_experiment_type"],
             "properties": {
               "quantitative_experiment_type": {
                 "type": "string",
@@ -1770,6 +1767,7 @@
                     "quantitative_proteomics_experiment": {
                       "type": "object",
                       "title": "Quantitative proteomics experiment",
+                      "required": ["difference", "proteome_sample1", "proteome_sample2"],
                       "properties": {
                         "difference": {
                           "type": "string",
@@ -1778,6 +1776,7 @@
                         "proteome_sample1": {
                           "title": "First sample",
                           "type": "object",
+                          "required": ["protein_fold_changes"],
                           "properties": {
                             "product_fold_change": {
                               "type": "string",
@@ -1786,8 +1785,10 @@
                             "protein_fold_changes": {
                               "title": "Protein fold changes",
                               "type": "array",
+                              "minItems": 1,
                               "items": {
                                 "type": "object",
+                                "required": ["protein_id", "fold_change"],
                                 "properties": {
                                   "protein_id": {
                                     "title": "Protein identifier",
@@ -1805,6 +1806,7 @@
                         "proteome_sample2": {
                           "title": "Second sample",
                           "type": "object",
+                          "required": ["protein_fold_changes"],
                           "properties": {
                             "product_fold_change": {
                               "type": "string",
@@ -1813,8 +1815,10 @@
                             "protein_fold_changes": {
                               "title": "Protein fold changes",
                               "type": "array",
+                              "minItems": 1,
                               "items": {
                                 "type": "object",
+                                "required": ["protein_id", "fold_change"],
                                 "properties": {
                                   "protein_id": {
                                     "title": "Protein identifier",
