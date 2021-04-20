@@ -9,7 +9,7 @@
     "personal",
     "metabolomics",
     "genomes",
-    "proteomics",
+    "proteomes",
     "experimental",
     "genome_metabolome_links"
   ],
@@ -259,80 +259,139 @@
       "items": {
         "type": "object",
         "required": [
-          "proteomics_type",
+          "proteome_ID",
+          "raw_data",
           "proteome_label"
         ],
         "properties": {
-          "proteomics_type": {
+          "proteome_ID": {
             "title": "Full proteome or enriched",
-            "oneOf": [
-              {
-                "type": "object",
+            "type": "object",
+            "required": [
+              "proteome_type"
+            ],
+            "properties": {
+              "proteome_type": {
+                "type": "string",
                 "title": "Full proteome",
-                "properties": {}
-              },
-              {
-                "type": "object",
-                "title": "Enriched",
-                "properties": {
-                  "targets": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "target": {
-                          "type": "string",
-                          "oneOf": [
-                            {
-                              "title": "PKS machinery",
-                              "enum": [
-                                "pks"
-                              ]
-                            },
-                            {
-                              "title": "NRPS machinery",
-                              "enum": [
-                                "nrps"
-                              ]
-                            },
-                            {
-                              "title": "Other",
-                              "enum": [
-                                "other"
-                              ]
-                            }
-                          ]
+                "enum": [
+                  "full", "enriched"
+                ],
+                "default": "full"
+              }
+            },
+            "dependencies": {
+              "proteome_type": {
+                "oneOf": [{
+                  "properties": {
+                    "proteome_type": {
+                      "enum": ["full"]
+                    }
+                  }
+                }, {
+                  "properties": {
+                    "proteome_type": {
+                      "enum": ["enriched"]
+                    },
+                    "targets": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "target": {
+                            "title": "Target",
+                            "type": "string",
+                            "oneOf": [
+                              {
+                                "title": "PKS machinery",
+                                "enum": [
+                                  "pks"
+                                ]
+                              },
+                              {
+                                "title": "NRPS machinery",
+                                "enum": [
+                                  "nrps"
+                                ]
+                              },
+                              {
+                                "title": "Other",
+                                "enum": [
+                                  "other"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "dependencies": {
+                          "target": {
+                            "oneOf": [{
+                              "properties": {
+                                "target": {
+                                  "enum": [
+                                    "other"
+                                  ]
+                                },
+                                "other_target": {
+                                  "type": "string",
+                                  "title": "Name of other target"
+                                }
+                              }
+                            }]
+                          }
                         }
                       }
                     }
                   }
-                }
+                }]
               }
-            ]
+            }
           },
           "raw_data": {
-            "type": "array",
-            "title": "Raw data links",
-            "items": {
-              "type": "object",
-              "properties": {
-                "database": {
-                  "type": "string",
-                  "enum": [
-                    "ProteomeXchange",
-                    "PRIDE",
-                    "iProX",
-                    "JPOST",
-                    "PeptideAtlas",
-                    "MassIVE",
-                    "Other"
-                  ]
+            "type": "object",
+            "title": "Raw data link",
+            "required": ["database", "proteome_data_link"],
+            "properties": {
+              "database": {
+                "type": "object",
+                "required": ["database_name"],
+                "properties": {
+                  "database_name": {
+                    "title":" Name",
+                    "type": "string",
+                    "enum": [
+                      "ProteomeXchange",
+                      "PRIDE",
+                      "iProX",
+                      "JPOST",
+                      "PeptideAtlas",
+                      "MassIVE",
+                      "Other"
+                    ]
+                  }
                 },
-                "proteomics_link": {
-                  "type": "string",
-                  "title": "Location of proteomics data",
-                  "format": "uri"
+                "dependencies": {
+                  "database_name": {
+                    "oneOf": [{
+                      "properties": {
+                        "database_name": {
+                          "enum": ["Other"]
+                        },
+                        "other_database_name": {
+                          "type": "string",
+                          "title": "Name of other database"
+                        }
+                      }
+                    }]
+                  }
                 }
+              },
+              "proteome_data_link": {
+                "type": "string",
+                "title": "Location of raw proteomics data",
+                "description": "Please provide a direct link to the proteome data file location",
+                "format": "uri"
               }
             }
           },
@@ -343,7 +402,7 @@
           "proteome_label": {
             "type": "string",
             "title": "Proteome label",
-            "description": "Please assign a unique proteome Label for this genome or metagenome to help you recall it during the linking step.",
+            "description": "Please assign a unique proteome Label for this proteome to help you recall it during the linking step.",
             "minLength": 1
           }
         }

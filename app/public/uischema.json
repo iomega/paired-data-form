@@ -67,8 +67,23 @@
       "orderable": false
     },
     "items": {
-      "proteomics_type": {
-        "ui:widget": "radio"
+      "proteome_ID": {
+        "proteome_type": {
+          "ui:widget": "radio"
+        }
+      },
+      "raw_data": {
+        "database": {
+          "database_name": {
+            "ui:widget": "radio"
+          }
+        }
+      },
+      "notes": {
+        "ui:widget": "textarea",
+        "ui:options": {
+          "rows": 8
+        }
       }
     }
   },
@@ -171,11 +186,15 @@
     "ui:options": {
       "orderable": false,
       "widths": {
-        "1": "40%"
+        "2": "40%"
       }
     },
     "items": {
       "genome_label": {
+        "ui:field": "foreignKey",
+        "foreignKey": {}
+      },
+      "proteome_label": {
         "ui:field": "foreignKey",
         "foreignKey": {}
       },
