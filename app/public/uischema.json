@@ -79,6 +79,14 @@
           }
         }
       },
+      "method": {
+        "analysis_mode": {
+          "ui:widget": "radio"
+        },
+        "stable_isotope_labelling": {
+          "ui:widget": "radio"
+        }
+      },
       "notes": {
         "ui:widget": "textarea",
         "ui:options": {
@@ -230,6 +238,26 @@
       },
       "verification": {
         "ui:widget": "checkboxes"
+      },
+      "quantitive_experiment": {
+        "quantitive_experiment_type": {
+          "ui:widget": "radio"
+        },
+        "quantitive_proteomics_experiment": {
+          "difference": {
+            "ui:widget": "textarea"
+          },
+          "proteome_sample1": {
+            "protein_fold_changes": {
+              "ui:field": "table"
+            }
+          },
+          "proteome_sample2": {
+            "protein_fold_changes": {
+              "ui:field": "table"
+            }
+          }
+        }
       },
       "BGC_ID": {
         "BGC": {
