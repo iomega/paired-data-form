@@ -83,7 +83,7 @@
         "analysis_mode": {
           "ui:widget": "radio"
         },
-        "stable_isotope_labelling": {
+        "peptide_labelling": {
           "ui:widget": "radio"
         }
       },

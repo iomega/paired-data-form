@@ -398,7 +398,7 @@
             "type": "object",
             "title": "Method",
             "description": "Proteome specific methods.",
-            "required": ["analysis_mode", "stable_isotope_labelling"],
+            "required": ["analysis_mode", "peptide_labelling"],
             "properties": {
               "analysis_mode": {
                 "type": "string",
@@ -408,9 +408,9 @@
                   "Information Dependent Acquisition mode (IDA)"
                 ]
               },
-              "stable_isotope_labelling": {
+              "peptide_labelling": {
                 "type": "string",
-                "title": "Stable isotope labelling",
+                "title": "Peptide labelling",
                 "enum": [
                   "iTRAQ",
                   "ICPL",
@@ -422,13 +422,13 @@
               }
             },
             "dependencies": {
-              "stable_isotope_labelling": {
+              "peptide_labelling": {
                 "oneOf": [{
                   "properties": {
-                    "stable_isotope_labelling": {
+                    "peptide_labelling": {
                       "enum": ["Custom"]
                     },
-                    "custom_stable_isotope_labelling": {
+                    "custom_peptide_labelling": {
                       "type": "string",
                       "title": "Description of custom labelling"
                     }
