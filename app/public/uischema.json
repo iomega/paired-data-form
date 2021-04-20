@@ -57,6 +57,21 @@
       }
     }
   },
+  "proteomes": {
+    "ui:field": "collapsible",
+    "collapse": {
+      "field": "table",
+      "collapsed": true
+    },
+    "ui:options": {
+      "orderable": false
+    },
+    "items": {
+      "proteomics_type": {
+        "ui:widget": "radio"
+      }
+    }
+  },
   "experimental": {
     "ui:field": "collapsible",
     "collapse": {

@@ -253,81 +253,98 @@
         }
       }
     },
-    "proteomics": {
-      "type": "object",
-      "properties": {
-        "project": {
-          "oneOf": [
-            {
-              "type": "object",
-              "title": "Full proteome",
-              "properties": {}
-            },
-            {
-              "type": "object",
-              "title": "Enriched",
-              "properties": {
-                "targets": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "target": {
-                        "type": "string",
-                        "oneOf": [
-                          {
-                            "title": "PKS machinery",
-                            "enum": [
-                              "pks"
-                            ]
-                          },
-                          {
-                            "title": "NRPS machinery",
-                            "enum": [
-                              "nrps"
-                            ]
-                          },
-                          {
-                            "title": "Other",
-                            "enum": [
-                              "other"
-                            ]
-                          }
-                        ]
+    "proteomes": {
+      "type": "array",
+      "title": "4. Proteomic information",
+      "items": {
+        "type": "object",
+        "required": [
+          "proteomics_type",
+          "proteome_label"
+        ],
+        "properties": {
+          "proteomics_type": {
+            "title": "Full proteome or enriched",
+            "oneOf": [
+              {
+                "type": "object",
+                "title": "Full proteome",
+                "properties": {}
+              },
+              {
+                "type": "object",
+                "title": "Enriched",
+                "properties": {
+                  "targets": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "target": {
+                          "type": "string",
+                          "oneOf": [
+                            {
+                              "title": "PKS machinery",
+                              "enum": [
+                                "pks"
+                              ]
+                            },
+                            {
+                              "title": "NRPS machinery",
+                              "enum": [
+                                "nrps"
+                              ]
+                            },
+                            {
+                              "title": "Other",
+                              "enum": [
+                                "other"
+                              ]
+                            }
+                          ]
+                        }
                       }
                     }
                   }
                 }
               }
-            }
-          ]
-        },
-        "raw_data": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "database": {
-                "type": "string",
-                "enum": [
-                  "ProteomeXchange",
-                  "PRIDE",
-                  "iProX",
-                  "JPOST",
-                  "PeptideAtlas",
-                  "MassIVE",
-                  "Other"
-                ]
-              },
-              "proteomics_link": {
-                "type": "string",
-                "title": "Location of proteomics data",
-                "format": "uri"
-              },
-              "proteome_label": {
-                "type": "string"
+            ]
+          },
+          "raw_data": {
+            "type": "array",
+            "title": "Raw data links",
+            "items": {
+              "type": "object",
+              "properties": {
+                "database": {
+                  "type": "string",
+                  "enum": [
+                    "ProteomeXchange",
+                    "PRIDE",
+                    "iProX",
+                    "JPOST",
+                    "PeptideAtlas",
+                    "MassIVE",
+                    "Other"
+                  ]
+                },
+                "proteomics_link": {
+                  "type": "string",
+                  "title": "Location of proteomics data",
+                  "format": "uri"
+                }
               }
             }
+          },
+          "notes": {
+            "type": "string",
+            "title": "Additonal notes"
+          },
+          "proteome_label": {
+            "type": "string",
+            "title": "Proteome label",
+            "description": "Please assign a unique proteome Label for this genome or metagenome to help you recall it during the linking step.",
+            "minLength": 1
           }
         }
       }
