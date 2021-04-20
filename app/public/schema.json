@@ -149,7 +149,7 @@
     },
     "genomes": {
       "type": "array",
-      "title": "3. (Meta)genomic Information",
+      "title": "3. (Meta)genomics Information",
       "description": "Please add all genomes and/or metagenomes for which paired data is available as separate entries.",
       "items": {
         "type": "object",
@@ -255,7 +255,7 @@
     },
     "proteomes": {
       "type": "array",
-      "title": "4. Proteomic information",
+      "title": "4. Proteomics information",
       "items": {
         "type": "object",
         "required": [
@@ -1749,27 +1749,27 @@
             },
             "uniqueItems": true
           },
-          "quantitive_experiment": {
+          "quantitative_experiment": {
             "type": "object",
-            "title": "Verified with quantitive experiment",
+            "title": "Verified with quantitative experiment",
             "properties": {
-              "quantitive_experiment_type": {
+              "quantitative_experiment_type": {
                 "type": "string",
                 "title": "Type",
-                "enum": ["Quantitive proteomics experiment", "Not available"],
+                "enum": ["Quantitative proteomics experiment", "Not available"],
                 "default": "Not available"
               }
             },
             "dependencies": {
-              "quantitive_experiment_type": {
+              "quantitative_experiment_type": {
                 "oneOf": [{
                   "properties": {
-                    "quantitive_experiment_type": {
-                      "enum": ["Quantitive proteomics experiment"]
+                    "quantitative_experiment_type": {
+                      "enum": ["Quantitative proteomics experiment"]
                     },
-                    "quantitive_proteomics_experiment": {
+                    "quantitative_proteomics_experiment": {
                       "type": "object",
-                      "title": "Quantitive proteomics experiment",
+                      "title": "Quantitative proteomics experiment",
                       "properties": {
                         "difference": {
                           "type": "string",
