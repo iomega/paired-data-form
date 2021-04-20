@@ -1,7 +1,7 @@
 /* tslint:disable:object-literal-sort-keys */
 
 export const minimalDoc = {
-    "version": "2",
+    "version": "3",
     "personal": {},
     "metabolomics": {
         "project": {
@@ -10,12 +10,13 @@ export const minimalDoc = {
         }
     },
     "genomes": [],
+    "proteomes": [],
     "experimental": {},
     "genome_metabolome_links": []
 };
 
 export const kitchenSinkDoc = {
-    "version": "2",
+    "version": "3",
     "personal": {
         "submitter_name": "Justin van der Hooft",
         "submitter_orcid": "https://orcid.org/0000-0002-9340-5511",
@@ -58,6 +59,7 @@ export const kitchenSinkDoc = {
             "genome_label": "Salinispora arenicola CNB527"
         }
     ],
+    "proteomes": [],
     "experimental": {
         "sample_preparation": [
             {

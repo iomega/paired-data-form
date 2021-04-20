@@ -45,6 +45,7 @@ export function jsonDocument(project: IOMEGAPairedOmicsDataPlatform, rows: any[]
         throw new Error('No instrumentation methods have been defined in the metabolomics experimental details section');
     }
     const genomeLabels = new Set(project.genomes.map(d => d.genome_label));
+    const proteomeLabels = new Set(project.proteomes.map(d => d.proteome_label));
     const samplePreparationLabels = new Set(project.experimental.sample_preparation.map(d => d.sample_preparation_method));
     const extractionMethodLabels = new Set(project.experimental.extraction_methods.map(d => d.extraction_method));
     const instrumentationMethodLabels = new Set(project.experimental.instrumentation_methods.map(d => d.instrumentation_method));
@@ -53,7 +54,7 @@ export function jsonDocument(project: IOMEGAPairedOmicsDataPlatform, rows: any[]
         'Genome/Metagenome',
         'Sample Growth Conditions',
         'Extraction Method',
-        'Instrumentation Method'
+        'Instrumentation Method',
     ];
     const gmRows: any[] = rows.map((row: any) => {
         const keys = new Set(Object.getOwnPropertyNames(row));
@@ -65,6 +66,11 @@ export function jsonDocument(project: IOMEGAPairedOmicsDataPlatform, rows: any[]
         const genomeLabel = row['Genome/Metagenome'];
         if (!genomeLabels.has(genomeLabel)) {
             throw new Error(`${genomeLabel} is not known as genome label, please add the (meta)genome first`);
+        }
+        // TODO proteome should be optional
+        const proteomeLabel = row['Proteome']
+        if (proteomeLabel !== undefined && !proteomeLabels.has(proteomeLabel)) {
+            throw new Error(`${proteomeLabel} is not known as proteome label, please add the proteome first`);
         }
         const samplePreparationLabel = row['Sample Growth Conditions'];
         if (!samplePreparationLabels.has(samplePreparationLabel)) {
@@ -80,6 +86,7 @@ export function jsonDocument(project: IOMEGAPairedOmicsDataPlatform, rows: any[]
         }
         return {
             genome_label: genomeLabel,
+            proteome_label: proteomeLabel,
             metabolomics_file: metabolomicsFile,
             sample_preparation_label: samplePreparationLabel,
             extraction_method_label: extractionMethodLabel,
