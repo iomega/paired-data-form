@@ -86,7 +86,7 @@ export type Name = 'ProteomeXchange' | 'PRIDE' | 'iProX' | 'JPOST' | 'PeptideAtl
  */
 export type LocationOfRawProteomicsData = string;
 export type AnalyisMode = 'Data-dependent acquisition (DDA)' | 'Information Dependent Acquisition mode (IDA)';
-export type StableIsotopeLabelling = 'iTRAQ' | 'ICPL' | 'Dimethyl' | 'Custom' | 'None';
+export type PeptideLabelling = 'iTRAQ' | 'ICPL' | 'Dimethyl' | 'Custom' | 'None';
 export type AdditonalNotes = string;
 /**
  * Please assign a unique proteome Label for this proteome to help you recall it during the linking step.
@@ -434,7 +434,7 @@ export interface ProteomeDatabase {
  */
 export interface Method {
   analysis_mode: AnalyisMode;
-  stable_isotope_labelling: StableIsotopeLabelling;
+  peptide_labelling: PeptideLabelling;
   [k: string]: any;
 }
 /**
