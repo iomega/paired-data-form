@@ -72,12 +72,32 @@ export type GenomeLabel = string;
 /**
  * Please add all genomes and/or metagenomes for which paired data is available as separate entries.
  */
-export type AllMetagenomesGenomes = {
+export type MetaGenomicsInformation = {
   genome_ID: GenomeOrMetagenome;
   BioSample_accession?: BioSampleAccessionNumber;
   publications?: KeyPublications1;
   genome_label: GenomeLabel;
   [k: string]: any;
+}[];
+export type Type = 'Full proteome' | 'Enriched';
+export type Name = 'ProteomeXchange' | 'PRIDE' | 'iProX' | 'JPOST' | 'PeptideAtlas' | 'MassIVE' | 'Other';
+/**
+ * Please provide a direct link to the proteome data file location
+ */
+export type LocationOfRawProteomicsData = string;
+export type AnalyisMode = 'Data-dependent acquisition (DDA)' | 'Information Dependent Acquisition mode (IDA)';
+export type StableIsotopeLabelling = 'iTRAQ' | 'ICPL' | 'Dimethyl' | 'Custom' | 'None';
+export type AdditonalNotes = string;
+/**
+ * Please assign a unique proteome Label for this proteome to help you recall it during the linking step.
+ */
+export type ProteomeLabel = string;
+export type ProteomicsInformation = {
+  proteome_ID: FullProteomeOrEnriched;
+  raw_data: RawDataLink;
+  method?: Method;
+  notes?: AdditonalNotes;
+  proteome_label: ProteomeLabel;
 }[];
 /**
  * Please select liquid or solid medium.
@@ -98,7 +118,7 @@ export type PhaseOrOD = string;
 /**
  * Please select aeration type.
  */
-export type Type = 'shaking' | 'fermenter' | 'not shaking';
+export type Type1 = 'shaking' | 'fermenter' | 'not shaking';
 /**
  * Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h.  You can also define custom media here, indicate if purity checks were made, and provide more specific details.
  */
@@ -217,7 +237,11 @@ export type OtherMassSpectrometer = 'http://purl.obolibrary.org/obo/MS_1000443';
 /**
  * Please select column phase. You can add additional column details in the Other Instrumentation Information section below.
  */
-export type ColumnPhase = 'Reverse Phase' | 'Normal Phase' | 'HILIC';
+export type ColumnPhase =
+  | 'Reverse Phase'
+  | 'Normal Phase'
+  | 'Hydrophilic interaction (HILIC)'
+  | 'Strong cation exchange (SCX)';
 /**
  * Please select ionization mode.
  */
@@ -277,6 +301,10 @@ export type InstrumentationMethods = {
  */
 export type GenomeMetagenome = string;
 /**
+ * Please select the Proteome Label to be linked to a metabolomics data file.
+ */
+export type Proteome = string;
+/**
  * Please provide a direct link to the metabolomics data file location, e.g. <a href="ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML" target="_blank" rel="noopener noreferrer">ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML</a> found in the FTP download of a MassIVE dataset or <a target="_blank" rel="noopener noreferrer" href="https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML">https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML</a> found in the Files section of a MetaboLights study. Warning, there cannot be spaces in the URI.
  */
 export type LocationOfMetabolomicsDataFile = string;
@@ -295,8 +323,9 @@ export type InstrumentationMethod = string;
 /**
  * Create a linked pair by selecting the Genome Label as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.
  */
-export type GenomeMetabolomeLinks = {
+export type GenomeProteomeMetabolomeLinks = {
   genome_label: GenomeMetagenome;
+  proteome_label?: Proteome;
   metabolomics_file: LocationOfMetabolomicsDataFile;
   sample_preparation_label: SampleGrowthConditions1;
   extraction_method_label: ExtractionMethod;
@@ -315,6 +344,7 @@ export type LinkVerification = (
   | 'Experimentally validated with NMR and/or detailed MS/MS analysis'
   | 'Evidence as indicated in MIBiG'
 )[];
+export type Type2 = 'Quantitative proteomics experiment' | 'Not available';
 /**
  * Please provide the SMILES notation for the known molecule.
  */
@@ -325,11 +355,12 @@ export type SimplifiedMolecularInputLineEntrySystemSMILES = string;
 export type InternationalUnionOfPureAndAppliedChemistryIUPACName = string;
 export type WhatWouldYouLikeToLink = 'GNPS molecular family' | 'single molecule';
 /**
- * If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide details in this section. Biosynthetic gene clusters can be found in <a href="https://mibig.secondarymetabolites.org/" target="_blank" rel="noopener noreferrer">MIBiG</a>.
+ * If you already know of a biosynthetic gene cluster or biosynthetic gene cluster family that can be linked to a molecule or molecular family, please provide details in this section. Biosynthetic gene clusters can be found in <a href="https://mibig.secondarymetabolites.org/" target="_blank" rel="noopener noreferrer">MIBiG</a>.
  */
-export type GeneClusterMassSpectraLinks = {
+export type BiosyntheticGeneClusterMSMSLinks = {
   known_link?: KnownLinkedGeneClusterAndMolecule;
   verification: LinkVerification;
+  quantitative_experiment?: VerifiedWithQuantitativeExperiment;
   SMILES?: SimplifiedMolecularInputLineEntrySystemSMILES;
   IUPAC?: InternationalUnionOfPureAndAppliedChemistryIUPACName;
   BGC_ID: MIBiGBGCAccession;
@@ -341,13 +372,14 @@ export type GeneClusterMassSpectraLinks = {
  * This Paired Omics Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer-readable manner to further the field of natural products discovery. The form below aims to capture sufficient metadata to create informative links between genome sequences on the one hand and metabolomics profiles on the other hand. Note that wherever we could, we have used existing ontology to define terms. When filling out the form below, at any time the inputted data can be saved and downloaded in json format to be reloaded when continuing with the entries. The form below first asks for some personal information to provide proper credits and allow the community to ask the right person information on the linked data. Then, overall information on the metabolomics experiment is captured, before all genomes or metagenomes can be detailed, including creating a unique genome label for easy recall during linking. Then the metabolomics metadata can be saved using labels for sample growth conditions, extraction, and instrument methods. Finally, the data links can be made with references to the actual mass spectral files in MaSSIVE. Optionally, you can save links between known biosynthesis gene clusters and mass spectra or molecular families in the second part of the form. After saving your entries, a table below the form will appear filled with the links you created with experimental labels; you can also expand the table to see all information inputted. Then you can download the filled json schema in which all links are recorded. To accommodate inputting large datasets, you can download the TSV linking table, manually add new links, and re-upload the TSV file. It is important to note that all experimental labels need to be defined in the form and at least one link made before you download and edit the table. We hope you will use our platform to capture your paired data links as this will allow you and the community to efficiently use your data in follow-up studies that rely on the combined use of genome and metabolome data.
  */
 export interface IOMEGAPairedOmicsDataPlatform {
-  version: string;
+  version: '3';
   personal: SubmitterInformation;
   metabolomics: MetabolomicsInformation;
-  genomes: AllMetagenomesGenomes;
+  genomes: MetaGenomicsInformation;
+  proteomes: ProteomicsInformation;
   experimental: ExperimentalDetails;
-  genome_metabolome_links: GenomeMetabolomeLinks;
-  BGC_MS2_links?: GeneClusterMassSpectraLinks;
+  genome_metabolome_links: GenomeProteomeMetabolomeLinks;
+  BGC_MS2_links?: BiosyntheticGeneClusterMSMSLinks;
 }
 export interface SubmitterInformation {
   submitter_name?: NameOfContactForCorrespondence;
@@ -385,6 +417,26 @@ export interface GenomeOrMetagenome {
   genome_type: GenomeType;
   [k: string]: any;
 }
+export interface FullProteomeOrEnriched {
+  proteome_type: Type;
+  [k: string]: any;
+}
+export interface RawDataLink {
+  database: ProteomeDatabase;
+  proteome_data_link: LocationOfRawProteomicsData;
+}
+export interface ProteomeDatabase {
+  database_name: Name;
+  [k: string]: any;
+}
+/**
+ * Proteome specific methods.
+ */
+export interface Method {
+  analysis_mode: AnalyisMode;
+  stable_isotope_labelling: StableIsotopeLabelling;
+  [k: string]: any;
+}
 /**
  * Please provide basic information about the Sample Preparation, Extraction Methods, and Instrumentation Methods used. If different Sample Preparation, Extraction Methods, and/or Instrumentation Methods were used leading to different metabolomics data, please use separate entries for each experimental change and create a label that will help you recall the experimental parameters during the linking step.
  */
@@ -403,7 +455,7 @@ export interface GrowthParameters {
   growth_phase_OD?: PhaseOrOD;
 }
 export interface Aeration {
-  aeration_type?: Type;
+  aeration_type?: Type1;
   [k: string]: any;
 }
 export interface Instrumentation {
@@ -412,6 +464,10 @@ export interface Instrumentation {
 }
 export interface IonizationType {
   ionization_type?: IonizationType1;
+  [k: string]: any;
+}
+export interface VerifiedWithQuantitativeExperiment {
+  quantitative_experiment_type: Type2;
   [k: string]: any;
 }
 export interface MIBiGBGCAccession {
