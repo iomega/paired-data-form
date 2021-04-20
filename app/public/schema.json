@@ -263,6 +263,7 @@
           "raw_data",
           "proteome_label"
         ],
+        "additionalProperties": false,
         "properties": {
           "proteome_ID": {
             "title": "Full proteome or enriched",
@@ -293,6 +294,7 @@
                       "minItems": 1,
                       "items": {
                         "type": "object",
+                        "required": ["target"],
                         "properties": {
                           "target": {
                             "title": "Target",
@@ -347,6 +349,7 @@
             "type": "object",
             "title": "Raw data link",
             "required": ["database", "proteome_data_link"],
+            "additionalProperties": false,
             "properties": {
               "database": {
                 "type": "object",
@@ -1768,6 +1771,7 @@
                       "type": "object",
                       "title": "Quantitative proteomics experiment",
                       "required": ["difference", "proteome_sample1", "proteome_sample2"],
+                      "additionalProperties": false,
                       "properties": {
                         "difference": {
                           "type": "string",
@@ -1777,6 +1781,7 @@
                           "title": "First sample",
                           "type": "object",
                           "required": ["protein_fold_changes"],
+                          "additionalProperties": false,
                           "properties": {
                             "product_fold_change": {
                               "type": "string",
@@ -1789,6 +1794,7 @@
                               "items": {
                                 "type": "object",
                                 "required": ["protein_id", "fold_change"],
+                                "additionalProperties": false,
                                 "properties": {
                                   "protein_id": {
                                     "title": "Protein identifier",
@@ -1807,6 +1813,7 @@
                           "title": "Second sample",
                           "type": "object",
                           "required": ["protein_fold_changes"],
+                          "additionalProperties": false,
                           "properties": {
                             "product_fold_change": {
                               "type": "string",
@@ -1819,6 +1826,7 @@
                               "items": {
                                 "type": "object",
                                 "required": ["protein_id", "fold_change"],
+                                "additionalProperties": false,
                                 "properties": {
                                   "protein_id": {
                                     "title": "Protein identifier",
