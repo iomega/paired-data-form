@@ -72,13 +72,6 @@
           "ui:widget": "radio"
         }
       },
-      "raw_data": {
-        "database": {
-          "database_name": {
-            "ui:widget": "radio"
-          }
-        }
-      },
       "method": {
         "analysis_mode": {
           "ui:widget": "radio"

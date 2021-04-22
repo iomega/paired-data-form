@@ -367,7 +367,8 @@
                       "PeptideAtlas",
                       "MassIVE",
                       "Other"
-                    ]
+                    ],
+                    "default": "ProteomeXchange"
                   }
                 },
                 "dependencies": {
@@ -391,6 +392,12 @@
                 "title": "Location of raw proteomics data",
                 "description": "Please provide a direct link to the proteome data file location",
                 "format": "uri"
+              },
+              "expression_table_link": {
+                "type": "string",
+                "format": "uri",
+                "title": "Location of expression table",
+                "description": "Please provide a direct link to the expresssion table"
               }
             }
           },
