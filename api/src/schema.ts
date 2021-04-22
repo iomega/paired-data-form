@@ -85,6 +85,10 @@ export type Name = 'ProteomeXchange' | 'PRIDE' | 'iProX' | 'JPOST' | 'PeptideAtl
  * Please provide a direct link to the proteome data file location
  */
 export type LocationOfRawProteomicsData = string;
+/**
+ * Please provide a direct link to the expresssion table
+ */
+export type LocationOfExpressionTable = string;
 export type AnalyisMode = 'Data-dependent acquisition (DDA)' | 'Information Dependent Acquisition mode (IDA)';
 export type PeptideLabelling = 'iTRAQ' | 'ICPL' | 'Dimethyl' | 'Custom' | 'None';
 export type AdditonalNotes = string;
@@ -95,7 +99,7 @@ export type ProteomeLabel = string;
 export type ProteomicsInformation = {
   proteome_ID: FullProteomeOrEnriched;
   raw_data: RawDataLink;
-  method?: Method;
+  method: Method;
   notes?: AdditonalNotes;
   proteome_label: ProteomeLabel;
 }[];
@@ -424,6 +428,7 @@ export interface FullProteomeOrEnriched {
 export interface RawDataLink {
   database: ProteomeDatabase;
   proteome_data_link: LocationOfRawProteomicsData;
+  expression_table_link?: LocationOfExpressionTable;
 }
 export interface ProteomeDatabase {
   database_name: Name;

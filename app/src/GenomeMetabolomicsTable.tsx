@@ -70,6 +70,32 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         }
     });
 
+    const proteome_popovers: any = {};
+    pure_project.proteomes.forEach((p) => {
+        const popover = (
+            <Popover id={p.proteome_label} title="Proteome">
+                <p>Type: {p.proteome_ID.proteome_type}</p>
+                { // TODO add enriched targets
+                }
+                <p>Database: {p.raw_data.database.database_name}</p>
+                { // TODO add other database name
+                }
+                <p>Link to raw data: <a href={p.raw_data.proteome_data_link}>{p.raw_data.proteome_data_link}</a></p>
+                {p.raw_data.expression_table_link &&
+                    <p>Expression table:
+                        <a href={p.raw_data.expression_table_link}>{p.raw_data.expression_table_link}</a>
+                    </p>
+                }
+                <p>Anaysis mode: {p.method.analysis_mode}</p>
+                <p>Peptide labelling: {p.method.peptide_labelling}</p>
+                { // TODO add custom labelling
+                }
+                <p>Notes: {p.notes}</p>
+            </Popover>
+        );
+        proteome_popovers[p.proteome_label] = popover;
+    })
+
     const sample_popovers: any = {};
     pure_project.experimental.sample_preparation!.forEach((s) => {
         let medium;
@@ -246,6 +272,19 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                         {r.genome_label}
                     </Button>
                 </OverlayTrigger>
+            </td>
+            <td>
+                { r.proteome_label && <OverlayTrigger
+                    trigger="click"
+                    rootClose
+                    placement="bottom"
+                    overlay={proteome_popovers[r.proteome_label]}
+                >
+                    <Button bsStyle="link">
+                        {r.proteome_label}
+                    </Button>
+                </OverlayTrigger>
+                }
             </td>
             <td>{r.metabolomics_file}<Button title={`Download ${r.metabolomics_file}`} bsStyle="link" href={r.metabolomics_file}><Glyphicon style={{color:"gray"}} glyph="download-alt"/></Button></td>
             <td>

@@ -261,6 +261,7 @@
         "required": [
           "proteome_ID",
           "raw_data",
+          "method",
           "proteome_label"
         ],
         "additionalProperties": false,
@@ -284,6 +285,12 @@
             "dependencies": {
               "proteome_type": {
                 "oneOf": [{
+                  "properties": {
+                    "proteome_type": {
+                      "enum": ["Full proteome"]
+                    }
+                  }
+                }, {
                   "properties": {
                     "proteome_type": {
                       "enum": ["Enriched"]
@@ -324,6 +331,15 @@
                         "dependencies": {
                           "target": {
                             "oneOf": [{
+                              "properties": {
+                                "target": {
+                                  "enum": [
+                                    "pks",
+                                    "nrps"
+                                  ]
+                                }
+                              }
+                            }, {
                               "properties": {
                                 "target": {
                                   "enum": [
@@ -383,6 +399,19 @@
                           "title": "Name of other database"
                         }
                       }
+                    }, {
+                      "properties": {
+                        "database_name": {
+                          "enum": [
+                            "ProteomeXchange",
+                            "PRIDE",
+                            "iProX",
+                            "JPOST",
+                            "PeptideAtlas",
+                            "MassIVE"
+                          ]
+                        }
+                      }
                     }]
                   }
                 }
@@ -438,6 +467,16 @@
                     "custom_peptide_labelling": {
                       "type": "string",
                       "title": "Description of custom labelling"
+                    }
+                  }
+                }, {
+                  "properties": {
+                    "peptide_labelling": {
+                      "enum": [
+                        "iTRAQ",
+                        "ICPL",
+                        "Dimethyl",
+                        "None"]
                     }
                   }
                 }]
