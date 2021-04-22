@@ -1,5 +1,5 @@
+import { BiosyntheticGeneClusterMSMSLinks } from '../schema';
 import { EnrichedProjectDocument } from '../store/enrichments';
-import { GeneClusterMassSpectraLinks } from '../schema';
 import { Lookups } from './schema';
 
 export interface IStats {
@@ -162,7 +162,7 @@ function countSpecies(projects: EnrichedProjectDocument[], top_size = 5) {
     return Array.from(field_counts.entries()).sort((a, b) => b[1] - a[1]).slice(0, top_size);
 }
 
-type GeneClusterMassSpectraLink = GeneClusterMassSpectraLinks[0];
+type GeneClusterMassSpectraLink = BiosyntheticGeneClusterMSMSLinks[0];
 
 function hash_bgcms2_link(link: GeneClusterMassSpectraLink) {
     if (link.link === 'GNPS molecular family') {

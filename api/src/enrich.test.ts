@@ -11,7 +11,7 @@ describe('enrich()', () => {
     let project: IOMEGAPairedOmicsDataPlatform;
     beforeEach(() => {
       project = {
-        version: '1',
+        version: '3',
         personal: {},
         genomes: [{
           'genome_ID': {
@@ -20,6 +20,7 @@ describe('enrich()', () => {
           },
           'genome_label': 'Streptomyces sp. CNB091'
         }],
+        proteomes: [],
         metabolomics: {
           project: {
             GNPSMassIVE_ID: 'MSV000078839',
@@ -148,7 +149,7 @@ describe('enrich()', () => {
     let project: IOMEGAPairedOmicsDataPlatform;
     beforeEach(() => {
       project = {
-        version: '1',
+        version: '3',
         personal: {},
         genomes: [{
           'genome_ID': {
@@ -157,6 +158,7 @@ describe('enrich()', () => {
           },
           'genome_label': 'Some label'
         }],
+        proteomes: [],
         metabolomics: {
           project: {
             GNPSMassIVE_ID: 'MSV000078839',
@@ -198,7 +200,7 @@ describe('enrich()', () => {
 
     beforeEach(() => {
       project = {
-        version: '1',
+        version: '3',
         personal: {},
         genomes: [{
           'genome_ID': {
@@ -209,6 +211,7 @@ describe('enrich()', () => {
           'BioSample_accession': 'ERX2291669',
           'publications': '29795809'
         }],
+        proteomes: [],
         metabolomics: {
           project: {
             'GNPSMassIVE_ID': 'MSV000080179',
@@ -255,7 +258,7 @@ describe('enrich()', () => {
 
     beforeEach(() => {
       project = {
-        version: '1',
+        version: '3',
         personal: {},
         genomes: [{
           'genome_ID': {
@@ -266,6 +269,7 @@ describe('enrich()', () => {
           'publications': '20017926',
           'genome_label': 'Xalbi_1'
         }],
+        proteomes: [],
         metabolomics: {
           project: {
             'GNPSMassIVE_ID': 'MSV000080427',
@@ -383,7 +387,7 @@ describe('enrich()', () => {
 
     beforeEach(() => {
       project = {
-        version: '1',
+        version: '3',
         personal: {},
         genomes: [{
           'genome_ID': {
@@ -392,6 +396,7 @@ describe('enrich()', () => {
           'BioSample_accession': 'SAMN02441673',
           'genome_label': 'CNB091'
         }],
+        proteomes: [],
         metabolomics: {
           project: {
             'GNPSMassIVE_ID': 'MSV000078847',
@@ -528,7 +533,7 @@ describe('enrich()', () => {
 
     beforeEach(() => {
       project = {
-        version: '1',
+        version: '3',
         personal: {},
         genomes: [{
           'genome_ID': {
@@ -537,6 +542,7 @@ describe('enrich()', () => {
           'genome_label': 'Streptomyces griseus',
           'BioSample_accession': 'SAMN10130993'
         }],
+        proteomes: [],
         metabolomics: {
           project: {
             'GNPSMassIVE_ID': 'MSV000078839',
@@ -632,18 +638,18 @@ function sample_JGI_genome_page() {
   // Download on 25-02-2020 of https://img.jgi.doe.gov/cgi-bin/m/main.cgi?section=TaxonDetail&page=taxonDetail&taxon_oid=2724679019
   /* tslint:disable:no-trailing-whitespace */
   return `<!DOCTYPE html>
-    
+
     <html>
     <head>
-    
+
     <title>IMG</title>
-    
+
     <meta charset="UTF-8">
     <meta name="description" content="Integrated Microbial Genomes" />
     <meta name="keywords" content="gene,genome,metagenome,microbe,microbial,img,jgi, virus" />
-    
-    
-    
+
+
+
     <!--  -->
     <link rel="stylesheet" type="text/css" href="https://img.jgi.doe.gov/css/jgi.css" />
     <link rel="stylesheet" type="text/css" href="https://img.jgi.doe.gov/css/div-v33.css" />
@@ -651,7 +657,7 @@ function sample_JGI_genome_page() {
     <link rel="stylesheet" type="text/css" href="https://img.jgi.doe.gov/css/img-v33.css" />
     <link rel="icon" href="https://img.jgi.doe.gov/images/favicon.ico"/>
     <link rel="SHORTCUT ICON" href="https://img.jgi.doe.gov/images/favicon.ico" />
-    
+
     <!-- Individual YUI CSS files -->
     <link rel="stylesheet" type="text/css" href="/../yui282/yui/build/autocomplete/assets/skins/sam/autocomplete.css" />
     <link rel="stylesheet" type="text/css" href="/../yui282/yui/build/paginator/assets/skins/sam/paginator.css">
@@ -660,17 +666,17 @@ function sample_JGI_genome_page() {
     <link rel="stylesheet" type="text/css" href="/../yui282/yui/build/progressbar/assets/skins/sam/progressbar.css">
     <link rel="stylesheet" type="text/css" href="/../yui282/yui/build/button/assets/skins/sam/button.css" />
     <link rel="stylesheet" type="text/css" href="/../yui282/yui/build/tabview/assets/skins/sam/tabview.css" />
-    
+
     <style type="text/css">
     #myAutoComplete {
         width:25em; /* set width here or else widget will expand to fit its container */
         padding-bottom:2em;
     }
     </style>
-    
+
     <!-- Individual YUI JS files -->
-    <script type="text/javascript" src="/../yui282/yui/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
-    <script type="text/javascript" src="/../yui282/yui/build/connection/connection-min.js"></script> 
+    <script type="text/javascript" src="/../yui282/yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+    <script type="text/javascript" src="/../yui282/yui/build/connection/connection-min.js"></script>
     <script type="text/javascript" src="/../yui282/yui/build/dragdrop/dragdrop-min.js"></script>
     <script type="text/javascript" src="/../yui282/yui/build/history/history-min.js"></script>
     <script type="text/javascript" src="/../yui282/yui/build/element/element-min.js"></script>
@@ -684,59 +690,59 @@ function sample_JGI_genome_page() {
     <script type="text/javascript" src="/../yui282/yui/build/dom/dom-min.js"></script>
     <script type="text/javascript" src="/../yui282/yui/build/button/button-min.js"></script>
     <script type="text/javascript" src="/../yui282/yui/build/tabview/tabview-min.js"></script>
-    
+
     <script type="text/javascript" src="/../yui282/yui/build/element/element-min.js"></script>
-    
+
     <script type="text/javascript" src="/../yui282/yui/build/autocomplete/autocomplete-min.js"></script>
     <script type="text/javascript" src="https://img.jgi.doe.gov/m/../js/header.js"></script>
-    
-    
-    
+
+
+
     <script type="text/javascript">
-    
+
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-15689341-4']);
       _gaq.push(['_setDomainName', 'jgi.doe.gov']);
       _gaq.push(['_trackPageview']);
-    
+
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-    
+
     </script>
-    
+
     <script type="text/javascript">
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    
+
     ga('create', 'UA-15689341-4', 'auto');
     ga('send', 'pageview');
-    
+
     </script>
-    
+
     </head>
-    
+
     <body id="body_frame" class="yui-skin-sam">
-    
-    
-    
-    
+
+
+
+
     <header id="jgi-header">
     <div id="jgi-logo">
     <a href="/" title="DOE Joint Genome Institute - IMG">
     <img width="480" height="70" src="https://img.jgi.doe.gov//images/logo-JGI-IMG.png" alt="DOE Joint Genome Institute's IMG logo"/>
     </a>
     </div>
-    
+
             <div id="quicksearch">
             <form name="taxonSearchForm" enctype="application/x-www-form-urlencoded" action="main.cgi" method="post">
                 <input type="hidden" value="orgsearch" name="page">
                 <input type="hidden" value="TaxonSearch" name="section">
-    
+
                 <a style="color: black;" href="https://img.jgi.doe.gov/m/orgsearch.html">
                 <font style="color: black;"> Quick Genome Search: </font>
                 </a><br/>
@@ -760,24 +766,24 @@ function sample_JGI_genome_page() {
         };
         // Enable caching
         oDS.maxCacheEntries = 5;
-    
+
         // Instantiate the AutoComplete
         var oAC = new YAHOO.widget.AutoComplete("myInput", "myContainer", oDS);
-    
+
         return {
             oDS: oDS,
             oAC: oAC
         };
     }();
     </script>
-    
-    
+
+
     <div id="login">
-      <br><span style="cursor:pointer;"  title="Login to view your private data sets in IMG/MER"> 
+      <br><span style="cursor:pointer;"  title="Login to view your private data sets in IMG/MER">
       Login into <a href="https://signon.jgi.doe.gov/signon" onclick="document.cookie = 'jgi_return=https://img.jgi.doe.gov//cgi-bin/mer/main.cgi; path=/; domain=.jgi.doe.gov'" >IMG/MER</a>
       </span>
     </div>
-                
+
     </header>
     <div id="myclear"></div>
             <script>
@@ -788,31 +794,31 @@ function sample_JGI_genome_page() {
           //alert("do delete now - TODO");
           var handleSuccess = function(o) {
               var e = document.getElementById('genome_cart');
-              e.innerHTML = 0;                    
-    
+              e.innerHTML = 0;
+
               var e = document.getElementById('scaffold_cart');
-              e.innerHTML = 0;                    
-    
+              e.innerHTML = 0;
+
               var e = document.getElementById('function_cart');
-              e.innerHTML = 0;                    
-    
+              e.innerHTML = 0;
+
               var e = document.getElementById('gene_cart');
-              e.innerHTML = 0;  
-    
+              e.innerHTML = 0;
+
               var e = document.getElementById('genome_history_cart');
-              e.innerHTML = 0;  
-    
+              e.innerHTML = 0;
+
               var e = document.getElementById('gene_history_cart');
-              e.innerHTML = 0;  
-    
-              
-              
-    
+              e.innerHTML = 0;
+
+
+
+
               alert("All analysis cart's items have been removed. A page refresh maybe required.");
-              
+
               document.getElementById("cartDeleteAll").src="/images/cancel.png";
           }
-    
+
           var handleFailure = function(o) {
               if (o.status == -1) {
                   alert("Connection Timeout: " + o.statusText);
@@ -822,57 +828,57 @@ function sample_JGI_genome_page() {
                   alert("Failure: " + o.statusText);
               }
           }
-    
+
           var callback = {
                   success : handleSuccess,
                   failure : handleFailure,
                   timeout : 30000
           }
-          
+
           document.getElementById("cartDeleteAll").src="/images/ajax-loader2.gif";
-          
-          var request = YAHOO.util.Connect.asyncRequest('GET', 
+
+          var request = YAHOO.util.Connect.asyncRequest('GET',
                   'xml.cgi?section=Cart&page=clearAllCarts',
                   callback);
-          
+
           return true;
       } else {
         return false;
       }
     }
     </script>
-    
+
     <style>
-    
+
     .cartDeleteAll {
     width: 15px;
     height: 15px;
-    vertical-align: middle; 
+    vertical-align: middle;
     cursor:pointer;
     }
-    
+
     .cartDeleteAll:active {
         transform: translateY(1px);
     }
-    
-    
+
+
     </style>
-    
+
     <div id="cart">
-     &nbsp;&nbsp; <span title="Carts are unsaved sets and sets are lost during session logouts">My Analysis Carts**:</span> 
+     &nbsp;&nbsp; <span title="Carts are unsaved sets and sets are lost during session logouts">My Analysis Carts**:</span>
      &nbsp;&nbsp; <span id='genome_cart'>0</span> <a href='main.cgi?section=GenomeCart&page=genomeCart'  onclick="">Genomes</a> &nbsp;&nbsp;
     |&nbsp;&nbsp; <span id='scaffold_cart'>0</span> <a href='main.cgi?section=ScaffoldCart&page=index'  onclick="">Scaffolds</a>&nbsp;&nbsp;
     |&nbsp;&nbsp; <span id='function_cart'>0</span> <a href='main.cgi?section=FuncCartStor&page=funcCart'  onclick="">Functions</a> &nbsp;&nbsp;
     |&nbsp;&nbsp; <span id='gene_cart'>0</span> <a href='main.cgi?section=GeneCartStor&page=geneCart'  onclick="">Genes</a>
     |&nbsp;&nbsp; <span id='genome_history_cart'>0</span> <a href='main.cgi?section=GenomeSearch&page=searchForm'  onclick="">Genome Search History</a>
     |&nbsp;&nbsp; <span id='gene_history_cart'>0</span> <a href='main.cgi?section=GeneSearch&page=searchForm'  onclick="">Gene Search History</a>
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     </div>
         <div id="myclear"></div>
         <div id='menu'>
@@ -1114,19 +1120,19 @@ function sample_JGI_genome_page() {
         <li class="rightmenu"><a href="/help.html"> Help </a>
         </li>
     </ul>
-    
+
             </div> <!-- end menu div -->
     <div id="myclear"></div>
-    <div id="container">        
-        
+    <div id="container">
+
         <div id="breadcrumbs_frame">
         <div id="breadcrumbs"> <a href='main.cgi'  onclick="">Home</a> &gt; Find Genomes </div>
         <div id="loading">  <font color='red'> Loading... </font> <img src='https://img.jgi.doe.gov//images/ajax-loader.gif'/> </div>
-        
+
         <div id="page_help">
-        
+
             &nbsp;
-            
+
         </div>
         <div id="myclear"></div>
         </div>
@@ -1140,34 +1146,34 @@ function sample_JGI_genome_page() {
             accurately.
          </div>
     </noscript>
-    
+
     <div id="error_content"
         class="error_frame shadow"
         style="display: none">
     </div>
-    
+
     <!-- # IE must be IE 8+ for new css  -->
     <!--[if lt IE 7]>
     <div id="error_content_js" class="error_frame shadow" style="display: block" >
-        You should upgrade your copy of Internet Explorer (IE 8+) to view IMG accurately. 
-    </div>      
-    <![endif]--> 
-    
+        You should upgrade your copy of Internet Explorer (IE 8+) to view IMG accurately.
+    </div>
+    <![endif]-->
+
     <div id="message_content_file" class="message_frame shadow" style="display: none" >
-        
-    </div> 
-    
-    
+
+    </div>
+
+
     <script type="text/javascript">
     var sysreqUrl = " See our <a href='https://img.jgi.doe.gov/m/../systemreqs.html'> System Requirements</a>";
-    
+
     // cookies enabled
     if(! navigator.cookieEnabled) {
         var div = document.getElementById('error_content');
         div.style.display = "block";
-        div.innerHTML = "Please enable and accept cookies from *.jgi.doe.gov and *.jgi-psf.org." + sysreqUrl;  
+        div.innerHTML = "Please enable and accept cookies from *.jgi.doe.gov and *.jgi-psf.org." + sysreqUrl;
     }
-    
+
     //e.g. Firefox
     if (YAHOO.env.ua.gecko > 0) {
         //document.write("<br/> FireFox " + YAHOO.env.ua.gecko);
@@ -1177,8 +1183,8 @@ function sample_JGI_genome_page() {
             div.style.display = "block";
             div.innerHTML = "Please update your FireFox to view IMG data accurately."  + sysreqUrl;
         }
-    }  
-    
+    }
+
     //Microsoft Internet Explorer
     // Or leverage boolean coercion -- 0 evaulates as false
     if (YAHOO.env.ua.ie > 0) {
@@ -1188,14 +1194,14 @@ function sample_JGI_genome_page() {
             var div = document.getElementById('error_content');
             div.style.display = "block";
             div.innerHTML = "Please update your IE to view IMG data accurately."  + sysreqUrl;
-        }    
+        }
     }
-    
+
     //Opera
     if (YAHOO.env.ua.opera) {
         //document.write(" Opera " + YAHOO.env.ua.opera);
     }
-    
+
     //Chrome
     if(YAHOO.env.ua.chrome) {
         //document.write("<br/> Chrome " + YAHOO.env.ua.chrome + "<br/>");
@@ -1204,10 +1210,10 @@ function sample_JGI_genome_page() {
             var div = document.getElementById('error_content');
             div.style.display = "block";
             div.innerHTML = "Please update your Chrome to view IMG data accurately."  + sysreqUrl;
-        }    
+        }
     }
-    
-    
+
+
     //Safari, Webkit and Chrome
     if (YAHOO.env.ua.webkit) {
         //document.write("<br/> Safari, Webkit " + YAHOO.env.ua.webkit +' ' + YAHOO.env.ua.chrome);
@@ -1215,40 +1221,40 @@ function sample_JGI_genome_page() {
         if(v < 534) {
             var div = document.getElementById('error_content');
             div.style.display = "block";
-            div.innerHTML = "Please update your browser to view IMG data accurately.";    
-        }     
-    } 
-    
-    
-    
+            div.innerHTML = "Please update your browser to view IMG data accurately.";
+        }
+    }
+
+
+
     </script>
-    
+
         <div id="content_other">
         <form method="post" action="main.cgi" enctype="multipart/form-data" name="mainForm"><h1>
     Streptomyces sp. MBT76
     </h1>
     <input type='hidden' id='taxon_filter_oid' name='taxon_filter_oid' value='2724679019' />
-    
+
               <input type="submit" class="smdefbutton" style="vertical-align:top;margin-top:0;padding-top:8px;
                padding-bottom:6px;" value="Add to Genome Cart" name="setTaxonFilter">
-        &nbsp; &nbsp; &nbsp; &nbsp; 
+        &nbsp; &nbsp; &nbsp; &nbsp;
             <a class="genome-btn browse-btn" href="#browse" title="Browse Genome">
                 <span>Browse Genome</span>
             </a>
-        &nbsp; &nbsp; &nbsp; &nbsp; 
+        &nbsp; &nbsp; &nbsp; &nbsp;
             <a class="genome-btn blast-btn" href="main.cgi?section=FindGenesBlast&page=geneSearchBlast&taxon_oid=2724679019&domain=Bacteria"
             title="BLAST Genome"><span>BLAST Genome</span></a>
-        &nbsp; &nbsp; &nbsp; &nbsp; 
+        &nbsp; &nbsp; &nbsp; &nbsp;
             <a class="genome-btn download-btn" href="https://genome.jgi.doe.gov/portal/IMG_2724679019/IMG_2724679019.info.html"
             onClick="_gaq.push(['_trackEvent', 'Download Data', 'JGI Portal', '2724679019']);"
             title="Download Data requires an account"><span>Download Data</span></a>
-            
+
                 <p>
                 <span class="boldTitle">About Genome</span>
                 <ul style="padding-left:1.2em;list-style-type:circle">
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#statistics">Statistics</a></li>
-            
+
             <li><a href="#genes">Genes</a></li>
             </ul>
             </p>
@@ -1301,7 +1307,7 @@ function sample_JGI_genome_page() {
     <tr class='img'>
     <th class='subhead'>External Links</th>
     <td class='img'>
-    <a href="https://genome.jgi.doe.gov/portal/IMG_2724679019/IMG_2724679019.info.html" onClick="_gaq.push(['_trackEvent', 'Download Data', 'JGI Portal', '2724679019']);" > 
+    <a href="https://genome.jgi.doe.gov/portal/IMG_2724679019/IMG_2724679019.info.html" onClick="_gaq.push(['_trackEvent', 'Download Data', 'JGI Portal', '2724679019']);" >
                    <img style='border:none; vertical-align:text-top;'
                      src='https://img.jgi.doe.gov/m/images/genomeProjects_icon.gif' />
                  JGI Portal </a>&nbsp; </td>
@@ -1329,7 +1335,7 @@ function sample_JGI_genome_page() {
     <tr class='img' >
     <th class='subhead' style='min-width: 170px;' >Comment</th>
     <td class='img' >
-    
+
     </td>
     </tr>
     <tr class='img' >
@@ -1423,13 +1429,13 @@ function sample_JGI_genome_page() {
       <th class='subhead' align='right'>Project Geographical Map</th>
       <td class='img'   align='left'><div id=geomap style='height: 300px'></div></td>
     </tr>
-    
+
         <script type="text/javascript" src="https://img.jgi.doe.gov//js/leaflet-1.3.4.js"></script>
         <link rel="stylesheet" type="text/css" href="https://img.jgi.doe.gov//css/leaflet-1.3.4.css" />
         <script type="text/javascript" src="https://img.jgi.doe.gov//js/leaflet.markercluster-1.4.1.js"></script>
         <link rel="stylesheet" type="text/css" href="https://img.jgi.doe.gov//css/MarkerCluster-1.4.1.css" />
         <link rel="stylesheet" type="text/css" href="https://img.jgi.doe.gov//css/MarkerCluster.Default-1.4.1.css" />
-    
+
         <style>
         .markerlabel {
             color: red;
@@ -1440,53 +1446,53 @@ function sample_JGI_genome_page() {
             font-weight: bold;
         }
         </style>
-    
+
         <script type="text/javascript">
         // Anna: create a custom Marker class with 2 icons:
-        var textIcon = L.divIcon({ 
+        var textIcon = L.divIcon({
             className: 'markerlabel',
-            iconSize: new L.Point(50, 20), 
+            iconSize: new L.Point(50, 20),
             iconAnchor: [25, -0.5]
         });
-    
+
         var pinIcon = new L.Icon.Default();
-    
+
         L.Marker.MarkerWithLabel = L.Marker.extend({
             options: {
                 zIndexOffset: 0,
                 pane: 'markerPane',
                 labelOffset: L.point(0, 0.1),
                 label: ""
-            }, 
-    
+            },
+
             // this._icon becomes a container for the 2 icons
             _initIcon: function() {
                 var options = this.options,
                 classToAdd = 'leaflet-zoom-' + (this._zoomAnimated ? 'animated' : 'hide');
-    
+
                 options.labelOffset = L.point(options.labelOffset);
                 this._icon = L.DomUtil.create('div', classToAdd);
-    
+
                 var pinIconEl = pinIcon.createIcon();
                 L.DomUtil.addClass(pinIconEl, 'leaflet-interactive');
                 this._icon.appendChild(pinIconEl);
                 this.addInteractiveTarget(pinIconEl);
-    
+
                 var textIconEl = textIcon.createIcon();
                 textIconEl.innerHTML = options.label;
                 L.DomUtil.addClass(textIconEl, 'leaflet-interactive');
                 L.DomUtil.setPosition(textIconEl, options.labelOffset);
                 this._icon.appendChild(textIconEl);
                 this.addInteractiveTarget(textIconEl);
-    
+
                 this.getPane().appendChild(this._icon);
             }
         });
-    
+
         L.marker.markerwithlabel = function(latlng, opts) {
             return new L.Marker.MarkerWithLabel(latlng, opts);
         }
-    
+
         // create a tile layer:
         var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
         var osmAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -1494,11 +1500,11 @@ function sample_JGI_genome_page() {
             maxZoom: 18,
             attribution: osmAttribution
         });
-    
+
         // initialize the map on the "map" div with a given center and zoom
         var map = L.map('geomap').setView([34.05780, 109.37750], 10).addLayer(tiles);
         var markers = L.markerClusterGroup();
-    
+
         function addMarker(map, clat, clong, info, content, scfcnt) {
             info = unescape(info);
             if (info == "") {
@@ -1511,7 +1517,7 @@ function sample_JGI_genome_page() {
             marker.bindTooltip(info);
             markers.addLayer(marker);
         }
-    
+
         function addMarkerWithLabel(map, clat, clong, info, content, scfcnt) {
             info = unescape(info);
             scfcnt = unescape(scfcnt);
@@ -1521,14 +1527,14 @@ function sample_JGI_genome_page() {
             markerwithlabel.bindTooltip(info);
             markers.addLayer(markerwithlabel);
         }
-        
+
             addMarker(map, 34.05780, 109.37750, "China: Xi&#39;an, Shanxi Province", "<div><p>China: Xi&#39;an, Shanxi Province<br>[34.0578, 109.3775] </p></div>");
-        
+
             map.addLayer(markers);
             </script>
         </tr>
     <tr class='highlight'>
-    <th class='subhead'>Phenotypes/Metabolism from Pathway Assertion</th> <th class='subhead'> &nbsp; </th> 
+    <th class='subhead'>Phenotypes/Metabolism from Pathway Assertion</th> <th class='subhead'> &nbsp; </th>
     <tr class='img' >
       <th class='subhead' align='right'>Metabolism</th>
       <td class='img'   align='left'><a href='main.cgi?section=TaxonDetail&page=taxonPhenoRuleDetail&taxon_oid=2724679019&rule_id=7'  onclick="">Auxotroph (L-lysine auxotroph)</a> (IMG_PIPELINE; 2017-04-19)</td>
@@ -1632,7 +1638,7 @@ function sample_JGI_genome_page() {
                   to <b>"No"</b>.</p>
     </div>
     <div class='clear'></div>
-    
+
     <br />
             <div id='ani_parent' style='width:1200px'>
             <div id='ani_left'>
@@ -1873,7 +1879,7 @@ function sample_JGI_genome_page() {
     <a name='ref2' id='ref2'></a>2 - Pseudogenes may also be counted as protein coding or RNA genes, so is not additive under total gene count.<br/>
     <a name='ref3' id='ref3'></a>3 - Graphical view available.<br/>
     </p>
-    
+
                     </div>
                     <div id='ani_right' style='max-width: 600px'>
                 <b>Average Nucleotide Identity (ANI)</b><p><u>Species</u>: Streptomyces sp.<br/>Total genomes of this same species: <a href='main.cgi?section=ANI&page=genomesForGenusSpecies&genus_species=Streptomyces sp.&domain=B'  onclick="">406</a><br/>This species is present in <u><a href='main.cgi?section=ANI&page=cliquesForGenusSpecies&genus_species=Streptomyces sp.'  onclick="">228</a></u> cliques<div id='hint'>
@@ -1884,7 +1890,7 @@ function sample_JGI_genome_page() {
     </p>
        <link rel="stylesheet" type="text/css"
            href="/../yui282/yui/build/datatable/assets/skins/sam/datatable.css" />
-       
+
            <style>
            .yui-skin-sam .yui-dt th .yui-dt-liner {
                white-space: inherit;
@@ -1892,25 +1898,25 @@ function sample_JGI_genome_page() {
            </style>
            <div class='yui-dt' style='padding:5px 0'>
            <table style='font-size:12px'>
-       
+
             <th >
              <div class='yui-dt-liner'>
             <span >Cluster ID</span>
             </div>
         </th>
-          
+
             <th >
              <div class='yui-dt-liner'>
             <span >Cluster Type</span>
             </div>
         </th>
-          
+
             <th style='width:200px;'>
              <div class='yui-dt-liner'>
             <span >Contributing Species</span>
             </div>
         </th>
-          
+
             <th >
              <div class='yui-dt-liner'>
             <span >Genome Count</span>
@@ -1932,16 +1938,16 @@ function sample_JGI_genome_page() {
     </tr>
     </table>
     </div>
-    
+
                     </div>
                     <div id="myclear"></div>
                     </div>
-                
+
     <p></p><a name='browse' href='#'> </a><p></p><a name='' href='#'><h2>Browse Genome</h2> </a>
     <input type='button' class='lgbutton' value='Scaffolds and Contigs'  onClick='javascript:window.open("main.cgi?section=TaxonDetail&page=scaffolds&taxon_oid=2724679019&pidt=83454.", "_self");' /><br/>
     <input type='button' class='lgbutton' value='Chromosome Maps'  onClick='javascript:window.open("main.cgi?section=TaxonCircMaps&page=circMaps&taxon_oid=2724679019&pidt=83454.", "_self");' /><br/>
     <input type='button' class='lgbutton' value='Create Artemis Data File'  onClick='javascript:window.open("main.cgi?section=Artemis&page=form&taxon_oid=2724679019&pidt=83454.", "_self");' /><p></p><a name='genes' href='#'> </a><p></p><a name='bin' href='#'><h2>Phylogenetic Distribution of Genes</h2> </a><p>
-    
+
                 <input type='button' class='lgbutton'
                 value='Distribution by BLAST percent identities'
                 onclick="window.location.href='main.cgi?section=MetagenomeHits&page=metagenomeStats&taxon_oid=2724679019'"
@@ -1997,18 +2003,18 @@ function sample_JGI_genome_page() {
             </form>
         </div> <!-- end of content div  -->
             <div id="myclear"></div>
-        
+
         </div> <!-- end of container div  -->
         <br>
     <br>
-    
-    <link rel="stylesheet" href="/css/footer-v50.css" /> 
-    
-    
+
+    <link rel="stylesheet" href="/css/footer-v50.css" />
+
+
     <div class="divider1"></div>
-    
+
     <div class="flex-footer" id="jgi-tools-footer">
-    
+
       <!--start of 4 part section-->
       <div class="tools-link">
         <div class="system-bullet">
@@ -2030,12 +2036,12 @@ function sample_JGI_genome_page() {
           <a target="_self" href="http://phytozome.jgi.doe.gov" class="textlink">Phytozome</a> - a hub for accessing, visualizing and analyzing plant genomes.
         </div>
       </div>
-      
+
       <!--end of 4 part section-->
       <div class="clear"></div>
-      
+
     </div>
-    
+
     <footer id="jgi-img-footer">
       <div class="home-left">
         <ul>
@@ -2049,7 +2055,7 @@ function sample_JGI_genome_page() {
     </span>
           </li>
         </ul>
-      </div>      
+      </div>
       <div class="home-middle">
         <ul>
           <li>
@@ -2071,9 +2077,9 @@ function sample_JGI_genome_page() {
       </div>
       <div class="clear"></div>
     </footer>
-    
-    
-    
+
+
+
     <script type='text/javascript'>
         var e0 = document.getElementById( "loading" );
         if(e0 == null || e0 == undefined ) {
@@ -2084,12 +2090,12 @@ function sample_JGI_genome_page() {
                 e0.innerHTML = " loaded. ";
             }
         }
-    </script>    
-    
+    </script>
+
     <script  type="text/javascript">
             messageFile('xml.cgi?section=MessageFile');
     </script>
-    
+
     `;
   /* tslint:enable */
 }
