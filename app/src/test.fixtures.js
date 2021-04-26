@@ -187,7 +187,7 @@ export const kitchenSinkEnrichedDoc = {
 export const minimalGrowthMediumDoc = {
     _id: 'minimal-growth-medium-id',
     project: {
-        "version": "2",
+        "version": "3",
         "personal": {},
         "metabolomics": {
             "project": {
@@ -203,6 +203,7 @@ export const minimalGrowthMediumDoc = {
             "publications": "28335604",
             "genome_label": "Streptomyces sp. CNB091"
         }],
+        "proteomes": [],
         "experimental": {
             "sample_preparation": [
                 {
@@ -254,6 +255,9 @@ export const bgcms2linkDoc = {
         "verification": [
             "Evidence as indicated in MIBiG"
         ],
+        "quantitative_experiment": {
+            "quantitative_experiment_type": "Not available"
+        },
         "SMILES": "CC[C@@H]1[C@H]([C@H]2[C@@](O2)(/C=C/C(=O)[C@@H](C[C@@H]([C@@H]([C@H]([C@@H](CC(=O)O1)O)C)O[C@H]3[C@@H]([C@H](C[C@H](O3)C)N(C)C)O)CC=O)C)C)C",
         "IUPAC": "2-[(1S,2R,3R,7R,8S,9S,10R,12R,14E,16S)-9-[(2S,3R,4S,6R)-4-(dimethylamino)-3-hydroxy-6-methyloxan-2-yl]oxy-3-ethyl-7-hydroxy-2,8,12,16-tetramethyl-5,13-dioxo-4,17-dioxabicyclo[14.1.0]heptadec-14-en-10-yl]acetaldehyde",
         "BGC_ID": {
@@ -268,6 +272,9 @@ export const bgcms2linkDoc = {
         "verification": [
             "Evidence as indicated in MIBiG"
         ],
+        "quantitative_experiment": {
+            "quantitative_experiment_type": "Not available"
+        },
         "SMILES": "CCCOC(=O)c1c(C)cc2c(c1O)[C@@]1(O)C(=O)c3cc4c(c(O)c3C(=O)[C@@]1(OC)CC2)C(=O)C=C(N[C@H]1O[C@@H](C)[C@H](O)[C@H](O)[C@H]1OC)C4=O",
         "IUPAC": "methyl (6aR,14aS)-11-[[(2S,3R,4R,5R,6S)-4,5-dihydroxy-3-methoxy-6-methyloxan-2-yl]amino]-1,8,14a-trihydroxy-6a-methoxy-3-methyl-7,9,12,14-tetraoxo-5,6-dihydrobenzo[a]tetracene-2-carboxylate",
         "BGC_ID": {
