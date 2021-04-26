@@ -62,7 +62,7 @@ export const migrations: Migration[] = [
                     if (!r.quantitative_experiment) {
                         r.quantitative_experiment = {
                             quantitative_experiment_type: 'Not available'
-                        }
+                        };
                     }
                 });
             }
