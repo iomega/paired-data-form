@@ -241,17 +241,18 @@
           "ui:widget": "radio"
         },
         "quantitative_proteomics_experiment": {
-          "difference": {
+          "evidences": {
             "ui:widget": "textarea"
           },
-          "proteome_sample1": {
-            "protein_fold_changes": {
-              "ui:field": "table"
-            }
-          },
-          "proteome_sample2": {
-            "protein_fold_changes": {
-              "ui:field": "table"
+          "comparison_groups": {
+            "ui:field": "table",
+            "items": {
+              "control_group": {
+                "ui:widget": "textarea"
+              },
+              "experimental_group": {
+                "ui:widget": "textarea"
+              }
             }
           }
         }

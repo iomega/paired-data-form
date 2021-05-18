@@ -1843,73 +1843,52 @@
                     "quantitative_proteomics_experiment": {
                       "type": "object",
                       "title": "Quantitative proteomics experiment",
-                      "required": ["difference", "proteome_sample1", "proteome_sample2"],
+                      "required": ["evidences", "comparison_groups"],
                       "additionalProperties": false,
                       "properties": {
-                        "difference": {
+                        "evidences": {
                           "type": "string",
-                          "title": "Difference between conditions of first and second sample"
+                          "title": "Quantitative evidences",
+                          "description": "Describe quantitative evidences between control and experimental."
                         },
-                        "proteome_sample1": {
-                          "title": "First sample",
-                          "type": "object",
-                          "required": ["protein_fold_changes"],
-                          "additionalProperties": false,
-                          "properties": {
-                            "product_fold_change": {
-                              "type": "string",
-                              "title": "Product fold change"
-                            },
-                            "protein_fold_changes": {
-                              "title": "Protein fold changes",
-                              "type": "array",
-                              "minItems": 1,
-                              "items": {
-                                "type": "object",
-                                "required": ["protein_id", "fold_change"],
-                                "additionalProperties": false,
-                                "properties": {
-                                  "protein_id": {
-                                    "title": "Protein identifier",
-                                    "type": "string"
-                                  },
-                                  "fold_change": {
-                                    "title": "Fold change",
-                                    "type": "string"
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        },
-                        "proteome_sample2": {
-                          "title": "Second sample",
-                          "type": "object",
-                          "required": ["protein_fold_changes"],
-                          "additionalProperties": false,
-                          "properties": {
-                            "product_fold_change": {
-                              "type": "string",
-                              "title": "Product fold change"
-                            },
-                            "protein_fold_changes": {
-                              "title": "Protein fold changes",
-                              "type": "array",
-                              "minItems": 1,
-                              "items": {
-                                "type": "object",
-                                "required": ["protein_id", "fold_change"],
-                                "additionalProperties": false,
-                                "properties": {
-                                  "protein_id": {
-                                    "title": "Protein identifier",
-                                    "type": "string"
-                                  },
-                                  "fold_change": {
-                                    "title": "Fold change",
-                                    "type": "string"
-                                  }
-                                }
+                        "comparison_groups": {
+                          "type": "array",
+                          "title": "Comparison groups",
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "control_group",
+                              "experimental_group",
+                              "product_fold_change",
+                              "protein_fold_change"
+                            ],
+                            "properties": {
+                              "control_group": {
+                                "type": "string",
+                                "title":" Control details label",
+                                "description": "Please provide details for the control group."
+                              },
+                              "experimental_group": {
+                                "type": "string",
+                                "title": "Experimental defails label",
+                                "description": "Please provide details for the experimental group."
+                              },
+                              "product_fold_change": {
+                                "type": "string",
+                                "title": "Product fold change",
+                                "description": "Fold change in the product like a metabolite or a biomarker",
+                                "enum": [
+                                  "higher",
+                                  "lower",
+                                  "increased",
+                                  "decreased"
+                                ]
+                              },
+                              "protein_fold_change": {
+                                "type": "number",
+                                "title": "Protein fold change",
+                                "description": "log2 of protein fold change."
                               }
                             }
                           }
