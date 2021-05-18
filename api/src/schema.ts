@@ -82,16 +82,19 @@ export type MetaGenomicsInformation = {
 export type Type = 'Full proteome' | 'Enriched';
 export type Name = 'ProteomeXchange' | 'PRIDE' | 'iProX' | 'JPOST' | 'PeptideAtlas' | 'MassIVE' | 'Other';
 /**
- * Please provide a direct link to the proteome data file location
+ * Please provide link to public data depository where the proteomics data and metadata can be found. If the experiment is quantitative, please provide link to the expression table.
  */
 export type LocationOfRawProteomicsData = string;
-/**
- * Please provide a direct link to the expresssion table
- */
-export type LocationOfExpressionTable = string;
-export type AnalyisMode = 'Data-dependent acquisition (DDA)' | 'Information Dependent Acquisition mode (IDA)';
+export type AnalysisMode = 'Data-dependent acquisition (DDA)' | 'Data-independent Acquisition (DIA)';
 export type PeptideLabelling = 'iTRAQ' | 'ICPL' | 'Dimethyl' | 'Custom' | 'None';
-export type AdditonalNotes = string;
+/**
+ * Publications describing the proteomics experiment. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')
+ */
+export type KeyPublications2 = string;
+/**
+ * If you have used a method that is in some aspects novel to the community, please specify here.
+ */
+export type AdditionalNotes = string;
 /**
  * Please assign a unique proteome Label for this proteome to help you recall it during the linking step.
  */
@@ -100,7 +103,8 @@ export type ProteomicsInformation = {
   proteome_ID: FullProteomeOrEnriched;
   raw_data: RawDataLink;
   method: Method;
-  notes?: AdditonalNotes;
+  publications?: KeyPublications2;
+  notes?: AdditionalNotes;
   proteome_label: ProteomeLabel;
 }[];
 /**
@@ -348,6 +352,9 @@ export type LinkVerification = (
   | 'Experimentally validated with NMR and/or detailed MS/MS analysis'
   | 'Evidence as indicated in MIBiG'
 )[];
+/**
+ * Select how the quantitative data is calculated.
+ */
 export type Type2 = 'Quantitative proteomics experiment' | 'Not available';
 /**
  * Please provide the SMILES notation for the known molecule.
@@ -421,6 +428,9 @@ export interface GenomeOrMetagenome {
   genome_type: GenomeType;
   [k: string]: any;
 }
+/**
+ * If proteomics experiment includes any enrichment processes in favour of target proteins, please select `Enriched` and provide target(s).
+ */
 export interface FullProteomeOrEnriched {
   proteome_type: Type;
   [k: string]: any;
@@ -428,17 +438,16 @@ export interface FullProteomeOrEnriched {
 export interface RawDataLink {
   database: ProteomeDatabase;
   proteome_data_link: LocationOfRawProteomicsData;
-  expression_table_link?: LocationOfExpressionTable;
 }
 export interface ProteomeDatabase {
   database_name: Name;
   [k: string]: any;
 }
 /**
- * Proteome specific methods.
+ * Please provide basic criteria of proteomics experiment.
  */
 export interface Method {
-  analysis_mode: AnalyisMode;
+  analysis_mode: AnalysisMode;
   peptide_labelling: PeptideLabelling;
   [k: string]: any;
 }
