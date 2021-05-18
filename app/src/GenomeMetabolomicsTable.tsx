@@ -71,7 +71,8 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
     });
 
     const proteome_popovers: any = {};
-    pure_project.proteomes.forEach((p) => {
+    const proteomes = pure_project.proteomes ? pure_project.proteomes : [];
+    proteomes.forEach((p) => {
         let database_name = p.raw_data.database.database_name;
         if (database_name === 'Other') {
             database_name = p.raw_data.database.other_database_name;
@@ -101,7 +102,7 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             </Popover>
         );
         proteome_popovers[p.proteome_label] = popover;
-    })
+    });
 
     const sample_popovers: any = {};
     pure_project.experimental.sample_preparation!.forEach((s) => {

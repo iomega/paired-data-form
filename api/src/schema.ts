@@ -146,7 +146,8 @@ export type SampleGrowthConditions = {
   sample_preparation_method: SampleGrowthConditionsLabel;
   [k: string]: any;
 }[];
-export type Solvent =
+export type Solvent = Solvent1 & Solvent2;
+export type Solvent1 =
   | Methanol
   | MethyleneChlorideDichloromethane
   | EthylAcetate
@@ -173,6 +174,7 @@ export type DiethylEther = 'http://purl.obolibrary.org/obo/CHEBI_35702';
 export type Hexane = 'http://purl.obolibrary.org/obo/CHEBI_29021';
 export type Water = 'http://purl.obolibrary.org/obo/CHEBI_15377';
 export type OtherSolvent = 'http://purl.obolibrary.org/obo/CHEBI_46787';
+export type Solvent2 = string;
 /**
  * When a mixture of solvents was used, specify in which ratio each solvent was used. The ratios should sum up to 1.
  */
@@ -188,11 +190,13 @@ export type ExtractionSolvent = {
 /**
  * Material used for extraction
  */
-export type ExtractedMaterial = Cells | Supernatant | CellsSupernatant | ComplexMixtureMetagenome;
+export type ExtractedMaterial = ExtractedMaterial1 & ExtractedMaterial2;
+export type ExtractedMaterial1 = Cells | Supernatant | CellsSupernatant | ComplexMixtureMetagenome;
 export type Cells = 'cells';
 export type Supernatant = 'supernatant';
 export type CellsSupernatant = 'cells_supernatant';
 export type ComplexMixtureMetagenome = 'complex';
+export type ExtractedMaterial2 = string;
 /**
  * Did you use resins in your extraction? If so, add the name of the resin here (e.g. XAD-2 or XAD-4). Otherwise, leave this section blank.
  */
@@ -219,7 +223,8 @@ export type ExtractionMethods = {
 /**
  * Please select the type of LCMS instrument used. If your instrument type is not listed here, please select Other and specify.
  */
-export type InstrumentType =
+export type InstrumentType = InstrumentType1 & InstrumentType2;
+export type InstrumentType1 =
   | Quadrupole
   | TimeOfFlightTOF
   | IonTrapIT
@@ -242,6 +247,7 @@ export type ElectrostaticEnergyAnalyzer = 'http://purl.obolibrary.org/obo/MS_100
 export type StoredWaveformInverseFourierTransform = 'http://purl.obolibrary.org/obo/MS_1000284';
 export type Cyclotron = 'http://purl.obolibrary.org/obo/MS_1000288';
 export type OtherMassSpectrometer = 'http://purl.obolibrary.org/obo/MS_1000443';
+export type InstrumentType2 = string;
 /**
  * Please select column phase. You can add additional column details in the Other Instrumentation Information section below.
  */
@@ -253,14 +259,17 @@ export type ColumnPhase =
 /**
  * Please select ionization mode.
  */
-export type IonizationMode = Positive | Negative | Both;
+export type IonizationMode = IonizationMode1 & IonizationMode2;
+export type IonizationMode1 = Positive | Negative | Both;
 export type Positive = 'http://purl.obolibrary.org/obo/MS_1000130';
 export type Negative = 'http://purl.obolibrary.org/obo/MS_1000129';
 export type Both = 'http://purl.obolibrary.org/obo/CHMO_0002262';
+export type IonizationMode2 = string;
 /**
  * Please select the type of ionization used. If your ionization type is not listed here, please select Other and specify.
  */
-export type IonizationType1 =
+export type IonizationType1 = IonizationType2 & IonizationType3;
+export type IonizationType2 =
   | ElectrosprayIonizationESI
   | MatrixAssistedLaserDesorptionIonizationMALDI
   | AtmosphericPressureChemicalIonizationAPCI
@@ -269,6 +278,7 @@ export type ElectrosprayIonizationESI = 'http://purl.obolibrary.org/obo/MS_10000
 export type MatrixAssistedLaserDesorptionIonizationMALDI = 'http://purl.obolibrary.org/obo/MS_1000075';
 export type AtmosphericPressureChemicalIonizationAPCI = 'http://purl.obolibrary.org/obo/MS_1000070';
 export type OtherIonizationType = 'http://purl.obolibrary.org/obo/MS_1000008';
+export type IonizationType3 = string;
 /**
  * Please enter the mass range collected in Da. For example `100-800` for a range from 100 Da to 800 Da
  */

@@ -5,10 +5,11 @@ import { useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { ButtonGroup, Radio } from "react-bootstrap";
 import { unifiedDiff } from 'difflib';
-import { Diff2Html } from "diff2html";
-import "diff2html/dist/diff2html.min.css";
+
+import "diff2html/bundles/css/diff2html.min.css";
 
 import { useProjectHistory } from "../api";
+import { html } from "diff2html";
 
 interface TParams {
     id: string
@@ -63,7 +64,7 @@ export function HistoryProject({ match }: RouteComponentProps<TParams>) {
             lineterm: ''
         }
     ).join('\n');
-    const htmlified_diff = Diff2Html.getPrettyHtml(
+    const htmlified_diff = html(
         diff, {
         outputFormat: 'side-by-side'
     }
