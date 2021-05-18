@@ -1833,6 +1833,12 @@
                 "oneOf": [{
                   "properties": {
                     "quantitative_experiment_type": {
+                      "enum": ["Not available"]
+                    }
+                  }
+                },{
+                  "properties": {
+                    "quantitative_experiment_type": {
                       "enum": ["Quantitative proteomics experiment"]
                     },
                     "quantitative_proteomics_experiment": {
