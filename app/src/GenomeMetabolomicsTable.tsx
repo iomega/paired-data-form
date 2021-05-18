@@ -16,7 +16,7 @@ interface IProps {
 export const GenomeMetabolomicsTable = (props: IProps) => {
     const pure_project: IOMEGAPairedOmicsDataPlatform = props.data.project;
     if (!pure_project.genome_metabolome_links || pure_project.genome_metabolome_links.length === 0) {
-        return <p>No links between (meta)genomes and metabolomics data files.</p>;
+        return <p>No links between (meta)genomes, proteomes and metabolomics data files.</p>;
     }
     const genome_enrichments = props.data.enrichments && props.data.enrichments.genomes ? props.data.enrichments.genomes : {};
     const gmProps = props.schema.properties.genome_metabolome_links.items.properties;
@@ -72,24 +72,31 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
 
     const proteome_popovers: any = {};
     pure_project.proteomes.forEach((p) => {
+        let database_name = p.raw_data.database.database_name;
+        if (database_name === 'Other') {
+            database_name = p.raw_data.database.other_database_name;
+        }
+        let targets = <></>;
+        if (p.proteome_ID.targets) {
+            targets = p.proteome_ID.targets.map((t: any) => {
+                let target = t.target;
+                if (target === 'other') {
+                    target = t.other_target;
+                }
+                return <li id={ target }>{ target }</li>
+            });
+        }
+        const peptide_labelling = p.method.peptide_labelling === 'Custom' ? p.method.custom_peptide_labelling : p.method.peptide_labelling;
         const popover = (
             <Popover id={p.proteome_label} title="Proteome">
                 <p>Type: {p.proteome_ID.proteome_type}</p>
-                { // TODO add enriched targets
-                }
-                <p>Database: {p.raw_data.database.database_name}</p>
-                { // TODO add other database name
-                }
+                { p.proteome_ID.targets && <p>Targets: <ul>{ targets }</ul></p> }
+                <p>Database: {database_name}</p>
                 <p>Link to raw data: <a href={p.raw_data.proteome_data_link}>{p.raw_data.proteome_data_link}</a></p>
-                {p.raw_data.expression_table_link &&
-                    <p>Expression table:
-                        <a href={p.raw_data.expression_table_link}>{p.raw_data.expression_table_link}</a>
-                    </p>
-                }
                 <p>Anaysis mode: {p.method.analysis_mode}</p>
-                <p>Peptide labelling: {p.method.peptide_labelling}</p>
-                { // TODO add custom labelling
-                }
+                { p.method.genome_label && <p>Genome used for DDA: { p.method.genome_label }</p> }
+                <p>Peptide labelling: {peptide_labelling}</p>
+                <p>Key publications: <Publications publications={p.publications!} /></p>
                 <p>Notes: {p.notes}</p>
             </Popover>
         );

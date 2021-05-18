@@ -40,10 +40,37 @@ export const GeneSpectraTable = (props: IProps) => {
       const filename = new URL(r.MS2_URL).pathname.split('/').pop();
       link = <span>molecule of MS2 scan {r.MS2_scan} in <a href={r.MS2_URL}>&hellip;/{filename}</a></span>
     }
+    const has_quantitative_proteomics_experiment = r.quantitative_experiment &&
+    r.quantitative_experiment.quantitative_experiment_type === 'Quantitative proteomics experiment';
+    let quantitative_proteomics_experiment = <></>;
+    if (has_quantitative_proteomics_experiment) {
+      const comparison_groups = r.quantitative_experiment.quantitative_proteomics_experiment.comparison_groups.map((g: any, i: string) => {
+        return (
+          <li id={i}>
+            <p>Control: {g.control_group}</p>
+            <p>Experimental: {g.experimental_group}</p>
+            <p>Product fold change: {g.product_fold_change}</p>
+            <p>Protein fold change: {g.protein_fold_change}</p>
+          </li>
+        )
+      });
+      quantitative_proteomics_experiment = (
+        <span>
+          <p>Evidence of quantitative proteomics experiment: {r.quantitative_experiment.quantitative_proteomics_experiment.evidences}</p>
+          <ul>
+            {comparison_groups}
+          </ul>
+        </span>
+      );
+    }
     return (
       <tr key={i}>
         <td>{r.known_link}</td>
-        <td>{r.verification.join(', ')}</td>
+        <td>
+          {r.verification.join(', ')}
+          <hr/>
+          {has_quantitative_proteomics_experiment && quantitative_proteomics_experiment }
+        </td>
         <td><div style={{maxWidth: '300px', overflow: 'auto'}}>{r.SMILES}</div></td>
         <td>{r.IUPAC}</td>
         <td>{bgc}</td>
