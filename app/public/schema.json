@@ -1872,7 +1872,7 @@
                               },
                               "experimental_group": {
                                 "type": "string",
-                                "title": "Experimental defails label",
+                                "title": "Experimental details label",
                                 "description": "Please provide details for the experimental group."
                               },
                               "product_fold_change": {
