@@ -268,6 +268,7 @@
         "properties": {
           "proteome_ID": {
             "title": "Full proteome or enriched",
+            "description": "If proteomics experiment includes any enrichment processes in favour of target proteins, please select `Enriched` and provide target(s).",
             "type": "object",
             "required": [
               "proteome_type"
@@ -419,21 +420,15 @@
               "proteome_data_link": {
                 "type": "string",
                 "title": "Location of raw proteomics data",
-                "description": "Please provide a direct link to the proteome data file location",
+                "description": "Please provide link to public data depository where the proteomics data and metadata can be found. If the experiment is quantitative, please provide link to the expression table.",
                 "format": "uri"
-              },
-              "expression_table_link": {
-                "type": "string",
-                "format": "uri",
-                "title": "Location of expression table",
-                "description": "Please provide a direct link to the expresssion table"
               }
             }
           },
           "method": {
             "type": "object",
             "title": "Method",
-            "description": "Proteome specific methods.",
+            "description": "Please provide basic criteria of proteomics experiment.",
             "required": ["analysis_mode", "peptide_labelling"],
             "properties": {
               "analysis_mode": {
@@ -512,7 +507,8 @@
           },
           "notes": {
             "type": "string",
-            "title": "Additional notes"
+            "title": "Additional notes",
+            "description": "If you have used a method that is in some aspects novel to the community, please specify here."
           },
           "proteome_label": {
             "type": "string",
@@ -1830,7 +1826,8 @@
                 "type": "string",
                 "title": "Type",
                 "enum": ["Quantitative proteomics experiment", "Not available"],
-                "default": "Not available"
+                "default": "Not available",
+                "description": "Select how the quantitative data is calculated."
               }
             },
             "dependencies": {
@@ -1879,8 +1876,6 @@
                                 "title": "Product fold change",
                                 "description": "Fold change in the product like a metabolite or a biomarker",
                                 "enum": [
-                                  "higher",
-                                  "lower",
                                   "increased",
                                   "decreased"
                                 ]
@@ -1888,7 +1883,7 @@
                               "protein_fold_change": {
                                 "type": "number",
                                 "title": "Protein fold change",
-                                "description": "log2 of protein fold change."
+                                "description": "Log<sub>2</sub> transformation of the fold change: experiment group / control group."
                               }
                             }
                           }
