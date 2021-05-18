@@ -438,10 +438,10 @@
             "properties": {
               "analysis_mode": {
                 "type": "string",
-                "title": "Analyis mode",
+                "title": "Analysis mode",
                 "enum": [
                   "Data-dependent acquisition (DDA)",
-                  "Information Dependent Acquisition mode (IDA)"
+                  "Data-independent Acquisition (DIA)"
                 ]
               },
               "peptide_labelling": {
@@ -458,6 +458,27 @@
               }
             },
             "dependencies": {
+              "analysis_mode": {
+                "oneOf": [{
+                  "required": ["analysis_mode", "peptide_labelling", "genome_database"],
+                  "properties": {
+                    "analysis_mode": {
+                      "enum": ["Data-dependent acquisition (DDA)"]
+                    },
+                    "genome_label": {
+                      "title": "Genome Database",
+                      "description": "Genome label of the genome used when running DDA. If additional database is used, please specify them in *Additional notes*",
+                      "type": "string"
+                    }
+                  }
+                }, {
+                  "properties": {
+                    "analysis_mode": {
+                      "enum": ["Data-independent Acquisition (DIA)"]
+                    }
+                  }
+                }]
+              },
               "peptide_labelling": {
                 "oneOf": [{
                   "properties": {
@@ -483,9 +504,15 @@
               }
             }
           },
+          "publications": {
+            "type": "string",
+            "pattern": "[0-9]{1,}",
+            "title": "Key publications",
+            "description": "Publications describing the proteomics experiment. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')"
+          },
           "notes": {
             "type": "string",
-            "title": "Additonal notes"
+            "title": "Additional notes"
           },
           "proteome_label": {
             "type": "string",

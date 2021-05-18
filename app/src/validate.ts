@@ -1,4 +1,5 @@
 export function injectForeignKeySearchMethods(uiSchema: any, formRef: any) {
+  uiSchema.proteomes.items.method.genome_label.foreignKey.search = foreignKeySearch(formRef, "genome_label", genomeLabels);
   uiSchema.genome_metabolome_links.items.genome_label.foreignKey.search = foreignKeySearch(formRef, "genome_label", genomeLabels);
   uiSchema.genome_metabolome_links.items.proteome_label.foreignKey.search = foreignKeySearch(formRef, "proteome_label", proteomeLabels);
   uiSchema.genome_metabolome_links.items.sample_preparation_label.foreignKey.search = foreignKeySearch(formRef, "sample_preparation_label", sampleLabels);
@@ -25,6 +26,9 @@ export function foreignKeySearch(formRef: any, requiredProp: string, labelSearch
 }
 
 function genomeLabels(doc: any) {
+  if (!('genomes' in doc && doc.genomes)) {
+    return [];
+  }
   return doc.genomes.map(
     (r: any) =>
       r.genome_label
@@ -32,6 +36,9 @@ function genomeLabels(doc: any) {
 }
 
 function proteomeLabels(doc: any) {
+  if (!('proteomes' in doc && doc.proteomes)) {
+    return [];
+  }
   return doc.proteomes.map(
     (r: any) =>
       r.proteome_label

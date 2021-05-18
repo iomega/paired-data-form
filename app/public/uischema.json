@@ -76,6 +76,10 @@
         "analysis_mode": {
           "ui:widget": "radio"
         },
+        "genome_label": {
+          "ui:field": "foreignKey",
+          "foreignKey": {}
+        },
         "peptide_labelling": {
           "ui:widget": "radio"
         }
