@@ -80,7 +80,7 @@ export type MetaGenomicsInformation = {
   [k: string]: any;
 }[];
 export type Type = 'Full proteome' | 'Enriched';
-export type Name = 'ProteomeXchange' | 'PRIDE' | 'iProX' | 'JPOST' | 'PeptideAtlas' | 'MassIVE' | 'Other';
+export type ProteomeDatabase = 'ProteomeXchange' | 'PRIDE' | 'iProX' | 'JPOST' | 'PeptideAtlas' | 'MassIVE' | 'Other';
 /**
  * Please provide link to public data depository where the proteomics data and metadata can be found. If the experiment is quantitative, please provide link to the expression table.
  */
@@ -436,12 +436,11 @@ export interface FullProteomeOrEnriched {
   [k: string]: any;
 }
 export interface RawDataLink {
-  database: ProteomeDatabase;
+  database: {
+    database_name: ProteomeDatabase;
+    [k: string]: any;
+  };
   proteome_data_link: LocationOfRawProteomicsData;
-}
-export interface ProteomeDatabase {
-  database_name: Name;
-  [k: string]: any;
 }
 /**
  * Please provide basic criteria of proteomics experiment.

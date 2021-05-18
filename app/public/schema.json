@@ -370,11 +370,10 @@
             "properties": {
               "database": {
                 "type": "object",
-                "title": "Proteome database",
                 "required": ["database_name"],
                 "properties": {
                   "database_name": {
-                    "title":" Name",
+                    "title": "Proteome database",
                     "type": "string",
                     "enum": [
                       "ProteomeXchange",
@@ -455,7 +454,6 @@
             "dependencies": {
               "analysis_mode": {
                 "oneOf": [{
-                  "required": ["analysis_mode", "peptide_labelling", "genome_database"],
                   "properties": {
                     "analysis_mode": {
                       "enum": ["Data-dependent acquisition (DDA)"]
