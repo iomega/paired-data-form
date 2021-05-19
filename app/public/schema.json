@@ -486,10 +486,19 @@
                 }, {
                   "properties": {
                     "peptide_labelling": {
+                      "enum": ["Dimethyl"]
+                    },
+                    "peptide_labelling_dimethyl_specification": {
+                      "type": "string",
+                      "title": "Dimethyl specification"
+                    }
+                  }
+                }, {
+                  "properties": {
+                    "peptide_labelling": {
                       "enum": [
                         "iTRAQ",
                         "ICPL",
-                        "Dimethyl",
                         "None"]
                     }
                   }
@@ -1862,7 +1871,8 @@
                               "control_group",
                               "experimental_group",
                               "product_fold_change",
-                              "protein_fold_change"
+                              "protein_ID",
+                              "protein_fold"
                             ],
                             "properties": {
                               "control_group": {
@@ -1884,10 +1894,44 @@
                                   "decreased"
                                 ]
                               },
-                              "protein_fold_change": {
-                                "type": "number",
-                                "title": "Protein fold change",
-                                "description": "Log<sub>2</sub> transformation of the fold change: experiment group / control group."
+                              "protein_id": {
+                                "type": "object",
+                                "title": "Protein",
+                                "required": ["protein_database", "protein_identifier"],
+                                "properties": {
+                                  "protein_database": {
+                                    "type": "string",
+                                    "title": "Database",
+                                    "enum": ["uniprot", "refseq"],
+                                    "default": "uniprot",
+                                    "description": "Database in which identifier of protein can be found."
+                                  },
+                                  "protein_identifier": {
+                                    "type": "string",
+                                    "title": "Identifier",
+                                    "description": "Public identifier of protein which changed between control and experiment"
+                                  }
+                                }
+                              },
+                              "protein_fold": {
+                                "type": "object",
+                                "title": "Protein fold",
+                                "description": "Change seen in protein between control and experimental group",
+                                "required": ["protein_fold_change"],
+                                "properties": {
+                                  "protein_fold_change": {
+                                    "type": "number",
+                                    "title": "Fold change",
+                                    "description": "Log<sub>2</sub> transformation of the fold change: experiment group / control group."
+                                  },
+                                  "quantitation_type": {
+                                    "type": "string",
+                                    "enum": ["None", "Peak intensity", "Peak area"],
+                                    "title": "Quantitation type",
+                                    "default": "None",
+                                    "description": "What quantiation was used for the protein fold change"
+                                  }
+                                }
                               }
                             }
                           }
