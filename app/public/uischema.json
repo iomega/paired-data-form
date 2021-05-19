@@ -84,10 +84,26 @@
           "ui:widget": "radio"
         }
       },
-      "notes": {
-        "ui:widget": "textarea",
-        "ui:options": {
-          "rows": 8
+      "experimental_details": {
+        "sample_preparation_label": {
+          "ui:field": "foreignKey",
+          "foreignKey": {}
+        },
+        "extraction_method_label": {
+          "ui:field": "foreignKey",
+          "foreignKey": {}
+        },
+        "instrumentation_method_label": {
+          "ui:field": "foreignKey",
+          "foreignKey": {}
+        }
+      },
+      "more_info": {
+        "notes": {
+          "ui:widget": "textarea",
+          "ui:options": {
+            "rows": 8
+          }
         }
       }
     }
@@ -248,10 +264,12 @@
             "ui:field": "table",
             "items": {
               "control_group": {
-                "ui:widget": "textarea"
+                "ui:field": "foreignKey",
+                "foreignKey": {}
               },
               "experimental_group": {
-                "ui:widget": "textarea"
+                "ui:field": "foreignKey",
+                "foreignKey": {}
               }
             }
           }

@@ -70,40 +70,6 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
         }
     });
 
-    const proteome_popovers: any = {};
-    const proteomes = pure_project.proteomes ? pure_project.proteomes : [];
-    proteomes.forEach((p) => {
-        let database_name = p.raw_data.database.database_name;
-        if (database_name === 'Other') {
-            database_name = p.raw_data.database.other_database_name;
-        }
-        let targets = <></>;
-        if (p.proteome_ID.targets) {
-            targets = p.proteome_ID.targets.map((t: any) => {
-                let target = t.target;
-                if (target === 'other') {
-                    target = t.other_target;
-                }
-                return <li id={ target }>{ target }</li>
-            });
-        }
-        const peptide_labelling = p.method.peptide_labelling === 'Custom' ? p.method.custom_peptide_labelling : p.method.peptide_labelling;
-        const popover = (
-            <Popover id={p.proteome_label} title="Proteome">
-                <p>Type: {p.proteome_ID.proteome_type}</p>
-                { p.proteome_ID.targets && <p>Targets: <ul>{ targets }</ul></p> }
-                <p>Database: {database_name}</p>
-                <p>Link to raw data: <a href={p.raw_data.proteome_data_link}>{p.raw_data.proteome_data_link}</a></p>
-                <p>Anaysis mode: {p.method.analysis_mode}</p>
-                { p.method.genome_label && <p>Genome used for DDA: { p.method.genome_label }</p> }
-                <p>Peptide labelling: {peptide_labelling}</p>
-                <p>Key publications: <Publications publications={p.publications!} /></p>
-                <p>Notes: {p.notes}</p>
-            </Popover>
-        );
-        proteome_popovers[p.proteome_label] = popover;
-    });
-
     const sample_popovers: any = {};
     pure_project.experimental.sample_preparation!.forEach((s) => {
         let medium;
@@ -117,12 +83,12 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
                 environment = <a href={s.medium_details.metagenomic_environment}>{env_title}</a>;
             }
             medium = (
-                <p>Metagenome details
+                <span>Metagenome details
                     <ul>
                         <li>Host or isolation source: {environment}</li>
                         <li>Sample description: {s.medium_details.metagenomic_sample_description}</li>
                     </ul>
-                </p>
+                </span>
             );
         } else {
             let medium_title = '';
@@ -146,21 +112,21 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             <Popover id={s.sample_preparation_method} title="Sample growth conditions">
                 <p>Medium type: {s.medium_details.medium_type}</p>
                 {medium}
-                <p>Growth parameters
+                <span>Growth parameters
                     <ul>
                         <li>Temperature (&deg;C): {s.growth_parameters.growth_temperature}</li>
                         <li>Duration (hours): {s.growth_parameters.growth_duration}</li>
                         <li>Growth phase or OD: {s.growth_parameters.growth_phase_OD}</li>
                     </ul>
-                </p>
-                <p>Aeration:
+                </span>
+                <span>Aeration:
                     <ul>
                         <li>Type: {s.aeration.aeration_type}</li>
                         {s.aeration.aeration_vessel && <li>Vessel: {s.aeration.aeration_vessel}</li>}
                         {s.aeration.aeration_other_vessel && <li>Vessel: {s.aeration.aeration_other_vessel}</li>}
                         {s.aeration.aeration_rpm && <li>RPM: {s.aeration.aeration_rpm}</li>}
                     </ul>
-                </p>
+                </span>
                 <p>Other conditions: {s.other_growth_conditions}</p>
             </Popover>
         );
@@ -252,12 +218,12 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             <Popover id={i.instrumentation_method} title="Instrumentation method">
                 <p>Type: {instrument}</p>
                 <p>Column phase: {i.column}</p>
-                <p>Ionization:
+                <span>Ionization:
                     <ul>
                         <li>Mode: <a href={i.mode}>{mode_title}</a></li>
                         <li>Type: {type}</li>
                     </ul>
-                </p>
+                </span>
                 <p>Mass range (Da): {i.range}</p>
                 <p>Collision energy: {i.collision_energy}</p>
                 <p>Mobile phase conditions: {i.buffering}</p>
@@ -265,6 +231,83 @@ export const GenomeMetabolomicsTable = (props: IProps) => {
             </Popover>
         );
         instrument_popovers[i.instrumentation_method] = popover;
+    });
+
+    const proteome_popovers: any = {};
+    const proteomes = pure_project.proteomes ? pure_project.proteomes : [];
+    proteomes.forEach((p) => {
+        let database_name = p.raw_data.database.database_name;
+        if (database_name === 'Other') {
+            database_name = p.raw_data.database.other_database_name;
+        }
+        let targets = <></>;
+        if (p.proteome_ID.targets) {
+            targets = p.proteome_ID.targets.map((t: any) => {
+                let target = t.target;
+                if (target === 'other') {
+                    target = t.other_target;
+                }
+                return <li id={ target }>{ target }</li>
+            });
+        }
+        const peptide_labelling = p.method.peptide_labelling === 'Custom' ? p.method.custom_peptide_labelling : p.method.peptide_labelling;
+        const r = p.experimental_details;
+        const popover = (
+            <Popover id={p.proteome_label} title="Proteome">
+                <p>Type: {p.proteome_ID.proteome_type}</p>
+                { p.proteome_ID.targets && <span>Targets: <ul>{ targets }</ul></span> }
+                <p>Database: {database_name}</p>
+                <p>Link to raw data: <a href={p.raw_data.proteome_data_link}>{p.raw_data.proteome_data_link}</a></p>
+                <p>Anaysis mode: {p.method.analysis_mode}</p>
+                { p.method.genome_label && <p>Genome used for DDA: { p.method.genome_label }</p> }
+                <p>Peptide labelling: {peptide_labelling}</p>
+                {r.sample_preparation_label &&
+                    <p>Sample Growth Conditions:
+                        <OverlayTrigger
+                            trigger="click"
+                            rootClose
+                            placement="bottom"
+                            overlay={sample_popovers[r.sample_preparation_label]}
+                        >
+                            <Button bsStyle="link">
+                                {r.sample_preparation_label}
+                            </Button>
+                        </OverlayTrigger>
+                    </p>
+                }
+                {r.extraction_method_label &&
+                    <p>Extraction Method:
+                        <OverlayTrigger
+                            trigger="click"
+                            rootClose
+                            placement="bottom"
+                            overlay={extraction_popovers[r.extraction_method_label]}
+                        >
+                            <Button bsStyle="link">
+                                {r.extraction_method_label}
+                            </Button>
+                        </OverlayTrigger>
+                    </p>
+                }
+                {r.instrumentation_method_label &&
+                    <p>Instrumentation Method:
+                        <OverlayTrigger
+                            trigger="click"
+                            rootClose
+                            placement="bottom"
+                            overlay={instrument_popovers[r.instrumentation_method_label]}
+                        >
+                            <Button bsStyle="link">
+                                {r.instrumentation_method_label}
+                            </Button>
+                        </OverlayTrigger>
+                    </p>
+                }
+                <p>Key publications: <Publications publications={p.more_info.publications!} /></p>
+                <p>Notes: {p.more_info.notes}</p>
+            </Popover>
+        );
+        proteome_popovers[p.proteome_label] = popover;
     });
 
     const rows = pure_project.genome_metabolome_links.map((r) => (

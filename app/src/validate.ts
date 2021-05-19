@@ -1,11 +1,17 @@
 export function injectForeignKeySearchMethods(uiSchema: any, formRef: any) {
   uiSchema.proteomes.items.method.genome_label.foreignKey.search = foreignKeySearch(formRef, "genome_label", genomeLabels);
+  uiSchema.proteomes.items.experimental_details.sample_preparation_label.foreignKey.search = foreignKeySearch(formRef, "sample_preparation_label", sampleLabels);
+  uiSchema.proteomes.items.experimental_details.extraction_method_label.foreignKey.search = foreignKeySearch(formRef, "extraction_method_label", extractionLabels);
+  uiSchema.proteomes.items.experimental_details.instrumentation_method_label.foreignKey.search = foreignKeySearch(formRef, "instrumentation_method_label", instrumentLabels);
   uiSchema.genome_metabolome_links.items.genome_label.foreignKey.search = foreignKeySearch(formRef, "genome_label", genomeLabels);
   uiSchema.genome_metabolome_links.items.proteome_label.foreignKey.search = foreignKeySearch(formRef, "proteome_label", proteomeLabels);
   uiSchema.genome_metabolome_links.items.sample_preparation_label.foreignKey.search = foreignKeySearch(formRef, "sample_preparation_label", sampleLabels);
   uiSchema.genome_metabolome_links.items.extraction_method_label.foreignKey.search = foreignKeySearch(formRef, "extraction_method_label", extractionLabels);
   uiSchema.genome_metabolome_links.items.instrumentation_method_label.foreignKey.search = foreignKeySearch(formRef, "instrumentation_method_label", instrumentLabels);
   uiSchema.BGC_MS2_links.items.MS2_URL.foreignKey.search = foreignKeySearch(formRef, "MS2_URL", ms2Labels);
+  const comparison_groups = uiSchema.BGC_MS2_links.items.quantitative_experiment.quantitative_proteomics_experiment.comparison_groups;
+  comparison_groups.items.control_group.foreignKey.search = foreignKeySearch(formRef, "proteome_label", proteomeLabels);
+  comparison_groups.items.experimental_group.foreignKey.search = foreignKeySearch(formRef, "proteome_label", proteomeLabels);
 }
 
 export function foreignKeySearch(formRef: any, requiredProp: string, labelSearcher: (doc: any) => string[]) {

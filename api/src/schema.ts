@@ -79,34 +79,6 @@ export type MetaGenomicsInformation = {
   genome_label: GenomeLabel;
   [k: string]: any;
 }[];
-export type Type = 'Full proteome' | 'Enriched';
-export type ProteomeDatabase = 'ProteomeXchange' | 'PRIDE' | 'iProX' | 'JPOST' | 'PeptideAtlas' | 'MassIVE' | 'Other';
-/**
- * Please provide link to public data depository where the proteomics data and metadata can be found. If the experiment is quantitative, please provide link to the expression table.
- */
-export type LocationOfRawProteomicsData = string;
-export type AnalysisMode = 'Data-dependent acquisition (DDA)' | 'Data-independent Acquisition (DIA)';
-export type PeptideLabelling = 'iTRAQ' | 'ICPL' | 'Dimethyl' | 'Custom' | 'None';
-/**
- * Publications describing the proteomics experiment. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')
- */
-export type KeyPublications2 = string;
-/**
- * If you have used a method that is in some aspects novel to the community, please specify here.
- */
-export type AdditionalNotes = string;
-/**
- * Please assign a unique proteome Label for this proteome to help you recall it during the linking step.
- */
-export type ProteomeLabel = string;
-export type ProteomicsInformation = {
-  proteome_ID: FullProteomeOrEnriched;
-  raw_data: RawDataLink;
-  method: Method;
-  publications?: KeyPublications2;
-  notes?: AdditionalNotes;
-  proteome_label: ProteomeLabel;
-}[];
 /**
  * Please select liquid or solid medium.
  */
@@ -126,7 +98,7 @@ export type PhaseOrOD = string;
 /**
  * Please select aeration type.
  */
-export type Type1 = 'shaking' | 'fermenter' | 'not shaking';
+export type Type = 'shaking' | 'fermenter' | 'not shaking';
 /**
  * Please describe any other relevant or distinguishing growth conditions e.g. light 12h, dark 12h.  You can also define custom media here, indicate if purity checks were made, and provide more specific details.
  */
@@ -314,6 +286,49 @@ export type InstrumentationMethods = {
   instrumentation_method: InstrumentationMethodLabel;
   [k: string]: any;
 }[];
+export type Type1 = 'Full proteome' | 'Enriched';
+export type ProteomeDatabase = 'ProteomeXchange' | 'PRIDE' | 'iProX' | 'JPOST' | 'PeptideAtlas' | 'MassIVE' | 'Other';
+/**
+ * Please provide link to public data depository where the proteomics data and metadata can be found. If the experiment is quantitative, please provide link to the expression table.
+ */
+export type LocationOfRawProteomicsData = string;
+export type AnalysisMode = 'Data-dependent acquisition (DDA)' | 'Data-independent Acquisition (DIA)';
+export type PeptideLabelling = 'iTRAQ' | 'ICPL' | 'Dimethyl' | 'Custom' | 'None';
+/**
+ * Please select the Sample Growth Conditions Label for this proteome.
+ */
+export type SampleGrowthConditions1 = string;
+/**
+ * Please select the Extraction Method Label for this proteome.
+ */
+export type ExtractionMethod = string;
+/**
+ * Please select the Instrumentation Method Label for this proteome.
+ */
+export type InstrumentationMethod = string;
+/**
+ * Publications describing the proteomics experiment. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')
+ */
+export type KeyPublications2 = string;
+/**
+ * If you have used a method that is in some aspects novel to the community, please specify here.
+ */
+export type AdditionalNotes = string;
+/**
+ * Please assign a unique proteome Label for this proteome to help you recall it during the linking step.
+ */
+export type ProteomeLabel = string;
+/**
+ * Please add all proteomes for which paired data is available as separate entries.
+ */
+export type ProteomicsInformation = {
+  proteome_ID: FullProteomeOrEnriched;
+  raw_data: RawDataLink;
+  method: BasicMethod;
+  experimental_details: ExperimentalDetails1;
+  more_info: Info;
+  proteome_label: ProteomeLabel;
+}[];
 /**
  * Please select the Genome Label to be linked to a metabolomics data file.
  */
@@ -327,27 +342,27 @@ export type Proteome = string;
  */
 export type LocationOfMetabolomicsDataFile = string;
 /**
- * Please select the Sample Growth Conditions Label for this linked dataset.
+ * Please select the Sample Growth Conditions Label for this linked metabolomics dataset.
  */
-export type SampleGrowthConditions1 = string;
+export type SampleGrowthConditions2 = string;
 /**
- * Please select the Extraction Method Label for this linked dataset
+ * Please select the Extraction Method Label for this linked metabolomics dataset.
  */
-export type ExtractionMethod = string;
+export type ExtractionMethod1 = string;
 /**
- * Please select the Instrumentation Method Label for this linked dataset
+ * Please select the Instrumentation Method Label for this linked metabolomics dataset.
  */
-export type InstrumentationMethod = string;
+export type InstrumentationMethod1 = string;
 /**
- * Create a linked pair by selecting the Genome Label as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.
+ * Create a linked pair by selecting the Genome Label and optional Proteome label as provided earlier. Subsequently links to the metabolomics data file belonging to that genome/proteome with appropriate experimental methods.
  */
 export type GenomeProteomeMetabolomeLinks = {
   genome_label: GenomeMetagenome;
   proteome_label?: Proteome;
   metabolomics_file: LocationOfMetabolomicsDataFile;
-  sample_preparation_label: SampleGrowthConditions1;
-  extraction_method_label: ExtractionMethod;
-  instrumentation_method_label: InstrumentationMethod;
+  sample_preparation_label: SampleGrowthConditions2;
+  extraction_method_label: ExtractionMethod1;
+  instrumentation_method_label: InstrumentationMethod1;
 }[];
 /**
  * Please provide a brief description of the known linked molecule(s) and gene cluster(s), including the name of the molecule(s).
@@ -397,8 +412,8 @@ export interface IOMEGAPairedOmicsDataPlatform {
   personal: SubmitterInformation;
   metabolomics: MetabolomicsInformation;
   genomes: MetaGenomicsInformation;
-  proteomes: ProteomicsInformation;
   experimental: ExperimentalDetails;
+  proteomes: ProteomicsInformation;
   genome_metabolome_links: GenomeProteomeMetabolomeLinks;
   BGC_MS2_links?: BiosyntheticGeneClusterMSMSLinks;
 }
@@ -439,29 +454,7 @@ export interface GenomeOrMetagenome {
   [k: string]: any;
 }
 /**
- * If proteomics experiment includes any enrichment processes in favour of target proteins, please select `Enriched` and provide target(s).
- */
-export interface FullProteomeOrEnriched {
-  proteome_type: Type;
-  [k: string]: any;
-}
-export interface RawDataLink {
-  database: {
-    database_name: ProteomeDatabase;
-    [k: string]: any;
-  };
-  proteome_data_link: LocationOfRawProteomicsData;
-}
-/**
- * Please provide basic criteria of proteomics experiment.
- */
-export interface Method {
-  analysis_mode: AnalysisMode;
-  peptide_labelling: PeptideLabelling;
-  [k: string]: any;
-}
-/**
- * Please provide basic information about the Sample Preparation, Extraction Methods, and Instrumentation Methods used. If different Sample Preparation, Extraction Methods, and/or Instrumentation Methods were used leading to different metabolomics data, please use separate entries for each experimental change and create a label that will help you recall the experimental parameters during the linking step.
+ * Please provide basic information about the Sample Preparation, Extraction Methods, and Instrumentation Methods used. If different Sample Preparation, Extraction Methods, and/or Instrumentation Methods were used leading to different metabolomics data, please use separate entries for each experimental change and create a label that will help you recall the experimental parameters during the linking step. Experimental details can be attached to a metabolomics data file or a proteome.
  */
 export interface ExperimentalDetails {
   sample_preparation?: SampleGrowthConditions;
@@ -478,7 +471,7 @@ export interface GrowthParameters {
   growth_phase_OD?: PhaseOrOD;
 }
 export interface Aeration {
-  aeration_type?: Type1;
+  aeration_type?: Type;
   [k: string]: any;
 }
 export interface Instrumentation {
@@ -488,6 +481,40 @@ export interface Instrumentation {
 export interface IonizationType {
   ionization_type?: IonizationType1;
   [k: string]: any;
+}
+/**
+ * If proteomics experiment includes any enrichment processes in favour of target proteins, please select `Enriched` and provide target(s).
+ */
+export interface FullProteomeOrEnriched {
+  proteome_type: Type1;
+  [k: string]: any;
+}
+export interface RawDataLink {
+  database: {
+    database_name: ProteomeDatabase;
+    [k: string]: any;
+  };
+  proteome_data_link: LocationOfRawProteomicsData;
+}
+/**
+ * Please provide basic criteria of proteomics experiment.
+ */
+export interface BasicMethod {
+  analysis_mode: AnalysisMode;
+  peptide_labelling: PeptideLabelling;
+  [k: string]: any;
+}
+/**
+ * A proteome can have different experimental details than a metabolomics data file. If different add experimental details in section 4 and pick from list here.
+ */
+export interface ExperimentalDetails1 {
+  sample_preparation_label?: SampleGrowthConditions1;
+  extraction_method_label?: ExtractionMethod;
+  instrumentation_method_label?: InstrumentationMethod;
+}
+export interface Info {
+  publications?: KeyPublications2;
+  notes?: AdditionalNotes;
 }
 export interface VerifiedWithQuantitativeExperiment {
   quantitative_experiment_type: Type2;

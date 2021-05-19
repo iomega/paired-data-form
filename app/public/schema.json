@@ -253,283 +253,10 @@
         }
       }
     },
-    "proteomes": {
-      "type": "array",
-      "title": "4. Proteomics information",
-      "items": {
-        "type": "object",
-        "required": [
-          "proteome_ID",
-          "raw_data",
-          "method",
-          "proteome_label"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "proteome_ID": {
-            "title": "Full proteome or enriched",
-            "description": "If proteomics experiment includes any enrichment processes in favour of target proteins, please select `Enriched` and provide target(s).",
-            "type": "object",
-            "required": [
-              "proteome_type"
-            ],
-            "properties": {
-              "proteome_type": {
-                "type": "string",
-                "title": "Type",
-                "enum": [
-                  "Full proteome", "Enriched"
-                ],
-                "default": "Full proteome"
-              }
-            },
-            "dependencies": {
-              "proteome_type": {
-                "oneOf": [{
-                  "properties": {
-                    "proteome_type": {
-                      "enum": ["Full proteome"]
-                    }
-                  }
-                }, {
-                  "properties": {
-                    "proteome_type": {
-                      "enum": ["Enriched"]
-                    },
-                    "targets": {
-                      "type": "array",
-                      "title": "Targets",
-                      "minItems": 1,
-                      "items": {
-                        "type": "object",
-                        "required": ["target"],
-                        "properties": {
-                          "target": {
-                            "title": "Target",
-                            "type": "string",
-                            "oneOf": [
-                              {
-                                "title": "PKS machinery",
-                                "enum": [
-                                  "pks"
-                                ]
-                              },
-                              {
-                                "title": "NRPS machinery",
-                                "enum": [
-                                  "nrps"
-                                ]
-                              },
-                              {
-                                "title": "Other",
-                                "enum": [
-                                  "other"
-                                ]
-                              }
-                            ]
-                          }
-                        },
-                        "dependencies": {
-                          "target": {
-                            "oneOf": [{
-                              "properties": {
-                                "target": {
-                                  "enum": [
-                                    "pks",
-                                    "nrps"
-                                  ]
-                                }
-                              }
-                            }, {
-                              "properties": {
-                                "target": {
-                                  "enum": [
-                                    "other"
-                                  ]
-                                },
-                                "other_target": {
-                                  "type": "string",
-                                  "title": "Name of other target"
-                                }
-                              }
-                            }]
-                          }
-                        }
-                      }
-                    }
-                  }
-                }]
-              }
-            }
-          },
-          "raw_data": {
-            "type": "object",
-            "title": "Raw data link",
-            "required": ["database", "proteome_data_link"],
-            "additionalProperties": false,
-            "properties": {
-              "database": {
-                "type": "object",
-                "required": ["database_name"],
-                "properties": {
-                  "database_name": {
-                    "title": "Proteome database",
-                    "type": "string",
-                    "enum": [
-                      "ProteomeXchange",
-                      "PRIDE",
-                      "iProX",
-                      "JPOST",
-                      "PeptideAtlas",
-                      "MassIVE",
-                      "Other"
-                    ],
-                    "default": "ProteomeXchange"
-                  }
-                },
-                "dependencies": {
-                  "database_name": {
-                    "oneOf": [{
-                      "properties": {
-                        "database_name": {
-                          "enum": ["Other"]
-                        },
-                        "other_database_name": {
-                          "type": "string",
-                          "title": "Name of other database"
-                        }
-                      }
-                    }, {
-                      "properties": {
-                        "database_name": {
-                          "enum": [
-                            "ProteomeXchange",
-                            "PRIDE",
-                            "iProX",
-                            "JPOST",
-                            "PeptideAtlas",
-                            "MassIVE"
-                          ]
-                        }
-                      }
-                    }]
-                  }
-                }
-              },
-              "proteome_data_link": {
-                "type": "string",
-                "title": "Location of raw proteomics data",
-                "description": "Please provide link to public data depository where the proteomics data and metadata can be found. If the experiment is quantitative, please provide link to the expression table.",
-                "format": "uri"
-              }
-            }
-          },
-          "method": {
-            "type": "object",
-            "title": "Method",
-            "description": "Please provide basic criteria of proteomics experiment.",
-            "required": ["analysis_mode", "peptide_labelling"],
-            "properties": {
-              "analysis_mode": {
-                "type": "string",
-                "title": "Analysis mode",
-                "enum": [
-                  "Data-dependent acquisition (DDA)",
-                  "Data-independent Acquisition (DIA)"
-                ]
-              },
-              "peptide_labelling": {
-                "type": "string",
-                "title": "Peptide labelling",
-                "enum": [
-                  "iTRAQ",
-                  "ICPL",
-                  "Dimethyl",
-                  "Custom",
-                  "None"
-                ],
-                "default": "None"
-              }
-            },
-            "dependencies": {
-              "analysis_mode": {
-                "oneOf": [{
-                  "properties": {
-                    "analysis_mode": {
-                      "enum": ["Data-dependent acquisition (DDA)"]
-                    },
-                    "genome_label": {
-                      "title": "Genome Database",
-                      "description": "Genome label of the genome used when running DDA. If additional database is used, please specify them in *Additional notes*",
-                      "type": "string"
-                    }
-                  }
-                }, {
-                  "properties": {
-                    "analysis_mode": {
-                      "enum": ["Data-independent Acquisition (DIA)"]
-                    }
-                  }
-                }]
-              },
-              "peptide_labelling": {
-                "oneOf": [{
-                  "properties": {
-                    "peptide_labelling": {
-                      "enum": ["Custom"]
-                    },
-                    "custom_peptide_labelling": {
-                      "type": "string",
-                      "title": "Description of custom labelling"
-                    }
-                  }
-                }, {
-                  "properties": {
-                    "peptide_labelling": {
-                      "enum": ["Dimethyl"]
-                    },
-                    "peptide_labelling_dimethyl_specification": {
-                      "type": "string",
-                      "title": "Dimethyl specification"
-                    }
-                  }
-                }, {
-                  "properties": {
-                    "peptide_labelling": {
-                      "enum": [
-                        "iTRAQ",
-                        "ICPL",
-                        "None"]
-                    }
-                  }
-                }]
-              }
-            }
-          },
-          "publications": {
-            "type": "string",
-            "pattern": "[0-9]{1,}",
-            "title": "Key publications",
-            "description": "Publications describing the proteomics experiment. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')"
-          },
-          "notes": {
-            "type": "string",
-            "title": "Additional notes",
-            "description": "If you have used a method that is in some aspects novel to the community, please specify here."
-          },
-          "proteome_label": {
-            "type": "string",
-            "title": "Proteome label",
-            "description": "Please assign a unique proteome Label for this proteome to help you recall it during the linking step.",
-            "minLength": 1
-          }
-        }
-      }
-    },
     "experimental": {
       "type": "object",
-      "title": "5. Experimental Details",
-      "description": "Please provide basic information about the Sample Preparation, Extraction Methods, and Instrumentation Methods used. If different Sample Preparation, Extraction Methods, and/or Instrumentation Methods were used leading to different metabolomics data, please use separate entries for each experimental change and create a label that will help you recall the experimental parameters during the linking step.",
+      "title": "4. Experimental Details",
+      "description": "Please provide basic information about the Sample Preparation, Extraction Methods, and Instrumentation Methods used. If different Sample Preparation, Extraction Methods, and/or Instrumentation Methods were used leading to different metabolomics data, please use separate entries for each experimental change and create a label that will help you recall the experimental parameters during the linking step. Experimental details can be attached to a metabolomics data file or a proteome.",
       "properties": {
         "sample_preparation": {
           "type": "array",
@@ -1744,10 +1471,316 @@
       },
       "additionalProperties": false
     },
+    "proteomes": {
+      "type": "array",
+      "title": "5. Proteomics information",
+      "description": "Please add all proteomes for which paired data is available as separate entries.",
+      "items": {
+        "type": "object",
+        "required": [
+          "proteome_ID",
+          "raw_data",
+          "method",
+          "experimental_details",
+          "more_info",
+          "proteome_label"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "proteome_ID": {
+            "title": "Full proteome or enriched",
+            "description": "If proteomics experiment includes any enrichment processes in favour of target proteins, please select `Enriched` and provide target(s).",
+            "type": "object",
+            "required": [
+              "proteome_type"
+            ],
+            "properties": {
+              "proteome_type": {
+                "type": "string",
+                "title": "Type",
+                "enum": [
+                  "Full proteome", "Enriched"
+                ],
+                "default": "Full proteome"
+              }
+            },
+            "dependencies": {
+              "proteome_type": {
+                "oneOf": [{
+                  "properties": {
+                    "proteome_type": {
+                      "enum": ["Full proteome"]
+                    }
+                  }
+                }, {
+                  "properties": {
+                    "proteome_type": {
+                      "enum": ["Enriched"]
+                    },
+                    "targets": {
+                      "type": "array",
+                      "title": "Targets",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "required": ["target"],
+                        "properties": {
+                          "target": {
+                            "title": "Target",
+                            "type": "string",
+                            "oneOf": [
+                              {
+                                "title": "PKS machinery",
+                                "enum": [
+                                  "pks"
+                                ]
+                              },
+                              {
+                                "title": "NRPS machinery",
+                                "enum": [
+                                  "nrps"
+                                ]
+                              },
+                              {
+                                "title": "Other",
+                                "enum": [
+                                  "other"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "dependencies": {
+                          "target": {
+                            "oneOf": [{
+                              "properties": {
+                                "target": {
+                                  "enum": [
+                                    "pks",
+                                    "nrps"
+                                  ]
+                                }
+                              }
+                            }, {
+                              "properties": {
+                                "target": {
+                                  "enum": [
+                                    "other"
+                                  ]
+                                },
+                                "other_target": {
+                                  "type": "string",
+                                  "title": "Name of other target"
+                                }
+                              }
+                            }]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }]
+              }
+            }
+          },
+          "raw_data": {
+            "type": "object",
+            "title": "Raw data link",
+            "required": ["database", "proteome_data_link"],
+            "additionalProperties": false,
+            "properties": {
+              "database": {
+                "type": "object",
+                "required": ["database_name"],
+                "properties": {
+                  "database_name": {
+                    "title": "Proteome database",
+                    "type": "string",
+                    "enum": [
+                      "ProteomeXchange",
+                      "PRIDE",
+                      "iProX",
+                      "JPOST",
+                      "PeptideAtlas",
+                      "MassIVE",
+                      "Other"
+                    ],
+                    "default": "ProteomeXchange"
+                  }
+                },
+                "dependencies": {
+                  "database_name": {
+                    "oneOf": [{
+                      "properties": {
+                        "database_name": {
+                          "enum": ["Other"]
+                        },
+                        "other_database_name": {
+                          "type": "string",
+                          "title": "Name of other database"
+                        }
+                      }
+                    }, {
+                      "properties": {
+                        "database_name": {
+                          "enum": [
+                            "ProteomeXchange",
+                            "PRIDE",
+                            "iProX",
+                            "JPOST",
+                            "PeptideAtlas",
+                            "MassIVE"
+                          ]
+                        }
+                      }
+                    }]
+                  }
+                }
+              },
+              "proteome_data_link": {
+                "type": "string",
+                "title": "Location of raw proteomics data",
+                "description": "Please provide link to public data depository where the proteomics data and metadata can be found. If the experiment is quantitative, please provide link to the expression table.",
+                "format": "uri"
+              }
+            }
+          },
+          "method": {
+            "type": "object",
+            "title": "Basic method",
+            "description": "Please provide basic criteria of proteomics experiment.",
+            "required": ["analysis_mode", "peptide_labelling"],
+            "properties": {
+              "analysis_mode": {
+                "type": "string",
+                "title": "Analysis mode",
+                "enum": [
+                  "Data-dependent acquisition (DDA)",
+                  "Data-independent Acquisition (DIA)"
+                ]
+              },
+              "peptide_labelling": {
+                "type": "string",
+                "title": "Peptide labelling",
+                "enum": [
+                  "iTRAQ",
+                  "ICPL",
+                  "Dimethyl",
+                  "Custom",
+                  "None"
+                ],
+                "default": "None"
+              }
+            },
+            "dependencies": {
+              "analysis_mode": {
+                "oneOf": [{
+                  "properties": {
+                    "analysis_mode": {
+                      "enum": ["Data-dependent acquisition (DDA)"]
+                    },
+                    "genome_label": {
+                      "title": "Genome Database",
+                      "description": "Genome label of the genome used when running DDA. If additional database is used, please specify them in *Additional notes*",
+                      "type": "string"
+                    }
+                  }
+                }, {
+                  "properties": {
+                    "analysis_mode": {
+                      "enum": ["Data-independent Acquisition (DIA)"]
+                    }
+                  }
+                }]
+              },
+              "peptide_labelling": {
+                "oneOf": [{
+                  "properties": {
+                    "peptide_labelling": {
+                      "enum": ["Custom"]
+                    },
+                    "custom_peptide_labelling": {
+                      "type": "string",
+                      "title": "Description of custom labelling"
+                    }
+                  }
+                }, {
+                  "properties": {
+                    "peptide_labelling": {
+                      "enum": ["Dimethyl"]
+                    },
+                    "peptide_labelling_dimethyl_specification": {
+                      "type": "string",
+                      "title": "Dimethyl specification"
+                    }
+                  }
+                }, {
+                  "properties": {
+                    "peptide_labelling": {
+                      "enum": [
+                        "iTRAQ",
+                        "ICPL",
+                        "None"]
+                    }
+                  }
+                }]
+              }
+            }
+          },
+          "experimental_details": {
+            "type": "object",
+            "title": "Experimental details",
+            "description": "A proteome can have different experimental details than a metabolomics data file. If different add experimental details in section 4 and pick from list here.",
+            "properties": {
+              "sample_preparation_label": {
+                "type": "string",
+                "title": "Sample Growth Conditions",
+                "description": "Please select the Sample Growth Conditions Label for this proteome."
+              },
+              "extraction_method_label": {
+                "type": "string",
+                "title": "Extraction Method",
+                "description": "Please select the Extraction Method Label for this proteome."
+              },
+              "instrumentation_method_label": {
+                "type": "string",
+                "title": "Instrumentation Method",
+                "description": "Please select the Instrumentation Method Label for this proteome."
+              }
+            },
+            "additionalProperties": false
+          },
+          "more_info": {
+            "type": "object",
+            "title": "Info",
+            "properties": {
+              "publications": {
+                "type": "string",
+                "pattern": "[0-9]{1,}",
+                "title": "Key publications",
+                "description": "Publications describing the proteomics experiment. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')"
+              },
+              "notes": {
+                "type": "string",
+                "title": "Additional notes",
+                "description": "If you have used a method that is in some aspects novel to the community, please specify here."
+              }
+            },
+            "additionalProperties": false
+          },
+          "proteome_label": {
+            "type": "string",
+            "title": "Proteome label",
+            "description": "Please assign a unique proteome Label for this proteome to help you recall it during the linking step.",
+            "minLength": 1
+          }
+        }
+      }
+    },
     "genome_metabolome_links": {
       "type": "array",
       "title": "6. Genome - Proteome - Metabolome Links",
-      "description": "Create a linked pair by selecting the Genome Label as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.",
+      "description": "Create a linked pair by selecting the Genome Label and optional Proteome label as provided earlier. Subsequently links to the metabolomics data file belonging to that genome/proteome with appropriate experimental methods.",
       "items": {
         "type": "object",
         "required": [
@@ -1777,17 +1810,17 @@
           "sample_preparation_label": {
             "type": "string",
             "title": "Sample Growth Conditions",
-            "description": "Please select the Sample Growth Conditions Label for this linked dataset."
+            "description": "Please select the Sample Growth Conditions Label for this linked metabolomics dataset."
           },
           "extraction_method_label": {
             "type": "string",
             "title": "Extraction Method",
-            "description": "Please select the Extraction Method Label for this linked dataset"
+            "description": "Please select the Extraction Method Label for this linked metabolomics dataset."
           },
           "instrumentation_method_label": {
             "type": "string",
             "title": "Instrumentation Method",
-            "description": "Please select the Instrumentation Method Label for this linked dataset"
+            "description": "Please select the Instrumentation Method Label for this linked metabolomics dataset."
           }
         },
         "additionalProperties": false
@@ -1874,16 +1907,17 @@
                               "protein_ID",
                               "protein_fold"
                             ],
+                            "additionalProperties": false,
                             "properties": {
                               "control_group": {
                                 "type": "string",
-                                "title":" Control details label",
-                                "description": "Please provide details for the control group."
+                                "title":" Control group",
+                                "description": "Please select the proteome label for the control group."
                               },
                               "experimental_group": {
                                 "type": "string",
-                                "title": "Experimental details label",
-                                "description": "Please provide details for the experimental group."
+                                "title": "Experimental group",
+                                "description": "Please select the proteome label for the experimental group."
                               },
                               "product_fold_change": {
                                 "type": "string",
@@ -1911,7 +1945,8 @@
                                     "title": "Identifier",
                                     "description": "Public identifier of protein which changed between control and experiment"
                                   }
-                                }
+                                },
+                                "additionalProperties": false
                               },
                               "protein_fold": {
                                 "type": "object",
@@ -1931,7 +1966,8 @@
                                     "default": "None",
                                     "description": "What quantiation was used for the protein fold change"
                                   }
-                                }
+                                },
+                                "additionalProperties": false
                               }
                             }
                           }

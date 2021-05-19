@@ -55,12 +55,13 @@ export const GeneSpectraTable = (props: IProps) => {
         )
       });
       quantitative_proteomics_experiment = (
-        <span>
+        <>
+          <hr/>
           <p>Evidence of quantitative proteomics experiment: {r.quantitative_experiment.quantitative_proteomics_experiment.evidences}</p>
           <ul>
             {comparison_groups}
           </ul>
-        </span>
+        </>
       );
     }
     return (
@@ -68,7 +69,6 @@ export const GeneSpectraTable = (props: IProps) => {
         <td>{r.known_link}</td>
         <td>
           {r.verification.join(', ')}
-          <hr/>
           {has_quantitative_proteomics_experiment && quantitative_proteomics_experiment }
         </td>
         <td><div style={{maxWidth: '300px', overflow: 'auto'}}>{r.SMILES}</div></td>
