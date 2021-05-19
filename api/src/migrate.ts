@@ -73,22 +73,11 @@ export const migrations: Migration[] = [
 ];
 
 export const migrate = async (store: ProjectDocumentStore) => {
-    console.log('Migrating pending projects');
-    const pending_projects = await store.listPendingProjects();
-    for (const p of pending_projects) {
-        let migrated = false;
-        for (const m of migrations) {
-            if (m.applicable(p.project)) {
-                console.log(`Project ${p._id} v${p.project.version}`);
-                p.project = m.up(p.project);
-                p.project = m.up(p.project);
-                migrated = true;
-            }
-        }
-        if (migrated) {
-            await store.disk_store.writePendingProject(p._id, p.project);
-        }
-    }
+    await migratedApprovedProjects(store);
+    await migratePendingProjects(store);
+};
+
+async function migratePendingProjects(store: ProjectDocumentStore) {
     console.log('Migrating approved projects');
     const projects = await store.listProjects();
     for (const p of projects) {
@@ -105,4 +94,23 @@ export const migrate = async (store: ProjectDocumentStore) => {
             await store.disk_store.approveProject(p._id);
         }
     }
-};
+}
+
+async function migratedApprovedProjects(store: ProjectDocumentStore) {
+    console.log('Migrating pending projects');
+    const pending_projects = await store.listPendingProjects();
+    for (const p of pending_projects) {
+        let migrated = false;
+        for (const m of migrations) {
+            if (m.applicable(p.project)) {
+                console.log(`Project ${p._id} v${p.project.version}`);
+                p.project = m.up(p.project);
+                p.project = m.up(p.project);
+                migrated = true;
+            }
+        }
+        if (migrated) {
+            await store.disk_store.writePendingProject(p._id, p.project);
+        }
+    }
+}

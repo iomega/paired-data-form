@@ -12,16 +12,7 @@ export function makeProteomePopovers(pure_project: IOMEGAPairedOmicsDataPlatform
     if (database_name === 'Other') {
       database_name = p.raw_data.database.other_database_name;
     }
-    let targets = <></>;
-    if (p.proteome_ID.targets) {
-      targets = p.proteome_ID.targets.map((t: any) => {
-        let target = t.target;
-        if (target === 'other') {
-          target = t.other_target;
-        }
-        return <li id={target}>{target}</li>;
-      });
-    }
+    let targets = targetsOfEnrichedProteome(p);
     const peptide_labelling = p.method.peptide_labelling === 'Custom' ? p.method.custom_peptide_labelling : p.method.peptide_labelling;
     const r = p.experimental_details;
     const popover = (
@@ -91,6 +82,20 @@ export function makeProteomePopovers(pure_project: IOMEGAPairedOmicsDataPlatform
     proteome_popovers[p.proteome_label] = popover;
   });
   return proteome_popovers;
+}
+
+function targetsOfEnrichedProteome(p: { proteome_ID: import("/home/verhoes/git/iomega/paired-data-form/app/src/schema").FullProteomeOrEnriched; raw_data: import("/home/verhoes/git/iomega/paired-data-form/app/src/schema").RawDataLink; method: import("/home/verhoes/git/iomega/paired-data-form/app/src/schema").BasicMethod; experimental_details: import("/home/verhoes/git/iomega/paired-data-form/app/src/schema").ExperimentalDetails1; more_info: import("/home/verhoes/git/iomega/paired-data-form/app/src/schema").Info; proteome_label: string; }) {
+  let targets = <></>;
+  if (p.proteome_ID.targets) {
+    targets = p.proteome_ID.targets.map((t: any) => {
+      let target = t.target;
+      if (target === 'other') {
+        target = t.other_target;
+      }
+      return <li id={target}>{target}</li>;
+    });
+  }
+  return targets;
 }
 
 export function makeInstrumentPopovers(pure_project: IOMEGAPairedOmicsDataPlatform, props: IProps) {

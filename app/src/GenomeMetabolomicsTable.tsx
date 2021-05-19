@@ -6,7 +6,7 @@ import { tsvUrl } from './textTable';
 import { IOMEGAPairedOmicsDataPlatform } from "./schema";
 
 import './GenomeMetabolomicsTable.css';
-import { makeGenomePopovers, makeSamplePopovers, makeExtractionPopovers, makeInstrumentPopovers, makeProteomePopovers } from "./makeProteomePopovers";
+import { makeGenomePopovers, makeSamplePopovers, makeExtractionPopovers, makeInstrumentPopovers, makeProteomePopovers } from "./popovers";
 
 export interface IProps {
     data: any;
