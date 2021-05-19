@@ -10,8 +10,8 @@ export function injectForeignKeySearchMethods(uiSchema: any, formRef: any) {
   uiSchema.genome_metabolome_links.items.instrumentation_method_label.foreignKey.search = foreignKeySearch(formRef, "instrumentation_method_label", instrumentLabels);
   uiSchema.BGC_MS2_links.items.MS2_URL.foreignKey.search = foreignKeySearch(formRef, "MS2_URL", ms2Labels);
   const comparison_groups = uiSchema.BGC_MS2_links.items.quantitative_experiment.quantitative_proteomics_experiment.comparison_groups;
-  comparison_groups.items.control_group.foreignKey.search = foreignKeySearch(formRef, "proteome_label", proteomeLabels);
-  comparison_groups.items.experimental_group.foreignKey.search = foreignKeySearch(formRef, "proteome_label", proteomeLabels);
+  comparison_groups.items.control_group.foreignKey.search = foreignKeySearch(formRef, "control_group", proteomeLabels);
+  comparison_groups.items.experimental_group.foreignKey.search = foreignKeySearch(formRef, "experimental_group", proteomeLabels);
 }
 
 export function foreignKeySearch(formRef: any, requiredProp: string, labelSearcher: (doc: any) => string[]) {
