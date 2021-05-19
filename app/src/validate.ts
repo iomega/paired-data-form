@@ -186,6 +186,7 @@ export function validateDocument(doc: any, errors: any) {
         errors.BGC_MS2_links[i].MS2_URL.addError("Invalid selection");
       }
     });
+    // TODO proteome control group and experimental group should not be same
   }
   return errors;
 }

@@ -1,6 +1,7 @@
 import * as React from "react";
 
-import { Table } from "react-bootstrap";
+import { Button, OverlayTrigger, Table } from "react-bootstrap";
+import { makeGenomePopovers, makeSamplePopovers, makeExtractionPopovers, makeInstrumentPopovers, makeProteomePopovers } from "./makeProteomePopovers";
 
 interface IProps {
   data: any;
@@ -44,13 +45,46 @@ export const GeneSpectraTable = (props: IProps) => {
     r.quantitative_experiment.quantitative_experiment_type === 'Quantitative proteomics experiment';
     let quantitative_proteomics_experiment = <></>;
     if (has_quantitative_proteomics_experiment) {
+      const genome_enrichments = props.data.enrichments && props.data.enrichments.genomes ? props.data.enrichments.genomes : {};
+      const genome_popovers: any = makeGenomePopovers(pure_project, genome_enrichments);
+      const sample_popovers: any = makeSamplePopovers(pure_project, props);
+      const extraction_popovers: any = makeExtractionPopovers(pure_project, props);
+      const instrument_popovers: any = makeInstrumentPopovers(pure_project, props);
+      const proteome_popovers: any = makeProteomePopovers(pure_project, genome_popovers, sample_popovers, extraction_popovers, instrument_popovers);
+
       const comparison_groups = r.quantitative_experiment.quantitative_proteomics_experiment.comparison_groups.map((g: any, i: string) => {
+        let prot_url = (g.protein_id.protein_database === 'uniprot') ?
+           'https://www.uniprot.org/uniprot/' + g.protein_id.protein_identifier :
+           'https://www.ncbi.nlm.nih.gov/protein/' + g.protein_id.protein_identifier
         return (
           <li id={i}>
-            <p>Control: {g.control_group}</p>
-            <p>Experimental: {g.experimental_group}</p>
+            <p>Control:
+              <OverlayTrigger
+                trigger="click"
+                rootClose
+                placement="bottom"
+                overlay={proteome_popovers[g.control_group]}
+              >
+                <Button bsStyle="link">
+                  {g.control_group}
+                </Button>
+              </OverlayTrigger>
+            </p>
+            <p>Experimental:
+            <OverlayTrigger
+                trigger="click"
+                rootClose
+                placement="bottom"
+                overlay={proteome_popovers[g.experimental_group]}
+              >
+                <Button bsStyle="link">
+                  {g.experimental_group}
+                </Button>
+              </OverlayTrigger>
+            </p>
             <p>Product fold change: {g.product_fold_change}</p>
-            <p>Protein fold change: {g.protein_fold_change}</p>
+            <p>Protein identifier: <a title="public protein identifier" href={prot_url}>{g.protein_id.protein_identifier}</a></p>
+            <p>Protein fold change: {g.protein_fold.protein_fold_change}{g.protein_fold.quantitation_type !== 'None' && <> based on {g.protein_fold.quantitation_type}</>}</p>
           </li>
         )
       });

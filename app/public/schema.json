@@ -1904,7 +1904,7 @@
                               "control_group",
                               "experimental_group",
                               "product_fold_change",
-                              "protein_ID",
+                              "protein_id",
                               "protein_fold"
                             ],
                             "additionalProperties": false,
