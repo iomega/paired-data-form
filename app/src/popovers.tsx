@@ -84,7 +84,7 @@ export function makeProteomePopovers(pure_project: IOMEGAPairedOmicsDataPlatform
   return proteome_popovers;
 }
 
-function targetsOfEnrichedProteome(p: { proteome_ID: import("/home/verhoes/git/iomega/paired-data-form/app/src/schema").FullProteomeOrEnriched; raw_data: import("/home/verhoes/git/iomega/paired-data-form/app/src/schema").RawDataLink; method: import("/home/verhoes/git/iomega/paired-data-form/app/src/schema").BasicMethod; experimental_details: import("/home/verhoes/git/iomega/paired-data-form/app/src/schema").ExperimentalDetails1; more_info: import("/home/verhoes/git/iomega/paired-data-form/app/src/schema").Info; proteome_label: string; }) {
+function targetsOfEnrichedProteome(p: any) {
   let targets = <></>;
   if (p.proteome_ID.targets) {
     targets = p.proteome_ID.targets.map((t: any) => {
