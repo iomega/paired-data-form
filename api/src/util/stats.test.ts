@@ -68,7 +68,8 @@ describe('computeStats()', () => {
                             ['Streptomyces sp. CNH099', 1],
                             ['Salinispora arenicola CNB527', 1]
                         ],
-                        'metagenomic_environment': []
+                        'metagenomic_environment': [],
+                        'proteome_types': [],
                     }
                 };
                 expect(result).toEqual(expected);
@@ -155,7 +156,8 @@ describe('computeStats()', () => {
                                 ['YStreptomyces sp. CNH099', 1],
                                 ['ZSalinispora arenicola CNB527', 1]
                             ],
-                            'metagenomic_environment': []
+                            'metagenomic_environment': [],
+                            'proteome_types': [],
                         }
                     };
                     expect(result).toEqual(expected);
@@ -215,7 +217,8 @@ describe('computeStats()', () => {
                                 ['Streptomyces sp. CNH099', 1],
                                 ['Salinispora arenicola CNB527', 1]
                             ],
-                            'metagenomic_environment': []
+                            'metagenomic_environment': [],
+                            'proteome_types': [],
                         }
                     };
                     expect(result).toEqual(expected);

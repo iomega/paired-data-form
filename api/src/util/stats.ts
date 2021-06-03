@@ -15,6 +15,7 @@ export interface IStats {
         genome_types: [string, number][]
         species: [string, number][]
         metagenomic_environment: [string, number][]
+        proteome_types: [string, number][]
         instrument_types: [string, number][]
         ionization_modes: [string, number][]
         growth_media: [string, number][]
@@ -223,6 +224,26 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any): 
         lookups.genome_type.size,
     );
 
+    const proteome_types = countProjectCollectionField(
+        projects,
+        (p) => p.project.proteomes ? p.project.proteomes : [],
+        (r) => {
+            if (r.proteome_ID.proteome_type === 'Enriched') {
+                const targets = r.proteome_ID.targets;
+                return 'Enriched: ' + targets.map((t: any) => {
+                    if (t.target === 'other') {
+                        return t.other_target;
+                    } else {
+                        return t.target;
+                    }
+                }).join(', ');
+            }
+            return r.proteome_ID.proteome_type;
+        },
+        lookups.proteome_types,
+        lookups.proteome_types.size
+    );
+
     const instrument_types = countProjectCollectionField(
         projects,
         (p) => p.project.experimental.instrumentation_methods,
@@ -282,6 +303,7 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any): 
             principal_investigators: principal_investigators.top,
             submitters: submitters.top,
             genome_types: genome_types.top,
+            proteome_types: proteome_types.top,
             instrument_types: instrument_types.top,
             ionization_modes: ionization_modes.top,
             growth_media: growth_media.top,

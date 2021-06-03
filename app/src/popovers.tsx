@@ -14,7 +14,8 @@ export function makeProteomePopovers(pure_project: IOMEGAPairedOmicsDataPlatform
     }
     let targets = targetsOfEnrichedProteome(p);
     const peptide_labelling = p.method.peptide_labelling === 'Custom' ? p.method.custom_peptide_labelling : p.method.peptide_labelling;
-    const r = p.experimental_details;
+    const r = p.experimental_details ? p.experimental_details : {};
+    debugger
     const popover = (
       <Popover id={p.proteome_label} title="Proteome">
         <p>Type: {p.proteome_ID.proteome_type}</p>
