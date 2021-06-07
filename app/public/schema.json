@@ -1952,7 +1952,7 @@
                                   "protein_fold_change": {
                                     "type": "number",
                                     "title": "Fold change",
-                                    "description": "Log<sub>2</sub> transformation of the fold change: experiment group / control group."
+                                    "description": "Protein log<sub>2</sub> fold: experiment group / control group."
                                   },
                                   "quantitation_type": {
                                     "type": "string",
