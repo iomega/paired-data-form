@@ -15,7 +15,7 @@ function enum2map(choices: any[]): Lookup {
 
 export class Lookups {
     readonly genome_type: Lookup;
-    readonly proteome_types: Lookup;
+    readonly proteome_target: Lookup;
     readonly growth_media: Lookup;
     readonly metagenomic_environment: Lookup;
     readonly instrument: Lookup;
@@ -28,9 +28,8 @@ export class Lookups {
         this.genome_type = new Map<string, string>(
             genome_types_enum.map(s => [s, s])
         );
-        const proteome_types_enum: string[] = schema.properties.proteomes.items.properties.proteome_ID.properties.proteome_type.enum;
-        this.proteome_types = new Map<string, string>(
-            proteome_types_enum.map(s => [s, s])
+        this.proteome_target = enum2map(
+            schema.properties.proteomes.items.properties.proteome_ID.dependencies.proteome_type.oneOf[1].properties.targets.items.properties.target.oneOf
         );
         this.growth_media = enum2map(
             schema.properties.experimental.properties.sample_preparation.items.properties.medium_details.dependencies.medium_type.oneOf[1].properties.medium.anyOf

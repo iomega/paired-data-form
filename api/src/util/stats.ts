@@ -73,15 +73,53 @@ function countProjectCollectionField(
         });
     });
 
-    // Sort by count, take top n largest counts and replace url by title
+    // Sort by count, take top n largest counts
+    return topFromCounts(field_counts, top_size);
+}
+
+function topFromCounts(field_counts: Map<string, number>, top_size: number) {
     const top: [string, number][] = Array.from(field_counts.entries())
         .sort((a, b) => b[1] - a[1])
-        .slice(0, top_size)
-        ;
+        .slice(0, top_size);
     return {
         total: field_counts.size,
         top
     };
+}
+
+function countProteomes(projects: EnrichedProjectDocument[], lookup: ReadonlyMap<string, string>, top_size = 5) {
+    const field_counts = new Map<string, number>();
+    projects.forEach(project => {
+        const collection = project.project.proteomes ? project.project.proteomes : [];
+        if (!collection) {
+            return;
+        }
+        collection.forEach(p => {
+            let key: string = 'Full proteome';
+            if (p.proteome_ID.proteome_type === 'Enriched') {
+                const targets = p.proteome_ID.targets;
+                const targetsout = targets.map((t: any) => {
+                    if (t.target === 'other') {
+                        return t.other_target;
+                    } else {
+                        return lookup.get(t.target);
+                    }
+                });
+                key = 'Enriched: ' + targetsout.join(', ');
+            }
+            if (!key) {
+                return;
+            }
+            const count = field_counts.get(key);
+            if (count) {
+                field_counts.set(key, count);
+            } else {
+                field_counts.set(key, 1);
+            }
+        });
+    });
+
+    return topFromCounts(field_counts, top_size);
 }
 
 function countSolvents(projects: EnrichedProjectDocument[], lookup: ReadonlyMap<string, string>, top_size = 5) {
@@ -110,14 +148,7 @@ function countSolvents(projects: EnrichedProjectDocument[], lookup: ReadonlyMap<
             });
         });
     });
-    const top: [string, number][] = Array.from(field_counts.entries())
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, top_size)
-        ;
-    return {
-        total: field_counts.size,
-        top
-    };
+    return topFromCounts(field_counts, top_size);
 }
 
 function countMetabolomeSamples(projects: EnrichedProjectDocument[]) {
@@ -224,24 +255,9 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any): 
         lookups.genome_type.size,
     );
 
-    const proteome_types = countProjectCollectionField(
+    const proteome_types = countProteomes(
         projects,
-        (p) => p.project.proteomes ? p.project.proteomes : [],
-        (r) => {
-            if (r.proteome_ID.proteome_type === 'Enriched') {
-                const targets = r.proteome_ID.targets;
-                return 'Enriched: ' + targets.map((t: any) => {
-                    if (t.target === 'other') {
-                        return t.other_target;
-                    } else {
-                        return t.target;
-                    }
-                }).join(', ');
-            }
-            return r.proteome_ID.proteome_type;
-        },
-        lookups.proteome_types,
-        lookups.proteome_types.size
+        lookups.proteome_target
     );
 
     const instrument_types = countProjectCollectionField(
@@ -312,4 +328,7 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any): 
             metagenomic_environment: metagenomic_environment.top
         }
     };
+}
+function proteome_target_types(projects: EnrichedProjectDocument[], proteome_target_types: any) {
+    throw new Error('Function not implemented.');
 }

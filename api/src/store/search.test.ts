@@ -232,7 +232,10 @@ describe('new SearchEngine()', () => {
                     ['growth_medium', 'A1 medium'],
                     ['solvent', 'Butanol'],
                     ['ionization_mode', 'Positive'],
-                    ['ionization_type', 'Electrospray Ionization (ESI)']
+                    ['ionization_type', 'Electrospray Ionization (ESI)'],
+                    ['proteome_type', 'Full proteome'],
+                    ['proteome_type', 'Enriched: PKS machinery'],
+                    ['proteome_type', 'Enriched: PKS machinery, some target'],
                 ])('filter={key:\'%s\', value:\'%s\'}', (key: FilterField, value) => {
                     let hits: any;
                     beforeEach(async () => {
