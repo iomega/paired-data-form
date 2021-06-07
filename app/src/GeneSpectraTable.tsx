@@ -65,18 +65,20 @@ export const GeneSpectraTable = (props: IProps) => {
               </OverlayTrigger>
             </p>
             <p>Metabolite concentration change: {g.metabolite_concentration}</p>
-            <p>Genome source:
-              <OverlayTrigger
-                  trigger="click"
-                  rootClose
-                  placement="bottom"
-                  overlay={genome_popovers[g.protein_id.genome]}
-                >
-                  <Button bsStyle="link">
-                    {g.protein_id.genome}
-                  </Button>
-                </OverlayTrigger>
-            </p>
+            { g.protein_id.genome &&
+              <p>Genome source:
+                <OverlayTrigger
+                    trigger="click"
+                    rootClose
+                    placement="bottom"
+                    overlay={genome_popovers[g.protein_id.genome]}
+                  >
+                    <Button bsStyle="link">
+                      {g.protein_id.genome}
+                    </Button>
+                  </OverlayTrigger>
+              </p>
+            }
             <p>Protein identifier: <a title="public protein identifier" href={prot_url}>{g.protein_id.protein_identifier}</a></p>
             <p title="Protein log2 fold (experimental / control)">Protein fold change: {g.protein_fold.protein_fold_change}{g.protein_fold.quantitation_type !== 'None' && <> based on {g.protein_fold.quantitation_type}</>}</p>
           </li>

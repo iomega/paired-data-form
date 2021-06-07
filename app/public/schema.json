@@ -1945,7 +1945,7 @@
                               "protein_id": {
                                 "type": "object",
                                 "title": "Protein",
-                                "required": ["genome", "protein_database", "protein_identifier"],
+                                "required": ["protein_database", "protein_identifier"],
                                 "properties": {
                                   "genome": {
                                     "type": "string",
