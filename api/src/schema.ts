@@ -272,7 +272,7 @@ export type OtherInstrumentationInformation = string;
  */
 export type InstrumentationMethodLabel = string;
 /**
- * Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment. More detailed information can go in the 'Other' box.
+ * Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment. More detailed information can go in the 'Other' box. Including both metabolomics and proteomics (if proteomics data is included) instruments
  */
 export type InstrumentationMethods = {
   instrumentation?: Instrumentation;
@@ -315,7 +315,7 @@ export type AdditionalNotes = string;
  */
 export type ProteomeLabel = string;
 /**
- * Please add all proteomes for which paired data is available as separate entries.
+ * Please add all proteomes for which paired data is available as separate entries. Create an entry for each different condition in your sample set
  */
 export type ProteomicsInformation = {
   proteome_ID: FullProteomeOrEnriched;
@@ -374,9 +374,9 @@ export type LinkVerification = (
   | 'Evidence as indicated in MIBiG'
 )[];
 /**
- * Select how the quantitative data is calculated.
+ * Select which omics-based experiment type has given evidence of link between BGC cluster and molecule.
  */
-export type Type2 = 'Quantitative proteomics experiment' | 'Not available';
+export type Type2 = 'Quantitative proteomics experiment' | 'Nonquantitative proteomics experiment' | 'Not available';
 /**
  * Please provide the SMILES notation for the known molecule.
  */
@@ -392,7 +392,7 @@ export type WhatWouldYouLikeToLink = 'GNPS molecular family' | 'single molecule'
 export type BiosyntheticGeneClusterMSMSLinks = {
   known_link?: KnownLinkedGeneClusterAndMolecule;
   verification: LinkVerification;
-  quantitative_experiment?: VerifiedWithQuantitativeExperiment;
+  omics_based_evidence?: VerifiedWithAdditionalExperimentalOmicsBasedEvidence;
   SMILES?: SimplifiedMolecularInputLineEntrySystemSMILES;
   IUPAC?: InternationalUnionOfPureAndAppliedChemistryIUPACName;
   BGC_ID: MIBiGBGCAccession;
@@ -511,8 +511,8 @@ export interface Info {
   publications?: KeyPublications2;
   notes?: AdditionalNotes;
 }
-export interface VerifiedWithQuantitativeExperiment {
-  quantitative_experiment_type: Type2;
+export interface VerifiedWithAdditionalExperimentalOmicsBasedEvidence {
+  omics_based_evidence_type: Type2;
   [k: string]: any;
 }
 export interface MIBiGBGCAccession {

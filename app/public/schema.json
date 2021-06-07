@@ -1191,7 +1191,7 @@
         "instrumentation_methods": {
           "type": "array",
           "title": "Instrumentation Methods",
-          "description": "Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment. More detailed information can go in the 'Other' box.",
+          "description": "Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment. More detailed information can go in the 'Other' box. Including both metabolomics and proteomics (if proteomics data is included) instruments",
           "items": {
             "type": "object",
             "properties": {
@@ -1474,7 +1474,7 @@
     "proteomes": {
       "type": "array",
       "title": "5. Proteomics information",
-      "description": "Please add all proteomes for which paired data is available as separate entries.",
+      "description": "Please add all proteomes for which paired data is available as separate entries. Create an entry for each different condition in your sample set",
       "items": {
         "type": "object",
         "required": [
@@ -1852,30 +1852,49 @@
             },
             "uniqueItems": true
           },
-          "quantitative_experiment": {
+          "omics_based_evidence": {
             "type": "object",
-            "title": "Verified with quantitative experiment",
-            "required": ["quantitative_experiment_type"],
+            "title": "Verified with additional experimental omics-based evidence",
+            "required": ["omics_based_evidence_type"],
             "properties": {
-              "quantitative_experiment_type": {
+              "omics_based_evidence_type": {
                 "type": "string",
                 "title": "Type",
-                "enum": ["Quantitative proteomics experiment", "Not available"],
+                "enum": ["Quantitative proteomics experiment", "Nonquantitative proteomics experiment", "Not available"],
                 "default": "Not available",
-                "description": "Select how the quantitative data is calculated."
+                "description": "Select which omics-based experiment type has given evidence of link between BGC cluster and molecule."
               }
             },
             "dependencies": {
-              "quantitative_experiment_type": {
+              "omics_based_evidence_type": {
                 "oneOf": [{
                   "properties": {
-                    "quantitative_experiment_type": {
+                    "omics_based_evidence_type": {
                       "enum": ["Not available"]
                     }
                   }
                 },{
                   "properties": {
-                    "quantitative_experiment_type": {
+                    "omics_based_evidence_type": {
+                      "enum": ["Nonquantitative proteomics experiment"]
+                    },
+                    "nonquantitative_proteomics_experiment": {
+                      "type": "object",
+                      "title": "Nonquantitative proteomics experiment",
+                      "required": ["evidences"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "evidences": {
+                          "type": "string",
+                          "title": "Nonquantitative evidences",
+                          "description": "Describe evidences."
+                        }
+                      }
+                    }
+                  }
+                },{
+                  "properties": {
+                    "omics_based_evidence_type": {
                       "enum": ["Quantitative proteomics experiment"]
                     },
                     "quantitative_proteomics_experiment": {
@@ -1898,7 +1917,7 @@
                             "required": [
                               "control_group",
                               "experimental_group",
-                              "product_fold_change",
+                              "metabolite_concentration",
                               "protein_id",
                               "protein_fold"
                             ],
@@ -1914,10 +1933,10 @@
                                 "title": "Experimental group",
                                 "description": "Please select the proteome label for the experimental group."
                               },
-                              "product_fold_change": {
+                              "metabolite_concentration": {
                                 "type": "string",
-                                "title": "Product fold change",
-                                "description": "Fold change in the product like a metabolite or a biomarker",
+                                "title": "Change in metabolite concentration",
+                                "description": "Change in metabolite concentration between control and experimental group",
                                 "enum": [
                                   "increased",
                                   "decreased"
@@ -1926,11 +1945,16 @@
                               "protein_id": {
                                 "type": "object",
                                 "title": "Protein",
-                                "required": ["protein_database", "protein_identifier"],
+                                "required": ["genome", "protein_database", "protein_identifier"],
                                 "properties": {
+                                  "genome": {
+                                    "type": "string",
+                                    "title": "Source genome",
+                                    "description": "Select the genome label from which the protein was translated."
+                                  },
                                   "protein_database": {
                                     "type": "string",
-                                    "title": "Database",
+                                    "title": "Protein database",
                                     "enum": ["uniprot", "refseq"],
                                     "default": "uniprot",
                                     "description": "Database in which identifier of protein can be found."

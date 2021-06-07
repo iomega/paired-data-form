@@ -252,9 +252,14 @@
       "verification": {
         "ui:widget": "checkboxes"
       },
-      "quantitative_experiment": {
-        "quantitative_experiment_type": {
+      "omics_based_evidence": {
+        "omics_based_evidence_type": {
           "ui:widget": "radio"
+        },
+        "nonquantitative_proteomics_experiment": {
+          "evidences": {
+            "ui:widget": "textarea"
+          }
         },
         "quantitative_proteomics_experiment": {
           "evidences": {
@@ -270,6 +275,12 @@
               "experimental_group": {
                 "ui:field": "foreignKey",
                 "foreignKey": {}
+              },
+              "protein_id": {
+                "genome": {
+                  "ui:field": "foreignKey",
+                  "foreignKey": {}
+                }
               }
             }
           }

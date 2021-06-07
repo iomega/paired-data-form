@@ -20,9 +20,12 @@ export const GeneSpectraTable = (props: IProps) => {
 
   const rows = pure_project.BGC_MS2_links.map((r: any, i: number) => {
     let { bgc, link } = bgcLinks(r);
-    const has_quantitative_proteomics_experiment = r.quantitative_experiment &&
-    r.quantitative_experiment.quantitative_experiment_type === 'Quantitative proteomics experiment';
+    const has_quantitative_proteomics_experiment = r.omics_based_evidence &&
+    r.omics_based_evidence.omics_based_evidence_type === 'Quantitative proteomics experiment';
     let quantitative_proteomics_experiment = <></>;
+    const has_nonquantitative_proteomics_experiment = r.omics_based_evidence &&
+    r.omics_based_evidence.omics_based_evidence_type === 'Nonquantitative proteomics experiment';
+    let nonquantitative_proteomics_experiment = <></>;
     if (has_quantitative_proteomics_experiment) {
       const genome_enrichments = props.data.enrichments && props.data.enrichments.genomes ? props.data.enrichments.genomes : {};
       const genome_popovers: any = makeGenomePopovers(pure_project, genome_enrichments);
@@ -31,7 +34,7 @@ export const GeneSpectraTable = (props: IProps) => {
       const instrument_popovers: any = makeInstrumentPopovers(pure_project, props);
       const proteome_popovers: any = makeProteomePopovers(pure_project, genome_popovers, sample_popovers, extraction_popovers, instrument_popovers);
 
-      const comparison_groups = r.quantitative_experiment.quantitative_proteomics_experiment.comparison_groups.map((g: any, j: string) => {
+      const comparison_groups = r.omics_based_evidence.quantitative_proteomics_experiment.comparison_groups.map((g: any, j: string) => {
         let prot_url = (g.protein_id.protein_database === 'uniprot') ?
            'https://www.uniprot.org/uniprot/' + g.protein_id.protein_identifier :
            'https://www.ncbi.nlm.nih.gov/protein/' + g.protein_id.protein_identifier
@@ -61,19 +64,39 @@ export const GeneSpectraTable = (props: IProps) => {
                 </Button>
               </OverlayTrigger>
             </p>
-            <p>Product fold change: {g.product_fold_change}</p>
+            <p>Metabolite concentration change: {g.metabolite_concentration}</p>
+            <p>Genome source:
+              <OverlayTrigger
+                  trigger="click"
+                  rootClose
+                  placement="bottom"
+                  overlay={genome_popovers[g.protein_id.genome]}
+                >
+                  <Button bsStyle="link">
+                    {g.protein_id.genome}
+                  </Button>
+                </OverlayTrigger>
+            </p>
             <p>Protein identifier: <a title="public protein identifier" href={prot_url}>{g.protein_id.protein_identifier}</a></p>
-            <p>Protein fold change: {g.protein_fold.protein_fold_change}{g.protein_fold.quantitation_type !== 'None' && <> based on {g.protein_fold.quantitation_type}</>}</p>
+            <p title="Protein log2 fold (experimental / control)">Protein fold change: {g.protein_fold.protein_fold_change}{g.protein_fold.quantitation_type !== 'None' && <> based on {g.protein_fold.quantitation_type}</>}</p>
           </li>
         )
       });
       quantitative_proteomics_experiment = (
         <>
           <hr/>
-          <p>Evidence of quantitative proteomics experiment: {r.quantitative_experiment.quantitative_proteomics_experiment.evidences}</p>
+          <p>Evidence of quantitative proteomics experiment: {r.omics_based_evidence.quantitative_proteomics_experiment.evidences}</p>
           <ul>
             {comparison_groups}
           </ul>
+        </>
+      );
+    }
+    if (has_nonquantitative_proteomics_experiment) {
+      nonquantitative_proteomics_experiment = (
+        <>
+          <hr/>
+          <p>Evidence of nonquantitative proteomics experiment: {r.omics_based_evidence.nonquantitative_proteomics_experiment.evidences}</p>
         </>
       );
     }
@@ -83,6 +106,7 @@ export const GeneSpectraTable = (props: IProps) => {
         <td>
           {r.verification.join(', ')}
           {has_quantitative_proteomics_experiment && quantitative_proteomics_experiment }
+          {has_nonquantitative_proteomics_experiment && nonquantitative_proteomics_experiment }
         </td>
         <td><div style={{maxWidth: '300px', overflow: 'auto'}}>{r.SMILES}</div></td>
         <td>{r.IUPAC}</td>
