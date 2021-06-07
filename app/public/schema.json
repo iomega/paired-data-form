@@ -1737,11 +1737,6 @@
                 "title": "Sample Growth Conditions",
                 "description": "Please select the Sample Growth Conditions Label for this proteome."
               },
-              "extraction_method_label": {
-                "type": "string",
-                "title": "Extraction Method",
-                "description": "Please select the Extraction Method Label for this proteome."
-              },
               "instrumentation_method_label": {
                 "type": "string",
                 "title": "Instrumentation Method",

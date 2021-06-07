@@ -299,10 +299,6 @@ export type PeptideLabelling = 'iTRAQ' | 'ICPL' | 'Dimethyl' | 'Custom' | 'None'
  */
 export type SampleGrowthConditions1 = string;
 /**
- * Please select the Extraction Method Label for this proteome.
- */
-export type ExtractionMethod = string;
-/**
  * Please select the Instrumentation Method Label for this proteome.
  */
 export type InstrumentationMethod = string;
@@ -348,7 +344,7 @@ export type SampleGrowthConditions2 = string;
 /**
  * Please select the Extraction Method Label for this linked metabolomics dataset.
  */
-export type ExtractionMethod1 = string;
+export type ExtractionMethod = string;
 /**
  * Please select the Instrumentation Method Label for this linked metabolomics dataset.
  */
@@ -361,7 +357,7 @@ export type GenomeProteomeMetabolomeLinks = {
   proteome_label?: Proteome;
   metabolomics_file: LocationOfMetabolomicsDataFile;
   sample_preparation_label: SampleGrowthConditions2;
-  extraction_method_label: ExtractionMethod1;
+  extraction_method_label: ExtractionMethod;
   instrumentation_method_label: InstrumentationMethod1;
 }[];
 /**
@@ -509,7 +505,6 @@ export interface BasicMethod {
  */
 export interface ExperimentalDetails1 {
   sample_preparation_label?: SampleGrowthConditions1;
-  extraction_method_label?: ExtractionMethod;
   instrumentation_method_label?: InstrumentationMethod;
 }
 export interface Info {

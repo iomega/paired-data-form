@@ -1,7 +1,6 @@
 export function injectForeignKeySearchMethods(uiSchema: any, formRef: any) {
   uiSchema.proteomes.items.method.genome_label.foreignKey.search = foreignKeySearch(formRef, "genome_label", genomeLabels);
   uiSchema.proteomes.items.experimental_details.sample_preparation_label.foreignKey.search = foreignKeySearch(formRef, "sample_preparation_label", sampleLabels);
-  uiSchema.proteomes.items.experimental_details.extraction_method_label.foreignKey.search = foreignKeySearch(formRef, "extraction_method_label", extractionLabels);
   uiSchema.proteomes.items.experimental_details.instrumentation_method_label.foreignKey.search = foreignKeySearch(formRef, "instrumentation_method_label", instrumentLabels);
   uiSchema.genome_metabolome_links.items.genome_label.foreignKey.search = foreignKeySearch(formRef, "genome_label", genomeLabels);
   uiSchema.genome_metabolome_links.items.proteome_label.foreignKey.search = foreignKeySearch(formRef, "proteome_label", proteomeLabels);

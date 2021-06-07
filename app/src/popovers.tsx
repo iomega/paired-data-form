@@ -50,19 +50,6 @@ export function makeProteomePopovers(pure_project: IOMEGAPairedOmicsDataPlatform
               </Button>
             </OverlayTrigger>
           </p>}
-        {r.extraction_method_label &&
-          <p>Extraction Method:
-            <OverlayTrigger
-              trigger="click"
-              rootClose
-              placement="bottom"
-              overlay={extraction_popovers[r.extraction_method_label]}
-            >
-              <Button bsStyle="link">
-                {r.extraction_method_label}
-              </Button>
-            </OverlayTrigger>
-          </p>}
         {r.instrumentation_method_label &&
           <p>Instrumentation Method:
             <OverlayTrigger
