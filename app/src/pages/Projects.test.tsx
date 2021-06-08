@@ -99,6 +99,7 @@ describe('<Projects>', () => {
                     PI_name: 'somepi',
                     submitters: 'somesubmitter',
                     nr_genomes: 3,
+                    nr_proteomes: 0,
                     nr_growth_conditions: 4,
                     nr_extraction_methods: 5,
                     nr_instrumentation_methods: 2,
@@ -110,6 +111,7 @@ describe('<Projects>', () => {
                     PI_name: 'otherpi',
                     submitters: 'othersubmitter',
                     nr_genomes: 3,
+                    nr_proteomes: 0,
                     nr_growth_conditions: 4,
                     nr_extraction_methods: 5,
                     nr_instrumentation_methods: 2,
@@ -131,7 +133,7 @@ describe('<Projects>', () => {
                 </Router>
             );
         });
-    
+
         it('should render 3 rows', () => {
             expect(wrapper.getAllByRole('row').length).toEqual(3);
         });
@@ -145,7 +147,7 @@ describe('<Projects>', () => {
 
             it('should have sorted rows on PI', () => {
                 const cells = wrapper.getAllByRole('cell');
-                expect(cells[10].textContent).toEqual('otherpi');
+                expect(cells[11].textContent).toEqual('otherpi');
                 expect(cells[1].textContent).toEqual('somepi');
             });
 
