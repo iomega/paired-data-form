@@ -56,12 +56,12 @@ export const migrations: Migration[] = [
                 project.proteomes = [];
             }
 
-            // quantitative_experiment added
+            // omics-based evidence added
             if (project.BGC_MS2_links) {
                 project.BGC_MS2_links.forEach((r: any) => {
-                    if (!r.quantitative_experiment) {
-                        r.quantitative_experiment = {
-                            quantitative_experiment_type: 'Not available'
+                    if (!r.omics_based_evidence) {
+                        r.omics_based_evidence = {
+                            omics_based_evidence_type: 'Not available'
                         };
                     }
                 });

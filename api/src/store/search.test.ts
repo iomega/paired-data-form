@@ -496,6 +496,7 @@ async function esGenomeProject() {
             nr_genecluster_mspectra_links: 3,
             nr_genome_metabolomics_links: 21,
             nr_genomes: 3,
+            nr_proteomes: 0,
             nr_growth_conditions: 3,
             nr_instrumentation_methods: 1,
         }
@@ -534,6 +535,7 @@ async function genomeProjectSummary() {
         nr_genecluster_mspectra_links: 3,
         nr_genome_metabolomics_links: 21,
         nr_genomes: 3,
+        nr_proteomes: 0,
         nr_growth_conditions: 3,
         nr_instrumentation_methods: 1,
         score: 0.5,

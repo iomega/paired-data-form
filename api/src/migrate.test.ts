@@ -328,8 +328,8 @@ const EXAMPLE_PROJECT_JSON_V3: any = {
             'verification': [
                 'Evidence as indicated in MIBiG'
             ],
-            'quantitative_experiment': {
-                'quantitative_experiment_type': 'Not available'
+            'omics_based_evidence': {
+                'omics_based_evidence_type': 'Not available'
             },
             'SMILES': 'C[C@@]12[C@@H]([C@@H](C[C@@H](O1)N3C4=CC=CC=C4C5=C6C(=C7C8=CC=CC=C8N2C7=C53)CNC6=O)NC)OC',
             'IUPAC': '(2S,3R,4R,6R)-3-methoxy-2-methyl-4-(methylamino)-29-oxa-1,7,17-triazaoctacyclo[12.12.2.12,6.07,28.08,13.015,19.020,27.021,26]nonacosa-8,10,12,14,19,21,23,25,27-nonaen-16-one',
@@ -345,8 +345,8 @@ const EXAMPLE_PROJECT_JSON_V3: any = {
             'verification': [
                 'Evidence as indicated in MIBiG'
             ],
-            'quantitative_experiment': {
-                'quantitative_experiment_type': 'Not available'
+            'omics_based_evidence': {
+                'omics_based_evidence_type': 'Not available'
             },
             'SMILES': 'CCCOC(=O)c1c(C)cc2c(c1O)[C@@]1(O)C(=O)c3cc4c(c(O)c3C(=O)[C@@]1(OC)CC2)C(=O)C=C(N[C@H]1O[C@@H](C)[C@H](O)[C@H](O)[C@H]1OC)C4=O',
             'IUPAC': 'methyl (6aR,14aS)-11-[[(2S,3R,4R,5R,6S)-4,5-dihydroxy-3-methoxy-6-methyloxan-2-yl]amino]-1,8,14a-trihydroxy-6a-methoxy-3-methyl-7,9,12,14-tetraoxo-5,6-dihydrobenzo[a]tetracene-2-carboxylate',
@@ -444,11 +444,11 @@ describe('migrateProject2to3 migration ', () => {
                 expect(result.proteomes).toEqual([]);
             });
 
-            it('should have not available quantitive experiment type', () => {
+            it('should have not available omics_based_evidence type', () => {
                 expect.assertions(2);
                 result.BGC_MS2_links.forEach((l: any) => {
-                    expect(l.quantitative_experiment).toEqual({
-                        quantitative_experiment_type: 'Not available'
+                    expect(l.omics_based_evidence).toEqual({
+                        omics_based_evidence_type: 'Not available'
                     });
                 });
             });
