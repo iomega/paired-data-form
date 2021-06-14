@@ -80,7 +80,7 @@ export const GeneSpectraTable = (props: IProps) => {
               </p>
             }
             <p>Protein identifier: <a title="public protein identifier" href={prot_url}>{g.protein_id.protein_identifier}</a></p>
-            <p title="Protein log2 fold (experimental / control)">Protein fold change: {g.protein_fold.protein_fold_change}{g.protein_fold.quantitation_type !== 'None' && <> based on {g.protein_fold.quantitation_type}</>}</p>
+            <p>Protein log<sub>2</sub> fold change (exp/cont): {g.protein_fold.protein_fold_change}{g.protein_fold.quantitation_type !== 'None' && <> based on {g.protein_fold.quantitation_type}</>}</p>
           </li>
         )
       });

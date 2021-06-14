@@ -1975,8 +1975,8 @@
                                 "properties": {
                                   "protein_fold_change": {
                                     "type": "number",
-                                    "title": "Fold change",
-                                    "description": "Protein log<sub>2</sub> fold: experiment group / control group."
+                                    "title": "Log2 fold change",
+                                    "description": "Protein log<sub>2</sub> transformed fold change: experiment group / control group."
                                   },
                                   "quantitation_type": {
                                     "type": "string",
