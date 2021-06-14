@@ -15,7 +15,60 @@ export function makeProteomePopovers(pure_project: IOMEGAPairedOmicsDataPlatform
     let targets = targetsOfEnrichedProteome(p);
     const peptide_labelling = p.method.peptide_labelling === 'Custom' ? p.method.custom_peptide_labelling : p.method.peptide_labelling;
     const r = p.experimental_details ? p.experimental_details : {};
-    debugger
+    let genome = <></>;
+    if (p.method.genome_label) {
+      const go = genome_popovers[p.method.genome_label];
+      genome = (
+        <p>Genome used for DDA:
+          <OverlayTrigger
+            trigger="click"
+            rootClose
+            placement="bottom"
+            overlay={go}
+          >
+            <Button bsStyle="link">
+              {p.method.genome_label}
+            </Button>
+          </OverlayTrigger>
+        </p>
+      );
+    }
+    let conditions = <></>;
+    if (r.sample_preparation_label) {
+      const co = sample_popovers[r.sample_preparation_label];
+      conditions = (
+        <p>Sample Growth Conditions:
+          <OverlayTrigger
+            trigger="click"
+            rootClose
+            placement="bottom"
+            overlay={co}
+          >
+            <Button bsStyle="link">
+              {r.sample_preparation_label}
+            </Button>
+          </OverlayTrigger>
+        </p>
+      );
+    }
+    let instrument = <></>;
+    if (r.instrumentation_method_label) {
+      const io = instrument_popovers[r.instrumentation_method_label];
+      instrument = (
+        <p>Instrumentation Method:
+          <OverlayTrigger
+            trigger="click"
+            rootClose
+            placement="bottom"
+            overlay={io}
+          >
+            <Button bsStyle="link">
+              {r.instrumentation_method_label}
+            </Button>
+          </OverlayTrigger>
+        </p>
+      );
+    }
     const popover = (
       <Popover id={p.proteome_label} title="Proteome">
         <p>Type: {p.proteome_ID.proteome_type}</p>
@@ -23,46 +76,10 @@ export function makeProteomePopovers(pure_project: IOMEGAPairedOmicsDataPlatform
         <p>Database: {database_name}</p>
         <p>Link to raw data: <a href={p.raw_data.proteome_data_link}>{p.raw_data.proteome_data_link}</a></p>
         <p>Anaysis mode: {p.method.analysis_mode}</p>
-        {p.method.genome_label &&
-          <p>Genome used for DDA:
-            <OverlayTrigger
-              trigger="click"
-              rootClose
-              placement="bottom"
-              overlay={genome_popovers[p.method.genome_label]}
-            >
-              <Button bsStyle="link">
-                {p.method.genome_label}
-              </Button>
-            </OverlayTrigger>
-          </p>}
+        {genome}
         <p>Peptide labelling: {peptide_labelling}</p>
-        {r.sample_preparation_label &&
-          <p>Sample Growth Conditions:
-            <OverlayTrigger
-              trigger="click"
-              rootClose
-              placement="bottom"
-              overlay={sample_popovers[r.sample_preparation_label]}
-            >
-              <Button bsStyle="link">
-                {r.sample_preparation_label}
-              </Button>
-            </OverlayTrigger>
-          </p>}
-        {r.instrumentation_method_label &&
-          <p>Instrumentation Method:
-            <OverlayTrigger
-              trigger="click"
-              rootClose
-              placement="bottom"
-              overlay={instrument_popovers[r.instrumentation_method_label]}
-            >
-              <Button bsStyle="link">
-                {r.instrumentation_method_label}
-              </Button>
-            </OverlayTrigger>
-          </p>}
+        {conditions}
+        {instrument}
         <p>Key publications: <Publications publications={p.more_info.publications!} /></p>
         <p>Notes: {p.more_info.notes}</p>
       </Popover>
