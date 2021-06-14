@@ -24,7 +24,7 @@ describe('with schema loaded', () => {
                     'Genome/Metagenome', 'Proteome', 'Location of metabolomics data file', 'Sample Growth Conditions', 'Extraction Method', 'Instrumentation Method'
                 ],
                 [
-                    'Streptomyces sp. CNB091', undefined, 'ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML',
+                    'Streptomyces sp. CNB091', "Proteomics_Man", 'ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML',
                     'agar', 'meth', 'quad'
                 ],
                 [
