@@ -319,7 +319,6 @@ export function validateDocument(doc: any, errors: any) {
         );
       }
     });
-    // TODO proteome control group and experimental group should not be same
   }
   return errors;
 }

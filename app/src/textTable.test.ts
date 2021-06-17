@@ -176,6 +176,16 @@ describe('with schema loaded', () => {
                 'Extraction Method': 'meth',
                 'Instrumentation Method': 'badlabel',
             }]],
+            [
+             'badlabel is not known as proteome label, please add the proteome first', kitchenSinkDoc, [{
+                'Genome/Metagenome': 'Streptomyces sp. CNB091',
+                'Proteome': 'badlabel',
+                'Location of metabolomics data file': 'ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNB091_A1_B.mzXML',
+                'Sample Growth Conditions': 'blod',
+                'Extraction Method': 'meth',
+                'Instrumentation Method': 'bh',
+             }]
+            ]
         ])('should complain about %s', (message, project, rows) => {
             expect(() => jsonDocument(project as IOMEGAPairedOmicsDataPlatform, rows)).toThrowError(message);
         });

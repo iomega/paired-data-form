@@ -67,9 +67,8 @@ export function jsonDocument(project: IOMEGAPairedOmicsDataPlatform, rows: any[]
         if (!genomeLabels.has(genomeLabel)) {
             throw new Error(`${genomeLabel} is not known as genome label, please add the (meta)genome first`);
         }
-        // TODO proteome should be optional
         const proteomeLabel = row['Proteome']
-        if (proteomeLabel !== undefined && !proteomeLabels.has(proteomeLabel)) {
+        if (proteomeLabel && !proteomeLabels.has(proteomeLabel)) {
             throw new Error(`${proteomeLabel} is not known as proteome label, please add the proteome first`);
         }
         const samplePreparationLabel = row['Sample Growth Conditions'];
