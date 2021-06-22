@@ -1444,7 +1444,7 @@
               "collision_energy": {
                 "type": "string",
                 "title": "Collision energy",
-                "description": "Please enter the collision energy."
+                "description": "Please enter the collision energy. Do not forget the unit like KeV or NCE"
               },
               "buffering": {
                 "type": "string",
