@@ -1945,7 +1945,7 @@
                               "protein_id": {
                                 "type": "object",
                                 "title": "Protein",
-                                "required": ["protein_database", "protein_identifier"],
+                                "required": ["protein_database"],
                                 "properties": {
                                   "genome": {
                                     "type": "string",
@@ -1955,14 +1955,31 @@
                                   "protein_database": {
                                     "type": "string",
                                     "title": "Protein database",
-                                    "enum": ["uniprot", "refseq"],
-                                    "default": "uniprot",
+                                    "enum": ["uniprot", "refseq", "de novo"],
+                                    "default": "de novo",
                                     "description": "Database in which identifier of protein can be found."
-                                  },
-                                  "protein_identifier": {
-                                    "type": "string",
-                                    "title": "Identifier",
-                                    "description": "Public identifier of protein which changed between control and experiment"
+                                  }
+                                },
+                                "dependencies": {
+                                  "protein_database": {
+                                    "oneOf": [{
+                                      "properties": {
+                                        "protein_database": {
+                                          "enum": [
+                                            "uniprot", "refseq"
+                                          ]
+                                        },
+                                        "protein_identifier": {
+                                          "type": "string",
+                                          "title": "Identifier",
+                                          "description": "Public identifier of protein which changed between control and experiment"
+                                        }
+                                      },
+                                      "required": [
+                                        "protein_database",
+                                        "protein_identifier"
+                                      ]
+                                    }]
                                   }
                                 },
                                 "additionalProperties": false
