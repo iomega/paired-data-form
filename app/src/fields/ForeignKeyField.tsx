@@ -8,7 +8,7 @@ import { findDuplicates } from "../validate";
 
 interface LabelValue {
   label: string;
-  value: string;
+  value: string | undefined;
 }
 
 interface IState {
@@ -30,9 +30,14 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
 
   public loadOptions = (): LabelValue[] => {
     const values = this.props.uiSchema.foreignKey.search(this.props.name);
-    return values.map((v: string) => {
+    const options = values.map((v: string) => {
       return { value: v, label: v };
     });
+    if (!this.props.required) {
+      const deselectLabel = 'Click to unselect'
+      options.unshift({'label': deselectLabel, 'value': undefined})
+    }
+    return options;
   };
 
   public render() {
