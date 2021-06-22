@@ -34,7 +34,7 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
       return { value: v, label: v };
     });
     if (!this.props.required) {
-      const deselectLabel = 'Click to unselect'
+      const deselectLabel = 'Click to deselect'
       options.unshift({'label': deselectLabel, 'value': undefined})
     }
     return options;
