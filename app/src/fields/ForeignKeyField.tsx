@@ -76,7 +76,8 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
   public onOpen = () => {
     try {
       const options = this.loadOptions();
-      if (options.length === 0) {
+      const nr_choices = this.props.required ? options.length : options.length - 1;
+      if (nr_choices === 0) {
         this.setState({ error: 'No choices found, fill sections above before creating a link' });
       } else if (!options.every(d => d.label)) {
         this.setState({ error: 'Some choices are empty. Correct in section above' });
