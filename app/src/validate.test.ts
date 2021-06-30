@@ -275,22 +275,22 @@ describe("validateDocument", () => {
     ).toHaveBeenCalledWith("Invalid selection");
   });
 
-  it("should complain when non existing genome label is used in proteome", () => {
+  it("should complain when non existing genome database is used in proteome", () => {
     const errors = {
       proteomes: [
         {
             method: {
-                genome_label: { addError: jest.fn() },
+              genome_database: { addError: jest.fn() },
           },
         },
       ],
     };
     const doc = JSON.parse(JSON.stringify(kitchenSinkDoc));
-    doc.proteomes[0].method.genome_label = "foobar";
+    doc.proteomes[0].method.genome_database = "foobar";
 
     validateDocument(doc, errors);
     expect(
-      errors.proteomes[0].method.genome_label.addError
+      errors.proteomes[0].method.genome_database.addError
     ).toHaveBeenCalledWith("Invalid selection");
   });
 

@@ -1481,6 +1481,7 @@
           "proteome_ID",
           "raw_data",
           "method",
+          "identification",
           "experimental_details",
           "more_info",
           "proteome_label"
@@ -1656,7 +1657,7 @@
                 "title": "Analysis mode",
                 "enum": [
                   "Data-dependent acquisition (DDA)",
-                  "Data-independent Acquisition (DIA)"
+                  "Data-independent acquisition (DIA)"
                 ]
               },
               "peptide_labelling": {
@@ -1679,16 +1680,21 @@
                     "analysis_mode": {
                       "enum": ["Data-dependent acquisition (DDA)"]
                     },
-                    "genome_label": {
-                      "title": "Genome Database",
-                      "description": "Genome label of the genome used when running DDA. If additional database is used, please specify them in *Additional notes*",
-                      "type": "string"
+                    "genome_database": {
+                      "title": "Genome database",
+                      "description": "The genome from which the predicted proteome database was generated, used to guide the parent ion selection. If no genome was used then keep field unselected.",
+                      "type":"string"
+                    },
+                    "transcriptomics_database": {
+                      "title": "Transcriptomics database",
+                      "description": "The transcriptome from which the predicted proteome database was generated, used to guide the parent ion selection. Please input a NCBI GEO database accession. For example <a href=\"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE171784\">GSE171784</a>. If no transcriptome was used then keep field empty.",
+                      "type":"string"
                     }
                   }
                 }, {
                   "properties": {
                     "analysis_mode": {
-                      "enum": ["Data-independent Acquisition (DIA)"]
+                      "enum": ["Data-independent acquisition (DIA)"]
                     }
                   }
                 }]
@@ -1726,6 +1732,23 @@
                 }]
               }
             }
+          },
+          "identification": {
+              "title": "Identification",
+              "type": "object",
+              "properties": {
+                "genome_database": {
+                  "title": "Genome database",
+                  "description": "The genome from which the predicted proteome database was generated, used in your protein identification process. If no genome was used then keep field unselected.",
+                  "type":"string"
+                },
+                "transcriptomics_database": {
+                  "title": "Transcriptomics database",
+                  "description": "The transcriptome from which the predicted proteome database was generated, used in your protein identification process. Please input a NCBI GEO database accession. For example <a href=\"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE171784\">GSE171784</a>. If no transcriptome was used then keep field empty.",
+                  "type":"string"
+                }
+              },
+              "additionalProperties": false
           },
           "experimental_details": {
             "type": "object",
@@ -1971,7 +1994,7 @@
                                         },
                                         "protein_identifier": {
                                           "type": "string",
-                                          "title": "Identifier",
+                                          "title": "Protein identifier",
                                           "description": "Public identifier of protein which changed between control and experiment"
                                         }
                                       },

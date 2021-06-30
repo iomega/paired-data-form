@@ -1,6 +1,8 @@
 export function injectForeignKeySearchMethods(uiSchema: any, formRef: any) {
-  uiSchema.proteomes.items.method.genome_label.foreignKey.search =
-    foreignKeySearch(formRef, "genome_label", genomeLabels);
+  uiSchema.proteomes.items.method.genome_database.foreignKey.search =
+    foreignKeySearch(formRef, "genome_database", genomeLabels);
+  uiSchema.proteomes.items.identification.genome_database.foreignKey.search =
+    foreignKeySearch(formRef, "genome_database", genomeLabels);
   uiSchema.proteomes.items.experimental_details.sample_preparation_label.foreignKey.search =
     foreignKeySearch(formRef, "sample_preparation_label", sampleLabels);
   uiSchema.proteomes.items.experimental_details.instrumentation_method_label.foreignKey.search =
@@ -196,10 +198,17 @@ export function validateDocument(doc: any, errors: any) {
       }
       if (
         proteome.method &&
-        proteome.method.genome_label &&
-        !gmIds.includes(proteome.method.genome_label)
+        proteome.method.genome_database &&
+        !gmIds.includes(proteome.method.genome_database)
       ) {
-        errors.proteomes[i].method.genome_label.addError("Invalid selection");
+        errors.proteomes[i].method.genome_database.addError("Invalid selection");
+      }
+      if (
+        proteome.identification &&
+        proteome.identification.genome_database &&
+        !gmIds.includes(proteome.identification.genome_database)
+      ) {
+        errors.proteomes[i].identification.genome_database.addError("Invalid selection");
       }
     });
   }

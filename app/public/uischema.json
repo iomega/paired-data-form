@@ -76,7 +76,7 @@
         "analysis_mode": {
           "ui:widget": "radio"
         },
-        "genome_label": {
+        "genome_database": {
           "ui:field": "foreignKey",
           "foreignKey": {}
         },
@@ -84,12 +84,14 @@
           "ui:widget": "radio"
         }
       },
-      "experimental_details": {
-        "sample_preparation_label": {
+      "identification": {
+        "genome_database": {
           "ui:field": "foreignKey",
           "foreignKey": {}
-        },
-        "extraction_method_label": {
+        }
+      },
+      "experimental_details": {
+        "sample_preparation_label": {
           "ui:field": "foreignKey",
           "foreignKey": {}
         },

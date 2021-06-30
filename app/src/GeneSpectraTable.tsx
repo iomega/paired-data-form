@@ -38,6 +38,9 @@ export const GeneSpectraTable = (props: IProps) => {
         let prot_url = (g.protein_id.protein_database === 'uniprot') ?
            'https://www.uniprot.org/uniprot/' + g.protein_id.protein_identifier :
            'https://www.ncbi.nlm.nih.gov/protein/' + g.protein_id.protein_identifier
+        let prot_id = (g.protein_id.protein_database !== 'de novo') ?
+            <a title="public protein identifier" href={prot_url}>{g.protein_id.protein_identifier}</a> :
+            <span>De novo</span>
         return (
           <li id={j}>
             <p>Control:
@@ -79,7 +82,7 @@ export const GeneSpectraTable = (props: IProps) => {
                   </OverlayTrigger>
               </p>
             }
-            <p>Protein identifier: <a title="public protein identifier" href={prot_url}>{g.protein_id.protein_identifier}</a></p>
+            <p>Protein identifier: {prot_id}</p>
             <p>Protein log<sub>2</sub> fold change (exp/cont): {g.protein_fold.protein_fold_change}{g.protein_fold.quantitation_type !== 'None' && <> based on {g.protein_fold.quantitation_type}</>}</p>
           </li>
         )

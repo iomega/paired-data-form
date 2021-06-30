@@ -256,7 +256,7 @@ export type IonizationType3 = string;
  */
 export type MassRange = string;
 /**
- * Please enter the collision energy.
+ * Please enter the collision energy. Do not forget the unit like KeV or NCE
  */
 export type CollisionEnergy = string;
 /**
@@ -292,8 +292,16 @@ export type ProteomeDatabase = 'ProteomeXchange' | 'PRIDE' | 'iProX' | 'JPOST' |
  * Please provide link to public data depository where the proteomics data and metadata can be found. If the experiment is quantitative, please provide link to the expression table.
  */
 export type LocationOfRawProteomicsData = string;
-export type AnalysisMode = 'Data-dependent acquisition (DDA)' | 'Data-independent Acquisition (DIA)';
+export type AnalysisMode = 'Data-dependent acquisition (DDA)' | 'Data-independent acquisition (DIA)';
 export type PeptideLabelling = 'iTRAQ' | 'ICPL' | 'Dimethyl' | 'Custom' | 'None';
+/**
+ * The genome from which the predicted proteome database was generated, used in your protein identification process. If no genome was used then keep field unselected.
+ */
+export type GenomeDatabase = string;
+/**
+ * The transcriptome from which the predicted proteome database was generated, used in your protein identification process. Please input a NCBI GEO database accession. For example <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE171784">GSE171784</a>. If no transcriptome was used then keep field empty.
+ */
+export type TranscriptomicsDatabase = string;
 /**
  * Please select the Sample Growth Conditions Label for this proteome.
  */
@@ -321,6 +329,7 @@ export type ProteomicsInformation = {
   proteome_ID: FullProteomeOrEnriched;
   raw_data: RawDataLink;
   method: BasicMethod;
+  identification: Identification;
   experimental_details: ExperimentalDetails1;
   more_info: Info;
   proteome_label: ProteomeLabel;
@@ -499,6 +508,10 @@ export interface BasicMethod {
   analysis_mode: AnalysisMode;
   peptide_labelling: PeptideLabelling;
   [k: string]: any;
+}
+export interface Identification {
+  genome_database?: GenomeDatabase;
+  transcriptomics_database?: TranscriptomicsDatabase;
 }
 /**
  * A proteome can have different experimental details than a metabolomics data file. If different add experimental details in section 4 and pick from list here.

@@ -158,6 +158,7 @@ export const kitchenSinkDoc = {
         "analysis_mode": "Data-dependent acquisition (DDA)",
         "genome_label": "Salinispora arenicola CNB527"
       },
+      "identification": {},
       "experimental_details": {
         "sample_preparation_label": "blod",
         "instrumentation_method_label": "quad"
@@ -179,7 +180,12 @@ export const kitchenSinkDoc = {
       "method": {
         "peptide_labelling": "None",
         "analysis_mode": "Data-dependent acquisition (DDA)",
-        "genome_label": "Salinispora arenicola CNB527"
+        "genome_database": "Salinispora arenicola CNB527",
+        "transcriptomics_database": "GSE171784"
+      },
+      "identification": {
+        "genome_database": "Salinispora arenicola CNB527",
+        "transcriptomics_database": "GSE171784"
       },
       "experimental_details": {
         "sample_preparation_label": "agar",

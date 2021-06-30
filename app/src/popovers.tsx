@@ -15,11 +15,11 @@ export function makeProteomePopovers(pure_project: IOMEGAPairedOmicsDataPlatform
     let targets = targetsOfEnrichedProteome(p);
     const peptide_labelling = p.method.peptide_labelling === 'Custom' ? p.method.custom_peptide_labelling : p.method.peptide_labelling;
     const r = p.experimental_details ? p.experimental_details : {};
-    let genome = <></>;
-    if (p.method.genome_label) {
-      const go = genome_popovers[p.method.genome_label];
-      genome = (
-        <p>Genome used for DDA:
+    let genome4dda = <></>;
+    if (p.method.genome_database) {
+      const go = genome_popovers[p.method.genome_database];
+      genome4dda = (
+        <li>Genome:
           <OverlayTrigger
             trigger="click"
             rootClose
@@ -27,10 +27,44 @@ export function makeProteomePopovers(pure_project: IOMEGAPairedOmicsDataPlatform
             overlay={go}
           >
             <Button bsStyle="link">
-              {p.method.genome_label}
+              {p.method.genome_database}
             </Button>
           </OverlayTrigger>
-        </p>
+        </li>
+      );
+    }
+    let transcriptome4dda = <></>;
+    if (p.method.transcriptomics_database) {
+      transcriptome4dda = (
+        <li>
+          Transcriptomics database: <a href={ "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=" + p.method.transcriptomics_database}>{p.method.transcriptomics_database}</a>
+        </li>
+      );
+    }
+    let genome4identification = <></>;
+    if (p.identification.genome_database) {
+      const go = genome_popovers[p.identification.genome_database];
+      genome4identification = (
+        <li>Genome:
+          <OverlayTrigger
+            trigger="click"
+            rootClose
+            placement="bottom"
+            overlay={go}
+          >
+            <Button bsStyle="link">
+              {p.method.genome_database}
+            </Button>
+          </OverlayTrigger>
+        </li>
+      );
+    }
+    let transcriptome4identification = <></>;
+    if (p.identification.transcriptomics_database) {
+      transcriptome4identification = (
+        <li>
+          Transcriptomics database: <a href={ "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=" + p.identification.transcriptomics_database}>{p.identification.transcriptomics_database}</a>
+        </li>
       );
     }
     let conditions = <></>;
@@ -76,7 +110,15 @@ export function makeProteomePopovers(pure_project: IOMEGAPairedOmicsDataPlatform
         <p>Database: {database_name}</p>
         <p>Link to raw data: <a href={p.raw_data.proteome_data_link}>{p.raw_data.proteome_data_link}</a></p>
         <p>Anaysis mode: {p.method.analysis_mode}</p>
-        {genome}
+        <ul>
+          {genome4dda}
+          {transcriptome4dda}
+        </ul>
+        <p>Identification:</p>
+        <ul>
+          {genome4identification}
+          {transcriptome4identification}
+        </ul>
         <p>Peptide labelling: {peptide_labelling}</p>
         {conditions}
         {instrument}
