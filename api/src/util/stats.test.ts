@@ -242,6 +242,7 @@ describe('computeStats()', () => {
                             analysis_mode: 'Data-dependent acquisition (DDA)',
                             peptide_labelling: 'iTRAQ'
                         },
+                        identification: {},
                         experimental_details: {},
                         more_info: {},
                         proteome_label: 'someprotlabel'
@@ -326,6 +327,7 @@ describe('computeStats()', () => {
                             analysis_mode: 'Data-dependent acquisition (DDA)',
                             peptide_labelling: 'iTRAQ'
                         },
+                        identification: {},
                         experimental_details: {},
                         more_info: {},
                         proteome_label: 'someprotlabel'
