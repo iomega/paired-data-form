@@ -1980,7 +1980,7 @@
                                     "title": "Protein database",
                                     "enum": ["uniprot", "refseq", "de novo"],
                                     "default": "de novo",
-                                    "description": "Database in which identifier of protein can be found."
+                                    "description": "Database in which protein identifier of protein can be found."
                                   }
                                 },
                                 "dependencies": {
@@ -2002,10 +2002,18 @@
                                         "protein_database",
                                         "protein_identifier"
                                       ]
+                                    }, {
+                                      "properties": {
+                                        "protein_database": {
+                                          "enum": ["de novo"]
+                                        }
+                                      },
+                                      "required": [
+                                        "protein_database"
+                                      ]
                                     }]
                                   }
-                                },
-                                "additionalProperties": false
+                                }
                               },
                               "protein_fold": {
                                 "type": "object",
