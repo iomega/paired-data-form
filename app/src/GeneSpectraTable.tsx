@@ -40,7 +40,7 @@ export const GeneSpectraTable = (props: IProps) => {
            'https://www.ncbi.nlm.nih.gov/protein/' + g.protein_id.protein_identifier
         let prot_id = (g.protein_id.protein_database !== 'de novo') ?
             <a title="public protein identifier" href={prot_url}>{g.protein_id.protein_identifier}</a> :
-            <span>De novo</span>
+            <span>De novo: {g.protein_id.protein_identifier}</span>
         return (
           <li id={j}>
             <p>Control:

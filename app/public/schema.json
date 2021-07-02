@@ -1968,7 +1968,7 @@
                               "protein_id": {
                                 "type": "object",
                                 "title": "Protein",
-                                "required": ["protein_database"],
+                                "required": ["protein_database", "protein_identifier"],
                                 "properties": {
                                   "genome": {
                                     "type": "string",
@@ -1981,37 +1981,11 @@
                                     "enum": ["uniprot", "refseq", "de novo"],
                                     "default": "de novo",
                                     "description": "Database in which protein identifier of protein can be found."
-                                  }
-                                },
-                                "dependencies": {
-                                  "protein_database": {
-                                    "oneOf": [{
-                                      "properties": {
-                                        "protein_database": {
-                                          "enum": [
-                                            "uniprot", "refseq"
-                                          ]
-                                        },
-                                        "protein_identifier": {
-                                          "type": "string",
-                                          "title": "Protein identifier",
-                                          "description": "Public identifier of protein which changed between control and experiment"
-                                        }
-                                      },
-                                      "required": [
-                                        "protein_database",
-                                        "protein_identifier"
-                                      ]
-                                    }, {
-                                      "properties": {
-                                        "protein_database": {
-                                          "enum": ["de novo"]
-                                        }
-                                      },
-                                      "required": [
-                                        "protein_database"
-                                      ]
-                                    }]
+                                  },
+                                  "protein_identifier": {
+                                    "type": "string",
+                                    "title": "Protein identifier",
+                                    "description": "Identifier of protein which changed between control and experiment. When public identifier (Uniprot or RefSeq) is available then please fill in the public identifier. When public identifier is not available then please fill in a custom identifier."
                                   }
                                 }
                               },
