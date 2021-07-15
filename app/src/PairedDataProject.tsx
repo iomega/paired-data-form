@@ -55,6 +55,7 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
     }],
     keywords: [
       "metabolomics",
+      "proteomics",
       "genomics",
       "biosynthetic gene cluster",
       "tandem mass spectrometry",
@@ -114,7 +115,7 @@ export const PairedDataProject = ({ project, schema, inreview = false }: IProps)
         <Panel.Body><MetabolomicsProjectDetails data={metabolomics} /></Panel.Body>
       </Panel>
       <Panel>
-        <Panel.Heading>Links between (meta)genomes and metabolomics data</Panel.Heading>
+        <Panel.Heading>Links between (meta)genomes, proteomes and metabolomics data</Panel.Heading>
         <Panel.Body><GenomeMetabolomicsTable data={project} schema={schema} /></Panel.Body>
       </Panel>
       <Panel>

@@ -56,6 +56,7 @@ export const jsonldDataCatalog: DctDataCatalog = {
   ],
   keywords: [
     "metabolomics",
+    "proteomics",
     "genomics",
     "biosynthetic gene cluster",
     "tandem mass spectrometry"

@@ -87,6 +87,16 @@ export const StatsPage = () => {
                     </Col>
                     <Col md={4}>
                         <fieldset>
+                            <legend>Proteome types</legend>
+                            <ListGroup>
+                                {data.top.proteome_types.map(
+                                    ([value, count]) => <ListItem key={value} title="proteome_type" value={value} count={count} />
+                                )}
+                            </ListGroup>
+                        </fieldset>
+                    </Col>
+                    <Col md={4}>
+                        <fieldset>
                             <legend>Instrument types</legend>
                             <ListGroup>
                                 {data.top.instrument_types.map(

@@ -57,6 +57,59 @@
       }
     }
   },
+  "proteomes": {
+    "ui:field": "collapsible",
+    "collapse": {
+      "field": "table",
+      "collapsed": true
+    },
+    "ui:options": {
+      "orderable": false
+    },
+    "items": {
+      "proteome_ID": {
+        "proteome_type": {
+          "ui:widget": "radio"
+        }
+      },
+      "method": {
+        "analysis_mode": {
+          "ui:widget": "radio"
+        },
+        "genome_database": {
+          "ui:field": "foreignKey",
+          "foreignKey": {}
+        },
+        "peptide_labelling": {
+          "ui:widget": "radio"
+        }
+      },
+      "identification": {
+        "genome_database": {
+          "ui:field": "foreignKey",
+          "foreignKey": {}
+        }
+      },
+      "experimental_details": {
+        "sample_preparation_label": {
+          "ui:field": "foreignKey",
+          "foreignKey": {}
+        },
+        "instrumentation_method_label": {
+          "ui:field": "foreignKey",
+          "foreignKey": {}
+        }
+      },
+      "more_info": {
+        "notes": {
+          "ui:widget": "textarea",
+          "ui:options": {
+            "rows": 8
+          }
+        }
+      }
+    }
+  },
   "experimental": {
     "ui:field": "collapsible",
     "collapse": {
@@ -156,11 +209,15 @@
     "ui:options": {
       "orderable": false,
       "widths": {
-        "1": "40%"
+        "2": "40%"
       }
     },
     "items": {
       "genome_label": {
+        "ui:field": "foreignKey",
+        "foreignKey": {}
+      },
+      "proteome_label": {
         "ui:field": "foreignKey",
         "foreignKey": {}
       },
@@ -196,6 +253,40 @@
       },
       "verification": {
         "ui:widget": "checkboxes"
+      },
+      "omics_based_evidence": {
+        "omics_based_evidence_type": {
+          "ui:widget": "radio"
+        },
+        "nonquantitative_proteomics_experiment": {
+          "evidences": {
+            "ui:widget": "textarea"
+          }
+        },
+        "quantitative_proteomics_experiment": {
+          "evidences": {
+            "ui:widget": "textarea"
+          },
+          "comparison_groups": {
+            "ui:field": "table",
+            "items": {
+              "control_group": {
+                "ui:field": "foreignKey",
+                "foreignKey": {}
+              },
+              "experimental_group": {
+                "ui:field": "foreignKey",
+                "foreignKey": {}
+              },
+              "protein_id": {
+                "genome": {
+                  "ui:field": "foreignKey",
+                  "foreignKey": {}
+                }
+              }
+            }
+          }
+        }
       },
       "BGC_ID": {
         "BGC": {

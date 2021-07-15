@@ -55,6 +55,7 @@ export interface IStats {
         submitters: [string, number][]
         genome_types: [string, number][]
         species: [string, number][]
+        proteome_types: [string, number][]
         instrument_types: [string, number][]
         ionization_modes: [string, number][]
         growth_media: [string, number][]

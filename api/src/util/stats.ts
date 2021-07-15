@@ -1,5 +1,5 @@
+import { BiosyntheticGeneClusterMSMSLinks } from '../schema';
 import { EnrichedProjectDocument } from '../store/enrichments';
-import { GeneClusterMassSpectraLinks } from '../schema';
 import { Lookups } from './schema';
 
 export interface IStats {
@@ -15,6 +15,7 @@ export interface IStats {
         genome_types: [string, number][]
         species: [string, number][]
         metagenomic_environment: [string, number][]
+        proteome_types: [string, number][]
         instrument_types: [string, number][]
         ionization_modes: [string, number][]
         growth_media: [string, number][]
@@ -72,15 +73,53 @@ function countProjectCollectionField(
         });
     });
 
-    // Sort by count, take top n largest counts and replace url by title
+    // Sort by count, take top n largest counts
+    return topFromCounts(field_counts, top_size);
+}
+
+function topFromCounts(field_counts: Map<string, number>, top_size: number) {
     const top: [string, number][] = Array.from(field_counts.entries())
         .sort((a, b) => b[1] - a[1])
-        .slice(0, top_size)
-        ;
+        .slice(0, top_size);
     return {
         total: field_counts.size,
         top
     };
+}
+
+function countProteomes(projects: EnrichedProjectDocument[], lookup: ReadonlyMap<string, string>, top_size = 5) {
+    const field_counts = new Map<string, number>();
+    projects.forEach(project => {
+        const collection = project.project.proteomes ? project.project.proteomes : [];
+        if (!collection) {
+            return;
+        }
+        collection.forEach(p => {
+            let key: string = 'Full proteome';
+            if (p.proteome_ID.proteome_type === 'Enriched') {
+                const targets = p.proteome_ID.targets;
+                const targetsout = targets.map((t: any) => {
+                    if (t.target === 'other') {
+                        return t.other_target;
+                    } else {
+                        return lookup.get(t.target);
+                    }
+                });
+                key = 'Enriched: ' + targetsout.join(', ');
+            }
+            if (!key) {
+                return;
+            }
+            const count = field_counts.get(key);
+            if (count) {
+                field_counts.set(key, count);
+            } else {
+                field_counts.set(key, 1);
+            }
+        });
+    });
+
+    return topFromCounts(field_counts, top_size);
 }
 
 function countSolvents(projects: EnrichedProjectDocument[], lookup: ReadonlyMap<string, string>, top_size = 5) {
@@ -109,14 +148,7 @@ function countSolvents(projects: EnrichedProjectDocument[], lookup: ReadonlyMap<
             });
         });
     });
-    const top: [string, number][] = Array.from(field_counts.entries())
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, top_size)
-        ;
-    return {
-        total: field_counts.size,
-        top
-    };
+    return topFromCounts(field_counts, top_size);
 }
 
 function countMetabolomeSamples(projects: EnrichedProjectDocument[]) {
@@ -162,7 +194,7 @@ function countSpecies(projects: EnrichedProjectDocument[], top_size = 5) {
     return Array.from(field_counts.entries()).sort((a, b) => b[1] - a[1]).slice(0, top_size);
 }
 
-type GeneClusterMassSpectraLink = GeneClusterMassSpectraLinks[0];
+type GeneClusterMassSpectraLink = BiosyntheticGeneClusterMSMSLinks[0];
 
 function hash_bgcms2_link(link: GeneClusterMassSpectraLink) {
     if (link.link === 'GNPS molecular family') {
@@ -221,6 +253,11 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any): 
         (r) => r.genome_ID.genome_type,
         lookups.genome_type,
         lookups.genome_type.size,
+    );
+
+    const proteome_types = countProteomes(
+        projects,
+        lookups.proteome_target
     );
 
     const instrument_types = countProjectCollectionField(
@@ -282,6 +319,7 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any): 
             principal_investigators: principal_investigators.top,
             submitters: submitters.top,
             genome_types: genome_types.top,
+            proteome_types: proteome_types.top,
             instrument_types: instrument_types.top,
             ionization_modes: ionization_modes.top,
             growth_media: growth_media.top,
@@ -290,4 +328,7 @@ export function computeStats(projects: EnrichedProjectDocument[], schema: any): 
             metagenomic_environment: metagenomic_environment.top
         }
     };
+}
+function proteome_target_types(projects: EnrichedProjectDocument[], proteome_target_types: any) {
+    throw new Error('Function not implemented.');
 }

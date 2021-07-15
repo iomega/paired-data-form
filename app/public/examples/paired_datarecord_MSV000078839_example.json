@@ -1,5 +1,5 @@
 {
-    "version": "2",
+    "version": "3",
     "personal": {
         "submitter_name": "Justin van der Hooft",
         "submitter_orcid": "https://orcid.org/0000-0002-9340-5511",
@@ -46,6 +46,7 @@
             "genome_label": "Salinispora arenicola CNB527"
         }
     ],
+    "proteomes": [],
     "experimental": {
         "sample_preparation": [
             {
@@ -295,6 +296,9 @@
             "verification": [
                 "Evidence as indicated in MIBiG"
             ],
+            "quantitative_experiment": {
+              "quantitative_experiment_type": "Not available"
+            },
             "SMILES": "C[C@@]12[C@@H]([C@@H](C[C@@H](O1)N3C4=CC=CC=C4C5=C6C(=C7C8=CC=CC=C8N2C7=C53)CNC6=O)NC)OC",
             "IUPAC": "(2S,3R,4R,6R)-3-methoxy-2-methyl-4-(methylamino)-29-oxa-1,7,17-triazaoctacyclo[12.12.2.12,6.07,28.08,13.015,19.020,27.021,26]nonacosa-8,10,12,14,19,21,23,25,27-nonaen-16-one",
             "BGC_ID": {
@@ -309,6 +313,9 @@
             "verification": [
                 "Evidence as indicated in MIBiG"
             ],
+            "quantitative_experiment": {
+              "quantitative_experiment_type": "Not available"
+            },
             "SMILES": "CC[C@@H]1[C@H]([C@H]2[C@@](O2)(/C=C/C(=O)[C@@H](C[C@@H]([C@@H]([C@H]([C@@H](CC(=O)O1)O)C)O[C@H]3[C@@H]([C@H](C[C@H](O3)C)N(C)C)O)CC=O)C)C)C",
             "IUPAC": "2-[(1S,2R,3R,7R,8S,9S,10R,12R,14E,16S)-9-[(2S,3R,4S,6R)-4-(dimethylamino)-3-hydroxy-6-methyloxan-2-yl]oxy-3-ethyl-7-hydroxy-2,8,12,16-tetramethyl-5,13-dioxo-4,17-dioxabicyclo[14.1.0]heptadec-14-en-10-yl]acetaldehyde",
             "BGC_ID": {
@@ -323,6 +330,9 @@
             "verification": [
                 "Evidence as indicated in MIBiG"
             ],
+            "quantitative_experiment": {
+              "quantitative_experiment_type": "Not available"
+            },
             "SMILES": "CCCOC(=O)c1c(C)cc2c(c1O)[C@@]1(O)C(=O)c3cc4c(c(O)c3C(=O)[C@@]1(OC)CC2)C(=O)C=C(N[C@H]1O[C@@H](C)[C@H](O)[C@H](O)[C@H]1OC)C4=O",
             "IUPAC": "methyl (6aR,14aS)-11-[[(2S,3R,4R,5R,6S)-4,5-dihydroxy-3-methoxy-6-methyloxan-2-yl]amino]-1,8,14a-trihydroxy-6a-methoxy-3-methyl-7,9,12,14-tetraoxo-5,6-dihydrobenzo[a]tetracene-2-carboxylate",
             "BGC_ID": {

@@ -79,6 +79,7 @@ export function Welcome() {
                 </h1>
                     <p style={textStyle}>
                         The Paired Omics Data Platform also collects publically available links between known biosynthetic gene clusters and molecules or molecular families. These fine-grained connections will inform future large scale predictions of structures from genomic data.
+                        Quantititave proteomics experiments can be added to strengthen the link evidence.
                 </p>
                 </Col>
                 <Col md={4} style={colStyle}>

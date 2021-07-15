@@ -20,6 +20,7 @@ jest.mock('../api', () => ({
                     principal_investigators: [['me', 4]],
                     submitters: [['me', 5]],
                     genome_types: [['genome', 6]],
+                    proteome_types: [['Full proteome', 1]],
                     species: [['Human', 7]],
                     instrument_types: [['Time-of-flight (TOF)', 8]],
                     ionization_modes: [['Positive', 13]],

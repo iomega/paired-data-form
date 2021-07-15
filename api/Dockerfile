@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:14-alpine
 LABEL maintainer='s.verhoeven@esciencecenter.nl'
 
 EXPOSE 3001

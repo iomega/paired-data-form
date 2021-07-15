@@ -27,9 +27,9 @@ export const CheckList = () => (
                 Load the sample data to get an idea of how to fill out the form.
             </li>
             <li>
-                Fill out the form in order from section 1 to 6.</li>
+                Fill out the form in order from section 1 to 7.</li>
             <li>
-                To save your work, complete sections 1-4 for at least one sample and make at least one link in section 5, then press the Preview button, scroll down to the table created and press the Download button. You can later use the Upload button to upload this file to continue working. Validation errors may appear at the top of the page and must be resolved before you can download the file.
+                To save your work, complete sections 1-5 for at least one sample and make at least one link in section 6, then press the Preview button, scroll down to the table created and press the Download button. You can later use the Upload button to upload this file to continue working. Validation errors may appear at the top of the page and must be resolved before you can download the file.
             </li>
             <li>
                 A file can also be uploaded at the bottom of the form. The file should adhere to the <a href="https://pairedomicsdata.bioinformatics.nl/schema.json">JSON schema</a>.

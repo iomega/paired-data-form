@@ -234,6 +234,7 @@ describe('app', () => {
                         'growth_media': [],
                         'solvents': [],
                         'species': [],
+                        'proteome_types': [],
                         'metagenomic_environment': []
                     }
                 };
