@@ -46,7 +46,7 @@ services:
         max-size: "10m"
         max-file: "5"
   search:
-    image: "elasticsearch:7.12.1"
+    image: "elasticsearch:7.16.1"
     volumes:
       - search:/usr/share/elasticsearch/data
     environment:
