@@ -17,7 +17,7 @@ The [JSON schema (app/public/schema.json)](app/public/schema.json) describes the
 
 ## Documentation
 
-Developer and admin manuals can be found in [manuals/](manuals/) directory.
+Developer, admin and system operator manuals can be found in [manuals/](manuals/) directory.
 
 ## Contributing
 
