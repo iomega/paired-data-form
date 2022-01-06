@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Linking to proteome and protein
 
+### Security
+
+- Severity vulnerability ([CVE-2021-44228](https://cve.mitre.org/cgi-bin/cvename.cgi?name=2021-44228)) for Apache Log4j 2 in Elastic search Docker image
+
 ## [0.9.2] - 2021-03-03
 
 ## Added
