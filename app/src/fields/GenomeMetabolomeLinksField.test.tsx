@@ -1,6 +1,3 @@
-/**
- * @jest-environment jest-environment-jsdom-sixteen
- */
 import * as React from 'react';
 
 import { FieldProps } from 'react-jsonschema-form';

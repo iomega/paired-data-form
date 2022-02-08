@@ -39,7 +39,7 @@ describe('<DownloadPendingProject/>', () => {
 
             it('should have called saveAs() with project as JSON document', async () => {
                 expect(saveAs).toHaveBeenCalled();
-                const file = (saveAs as jest.Mock).mock.calls[0][0];
+                const file = (saveAs as unknown as jest.Mock).mock.calls[0][0];
                 // File.text() gives TypeError, workaround wrap in Response to get content of file
                 const body = await (new Response(file)).text();
                 const expected = kitchenSinkEnrichedDoc.project;
