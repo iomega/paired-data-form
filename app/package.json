@@ -5,7 +5,7 @@
   "dependencies": {
     "@root/encoding": "^1.0.1",
     "ajv": "^6.12.0",
-    "bootstrap": ">=3.4.1 <4",
+    "bootstrap": ">=3.6.1 <4",
     "d3-dsv": "^1.2.0",
     "diff2html": "^3.4.4",
     "difflib-ts": "^1.0.3",
