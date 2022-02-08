@@ -109,7 +109,7 @@ describe('<HistoryProject>', () => {
         });
 
         it('should have a checked radiobox for the archived version', () => {
-            expect(wrapper.getByLabelText('project_id0').checked).toBeTruthy();
+            expect((wrapper.getByLabelText('project_id0') as HTMLInputElement).checked).toBeTruthy();
         });
     });
 
@@ -140,11 +140,11 @@ describe('<HistoryProject>', () => {
         });
 
         it('should have a checked radiobox for the first archived version', () => {
-            expect(wrapper.getByLabelText('project_id0').checked).toBeTruthy();
+            expect((wrapper.getByLabelText('project_id0') as HTMLInputElement).checked).toBeTruthy();
         });
 
         it('should have a unchecked radiobox for the second archived version', () => {
-            expect(wrapper.getByLabelText('project_id-1').checked);
+            expect((wrapper.getByLabelText('project_id-1') as HTMLInputElement).checked);
         });
 
         describe('when second archive version is clicked', () => {
@@ -153,11 +153,11 @@ describe('<HistoryProject>', () => {
             });
 
             it('should have a unchecked radiobox for the first archived version', () => {
-                expect(wrapper.getByLabelText('project_id0').checked).toBeFalsy();
+                expect((wrapper.getByLabelText('project_id0') as HTMLInputElement).checked).toBeFalsy();
             });
 
             it('should have a checked radiobox for the second archived version', () => {
-                expect(wrapper.getByLabelText('project_id-1').checked).toBeTruthy();
+                expect((wrapper.getByLabelText('project_id-1') as HTMLInputElement).checked).toBeTruthy();
             });
 
         });
