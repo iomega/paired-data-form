@@ -3,7 +3,7 @@ import compression from 'compression';  // compresses requests
 import lusca from 'lusca';
 import passport from 'passport';
 import asyncHandler from 'express-async-handler';
-import { getAbsoluteFSPath } from 'swagger-ui-dist';
+import swaggerUi from 'swagger-ui-express';
 import Bull from 'bull';
 
 import * as controller from './controller';
@@ -50,8 +50,11 @@ export function builder(mystore: ProjectDocumentStore, myenrichqueue: Bull.Queue
     app.get('/api/health', asyncHandler(controller.health));
 
     // Swagger UI
-    const swaggerui = getAbsoluteFSPath();
-    app.use('/api/ui', express.static(swaggerui));
+    app.use('/api/ui', swaggerUi.serve, swaggerUi.setup(undefined, {
+        swaggerOptions: {
+            url: '/openapi.yaml'
+        }
+    }));
 
     app.use(controller.notFoundHandler);
     return app;
