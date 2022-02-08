@@ -10,7 +10,8 @@ describe('<Login>', () => {
 
     beforeEach(() => {
         props = {
-            onLogin: jest.fn()
+            onLogin: jest.fn(),
+            error: ''
         }
         wrapper = shallow(<Login {...props}/>);
     });

@@ -31,6 +31,7 @@ const makeProps = (schema: any, uiSchema: any, items: any) => {
         name: 'mytable',
         errorSchema: {},
         onChange: jest.fn(),
+        onBlur: jest.fn(),
         formContext,
         autofocus: false,
     }

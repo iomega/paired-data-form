@@ -8,7 +8,7 @@ Some information on how to perform common tasks is available in the [guide](http
 
 Atfer cloning the repo, it's dependencies must be installed.
 
-Requires [nodejs](https://nodejs.org) v10 or higher.
+Requires [nodejs](https://nodejs.org) v16 or higher.
 
 ```shell
 npm install
@@ -46,4 +46,12 @@ When `public/schema.json` changes the `src/schema.ts` must also be updated using
 
 ```shell
 npm run schema2ts
+```
+
+## Tests
+
+The unit tests can be run with
+
+```shell
+npm run test
 ```

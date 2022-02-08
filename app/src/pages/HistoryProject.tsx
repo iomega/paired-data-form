@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import { useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { ButtonGroup, Radio } from "react-bootstrap";
-import { unifiedDiff } from 'difflib';
+import { unifiedDiff } from 'difflib-ts';
 
 import "diff2html/bundles/css/diff2html.min.css";
 
