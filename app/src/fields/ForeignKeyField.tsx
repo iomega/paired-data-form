@@ -8,7 +8,7 @@ import { findDuplicates } from "../validate";
 
 interface LabelValue {
   label: string;
-  value: string;
+  value: string | undefined;
 }
 
 interface IState {
@@ -30,9 +30,14 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
 
   public loadOptions = (): LabelValue[] => {
     const values = this.props.uiSchema.foreignKey.search(this.props.name);
-    return values.map((v: string) => {
+    const options = values.map((v: string) => {
       return { value: v, label: v };
     });
+    if (!this.props.required) {
+      const deselectLabel = 'Click to deselect'
+      options.unshift({'label': deselectLabel, 'value': undefined})
+    }
+    return options;
   };
 
   public render() {
@@ -71,7 +76,8 @@ export class ForeignKeyField extends React.Component<FieldProps, {}> {
   public onOpen = () => {
     try {
       const options = this.loadOptions();
-      if (options.length === 0) {
+      const nr_choices = this.props.required ? options.length : options.length - 1;
+      if (nr_choices === 0) {
         this.setState({ error: 'No choices found, fill sections above before creating a link' });
       } else if (!options.every(d => d.label)) {
         this.setState({ error: 'Some choices are empty. Correct in section above' });

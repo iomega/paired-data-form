@@ -6,6 +6,7 @@ export interface ProjectSummary {
     PI_name: string;
     submitters: string;
     nr_genomes: number;
+    nr_proteomes: number;
     nr_growth_conditions: number;
     nr_extraction_methods: number;
     nr_instrumentation_methods: number;

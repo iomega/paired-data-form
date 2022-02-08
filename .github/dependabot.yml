@@ -1,0 +1,10 @@
+version: 2
+updates:
+ - package-ecosystem: npm
+   directory: api
+   schedule:
+     interval: 'monthly'
+ - package-ecosystem: npm
+   directory: app
+   schedule:
+     interval: 'monthly'

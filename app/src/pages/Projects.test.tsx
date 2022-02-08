@@ -4,7 +4,7 @@ import { render, RenderResult, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event'
 
-import { createMemoryHistory, MemoryHistory, History } from 'history';
+import { createMemoryHistory, MemoryHistory } from 'history';
 import { MemoryRouter, Router } from 'react-router';
 
 import { Projects } from './Projects';
@@ -87,7 +87,7 @@ describe('<Projects>', () => {
     });
 
     describe('with 2 projects loaded', () => {
-        let history: MemoryHistory<History.PoorMansUnknown>;
+        let history: MemoryHistory;
 
         beforeEach(() => {
             const data = {
@@ -99,6 +99,7 @@ describe('<Projects>', () => {
                     PI_name: 'somepi',
                     submitters: 'somesubmitter',
                     nr_genomes: 3,
+                    nr_proteomes: 0,
                     nr_growth_conditions: 4,
                     nr_extraction_methods: 5,
                     nr_instrumentation_methods: 2,
@@ -110,6 +111,7 @@ describe('<Projects>', () => {
                     PI_name: 'otherpi',
                     submitters: 'othersubmitter',
                     nr_genomes: 3,
+                    nr_proteomes: 0,
                     nr_growth_conditions: 4,
                     nr_extraction_methods: 5,
                     nr_instrumentation_methods: 2,
@@ -131,7 +133,7 @@ describe('<Projects>', () => {
                 </Router>
             );
         });
-    
+
         it('should render 3 rows', () => {
             expect(wrapper.getAllByRole('row').length).toEqual(3);
         });
@@ -145,7 +147,7 @@ describe('<Projects>', () => {
 
             it('should have sorted rows on PI', () => {
                 const cells = wrapper.getAllByRole('cell');
-                expect(cells[10].textContent).toEqual('otherpi');
+                expect(cells[11].textContent).toEqual('otherpi');
                 expect(cells[1].textContent).toEqual('somepi');
             });
 
@@ -197,7 +199,7 @@ describe('<Projects>', () => {
                     });
 
                     it('should no longer include search query in url',() => {
-                        expect(history.location.search).toEqual('');
+                        expect(history.location.search).toEqual('?');
                     });
 
                     it('should have `` in search box', () => {
@@ -243,7 +245,7 @@ describe('<Projects>', () => {
                 });
 
                 it('should have removed filter from url', () => {
-                    expect(history.location.search).toEqual('');
+                    expect(history.location.search).toEqual('?');
                 });
             })
         });

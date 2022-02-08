@@ -12,7 +12,8 @@ const style = { padding: '10px' };
 export function Projects() {
     const history = useHistory();
     const location = useLocation();
-    const params = new URLSearchParams(location.search);
+    // workaround as BrowserRouter uses location.search and MemoryRouter (in tests) uses location.location.search
+    const params = new URLSearchParams('location' in location ? location.location.search : location.search);
     const q = params.has('q') ? params.get('q')! : undefined;
     let filter = undefined;
     if (params.has('fk') && params.has('fv')) {

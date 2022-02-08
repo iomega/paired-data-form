@@ -72,7 +72,7 @@ export type GenomeLabel = string;
 /**
  * Please add all genomes and/or metagenomes for which paired data is available as separate entries.
  */
-export type AllMetagenomesGenomes = {
+export type MetaGenomicsInformation = {
   genome_ID: GenomeOrMetagenome;
   BioSample_accession?: BioSampleAccessionNumber;
   publications?: KeyPublications1;
@@ -118,7 +118,8 @@ export type SampleGrowthConditions = {
   sample_preparation_method: SampleGrowthConditionsLabel;
   [k: string]: any;
 }[];
-export type Solvent =
+export type Solvent = Solvent1 & Solvent2;
+export type Solvent1 =
   | Methanol
   | MethyleneChlorideDichloromethane
   | EthylAcetate
@@ -145,6 +146,7 @@ export type DiethylEther = 'http://purl.obolibrary.org/obo/CHEBI_35702';
 export type Hexane = 'http://purl.obolibrary.org/obo/CHEBI_29021';
 export type Water = 'http://purl.obolibrary.org/obo/CHEBI_15377';
 export type OtherSolvent = 'http://purl.obolibrary.org/obo/CHEBI_46787';
+export type Solvent2 = string;
 /**
  * When a mixture of solvents was used, specify in which ratio each solvent was used. The ratios should sum up to 1.
  */
@@ -160,11 +162,13 @@ export type ExtractionSolvent = {
 /**
  * Material used for extraction
  */
-export type ExtractedMaterial = Cells | Supernatant | CellsSupernatant | ComplexMixtureMetagenome;
+export type ExtractedMaterial = ExtractedMaterial1 & ExtractedMaterial2;
+export type ExtractedMaterial1 = Cells | Supernatant | CellsSupernatant | ComplexMixtureMetagenome;
 export type Cells = 'cells';
 export type Supernatant = 'supernatant';
 export type CellsSupernatant = 'cells_supernatant';
 export type ComplexMixtureMetagenome = 'complex';
+export type ExtractedMaterial2 = string;
 /**
  * Did you use resins in your extraction? If so, add the name of the resin here (e.g. XAD-2 or XAD-4). Otherwise, leave this section blank.
  */
@@ -191,7 +195,8 @@ export type ExtractionMethods = {
 /**
  * Please select the type of LCMS instrument used. If your instrument type is not listed here, please select Other and specify.
  */
-export type InstrumentType =
+export type InstrumentType = InstrumentType1 & InstrumentType2;
+export type InstrumentType1 =
   | Quadrupole
   | TimeOfFlightTOF
   | IonTrapIT
@@ -214,21 +219,29 @@ export type ElectrostaticEnergyAnalyzer = 'http://purl.obolibrary.org/obo/MS_100
 export type StoredWaveformInverseFourierTransform = 'http://purl.obolibrary.org/obo/MS_1000284';
 export type Cyclotron = 'http://purl.obolibrary.org/obo/MS_1000288';
 export type OtherMassSpectrometer = 'http://purl.obolibrary.org/obo/MS_1000443';
+export type InstrumentType2 = string;
 /**
  * Please select column phase. You can add additional column details in the Other Instrumentation Information section below.
  */
-export type ColumnPhase = 'Reverse Phase' | 'Normal Phase' | 'HILIC';
+export type ColumnPhase =
+  | 'Reverse Phase'
+  | 'Normal Phase'
+  | 'Hydrophilic interaction (HILIC)'
+  | 'Strong cation exchange (SCX)';
 /**
  * Please select ionization mode.
  */
-export type IonizationMode = Positive | Negative | Both;
+export type IonizationMode = IonizationMode1 & IonizationMode2;
+export type IonizationMode1 = Positive | Negative | Both;
 export type Positive = 'http://purl.obolibrary.org/obo/MS_1000130';
 export type Negative = 'http://purl.obolibrary.org/obo/MS_1000129';
 export type Both = 'http://purl.obolibrary.org/obo/CHMO_0002262';
+export type IonizationMode2 = string;
 /**
  * Please select the type of ionization used. If your ionization type is not listed here, please select Other and specify.
  */
-export type IonizationType1 =
+export type IonizationType1 = IonizationType2 & IonizationType3;
+export type IonizationType2 =
   | ElectrosprayIonizationESI
   | MatrixAssistedLaserDesorptionIonizationMALDI
   | AtmosphericPressureChemicalIonizationAPCI
@@ -237,12 +250,13 @@ export type ElectrosprayIonizationESI = 'http://purl.obolibrary.org/obo/MS_10000
 export type MatrixAssistedLaserDesorptionIonizationMALDI = 'http://purl.obolibrary.org/obo/MS_1000075';
 export type AtmosphericPressureChemicalIonizationAPCI = 'http://purl.obolibrary.org/obo/MS_1000070';
 export type OtherIonizationType = 'http://purl.obolibrary.org/obo/MS_1000008';
+export type IonizationType3 = string;
 /**
  * Please enter the mass range collected in Da. For example `100-800` for a range from 100 Da to 800 Da
  */
 export type MassRange = string;
 /**
- * Please enter the collision energy.
+ * Please enter the collision energy. Do not forget the unit like KeV or NCE
  */
 export type CollisionEnergy = string;
 /**
@@ -258,7 +272,7 @@ export type OtherInstrumentationInformation = string;
  */
 export type InstrumentationMethodLabel = string;
 /**
- * Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment. More detailed information can go in the 'Other' box.
+ * Please provide basic information on the type of LCMS instrumentation and protocols used in this experiment. More detailed information can go in the 'Other' box. Including both metabolomics and proteomics (if proteomics data is included) instruments
  */
 export type InstrumentationMethods = {
   instrumentation?: Instrumentation;
@@ -272,35 +286,88 @@ export type InstrumentationMethods = {
   instrumentation_method: InstrumentationMethodLabel;
   [k: string]: any;
 }[];
+export type Type1 = 'Full proteome' | 'Enriched';
+export type ProteomeDatabase = 'ProteomeXchange' | 'PRIDE' | 'iProX' | 'JPOST' | 'PeptideAtlas' | 'MassIVE' | 'Other';
+/**
+ * Please provide link to public data depository where the proteomics data and metadata can be found. If the experiment is quantitative, please provide link to the expression table.
+ */
+export type LocationOfRawProteomicsData = string;
+export type AnalysisMode = 'Data-dependent acquisition (DDA)' | 'Data-independent acquisition (DIA)';
+export type PeptideLabelling = 'iTRAQ' | 'ICPL' | 'Dimethyl' | 'Custom' | 'None';
+/**
+ * The genome from which the predicted proteome database was generated, used in your protein identification process. If no genome was used then keep field unselected.
+ */
+export type GenomeDatabase = string;
+/**
+ * The transcriptome from which the predicted proteome database was generated, used in your protein identification process. Please input a NCBI GEO database accession. For example <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE171784">GSE171784</a>. If no transcriptome was used then keep field empty.
+ */
+export type TranscriptomicsDatabase = string;
+/**
+ * Please select the Sample Growth Conditions Label for this proteome.
+ */
+export type SampleGrowthConditions1 = string;
+/**
+ * Please select the Instrumentation Method Label for this proteome.
+ */
+export type InstrumentationMethod = string;
+/**
+ * Publications describing the proteomics experiment. Please input PubMed IDs (PMIDs, not PMCIDs!), separated by commas: e.g., '12000953,8843436'. Only enter numeric characters and commas. If a PMID is not available, a DOI can be entered instead (without the designation 'DOI' itself, e.g. '10.1039/c4sc01927j')
+ */
+export type KeyPublications2 = string;
+/**
+ * If you have used a method that is in some aspects novel to the community, please specify here.
+ */
+export type AdditionalNotes = string;
+/**
+ * Please assign a unique proteome Label for this proteome to help you recall it during the linking step.
+ */
+export type ProteomeLabel = string;
+/**
+ * Please add all proteomes for which paired data is available as separate entries. Create an entry for each different condition in your sample set
+ */
+export type ProteomicsInformation = {
+  proteome_ID: FullProteomeOrEnriched;
+  raw_data: RawDataLink;
+  method: BasicMethod;
+  identification: Identification;
+  experimental_details: ExperimentalDetails1;
+  more_info: Info;
+  proteome_label: ProteomeLabel;
+}[];
 /**
  * Please select the Genome Label to be linked to a metabolomics data file.
  */
 export type GenomeMetagenome = string;
 /**
+ * Please select the Proteome Label to be linked to a metabolomics data file.
+ */
+export type Proteome = string;
+/**
  * Please provide a direct link to the metabolomics data file location, e.g. <a href="ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML" target="_blank" rel="noopener noreferrer">ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML</a> found in the FTP download of a MassIVE dataset or <a target="_blank" rel="noopener noreferrer" href="https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML">https://www.ebi.ac.uk/metabolights/MTBLS307/files/Urine_44_fullscan1_pos.mzXML</a> found in the Files section of a MetaboLights study. Warning, there cannot be spaces in the URI.
  */
 export type LocationOfMetabolomicsDataFile = string;
 /**
- * Please select the Sample Growth Conditions Label for this linked dataset.
+ * Please select the Sample Growth Conditions Label for this linked metabolomics dataset.
  */
-export type SampleGrowthConditions1 = string;
+export type SampleGrowthConditions2 = string;
 /**
- * Please select the Extraction Method Label for this linked dataset
+ * Please select the Extraction Method Label for this linked metabolomics dataset.
  */
 export type ExtractionMethod = string;
 /**
- * Please select the Instrumentation Method Label for this linked dataset
+ * Please select the Instrumentation Method Label for this linked metabolomics dataset.
  */
-export type InstrumentationMethod = string;
+export type InstrumentationMethod1 = string;
 /**
- * Create a linked pair by selecting the Genome Label as provided earlier and subsequently sample names of and links to the metabolomics data file belonging to that genome with appropriate experimental methods.
+ * Create a linked pair by selecting the Genome Label and optional Proteome label as provided earlier. Subsequently links to the metabolomics data file belonging to that genome/proteome with appropriate experimental methods.
  */
-export type GenomeMetabolomeLinks = {
+export type GenomeProteomeMetabolomeLinks = {
   genome_label: GenomeMetagenome;
+  proteome_label?: Proteome;
   metabolomics_file: LocationOfMetabolomicsDataFile;
-  sample_preparation_label: SampleGrowthConditions1;
+  sample_preparation_label: SampleGrowthConditions2;
   extraction_method_label: ExtractionMethod;
-  instrumentation_method_label: InstrumentationMethod;
+  instrumentation_method_label: InstrumentationMethod1;
 }[];
 /**
  * Please provide a brief description of the known linked molecule(s) and gene cluster(s), including the name of the molecule(s).
@@ -316,6 +383,10 @@ export type LinkVerification = (
   | 'Evidence as indicated in MIBiG'
 )[];
 /**
+ * Select which omics-based experiment type has given evidence of link between BGC cluster and molecule.
+ */
+export type Type2 = 'Quantitative proteomics experiment' | 'Nonquantitative proteomics experiment' | 'Not available';
+/**
  * Please provide the SMILES notation for the known molecule.
  */
 export type SimplifiedMolecularInputLineEntrySystemSMILES = string;
@@ -325,11 +396,12 @@ export type SimplifiedMolecularInputLineEntrySystemSMILES = string;
 export type InternationalUnionOfPureAndAppliedChemistryIUPACName = string;
 export type WhatWouldYouLikeToLink = 'GNPS molecular family' | 'single molecule';
 /**
- * If you already know of a gene cluster or gene cluster family that can be linked to a molecule or molecular family, please provide details in this section. Biosynthetic gene clusters can be found in <a href="https://mibig.secondarymetabolites.org/" target="_blank" rel="noopener noreferrer">MIBiG</a>.
+ * If you already know of a biosynthetic gene cluster or biosynthetic gene cluster family that can be linked to a molecule or molecular family, please provide details in this section. Biosynthetic gene clusters can be found in <a href="https://mibig.secondarymetabolites.org/" target="_blank" rel="noopener noreferrer">MIBiG</a>.
  */
-export type GeneClusterMassSpectraLinks = {
+export type BiosyntheticGeneClusterMSMSLinks = {
   known_link?: KnownLinkedGeneClusterAndMolecule;
   verification: LinkVerification;
+  omics_based_evidence?: VerifiedWithAdditionalExperimentalOmicsBasedEvidence;
   SMILES?: SimplifiedMolecularInputLineEntrySystemSMILES;
   IUPAC?: InternationalUnionOfPureAndAppliedChemistryIUPACName;
   BGC_ID: MIBiGBGCAccession;
@@ -341,13 +413,14 @@ export type GeneClusterMassSpectraLinks = {
  * This Paired Omics Data Platform is a community-based initiative standardizing links between genomic and metabolomics data in a computer-readable manner to further the field of natural products discovery. The form below aims to capture sufficient metadata to create informative links between genome sequences on the one hand and metabolomics profiles on the other hand. Note that wherever we could, we have used existing ontology to define terms. When filling out the form below, at any time the inputted data can be saved and downloaded in json format to be reloaded when continuing with the entries. The form below first asks for some personal information to provide proper credits and allow the community to ask the right person information on the linked data. Then, overall information on the metabolomics experiment is captured, before all genomes or metagenomes can be detailed, including creating a unique genome label for easy recall during linking. Then the metabolomics metadata can be saved using labels for sample growth conditions, extraction, and instrument methods. Finally, the data links can be made with references to the actual mass spectral files in MaSSIVE. Optionally, you can save links between known biosynthesis gene clusters and mass spectra or molecular families in the second part of the form. After saving your entries, a table below the form will appear filled with the links you created with experimental labels; you can also expand the table to see all information inputted. Then you can download the filled json schema in which all links are recorded. To accommodate inputting large datasets, you can download the TSV linking table, manually add new links, and re-upload the TSV file. It is important to note that all experimental labels need to be defined in the form and at least one link made before you download and edit the table. We hope you will use our platform to capture your paired data links as this will allow you and the community to efficiently use your data in follow-up studies that rely on the combined use of genome and metabolome data.
  */
 export interface IOMEGAPairedOmicsDataPlatform {
-  version: string;
+  version: '3';
   personal: SubmitterInformation;
   metabolomics: MetabolomicsInformation;
-  genomes: AllMetagenomesGenomes;
+  genomes: MetaGenomicsInformation;
   experimental: ExperimentalDetails;
-  genome_metabolome_links: GenomeMetabolomeLinks;
-  BGC_MS2_links?: GeneClusterMassSpectraLinks;
+  proteomes: ProteomicsInformation;
+  genome_metabolome_links: GenomeProteomeMetabolomeLinks;
+  BGC_MS2_links?: BiosyntheticGeneClusterMSMSLinks;
 }
 export interface SubmitterInformation {
   submitter_name?: NameOfContactForCorrespondence;
@@ -386,7 +459,7 @@ export interface GenomeOrMetagenome {
   [k: string]: any;
 }
 /**
- * Please provide basic information about the Sample Preparation, Extraction Methods, and Instrumentation Methods used. If different Sample Preparation, Extraction Methods, and/or Instrumentation Methods were used leading to different metabolomics data, please use separate entries for each experimental change and create a label that will help you recall the experimental parameters during the linking step.
+ * Please provide basic information about the Sample Preparation, Extraction Methods, and Instrumentation Methods used. If different Sample Preparation, Extraction Methods, and/or Instrumentation Methods were used leading to different metabolomics data, please use separate entries for each experimental change and create a label that will help you recall the experimental parameters during the linking step. Experimental details can be attached to a metabolomics data file or a proteome.
  */
 export interface ExperimentalDetails {
   sample_preparation?: SampleGrowthConditions;
@@ -412,6 +485,47 @@ export interface Instrumentation {
 }
 export interface IonizationType {
   ionization_type?: IonizationType1;
+  [k: string]: any;
+}
+/**
+ * If proteomics experiment includes any enrichment processes in favour of target proteins, please select `Enriched` and provide target(s).
+ */
+export interface FullProteomeOrEnriched {
+  proteome_type: Type1;
+  [k: string]: any;
+}
+export interface RawDataLink {
+  database: {
+    database_name: ProteomeDatabase;
+    [k: string]: any;
+  };
+  proteome_data_link: LocationOfRawProteomicsData;
+}
+/**
+ * Please provide basic criteria of proteomics experiment.
+ */
+export interface BasicMethod {
+  analysis_mode: AnalysisMode;
+  peptide_labelling: PeptideLabelling;
+  [k: string]: any;
+}
+export interface Identification {
+  genome_database?: GenomeDatabase;
+  transcriptomics_database?: TranscriptomicsDatabase;
+}
+/**
+ * A proteome can have different experimental details than a metabolomics data file. If different add experimental details in section 4 and pick from list here.
+ */
+export interface ExperimentalDetails1 {
+  sample_preparation_label?: SampleGrowthConditions1;
+  instrumentation_method_label?: InstrumentationMethod;
+}
+export interface Info {
+  publications?: KeyPublications2;
+  notes?: AdditionalNotes;
+}
+export interface VerifiedWithAdditionalExperimentalOmicsBasedEvidence {
+  omics_based_evidence_type: Type2;
   [k: string]: any;
 }
 export interface MIBiGBGCAccession {

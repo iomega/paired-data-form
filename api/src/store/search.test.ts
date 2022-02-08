@@ -232,7 +232,10 @@ describe('new SearchEngine()', () => {
                     ['growth_medium', 'A1 medium'],
                     ['solvent', 'Butanol'],
                     ['ionization_mode', 'Positive'],
-                    ['ionization_type', 'Electrospray Ionization (ESI)']
+                    ['ionization_type', 'Electrospray Ionization (ESI)'],
+                    ['proteome_type', 'Full proteome'],
+                    ['proteome_type', 'Enriched: PKS machinery'],
+                    ['proteome_type', 'Enriched: PKS machinery, some target'],
                 ])('filter={key:\'%s\', value:\'%s\'}', (key: FilterField, value) => {
                     let hits: any;
                     beforeEach(async () => {
@@ -493,6 +496,7 @@ async function esGenomeProject() {
             nr_genecluster_mspectra_links: 3,
             nr_genome_metabolomics_links: 21,
             nr_genomes: 3,
+            nr_proteomes: 0,
             nr_growth_conditions: 3,
             nr_instrumentation_methods: 1,
         }
@@ -531,6 +535,7 @@ async function genomeProjectSummary() {
         nr_genecluster_mspectra_links: 3,
         nr_genome_metabolomics_links: 21,
         nr_genomes: 3,
+        nr_proteomes: 0,
         nr_growth_conditions: 3,
         nr_instrumentation_methods: 1,
         score: 0.5,

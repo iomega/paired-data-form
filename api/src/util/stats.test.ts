@@ -68,7 +68,8 @@ describe('computeStats()', () => {
                             ['Streptomyces sp. CNH099', 1],
                             ['Salinispora arenicola CNB527', 1]
                         ],
-                        'metagenomic_environment': []
+                        'metagenomic_environment': [],
+                        'proteome_types': [],
                     }
                 };
                 expect(result).toEqual(expected);
@@ -155,7 +156,8 @@ describe('computeStats()', () => {
                                 ['YStreptomyces sp. CNH099', 1],
                                 ['ZSalinispora arenicola CNB527', 1]
                             ],
-                            'metagenomic_environment': []
+                            'metagenomic_environment': [],
+                            'proteome_types': [],
                         }
                     };
                     expect(result).toEqual(expected);
@@ -215,7 +217,173 @@ describe('computeStats()', () => {
                                 ['Streptomyces sp. CNH099', 1],
                                 ['Salinispora arenicola CNB527', 1]
                             ],
-                            'metagenomic_environment': []
+                            'metagenomic_environment': [],
+                            'proteome_types': [],
+                        }
+                    };
+                    expect(result).toEqual(expected);
+                });
+            });
+
+            describe('with full proteome', () => {
+                beforeEach(async () => {
+                    project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
+                    project.proteomes = [{
+                        proteome_ID: {
+                            proteome_type: 'Full proteome'
+                        },
+                        raw_data: {
+                            database: {
+                                database_name: 'ProteomeXchange'
+                            },
+                            proteome_data_link: 'http://central.proteomexchange.org/cgi/GetDataset?ID=PXD013683'
+                        },
+                        method: {
+                            analysis_mode: 'Data-dependent acquisition (DDA)',
+                            peptide_labelling: 'iTRAQ'
+                        },
+                        identification: {},
+                        experimental_details: {},
+                        more_info: {},
+                        proteome_label: 'someprotlabel'
+                    }];
+                });
+
+                it('should have stats', () => {
+                    const projects = [{
+                        _id: '08a05264-7f06-4821-b4ad-bfd4ecb3bd34.1',
+                        project
+                    }];
+                    const result = computeStats(projects, schema);
+
+                    const expected: IStats = {
+                        'global': {
+                            'projects': 1,
+                            'principal_investigators': 1,
+                            'metabolome_samples': 21,
+                            'bgc_ms2': 3,
+                        },
+                        'top': {
+                            'principal_investigators': [
+                                ['Marnix Medema', 1]
+                            ],
+                            'submitters': [
+                                ['Justin van der Hooft', 1]
+                            ],
+                            'genome_types': [
+                                ['genome', 3]
+                            ],
+                            'instrument_types': [
+                                ['Time-of-flight (TOF)', 1]
+                            ],
+                            'ionization_modes': [
+                                ['Positive', 1]
+                            ],
+                            'growth_media': [
+                                ['A1 medium', 1],
+                                ['R5 medium', 1],
+                                ['Mannitol soy flour medium (MS)', 1]
+                            ],
+                            'solvents': [
+                                ['Ethyl acetate', 1],
+                                ['Butanol', 1],
+                                ['Methanol', 1]
+                            ],
+                            'species': [
+                                ['Streptomyces sp. CNB091', 1],
+                                ['Streptomyces sp. CNH099', 1],
+                                ['Salinispora arenicola CNB527', 1]
+                            ],
+                            'metagenomic_environment': [],
+                            'proteome_types': [
+                                ['Full proteome', 1]
+                            ],
+                        }
+                    };
+                    expect(result).toEqual(expected);
+                });
+            });
+
+            describe('with custom enriched proteome', () => {
+                beforeEach(async () => {
+                    project = await loadJSONDocument(EXAMPLE_PROJECT_JSON_FN);
+                    project.proteomes = [{
+                        proteome_ID: {
+                            proteome_type: 'Enriched',
+                            targets: [{
+                                target: 'pks',
+                            }, {
+                                target: 'other',
+                                other_target: 'Some other target'
+                            }]
+                        },
+                        raw_data: {
+                            database: {
+                                database_name: 'ProteomeXchange'
+                            },
+                            proteome_data_link: 'http://central.proteomexchange.org/cgi/GetDataset?ID=PXD013683'
+                        },
+                        method: {
+                            analysis_mode: 'Data-dependent acquisition (DDA)',
+                            peptide_labelling: 'iTRAQ'
+                        },
+                        identification: {},
+                        experimental_details: {},
+                        more_info: {},
+                        proteome_label: 'someprotlabel'
+                    }];
+                });
+
+                it('should have stats', () => {
+                    const projects = [{
+                        _id: '08a05264-7f06-4821-b4ad-bfd4ecb3bd34.1',
+                        project
+                    }];
+
+                    const result = computeStats(projects, schema);
+
+                    const expected: IStats = {
+                        'global': {
+                            'projects': 1,
+                            'principal_investigators': 1,
+                            'metabolome_samples': 21,
+                            'bgc_ms2': 3,
+                        },
+                        'top': {
+                            'principal_investigators': [
+                                ['Marnix Medema', 1]
+                            ],
+                            'submitters': [
+                                ['Justin van der Hooft', 1]
+                            ],
+                            'genome_types': [
+                                ['genome', 3]
+                            ],
+                            'instrument_types': [
+                                ['Time-of-flight (TOF)', 1]
+                            ],
+                            'ionization_modes': [
+                                ['Positive', 1]
+                            ],
+                            'growth_media': [
+                                ['A1 medium', 1],
+                                ['R5 medium', 1],
+                                ['Mannitol soy flour medium (MS)', 1]
+                            ],
+                            'solvents': [
+                                ['Ethyl acetate', 1],
+                                ['Butanol', 1],
+                                ['Methanol', 1]
+                            ],
+                            'species': [
+                                ['Streptomyces sp. CNB091', 1],
+                                ['Streptomyces sp. CNH099', 1],
+                                ['Salinispora arenicola CNB527', 1]
+                            ],
+                            'metagenomic_environment': [],
+                            'proteome_types': [
+                                ['Enriched: PKS machinery, Some other target', 1]
+                            ],
                         }
                     };
                     expect(result).toEqual(expected);

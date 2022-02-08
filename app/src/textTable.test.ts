@@ -12,7 +12,7 @@ describe('with schema loaded', () => {
         it('should convert minimal json doc to text table', () => {
             const table = textTable(schema, minimalDoc);
             const expected = [
-                ['Genome/Metagenome', 'Location of metabolomics data file', 'Sample Growth Conditions', 'Extraction Method', 'Instrumentation Method']
+                ['Genome/Metagenome', 'Proteome', 'Location of metabolomics data file', 'Sample Growth Conditions', 'Extraction Method', 'Instrumentation Method']
             ];
             expect(table).toEqual(expected);
         });
@@ -21,14 +21,15 @@ describe('with schema loaded', () => {
             const table = textTable(schema, kitchenSinkDoc);
             const expected = [
                 [
-                    'Genome/Metagenome', 'Location of metabolomics data file', 'Sample Growth Conditions', 'Extraction Method', 'Instrumentation Method'
+                    'Genome/Metagenome', 'Proteome', 'Location of metabolomics data file', 'Sample Growth Conditions', 'Extraction Method', 'Instrumentation Method'
                 ],
                 [
-                    'Streptomyces sp. CNB091', 'ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML',
+                    'Streptomyces sp. CNB091', "Proteomics_Man", 'ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML',
                     'agar', 'meth', 'quad'
                 ],
                 [
                     'Streptomyces sp. CNB091',
+                    undefined,
                     'ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML2',
                     'blod',
                     'beer',
@@ -58,10 +59,10 @@ describe('with schema loaded', () => {
 
         it('should convert a single link with minimal fields text table to json doc', () => {
             const header = [
-                'Genome/Metagenome', 'Location of metabolomics data file', 'Sample Growth Conditions', 'Extraction Method', 'Instrumentation Method'
+                'Genome/Metagenome', 'Proteome', 'Location of metabolomics data file', 'Sample Growth Conditions', 'Extraction Method', 'Instrumentation Method'
             ];
             const rows = [
-                ["Streptomyces sp. CNB091", "ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML2", "agar", "beer", "bh"]
+                ["Streptomyces sp. CNB091", undefined, "ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML2", "agar", "beer", "bh"]
             ];
             const table = arrayParse(header, rows);
             const doc = jsonDocument(kitchenSinkDoc, table);
@@ -175,6 +176,16 @@ describe('with schema loaded', () => {
                 'Extraction Method': 'meth',
                 'Instrumentation Method': 'badlabel',
             }]],
+            [
+             'badlabel is not known as proteome label, please add the proteome first', kitchenSinkDoc, [{
+                'Genome/Metagenome': 'Streptomyces sp. CNB091',
+                'Proteome': 'badlabel',
+                'Location of metabolomics data file': 'ftp://massive.ucsd.edu/MSV000078839/spectrum/A1/CNB091_A1_B.mzXML',
+                'Sample Growth Conditions': 'blod',
+                'Extraction Method': 'meth',
+                'Instrumentation Method': 'bh',
+             }]
+            ]
         ])('should complain about %s', (message, project, rows) => {
             expect(() => jsonDocument(project as IOMEGAPairedOmicsDataPlatform, rows)).toThrowError(message);
         });
@@ -183,7 +194,7 @@ describe('with schema loaded', () => {
     describe('tsvUrl', () => {
         it('should render doc with no links as just header', () => {
             const doc = {
-                "version": "2",
+                "version": "3",
                 "personal": {},
                 "metabolomics": {
                     "project": {
@@ -196,7 +207,7 @@ describe('with schema loaded', () => {
                 "genome_metabolome_links": []
             };
             const url = tsvUrl(schema, doc);
-            const expected = 'data:text/tab-separated-values;base64,R2Vub21lL01ldGFnZW5vbWUJTG9jYXRpb24gb2YgbWV0YWJvbG9taWNzIGRhdGEgZmlsZQlTYW1wbGUgR3Jvd3RoIENvbmRpdGlvbnMJRXh0cmFjdGlvbiBNZXRob2QJSW5zdHJ1bWVudGF0aW9uIE1ldGhvZA==';
+            const expected = 'data:text/tab-separated-values;base64,R2Vub21lL01ldGFnZW5vbWUJUHJvdGVvbWUJTG9jYXRpb24gb2YgbWV0YWJvbG9taWNzIGRhdGEgZmlsZQlTYW1wbGUgR3Jvd3RoIENvbmRpdGlvbnMJRXh0cmFjdGlvbiBNZXRob2QJSW5zdHJ1bWVudGF0aW9uIE1ldGhvZA==';
             expect(url).toEqual(expected);
         });
     })

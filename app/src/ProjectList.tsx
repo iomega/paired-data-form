@@ -45,6 +45,7 @@ export const ProjectList = ({ projects, setSortedOn, sortKey, sortOrder }: Props
             <td>{d.PI_name}</td>
             <td>{d.submitters}</td>
             <td>{d.nr_genomes}</td>
+            <td>{d.nr_proteomes}</td>
             <td>{d.nr_growth_conditions}</td>
             <td>{d.nr_extraction_methods}</td>
             <td>{d.nr_instrumentation_methods}</td>
@@ -63,6 +64,7 @@ export const ProjectList = ({ projects, setSortedOn, sortKey, sortOrder }: Props
                     <ColumnHeader sortOrder={sortOrder} skey="PI_name" active={sortKey} onClick={setSortedOn} title="Principal investigator" />
                     <ColumnHeader sortOrder={sortOrder} skey="submitters" active={sortKey} onClick={setSortedOn} title="Submitter(s)" />
                     <ColumnHeader sortOrder={sortOrder} skey="nr_genomes" active={sortKey} onClick={setSortedOn} title="Nr of (meta)genomes" />
+                    <ColumnHeader sortOrder={sortOrder} skey="nr_proteomes" active={sortKey} onClick={setSortedOn} title="Nr of proteomes" />
                     <ColumnHeader sortOrder={sortOrder} skey="nr_growth_conditions" active={sortKey} onClick={setSortedOn} title="Nr of growth conditions" />
                     <ColumnHeader sortOrder={sortOrder} skey="nr_extraction_methods" active={sortKey} onClick={setSortedOn} title="Nr of extraction methods" />
                     <ColumnHeader sortOrder={sortOrder} skey="nr_instrumentation_methods" active={sortKey} onClick={setSortedOn} title="Nr of instrumentation methods" />

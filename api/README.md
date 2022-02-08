@@ -49,7 +49,7 @@ People that should be reviewing incoming projects should be invited to the Slack
 Redis can be started using docker:
 
 ```shell
-docker run --name some-redis -d -p 6379:6379 redis
+docker run --name some-redis -d -p 6379:6379 redis:alpine
 ```
 
 Or using [docker-compose](../README.md#run-using-docker-compose) to run the whole stack.
@@ -57,7 +57,7 @@ Or using [docker-compose](../README.md#run-using-docker-compose) to run the whol
 Elastic search can be started using docker:
 
 ```shell
-docker run --name some-elasticsearch -d -p 9200:9200 -e "discovery.type=single-node" elasticsearch:7.6.2
+docker run --name some-elasticsearch -d -p 9200:9200 -e "discovery.type=single-node" elasticsearch:7.17.0
 ```
 
 Or using [docker-compose](../README.md#run-using-docker-compose) to run the whole stack.
@@ -125,4 +125,12 @@ Or when running with docker-composose in production use
 
 ```shell
 docker-compose exec api npm run publish2zenodo
+```
+
+## Tests
+
+The unit tests can be run with
+
+```shell
+npm run test
 ```

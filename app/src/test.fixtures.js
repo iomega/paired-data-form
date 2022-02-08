@@ -1,7 +1,7 @@
 /* tslint:disable:object-literal-sort-keys */
 
 export const minimalDoc = {
-    "version": "2",
+    "version": "3",
     "personal": {},
     "metabolomics": {
         "project": {
@@ -10,12 +10,13 @@ export const minimalDoc = {
         }
     },
     "genomes": [],
+    "proteomes": [],
     "experimental": {},
     "genome_metabolome_links": []
 };
 
 export const kitchenSinkDoc = {
-    "version": "2",
+    "version": "3",
     "personal": {
         "submitter_name": "Justin van der Hooft",
         "submitter_orcid": "https://orcid.org/0000-0002-9340-5511",
@@ -142,13 +143,67 @@ export const kitchenSinkDoc = {
             }
         ]
     },
-    "genome_metabolome_links": [
+    "proteomes": [{
+      "proteome_ID": {
+        "proteome_type": "Full proteome"
+      },
+      "raw_data": {
+        "database": {
+          "database_name": "ProteomeXchange"
+        },
+        "proteome_data_link": "http://proteomecentral.proteomexchange.org/cgi/GetDataset?ID=PXD014413"
+      },
+      "method": {
+        "peptide_labelling": "None",
+        "analysis_mode": "Data-dependent acquisition (DDA)",
+        "genome_label": "Salinispora arenicola CNB527"
+      },
+      "identification": {},
+      "experimental_details": {
+        "sample_preparation_label": "blod",
+        "instrumentation_method_label": "quad"
+      },
+      "more_info": {
+        "notes": "Mock\nwith Mannitol"
+      },
+      "proteome_label": "Proteomics_Man"
+    }, {
+      "proteome_ID": {
+        "proteome_type": "Full proteome"
+      },
+      "raw_data": {
+        "database": {
+          "database_name": "ProteomeXchange"
+        },
+        "proteome_data_link": "http://proteomecentral.proteomexchange.org/cgi/GetDataset?ID=PXD014413"
+      },
+      "method": {
+        "peptide_labelling": "None",
+        "analysis_mode": "Data-dependent acquisition (DDA)",
+        "genome_database": "Salinispora arenicola CNB527",
+        "transcriptomics_database": "GSE171784"
+      },
+      "identification": {
+        "genome_database": "Salinispora arenicola CNB527",
+        "transcriptomics_database": "GSE171784"
+      },
+      "experimental_details": {
+        "sample_preparation_label": "agar",
+        "instrumentation_method_label": "quad"
+      },
+      "more_info": {
+        "notes": "Mock\nwith Mannitol"
+      },
+      "proteome_label": "Proteomics_Gly"
+  }],
+  "genome_metabolome_links": [
         {
             "genome_label": "Streptomyces sp. CNB091",
             "metabolomics_file": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML",
             "sample_preparation_label": "agar",
             "extraction_method_label": "meth",
-            "instrumentation_method_label": "quad"
+            "instrumentation_method_label": "quad",
+            "proteome_label": "Proteomics_Man"
         },
         {
             "genome_label": "Streptomyces sp. CNB091",
@@ -185,7 +240,7 @@ export const kitchenSinkEnrichedDoc = {
 export const minimalGrowthMediumDoc = {
     _id: 'minimal-growth-medium-id',
     project: {
-        "version": "2",
+        "version": "3",
         "personal": {},
         "metabolomics": {
             "project": {
@@ -201,6 +256,7 @@ export const minimalGrowthMediumDoc = {
             "publications": "28335604",
             "genome_label": "Streptomyces sp. CNB091"
         }],
+        "proteomes": [],
         "experimental": {
             "sample_preparation": [
                 {
@@ -252,6 +308,9 @@ export const bgcms2linkDoc = {
         "verification": [
             "Evidence as indicated in MIBiG"
         ],
+        "omics_based_evidence": {
+            "omics_based_evidence_type": "Not available"
+        },
         "SMILES": "CC[C@@H]1[C@H]([C@H]2[C@@](O2)(/C=C/C(=O)[C@@H](C[C@@H]([C@@H]([C@H]([C@@H](CC(=O)O1)O)C)O[C@H]3[C@@H]([C@H](C[C@H](O3)C)N(C)C)O)CC=O)C)C)C",
         "IUPAC": "2-[(1S,2R,3R,7R,8S,9S,10R,12R,14E,16S)-9-[(2S,3R,4S,6R)-4-(dimethylamino)-3-hydroxy-6-methyloxan-2-yl]oxy-3-ethyl-7-hydroxy-2,8,12,16-tetramethyl-5,13-dioxo-4,17-dioxabicyclo[14.1.0]heptadec-14-en-10-yl]acetaldehyde",
         "BGC_ID": {
@@ -266,7 +325,10 @@ export const bgcms2linkDoc = {
         "verification": [
             "Evidence as indicated in MIBiG"
         ],
-        "SMILES": "CCCOC(=O)c1c(C)cc2c(c1O)[C@@]1(O)C(=O)c3cc4c(c(O)c3C(=O)[C@@]1(OC)CC2)C(=O)C=C(N[C@H]1O[C@@H](C)[C@H](O)[C@H](O)[C@H]1OC)C4=O",
+        "omics_based_evidence": {
+          "omics_based_evidence_type": "Not available"
+      },
+      "SMILES": "CCCOC(=O)c1c(C)cc2c(c1O)[C@@]1(O)C(=O)c3cc4c(c(O)c3C(=O)[C@@]1(OC)CC2)C(=O)C=C(N[C@H]1O[C@@H](C)[C@H](O)[C@H](O)[C@H]1OC)C4=O",
         "IUPAC": "methyl (6aR,14aS)-11-[[(2S,3R,4R,5R,6S)-4,5-dihydroxy-3-methoxy-6-methyloxan-2-yl]amino]-1,8,14a-trihydroxy-6a-methoxy-3-methyl-7,9,12,14-tetraoxo-5,6-dihydrobenzo[a]tetracene-2-carboxylate",
         "BGC_ID": {
             "BGC": "MIBiG number associated with this exact BGC",
@@ -277,3 +339,57 @@ export const bgcms2linkDoc = {
         "MS2_scan": "977106"
     }]
 };
+
+export const bgcmsprot2linkDoc = {
+  ...kitchenSinkDoc,
+    "BGC_MS2_links": [{
+        "known_link": "Arenimycin A as produced by Salinispora strain CNB527 which is present under the strains studied. It was only extracted by EthylAcetate.",
+        "verification": [
+            "Evidence as indicated in MIBiG"
+        ],
+        "omics_based_evidence": {
+            "omics_based_evidence_type": "Quantitative proteomics experiment",
+            "quantitative_proteomics_experiment": {
+              "evidences": "Carbon source difference:\nControl - Mannitol\nExperiment - Glycerol",
+              "comparison_groups": [
+                {
+                  "protein_id": {
+                    "protein_database": "uniprot",
+                    "protein_identifier": "Prokka_02349"
+                  },
+                  "protein_fold": {
+                    "quantitation_type": "Peak area",
+                    "protein_fold_change": 3.593794108
+                  },
+                  "control_group": "Proteomics_Man",
+                  "experimental_group": "Proteomics_Gly",
+                  "metabolite_concentration": "increased"
+                },
+                {
+                  "protein_id": {
+                    "protein_database": "uniprot",
+                    "protein_identifier": "Prokka_02348"
+                  },
+                  "protein_fold": {
+                    "quantitation_type": "Peak area",
+                    "protein_fold_change": 2.030157778
+                  },
+                  "control_group": "Proteomics_Man",
+                  "experimental_group": "Proteomics_Gly",
+                  "metabolite_concentration": "increased",
+                  "genome": "Salinispora arenicola CNB527"
+                }
+              ]
+            }
+        },
+        "SMILES": "CCCOC(=O)c1c(C)cc2c(c1O)[C@@]1(O)C(=O)c3cc4c(c(O)c3C(=O)[C@@]1(OC)CC2)C(=O)C=C(N[C@H]1O[C@@H](C)[C@H](O)[C@H](O)[C@H]1OC)C4=O",
+        "IUPAC": "methyl (6aR,14aS)-11-[[(2S,3R,4R,5R,6S)-4,5-dihydroxy-3-methoxy-6-methyloxan-2-yl]amino]-1,8,14a-trihydroxy-6a-methoxy-3-methyl-7,9,12,14-tetraoxo-5,6-dihydrobenzo[a]tetracene-2-carboxylate",
+        "BGC_ID": {
+            "BGC": "MIBiG number associated with this exact BGC",
+            "MIBiG_number": "BGC0000198"
+        },
+        "link": "single molecule",
+        "MS2_URL": "ftp://massive.ucsd.edu/MSV000078839/spectrum/R5/CNB091_R5_M.mzXML",
+        "MS2_scan": "977106"
+    }]
+}
