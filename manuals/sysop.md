@@ -117,7 +117,7 @@ A library which is
 
 1. a non-dev dependency of api web service -> should be taken seriously as it could open server up for misuse
 1. a non-dev dependency of app -> can be serious if library can misuse users browser. Due to mostly anonymous read operations of app most vulnerabilities will not be very serious
-1. a dev dependency of api web service or app -> Mostly false positives (See [CRA npm audit issue](https://github.com/facebook/create-react-app/issues/11174))
+1. a dev dependency of api web service or app -> Mostly false positives (See [CRA npm audit issue](https://github.com/facebook/create-react-app/issues/11174)). Watch out for exploits that inject malicious code into the server or client code.
 
 In app or api directory run `npm list <library>` to find out the direct dependency.
 In `package.json` check if the direct dependency in `devDependencies` or `dependencies` object.
