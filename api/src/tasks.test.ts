@@ -142,7 +142,7 @@ describe('with mocked store', () => {
                     expect.stringMatching(/database.zip$/),
                     expect.stringMatching(/\d\d\d\d-\d\d-\d\d/),
                     expect.anything(),
-                    { 'checksum': true, 'sandbox': true }
+                    { 'checksum': true, 'sandbox': false }
                 );
             });
 
