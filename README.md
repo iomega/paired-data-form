@@ -54,7 +54,7 @@ docker-compose up -d --build
 Starts application, api webservice and reverse proxy on [http://localhost:8443](http://localhost:8443).
 Project JSON files are stored in a `./data/` directory.
 
-To run on production put application behind a reverse proxy web server with a proper domain and secure transfer with https.
+To run on production put application behind a reverse proxy web server with a proper domain and secure transport with https.
 
 ## New release
 
