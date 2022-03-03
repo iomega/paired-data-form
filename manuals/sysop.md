@@ -108,6 +108,8 @@ The `COMPOSE_PROJECT_NAME` environment variable can also be added to the `.env` 
 
 When you have push rights on the [repo](https://github.com/iomega/paired-data-form) you will get [dependabot security alerts](https://github.com/iomega/paired-data-form/security/dependabot) at some point.
 
+The dependabot will also create [pull requests](https://github.com/iomega/paired-data-form/pulls/app%2Fdependabot) to bump dependencies to the latest version. Upgrading to the latest version is only required when there is a vulnerability in the current version.
+
 ### Determine location of vulnerable libary
 
 The dependabot alert will tell you if library is in app/ or api/ dir.
@@ -124,7 +126,7 @@ In `package.json` check if the direct dependency in `devDependencies` or `depend
 
 ### Remediation
 
-If you think the risk is tolerable, for example because it's a dependency of a dev dependency then you can dismiss the [dependabot security alerts](https://github.com/iomega/paired-data-form/security/dependabot)
+If you think the risk is tolerable, for example because it's a dependency of a dev dependency then you can dismiss the [dependabot security alerts](https://github.com/iomega/paired-data-form/security/dependabot).
 
 To fix follow instructions in dependabot alert and test locally if install, build, test and running the platform still works.
 
