@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.4] - 2022-02-14
+
+## Fixed
+
+- Corrupt zip file on Zenodo ([#210](https://github.com/iomega/paired-data-form/issues/210))
+
+## [0.9.3] - 2022-02-08
+
 ## Added
 
 - Linking to proteome and protein
@@ -240,7 +248,9 @@ This version requires following migration steps.
 
 Initial release.
 
-[unreleased]: https://github.com/iomega/paired-data-form/compare/v0.9.2...HEAD
+[unreleased]: https://github.com/iomega/paired-data-form/compare/v0.9.4...HEAD
+[0.9.4]: https://github.com/iomega/paired-data-form/compare/v0.9.3...v0.9.4
+[0.9.3]: https://github.com/iomega/paired-data-form/compare/v0.9.2...v0.9.3
 [0.9.2]: https://github.com/iomega/paired-data-form/compare/v0.9.1...v0.9.2
 [0.9.1]: https://github.com/iomega/paired-data-form/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/iomega/paired-data-form/compare/v0.8.2...v0.9.0

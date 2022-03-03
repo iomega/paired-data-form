@@ -18,7 +18,7 @@ describe('with schema loaded', () => {
         });
 
         it('should convert kitchen sick', () => {
-            const table = textTable(schema, kitchenSinkDoc);
+            const table = textTable(schema, kitchenSinkDoc as IOMEGAPairedOmicsDataPlatform);
             const expected = [
                 [
                     'Genome/Metagenome', 'Proteome', 'Location of metabolomics data file', 'Sample Growth Conditions', 'Extraction Method', 'Instrumentation Method'
@@ -43,7 +43,7 @@ describe('with schema loaded', () => {
     describe('jsonDocument', () => {
         it('should convert header only table to zero links', () => {
             const table: any[] = [];
-            const genome_metabolome_links = jsonDocument(kitchenSinkDoc, table);
+            const genome_metabolome_links = jsonDocument(kitchenSinkDoc as IOMEGAPairedOmicsDataPlatform, table);
             expect(genome_metabolome_links).toEqual([]);
         })
 
@@ -65,7 +65,7 @@ describe('with schema loaded', () => {
                 ["Streptomyces sp. CNB091", undefined, "ftp://massive.ucsd.edu/MSV000078839//spectrum/R5/CNB091_R5_M.mzXML2", "agar", "beer", "bh"]
             ];
             const table = arrayParse(header, rows);
-            const doc = jsonDocument(kitchenSinkDoc, table);
+            const doc = jsonDocument(kitchenSinkDoc as IOMEGAPairedOmicsDataPlatform, table);
             const expected = [{
                 "extraction_method_label": "beer",
                 "genome_label": "Streptomyces sp. CNB091",

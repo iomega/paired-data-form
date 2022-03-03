@@ -7,9 +7,8 @@ import {
   Glyphicon,
   Alert
 } from "react-bootstrap";
-import Form, { ISubmitEvent } from "react-jsonschema-form";
+import Form, { Field, ISubmitEvent } from "react-jsonschema-form";
 import { useState, useRef } from "react";
-import CollapsibleField from "react-jsonschema-form-extras/lib/CollapsibleField";
 import Ajv from "ajv";
 
 import { useSchema, useUiSchema } from "./api";
@@ -18,6 +17,7 @@ import { HtmlDescriptionField } from "./fields/HtmlDescriptionField";
 import { TableField } from "./fields/TableField";
 import { GenomeMetabolomeLinksField } from "./fields/GenomeMetabolomeLinksField";
 import { MyTitleField } from "./fields/TitleField";
+import CollapsibleField from "./fields/CollapsibleField";
 import { PairedDataProject } from "./PairedDataProject";
 import { IOMEGAPairedOmicsDataPlatform } from "./schema";
 import { jsonDocument } from "./textTable";
@@ -31,8 +31,8 @@ export interface IProps {
   formData?: IOMEGAPairedOmicsDataPlatform;
 }
 
-const formFields = {
-  collapsible: CollapsibleField,
+const formFields: { [name: string]: Field } = {
+  collapsible: CollapsibleField as unknown as Field,
   foreignKey: ForeignKeyField,
   gmtable: GenomeMetabolomeLinksField,
   table: TableField,
