@@ -4,7 +4,11 @@ The manual for system operators who must keep the application running.
 
 ## Installation
 
+See READMEs
+
 ## Configuration and running
+
+See READMEs
 
 ## Healthcheck
 
@@ -99,3 +103,48 @@ COMPOSE_PROJECT_NAME=pdop-staging docker-compose down
 ```
 
 The `COMPOSE_PROJECT_NAME` environment variable can also be added to the `.env` file.
+
+## Security vulnerablities
+
+When you have push rights on the [repo](https://github.com/iomega/paired-data-form) you will get [dependabot security alerts](https://github.com/iomega/paired-data-form/security/dependabot) at some point.
+
+### Determine location of vulnerable libary
+
+The dependabot alert will tell you if library is in app/ or api/ dir.
+
+The amount of harm a vulnerabilty in a library can cause depends where the library is used.
+A library which is
+
+1. a non-dev dependency of api web service -> should be taken seriously as it could open server up for misuse
+1. a non-dev dependency of app -> can be serious if library can misuse users browser. Due to mostly anonymous read operations of app most vulnerabilities will not be very serious
+1. a dev dependency of api web service or app -> Mostly false positives (See [CRA npm audit issue](https://github.com/facebook/create-react-app/issues/11174)). Watch out for exploits that inject malicious code into the server or client code.
+
+In app or api directory run `npm list <library>` to find out the direct dependency.
+In `package.json` check if the direct dependency in `devDependencies` or `dependencies` object.
+
+### Remediation
+
+If you think the risk is tolerable, for example because it's a dependency of a dev dependency then you can dismiss the [dependabot security alerts](https://github.com/iomega/paired-data-form/security/dependabot)
+
+To fix follow instructions in dependabot alert and test locally if install, build, test and running the platform still works.
+
+### Remediation of remediation
+
+Sometimes upgrading (or in rare cases downgrading) a dependency will break the app, api itself or their other dependencies.
+
+Before upgrade check if it is OK to do so:
+
+1. Find out what the old version and new version are by diffing package-lock.json
+2. Go to libraries CHANGELOG
+3. Look for breaking changes
+4. Determine how much work it can be by locating its usage in the code
+5. Implement migration instructions
+
+Other options
+
+* Merge green PR created by the dependabot bot
+* Add pinned version of dependency of dependency
+* Typescript errors can sometimes be fixed by
+  * changing the version of `@types/<library>` dev dependency.
+  * adding `@types/<library>` as dev dependency if it is missing
+* Replace library with library that does some thing but with less vulnerabilties
