@@ -60,7 +60,9 @@ export function scheduledZenodoUploads(store: ProjectDocumentStore) {
 export async function publish2zenodoTask(store: ProjectDocumentStore) {
     console.debug('Publish to Zenodo started');
     try {
-        const result = await publish2zenodo(store, ZENODO_ACCESS_TOKEN, ZENODO_DEPOSITION_ID, true);
+        const publish2sandox = false
+        const checksum = true
+        const result = await publish2zenodo(store, ZENODO_ACCESS_TOKEN, ZENODO_DEPOSITION_ID, publish2sandox, checksum);
         await notifyPublish2Zenodo(result.html);
         console.debug(`Publish completed: ${result.html}`);
         return result;
