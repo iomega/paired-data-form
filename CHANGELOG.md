@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Periodic Zenodo uploads always went to sandox
+
 ## [0.9.4] - 2022-02-14
 
 ## Fixed
