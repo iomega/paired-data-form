@@ -10,7 +10,7 @@
     "diff2html": "^3.4.4",
     "difflib-ts": "^1.0.3",
     "file-saver": "^2.0.2",
-    "moment": "^2.23.0",
+    "moment": "^2.29.2",
     "react": "^16.13.1",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.13.1",
