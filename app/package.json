@@ -12,7 +12,7 @@
     "file-saver": "^2.0.2",
     "moment": "^2.23.0",
     "react": "^16.13.1",
-    "react-bootstrap": "^0.32.4",
+    "react-bootstrap": "^2.3.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
     "react-jsonschema-form": "^1.8.1",
