@@ -32,7 +32,7 @@
     "@slack/web-api": "^5.14.0",
     "ajv": "^6.10.0",
     "archiver": "^5.3.0",
-    "async": "^2.6.0",
+    "async": "^3.2.3",
     "bull": "^3.10.0",
     "compression": "^1.7.1",
     "dotenv": "^4.0.0",
