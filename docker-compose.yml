@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: api/Dockerfile
-    image: iomega/podp-api
+    image: "iomega/podp-api:${COMPOSE_PROJECT_NAME:-latest}"
     volumes:
       - ./data:/data
     environment:
@@ -25,7 +25,7 @@ services:
         max-file: "5"
   app:
     build: app
-    image: "iomega/paired-data-form"
+    image: "iomega/paired-data-form:${COMPOSE_PROJECT_NAME:-latest}"
     logging:
       driver: "json-file"
       options:
