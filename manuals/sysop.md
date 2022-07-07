@@ -130,6 +130,21 @@ If you think the risk is tolerable, for example because it's a dependency of a d
 
 To fix follow instructions in dependabot alert and test locally if install, build, test and running the platform still works.
 
+Alternativly you can regenerate the package-lock.json with new versions of deps of deps by
+
+```shell
+cd api
+rm -rf node_modules package-lock.json
+npm install
+npm audit fix
+cd app
+rm -rf node_modules package-lock.json
+npm install
+npm audit fix
+```
+
+This will update the deps of deps to their latest allowed versions. As most dependencies are indirect this should solve many issues.
+
 ### Remediation of remediation
 
 Sometimes upgrading (or in rare cases downgrading) a dependency will break the app, api itself or their other dependencies.

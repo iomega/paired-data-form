@@ -4,7 +4,9 @@ updates:
    directory: api
    schedule:
      interval: 'monthly'
+   open-pull-requests-limit: 0  # Disable non-security updates
  - package-ecosystem: npm
    directory: app
    schedule:
      interval: 'monthly'
+   open-pull-requests-limit: 0  # Disable non-security updates
