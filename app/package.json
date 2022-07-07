@@ -34,7 +34,7 @@
     "@testing-library/dom": "^8.11.3",
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^10.0.1",
-    "@testing-library/react-hooks": "^3.4.1",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^12.1.0",
     "@types/d3-dsv": "^1.0.36",
     "@types/enzyme": "^3.10.5",
